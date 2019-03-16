@@ -95,3 +95,6 @@ D:\NET\DATN\datn\WebAPI\obj\Debug\WebAPI.csproj.CoreCompileInputs.cache
 D:\NET\DATN\datn\WebAPI\obj\Debug\WebAPI.csproj.CopyComplete
 D:\NET\DATN\datn\WebAPI\obj\Debug\WebAPI.dll
 D:\NET\DATN\datn\WebAPI\obj\Debug\WebAPI.pdb
+D:\NET\DATN\datn\WebAPI\bin\Swashbuckle.Core.dll
+D:\NET\DATN\datn\WebAPI\bin\WebActivatorEx.dll
+D:\NET\DATN\datn\WebAPI\bin\WebAPI.xml
