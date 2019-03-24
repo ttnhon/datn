@@ -193,6 +193,7 @@
     <Compile Include="Controllers\CPlusCompilerController.cs" />
     <Compile Include="Controllers\CSharpCompilerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JavaCompilerController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

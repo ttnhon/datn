@@ -500,5 +500,10 @@
             <param name="stringSource"> string of source</param>
             <returns></returns>
         </member>
+        <member name="T:WebAPI.Controllers.JavaCompilerController">
+            <summary>
+            class compile for c#
+            </summary>
+        </member>
     </members>
 </doc>
