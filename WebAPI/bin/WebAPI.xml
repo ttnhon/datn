@@ -481,6 +481,18 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="T:WebAPI.Controllers.CPlusCompilerController">
+            <summary>
+            class compile for c++
+            </summary>
+        </member>
+        <member name="M:WebAPI.Controllers.CPlusCompilerController.Compiler(WebAPI.Models.Source)">
+            <summary>
+            get output when compile string source
+            </summary>
+            <param name="source"> string of source</param>
+            <returns></returns>
+        </member>
         <member name="T:WebAPI.Controllers.CSharpCompilerController">
             <summary>
             class compile for c#
@@ -492,6 +504,11 @@
             </summary>
             <param name="stringSource"> string of source</param>
             <returns></returns>
+        </member>
+        <member name="T:WebAPI.Controllers.JavaCompilerController">
+            <summary>
+            class compile for c#
+            </summary>
         </member>
     </members>
 </doc>
