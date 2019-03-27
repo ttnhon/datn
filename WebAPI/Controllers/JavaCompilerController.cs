@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +6,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
-using Microsoft.CSharp;
 using WebAPI.Common;
 using WebAPI.Models;
 
@@ -24,7 +22,7 @@ namespace WebAPI.Controllers
             /*Run java command*/
             //set up
             System.Diagnostics.Process p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = "C:\\Program Files\\Java\\jdk1.8.0_171\\bin\\java.exe";  //Link to java.exe  => "javac"
+            p.StartInfo.FileName = "C:\\Users\\nvpit\\Downloads\\program files\\Java\\jdk1.8.0_151\\bin\\java.exe";  //Link to java.exe  => "javac"
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.WorkingDirectory = directory_file_code;        //Link to directory of file need to execute
             p.StartInfo.Arguments = file_code;          //=> "javac E:\MyClass"
@@ -57,7 +55,7 @@ namespace WebAPI.Controllers
         protected Dictionary<string, string> ExecuteJavac(string directory_file_code = "E:", string file_code = "MyClass.java")
         {
             System.Diagnostics.Process p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = "C:\\Program Files\\Java\\jdk1.8.0_171\\bin\\javac.exe";  //Link to javac.exe  => "javac"
+            p.StartInfo.FileName = "C:\\Users\\nvpit\\Downloads\\program files\\Java\\jdk1.8.0_151\\bin\\javac.exe";  //Link to javac.exe  => "javac"
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.WorkingDirectory = directory_file_code;                //Link to directory of file need to execute
             p.StartInfo.Arguments = file_code;             // =>    "javac E:\MyClass.java"
@@ -88,8 +86,9 @@ namespace WebAPI.Controllers
         
         // POST api/values
         [HttpPost]
-        public IHttpActionResult compiler(string code)
+        public IHttpActionResult Compiler(Source source)
         {
+            string code = source.stringSource;
             string directory_file = "E:";
             string filename_code = "MyClass";
             string full_path = directory_file + "\\" + filename_code;
@@ -115,7 +114,10 @@ namespace WebAPI.Controllers
             {
                 System.IO.File.Delete(full_path + ".java");
             }
-
+            if (System.IO.File.Exists(full_path + ".class"))
+            {
+                System.IO.File.Delete(full_path + ".class");
+            }
             //return java execute
             if (result_javac["status"] == "fail")
                 return BadRequest(result_java["message"]);
