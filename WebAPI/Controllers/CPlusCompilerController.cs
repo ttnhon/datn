@@ -57,8 +57,9 @@ namespace WebAPI.Controllers
         //create a.exe (defaut) file
         protected Dictionary<string, string> ExecuteGPP(string directory_file_code = "D:\\", string file_code = "MyClass.exe MyClass.cpp")
         {
+            string ProjDir = System.AppDomain.CurrentDomain.BaseDirectory;
             System.Diagnostics.Process p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = @"C:\MinGW\bin\g++.exe";  //Link to g++.exe  => "g++"
+            p.StartInfo.FileName = ProjDir + @"\Compilers\MinGW\bin\g++.exe";  //Link to g++.exe  => "g++"
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.WorkingDirectory = directory_file_code;                //Link to directory of file need to execute
             p.StartInfo.Arguments = "-o " + file_code;             // =>    "g++ -o MyClass.exe MyClass.cpp"
