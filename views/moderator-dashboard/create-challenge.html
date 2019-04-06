@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="res/styles.css" rel="stylesheet" type="text/css">
+    <link href="res/create-challenge.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <title>Challenge Create</title>
+</head>
+
+<body>
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#"><b>Manage Challenges</b></a>
+                </li>
+
+                <li class="breadcrumb-item active">
+                    <a href="#"><b>Create</b></a>
+                </li>
+            </ol>
+        </nav>
+
+        <h1 class="title">Create Challenge</h1>
+        
+        <p class="subtitle"><i>Get started by providing the initial details needed to create a challenge.</i></p>
+
+        <form>
+            <div class="form-group row form-margin">
+                <label for="inputName" class="col-sm-2 col-form-label"><b>Challenge Name</b></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputName">
+                </div>
+            </div>
+
+            <div class="form-group row form-margin">
+                <label for="inputDesc" class="col-sm-2 col-form-label"><b>Description</b></label>
+                <div class="col-sm-10">
+                    <textarea id="inputDesc" rows="2" placeholder="Write a short sumary about the challenge" class="span16"></textarea>
+                    <small></small>
+                </div>
+            </div>
+
+            <div class="form-group row form-margin">
+                <label for="inputProblem" class="col-sm-2 col-form-label"><b>Problem Statement</b></label>
+                <div class="col-sm-10">
+                    <textarea id="inputProblem" rows="6"class="span16"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row form-margin">
+                <label for="inputInput" class="col-sm-2 col-form-label"><b>Input Format</b></label>
+                <div class="col-sm-10">
+                    <textarea id="inputInput" rows="6"class="span16"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row form-margin">
+                <label for="inputConst" class="col-sm-2 col-form-label"><b>Constraints</b></label>
+                <div class="col-sm-10">
+                    <textarea id="inputConst" rows="6"class="span16"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row form-margin">
+                <label for="inputOutput" class="col-sm-2 col-form-label"><b>Output Format</b></label>
+                <div class="col-sm-10">
+                    <textarea id="inputOutput" rows="6"class="span16"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row form-margin" style="padding-bottom: 10%; ">
+                <label for="inputTag" class="col-sm-2 col-form-label"><b>Tags</b></label>
+                <div class="col-sm-10">
+                    <textarea id="inputTag" rows="6"class="span16"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="container">
+        <div class="bottom-bar-wrapper">
+            <div class="btn-pull-right">
+                <button type="button" class="btn btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
