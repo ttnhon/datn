@@ -4,9 +4,9 @@ $(document).ready(function () {
 		$('#js-mng-challenges').removeClass('active');
 		$('#js-statistics').removeClass('active');
 
-		$('.mng-contests-modal').removeClass('hidden');
-		$('.mng-challenges-modal').addClass('hidden');
-		$('.statistics-modal').addClass('hidden');
+		$('.mng-contests-modal').removeAttr('hidden');
+		$('.mng-challenges-modal').attr('hidden','');
+		$('.statistics-modal').attr('hidden','');
 	});
 
 	$('#js-mng-challenges').click(function() {
@@ -14,9 +14,9 @@ $(document).ready(function () {
 		$('#js-mng-contests').removeClass('active');
 		$('#js-statistics').removeClass('active');
 
-		$('.mng-contests-modal').addClass('hidden');
-		$('.mng-challenges-modal').removeClass('hidden');
-		$('.statistics-modal').addClass('hidden');
+		$('.mng-contests-modal').attr('hidden','');
+		$('.mng-challenges-modal').removeAttr('hidden');
+		$('.statistics-modal').attr('hidden','');
 	});
 
 	$('#js-statistics').click(function() {
@@ -24,9 +24,9 @@ $(document).ready(function () {
 		$('#js-mng-contests').removeClass('active');
 		$('#js-mng-challenges').removeClass('active');
 
-		$('.mng-contests-modal').addClass('hidden');
-		$('.mng-challenges-modal').addClass('hidden');
-		$('.statistics-modal').removeClass('hidden');
+		$('.mng-contests-modal').attr('hidden','');
+		$('.mng-challenges-modal').attr('hidden','');
+		$('.statistics-modal').removeAttr('hidden');
 	});
 
 	

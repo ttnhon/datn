@@ -1,9 +1,10 @@
 body {
 	width: 80%;
     padding: 0px;
-    margin: 0px;
+    margin: 0 auto;
     font-family: Roboto, Arial !important;
     vertical-align: middle;
+
 }
 
 p {
@@ -15,10 +16,7 @@ p {
 .title {
 	font-size: 2em;
 	font-weight: 100;
-}
-
-.tabs-bar {
-	padding-top: 10px;
+    margin-top: 10px;
 }
 
 .main-modal {
