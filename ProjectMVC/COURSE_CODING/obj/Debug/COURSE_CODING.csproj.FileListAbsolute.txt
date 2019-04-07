@@ -1,0 +1,6 @@
+C:\Users\ngoc\source\repos\COURSE_CODING\COURSE_CODING\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\ngoc\source\repos\COURSE_CODING\COURSE_CODING\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\ngoc\source\repos\COURSE_CODING\COURSE_CODING\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\ngoc\source\repos\COURSE_CODING\COURSE_CODING\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\ngoc\source\repos\COURSE_CODING\COURSE_CODING\bin\roslyn\System.IO.Compression.dll
+C:\Users\ngoc\source\repos\COURSE_CODING\COURSE_CODING\bin\roslyn\VBCSCompiler.exe

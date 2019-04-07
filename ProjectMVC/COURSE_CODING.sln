@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2043
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COURSE_CODING", "COURSE_CODING\COURSE_CODING.csproj", "{143EDF0C-6A77-4484-AB36-C237B9C25B0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAO", "DAO\DAO.csproj", "{4843565C-B348-46EC-8E4F-9669BF200DC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonProject", "CommonProject\CommonProject.csproj", "{975F69DC-228B-4FA3-82F5-FD45FA8BB1CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{143EDF0C-6A77-4484-AB36-C237B9C25B0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{143EDF0C-6A77-4484-AB36-C237B9C25B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{143EDF0C-6A77-4484-AB36-C237B9C25B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{143EDF0C-6A77-4484-AB36-C237B9C25B0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4843565C-B348-46EC-8E4F-9669BF200DC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4843565C-B348-46EC-8E4F-9669BF200DC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4843565C-B348-46EC-8E4F-9669BF200DC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4843565C-B348-46EC-8E4F-9669BF200DC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{975F69DC-228B-4FA3-82F5-FD45FA8BB1CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{975F69DC-228B-4FA3-82F5-FD45FA8BB1CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{975F69DC-228B-4FA3-82F5-FD45FA8BB1CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{975F69DC-228B-4FA3-82F5-FD45FA8BB1CB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7A6C3EBF-812D-44D2-ADBA-C9638C591823}
+	EndGlobalSection
+EndGlobal
