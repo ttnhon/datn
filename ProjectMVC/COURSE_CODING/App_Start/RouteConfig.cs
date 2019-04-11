@@ -12,6 +12,9 @@ namespace COURSE_CODING
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{*botdetect}",
+      new { botdetect = @"(.*)BotDetectCaptcha\.ashx" });
+
             routes.MapRoute(
             name: "Register member",
             url: "register",

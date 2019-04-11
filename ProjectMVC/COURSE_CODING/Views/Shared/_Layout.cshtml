@@ -16,13 +16,28 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("COURSE CODING", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
+                    @{
+        var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.CommonConstant.SESSION_INFO_LOGIN];
+                    }
+                    @if (session == null)
+    {
+
+    }
+    else
+    {
+                <ul>
+                    <li>Xin chào:@session.Name</li>
+                    <li>@Html.ActionLink("Thoát", "Logout", "User")</li>
+                </ul>
+}
                 </ul>
             </div>
         </div>

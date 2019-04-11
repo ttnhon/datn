@@ -1,9 +1,11 @@
 ﻿@model COURSE_CODING.Models.RegisterModel
-
+@using BotDetect.Web.Mvc
+<link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl"
+      rel="stylesheet" type="text/css" />
 @{
     Layout = null;
 }
-
+@{ MvcCaptcha registerCaptcha = new MvcCaptcha("registerCaptcha"); }
 <!DOCTYPE html>
 
 <html>
@@ -16,6 +18,7 @@
     <link href="/Assets/Page/vendor/bootstrap/css/bootstrap.min1.css" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="/Assets/Page/dist/css/sb-admin.css" rel="stylesheet">
+    
 </head>
 <body class="bgForm">
     @Scripts.Render("~/bundles/jquery")
@@ -24,9 +27,9 @@
         <div class="card card-register mx-auto mt-5">
             <h1 class="card-header justify-content-center align-center text-center">Register an Account</h1>
             <div class="card-body">
-                @using (Html.BeginForm("Register","User",FormMethod.Post))
-    {
-            @Html.AntiForgeryToken()
+                @using (Html.BeginForm("Register", "User", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
 
                 <div class="form-horizontal">
                     <div>
@@ -51,10 +54,10 @@ else
                     </div>
                     <div class="form-group">
                         <div class="form-row">
-                            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-3 pt-1" })
+                            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-3 pt-1" })
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -96,23 +99,45 @@ else
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-3 pt-1">
+                                
+                            </div>
+
+                            <div class="col-md-9">
+                                @Html.Captcha(registerCaptcha)
+                            </div>
+                           
+                        </div>
+                        <div class="form-row mt-2">
+                            <div class="col-md-3 pt-1">
+                                <label>Fill captcha</label>
+                            </div>
+                            <div class="col-md-9">
+                                @Html.TextBox("CaptchaCode")
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-12 offset-5">
                                 <input type="submit" value="Register" class="btn btn-primary" />
                             </div>
                         </div>
-                      
+
                     </div>
+
                 </div>
-}
-                <div class="text-center">              
-                    @Html.ActionLink("login page", "Login");
-                    @Html.ActionLink("forgot-password", "ChangePassword");         
+                }
+                <div class="text-center">
+                    @Html.ActionLink("login page", "Login")
+                    @Html.ActionLink("forgot-password", "ChangePassword")
                 </div>
             </div>
         </div>
-    </div>  
-    
+    </div>
+
 </body>
 </html>

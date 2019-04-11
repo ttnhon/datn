@@ -12,7 +12,7 @@ namespace DAO.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public COMPETE()
         {
-            CHALLENGEs = new HashSet<CHALLENGE>();
+            CHALLENGE = new HashSet<CHALLENGE>();
         }
 
         public int ID { get; set; }
@@ -27,7 +27,7 @@ namespace DAO.EF
         public string Describe { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CHALLENGE> CHALLENGEs { get; set; }
+        public virtual ICollection<CHALLENGE> CHALLENGE { get; set; }
 
         public virtual USER_INFO USER_INFO { get; set; }
     }

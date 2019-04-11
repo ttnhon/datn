@@ -41,7 +41,7 @@ namespace DAO.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<CHALLENGE>()
-                .HasMany(e => e.ANSWERs)
+                .HasMany(e => e.ANSWER)
                 .WithRequired(e => e.CHALLENGE)
                 .WillCascadeOnDelete(false);
 
@@ -54,7 +54,7 @@ namespace DAO.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<LANGUAGE_CODE>()
-                .HasMany(e => e.CHALLENGEs)
+                .HasMany(e => e.CHALLENGE)
                 .WithOptional(e => e.LANGUAGE_CODE)
                 .HasForeignKey(e => e.LanguageCode);
 
@@ -67,13 +67,13 @@ namespace DAO.EF
                 .IsFixedLength();
 
             modelBuilder.Entity<USER_INFO>()
-                .HasMany(e => e.ANSWERs)
+                .HasMany(e => e.ANSWER)
                 .WithRequired(e => e.USER_INFO)
                 .HasForeignKey(e => e.UserId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<USER_INFO>()
-                .HasMany(e => e.COMPETEs)
+                .HasMany(e => e.COMPETE)
                 .WithRequired(e => e.USER_INFO)
                 .HasForeignKey(e => e.TeacherID)
                 .WillCascadeOnDelete(false);

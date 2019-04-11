@@ -11,8 +11,8 @@ namespace DAO.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public USER_INFO()
         {
-            ANSWERs = new HashSet<ANSWER>();
-            COMPETEs = new HashSet<COMPETE>();
+            ANSWER = new HashSet<ANSWER>();
+            COMPETE = new HashSet<COMPETE>();
         }
 
         public int ID { get; set; }
@@ -50,9 +50,9 @@ namespace DAO.EF
         public byte[] CreateDate { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ANSWER> ANSWERs { get; set; }
+        public virtual ICollection<ANSWER> ANSWER { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<COMPETE> COMPETEs { get; set; }
+        public virtual ICollection<COMPETE> COMPETE { get; set; }
     }
 }

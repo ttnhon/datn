@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BotDetect.Web.Mvc;
 using CommonProject.CommonConstant;
 using COURSE_CODING.Common;
 using COURSE_CODING.Models;
@@ -26,6 +27,8 @@ namespace COURSE_CODING.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
+        [CaptchaValidation("CaptchaCode", "registerCaptcha", "Incorrect CAPTCHA code!")]
         public ActionResult Register(RegisterModel model)
         {
             if (ModelState.IsValid)
@@ -52,6 +55,7 @@ namespace COURSE_CODING.Controllers
                     {
                         ViewBag.Success = "Register sussesfull";
                         model = new RegisterModel();
+                        return Redirect("/");
                     }
                     else
                     {
@@ -68,6 +72,7 @@ namespace COURSE_CODING.Controllers
             return View();
         }
 
+       
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
@@ -101,7 +106,16 @@ namespace COURSE_CODING.Controllers
                     ModelState.AddModelError(String.Empty, "Fail login !");
                 }
             }
+            else
+            {           
+                    MvcCaptcha.ResetCaptcha("registerCaptcha");
+            }
             return View();
+        }
+        public ActionResult Logout()
+        {
+            Session[CommonConstant.SESSION_INFO_LOGIN] = null;
+            return Redirect("/");
         }
         // GET: User/Details/5
         public ActionResult Details(int id)
