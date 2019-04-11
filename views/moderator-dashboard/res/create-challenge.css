@@ -1,29 +1,50 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Roboto, Arial !important;
+    vertical-align: middle;
+}
+
+.breadcrumb {
+    background-color: white !important;
+    border-radius: 0 !important;
+    height: 60px;
+    padding-top: 25px !important;
+}
+
+.form-input textarea {
+    resize: none;
+    border-radius: .25rem;
+    padding: 5px 10px; 
+}
 
 .title {
-    margin: 1em 0;
+    margin: .75em 0;
 }
 
 .subtitle {
     font-size: 1.1em;
-    color: rgb(141, 141, 141);
+    color: rgb(161, 161, 161);
 }
 
 .span16 {
     width: 100%;
 }
 
-nav
-    ol 
-        li 
-            a {
+.span12 {
+    width: 80% !important;
+}
+
+nav ol li a {
                 color: rgb(145, 145, 145);
                 text-decoration: none; 
             }
         
-nav
-    ol 
-        li 
-            a:hover {
+nav ol li a:hover {
                 color: rgb(102, 102, 102);
                 text-decoration: none;
             } 
@@ -44,6 +65,6 @@ nav
 .btn-pull-right {
     float: right;
     padding-top: 20px;
-    padding-right: 4em;
+    padding-right: 20px;
     padding-bottom: 30px; 
 }
