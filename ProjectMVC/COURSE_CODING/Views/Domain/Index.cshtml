@@ -1,0 +1,248 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Skill Domain</title>
+
+    <!-- bootstrap -->
+    @Styles.Render("~/Assets/Public/vendor/bootstrap/css/4.0.0.min.css")
+    <!-- font awesome -->
+    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
+
+    <!-- custom css -->
+    @Styles.Render("~/Assets/Public/css/navbar.css")
+    @Styles.Render("~/Assets/Public/css/style.css")
+    @Styles.Render("~/Assets/Public/css/domain.css")
+
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <div class="navbar-session">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg">
+                    <a class="navbar-brand" href="#"><img src="~/Assets/Public/images/fox.png" class="img-fluid" alt="" runat="server"></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">PRACTICE <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">COMPETE</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">JOBS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">LEADER BOARD</a>
+                            </li>
+                        </ul>
+                        <form class="form-inline my-2 my-lg-0 navbar-search-form">
+                            <input type="search">
+                            <i class="fa fa-search"></i>
+                        </form>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="far fa-comment-alt"></i> <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="far fa-bell"></i> <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="far fa-user"></i>Phuc
+                                </a>
+                                <div class="dropdown-menu base-box" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Profile</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Logout</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="header-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-6 domain-header">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Practice</a></li>
+                        <li class="breadcrumb-item active">C++</li>
+                    </ol>
+                    <h3 class="domain-title">C++</h3>
+                </div>
+
+                <div class="col-6">
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-page">
+        <div class="container">
+            <div class="row">
+                <!--                Challenge list-->
+                <div class="col-9 challenge-list">
+                    <!--1 Challenge-->
+                    <a class="challenge-link" href="#">
+                        <div class="one-challenge-box base-box">
+                            <div class="row">
+                                <div class="col-8 challenge-info">
+                                    <h3 class="card-title" title="Regex">Say "Hello, World!" With C++</h3>
+                                    <div class="card-detail">
+                                        <p class="challenge-detail">
+                                            <span class="challenge-difficult">Easy </span>
+                                            <span>&nbsp;</span>
+                                            <span>Max score: 5</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-4 challenge-enter">
+                                    <i class="far fa-star"></i> &nbsp;
+                                    <button class="btn btn-outline-success btn-lg" tabindex="0">
+                                        <span class="ui-text">Solve Challenge</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!--1 Challenge-->
+                    <a class="challenge-link" href="#">
+                        <div class="one-challenge-box base-box">
+                            <div class="row">
+                                <div class="col-8 challenge-info">
+                                    <h3 class="card-title" title="Regex">Say "Hello, World!" With C++</h3>
+                                    <div class="card-detail">
+                                        <p class="challenge-detail">
+                                            <span class="challenge-difficult">Easy </span>
+                                            <span>&nbsp;</span>
+                                            <span>Max score: 5</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-4 challenge-enter">
+                                    <i class="far fa-star"></i> &nbsp;
+                                    <button class="btn btn-outline-success btn-lg" tabindex="0">
+                                        <span class="ui-text">Solve Challenge</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!--1 Challenge-->
+                    <a class="challenge-link" href="#">
+                        <div class="one-challenge-box base-box">
+                            <div class="row">
+                                <div class="col-8 challenge-info">
+                                    <h3 class="card-title" title="Regex">Say "Hello, World!" With C++</h3>
+                                    <div class="card-detail">
+                                        <p class="challenge-detail">
+                                            <span class="challenge-difficult">Easy </span>
+                                            <span>&nbsp;</span>
+                                            <span>Max score: 5</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-4 challenge-enter">
+                                    <i class="far fa-star"></i> &nbsp;
+                                    <button class="btn btn-outline-success btn-lg" tabindex="0">
+                                        <span class="ui-text">Solve Challenge</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!--1 Challenge-->
+                    <a class="challenge-link" href="#">
+                        <div class="one-challenge-box base-box">
+                            <div class="row">
+                                <div class="col-8 challenge-info">
+                                    <h3 class="card-title" title="Regex">Say "Hello, World!" With C++</h3>
+                                    <div class="card-detail">
+                                        <p class="challenge-detail">
+                                            <span class="challenge-difficult">Easy </span>
+                                            <span>&nbsp;</span>
+                                            <span>Max score: 5</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-4 challenge-enter">
+                                    <i class="far fa-star"></i> &nbsp;
+                                    <button class="btn btn-outline-success btn-lg" tabindex="0">
+                                        <span class="ui-text">Solve Challenge</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+
+                <!--filter-->
+                <div class="col-3 challenge-list-filter">
+                    <div class="one-filter">
+                        <h4 class="label">STATUS</h4>
+                        <!-- Default indeterminate -->
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="status_easy" checked>
+                            <label class="custom-control-label" for="status_easy">Unsolved</label>
+                        </div>
+                        <!-- Default indeterminate -->
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="status_normal">
+                            <label class="custom-control-label" for="status_normal">Solved</label>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="one-filter">
+                        <h4 class="label">DIFFICULTY</h4>
+                        <!-- Default indeterminate -->
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="difficult_easy" checked>
+                            <label class="custom-control-label" for="difficult_easy">Easy</label>
+                        </div>
+                        <!-- Default indeterminate -->
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="difficult_normal">
+                            <label class="custom-control-label" for="difficult_normal">Normal</label>
+                        </div>
+                        <!-- Default indeterminate -->
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="difficult_hard">
+                            <label class="custom-control-label" for="difficult_hard">hard</label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @Scripts.Render("~/Assets/Public/vendor/jquery/3.3.1.min.js")
+    @Scripts.Render("~/Assets/Public/vendor/jquery/popper.1.12.9.min.js")
+    @Scripts.Render("~/Assets/Public/vendor/bootstrap/4.0.0.min.js")
+</body>
+</html>

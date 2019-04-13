@@ -21,7 +21,13 @@ namespace COURSE_CODING.Controllers
         {
             return View();
         }
-        
+
+        [HttpGet]
+        public ActionResult Dashboard()
+        {
+            return View("Dashboard");
+        }
+
         [HttpGet]
         public ActionResult Register()
         {

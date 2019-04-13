@@ -1,0 +1,113 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Lato', sans-serif;
+}
+
+.btn-outline-success:hover {
+    color: #28a745;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;
+    opacity: .5;
+    font-size: .9rem;
+    padding-top: .1rem;
+}
+
+.breadcrumb-item a {
+    color: #738f93;
+}
+
+    .breadcrumb-item a:hover {
+        text-decoration: none;
+    }
+
+.domain-header {
+}
+
+.domain-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.domain-header .breadcrumb {
+    padding: 0;
+    background-color: transparent;
+    margin: .2rem 0;
+}
+
+section.header-page {
+    padding: 1rem 0;
+}
+
+.custom-control-label::before {
+    background-color: white;
+    border: 1px solid lightgray;
+}
+
+.one-filter h4.label {
+    font-size: 1rem;
+    color: #979faf;
+    text-transform: uppercase;
+}
+
+p.challenge-detail {
+    font-size: .8rem;
+    opacity: .7;
+}
+
+.challenge-enter {
+    text-align: right;
+    padding-top: 1rem;
+}
+
+.challenge-difficult {
+    color: #1ba94c;
+}
+
+.one-challenge-box.base-box {
+    margin-bottom: 0px;
+}
+
+.one-challenge-box button.btn {
+    background-color: white;
+}
+
+a.challenge-link {
+    color: black;
+}
+
+    a.challenge-link:hover {
+        text-decoration: none;
+    }
+
+        a.challenge-link:hover .one-challenge-box {
+            background-color: aliceblue;
+        }
+
+.card-title {
+    font-size: 1.5rem;
+}
+
+a.challenge-link:hover .card-title {
+    color: #28a745;
+}
+
+.one-challenge-box {
+    padding: 20px;
+}
+
+section.content-page {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background: #f3f7f7;
+}
+
+i.far.fa-star {
+    color: gainsboro;
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #28a745;
+}
