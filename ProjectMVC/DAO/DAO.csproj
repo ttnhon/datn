@@ -52,9 +52,12 @@
     <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="EF\ANSWER.cs" />
     <Compile Include="EF\CHALLENGE.cs" />
+    <Compile Include="EF\CHALLENGE_EDITOR.cs" />
+    <Compile Include="EF\CHALLENGE_IN_COMPETE.cs" />
     <Compile Include="EF\COMPETE.cs" />
     <Compile Include="EF\DCCourseCoding.cs" />
     <Compile Include="EF\LANGUAGE_CODE.cs" />
+    <Compile Include="EF\TESTCASE.cs" />
     <Compile Include="EF\USER_INFO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

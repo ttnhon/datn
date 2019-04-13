@@ -21,6 +21,11 @@ namespace DAO.EF
 
         public bool Result { get; set; }
 
+        [Column(TypeName = "timestamp")]
+        [MaxLength(8)]
+        [Timestamp]
+        public byte[] TimeDone { get; set; }
+
         public virtual CHALLENGE CHALLENGE { get; set; }
 
         public virtual USER_INFO USER_INFO { get; set; }

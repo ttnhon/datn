@@ -6,15 +6,16 @@ namespace DAO.EF
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class LANGUAGE_CODE
+    public partial class CHALLENGE_EDITOR
     {
         public int ID { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public string Name { get; set; }
+        public int ChallegenID { get; set; }
 
-        [Column(TypeName = "text")]
-        public string Description { get; set; }
+        public int EditorID { get; set; }
+
+        public virtual CHALLENGE CHALLENGE { get; set; }
+
+        public virtual USER_INFO USER_INFO { get; set; }
     }
 }

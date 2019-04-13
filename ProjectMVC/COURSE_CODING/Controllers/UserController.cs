@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,6 +10,7 @@ using COURSE_CODING.Common;
 using COURSE_CODING.Models;
 using DAO.DAO;
 using DAO.EF;
+using Facebook;
 
 namespace COURSE_CODING.Controllers
 {
@@ -53,6 +55,10 @@ namespace COURSE_CODING.Controllers
                     Boolean result = DAO.Insert(u);
                     if (result)
                     {
+                        var sessionLogin = new InfoLogIn();
+                        sessionLogin.ID = u.ID;
+                        sessionLogin.Name = u.UserName;
+                        Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
                         ViewBag.Success = "Register sussesfull";
                         model = new RegisterModel();
                         return Redirect("/");
@@ -112,6 +118,59 @@ namespace COURSE_CODING.Controllers
             }
             return View();
         }
+
+        public ActionResult LoginFace()
+        {
+            var fa = new FacebookClient();
+            var loginFace = fa.GetLoginUrl(new
+            {
+                client_id = ConfigurationManager.AppSettings["FbAppId"],
+                client_secret = ConfigurationManager.AppSettings["FbAppSecret"],
+                redirect_uri = RedirectUri.AbsoluteUri,
+                response_type = "code",
+                scope = "email",
+            }
+                );
+            return Redirect(loginFace.AbsoluteUri);
+        }
+
+        public ActionResult FacebookCallback(string code)
+        {
+            var fa = new FacebookClient();
+            dynamic result = fa.Post("oauth/access_token", new
+            {
+                client_id = ConfigurationManager.AppSettings["FbAppId"],
+                client_secret = ConfigurationManager.AppSettings["FbAppSecret"],
+                redirect_uri = RedirectUri.AbsoluteUri,
+                code = code
+            });
+            var accessToken = result.access_token;
+            if (!string.IsNullOrEmpty(accessToken))
+            {
+                fa.AccessToken = accessToken;    
+                dynamic me = fa.Get("me?fields=first_name,middle_name,last_name,id,email");
+                string email = me.email;
+                string userName = me.email;
+                string firstname = me.first_name;
+                string middlename = me.middle_name;
+                string lastname = me.last_name;
+                var user = new USER_INFO();
+                user.Email = email;
+                user.StatusUser = CommonConstant.STATUS_RIGHT_ACCOUNT;
+                user.UserName = firstname + " " + middlename + " " + lastname;
+               // user.CreateDate= DateTime.Now;
+                Boolean canLogin = new UserDAO().Insert(user);
+                if(canLogin.Equals(true))
+                {
+                    var userSession = new InfoLogIn();
+                    userSession.Name = user.UserName;
+                    userSession.ID = user.ID;
+                    Session.Add(CommonConstant.SESSION_INFO_LOGIN, userSession);
+                }
+            }
+            return Redirect("/");
+        }
+
         public ActionResult Logout()
         {
             Session[CommonConstant.SESSION_INFO_LOGIN] = null;
@@ -188,5 +247,21 @@ namespace COURSE_CODING.Controllers
                 return View();
             }
         }
+
+        /// <summary>
+        /// object help catch data call back 
+        /// </summary>
+        private Uri RedirectUri
+        {
+            get
+            {
+                var uriBuilder = new UriBuilder(Request.Url);
+                uriBuilder.Query = null;
+                uriBuilder.Fragment = null;
+                uriBuilder.Path = Url.Action("FacebookCallback");
+                return uriBuilder.Uri;
+            }
+        }
     }
+
 }

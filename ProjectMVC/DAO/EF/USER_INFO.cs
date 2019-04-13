@@ -12,6 +12,8 @@ namespace DAO.EF
         public USER_INFO()
         {
             ANSWER = new HashSet<ANSWER>();
+            CHALLENGE = new HashSet<CHALLENGE>();
+            CHALLENGE_EDITOR = new HashSet<CHALLENGE_EDITOR>();
             COMPETE = new HashSet<COMPETE>();
         }
 
@@ -51,6 +53,12 @@ namespace DAO.EF
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANSWER> ANSWER { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CHALLENGE> CHALLENGE { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CHALLENGE_EDITOR> CHALLENGE_EDITOR { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<COMPETE> COMPETE { get; set; }
