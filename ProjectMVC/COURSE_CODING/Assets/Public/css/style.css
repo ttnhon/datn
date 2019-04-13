@@ -1,0 +1,267 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Lato', sans-serif;
+}
+
+.test_list h1, .student_course h1 {
+    font-size: xx-large;
+    font-weight: bolder;
+    margin: 2rem 0rem;
+}
+
+
+section.statistic {
+    margin-top: 1em;
+    padding-top: 2em;
+}
+
+.single-statistic h2 {
+    margin: 0;
+}
+
+.single-statistic h5 {
+    font-weight: 600;
+}
+
+.icon img {
+    display: block;
+    margin: 0 auto 15px;
+}
+
+.single-statistic span.counter {
+    color: #3762f0;
+    margin-top: 1em;
+    font-weight: 600;
+}
+
+.session-title {
+    padding-left: 8%;
+    margin-bottom: .5em;
+    color: #738f93;
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.skill-specify {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+a.view-tutorial {
+    color: #28a745;
+}
+
+.skill-detail {color: #738f93;font-size: 1em;margin-bottom: 20px;height: 3em;}
+
+.language-name {
+    color: black;
+    font-weight: 600;
+}
+
+.language-name:hover {
+    color: #28a745;
+}
+
+a.one-language:hover {
+    text-decoration: none;
+}
+
+.skill-progress-bar .progress {
+    height: .7em;
+}
+
+.progress-count.text-content {
+    margin-bottom: 15px;
+}
+
+span.points-left {
+    color: black;
+    opacity: .6;
+}
+
+.progress span.percentage {
+}
+
+span.percentage {
+    color: black;
+}
+
+.skill-card .card-title {
+    color: black;
+    font-size: 2em;
+}
+
+.skill-title {
+    color: #738f93;
+    opacity: 0.8;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 15px;
+    padding: 10px 9px 10px 0px;
+}
+
+.skill-card {
+    padding: 20px 5px 20px 5px;
+}
+.skill-div {
+    margin-top: 50px;
+    background: #f3f7f7;
+}
+
+/*EVENT LIST*/
+.event-list {
+    list-style: none;
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0px;
+}
+.event-list > li {
+    background-color: #f8f9fb;
+    box-shadow: 0px 0px 5px rgb(51, 51, 51);
+    box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
+    padding: 0px;
+    margin: 0px 0px 20px;
+}
+.event-list > li > time {
+    display: inline-block;
+    width: 21%;
+    color: rgb(255, 255, 255);
+    background-color: rgb(197, 44, 102);
+    padding: 5px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.event-list > li:nth-child(even) > time {
+    background-color: rgb(165, 82, 167);
+}
+.event-list > li > time > span {
+    display: none;
+}
+.event-list > li > time > .day {
+    display: block;
+    font-size: 20pt;
+    font-weight: 100;
+    line-height: 1;
+}
+.event-list > li time > .month {
+    display: block;
+    font-size: 10pt;
+    font-weight: 900;
+    line-height: 1;
+}
+.event-list > li > img {
+    width: 100%;
+}
+.event-list > li > .info {
+    padding-top: 5px;
+    text-align: center;
+}
+.event-list > li > .info > .title {
+    font-size: 17pt;
+    font-weight: 700;
+    margin: 0px;
+}
+.event-list > li > .info > .desc {
+    font-size: 13pt;
+    font-weight: 300;
+    margin: 0px;
+}
+.event-list > li > .info > ul,
+.event-list > li > .social > ul {
+    display: table;
+    list-style: none;
+    margin: 10px 0px 0px;
+    padding: 0px;
+    width: 100%;
+    text-align: center;
+}
+.event-list > li > .social > ul {
+    margin: 0px;
+}
+.event-list > li > .info > ul > li,
+.event-list > li > .social > ul > li {
+    display: table-cell;
+    cursor: pointer;
+    color: rgb(30, 30, 30);
+    font-size: 11pt;
+    font-weight: 300;
+    padding: 3px 0px;
+}
+.event-list > li > .info > ul > li > a {
+    display: block;
+    width: 100%;
+    color: rgb(30, 30, 30);
+    text-decoration: none;
+}
+.event-list > li > .social > ul > li {
+    padding: 0px;
+}
+.event-list > li > .social > ul > li > a {
+    padding: 3px 0px;
+}
+.event-list > li > .info > ul > li:hover,
+.event-list > li > .social > ul > li:hover {
+    color: rgb(30, 30, 30);
+    background-color: rgb(200, 200, 200);
+}
+.facebook a,
+.twitter a,
+.google-plus a {
+    display: block;
+    width: 100%;
+    color: rgb(75, 110, 168) !important;
+}
+.twitter a {
+    color: rgb(79, 213, 248) !important;
+}
+.google-plus a {
+    color: rgb(221, 75, 57) !important;
+}
+.facebook:hover a {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(75, 110, 168) !important;
+}
+.twitter:hover a {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(79, 213, 248) !important;
+}
+.google-plus:hover a {
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(221, 75, 57) !important;
+}
+
+/*===SKILL===*/
+.base-box {
+    position: relative;
+}
+.skill-process .card-box {
+    box-sizing: border-box;
+}
+.base-box {
+    box-shadow: 0 6px 16px 0 rgba(115,143,147,.4);
+    margin-bottom: 3rem;
+    background: white;
+}
+.dashboard-v2 .card-box .ui-card {
+    height: 260px;
+}
+.base-box .ui-card {
+    padding-right: 80px;
+}
+.ui-card.active-card {
+    cursor: pointer;
+}
+.base-card .ui-card {
+    padding: 30px;
+}
+.ui-card {
+    box-sizing: border-box;
+    padding: 10px;
+    background: #fff;
+}
+a.skill-card-link {
+    text-decoration: none;
+    color: black;
+}
+

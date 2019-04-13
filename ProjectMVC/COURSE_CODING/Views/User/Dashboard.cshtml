@@ -1,0 +1,392 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Student Dashboard</title>
+
+    <!-- bootstrap -->
+    @Styles.Render("~/Assets/Public/vendor/bootstrap/css/4.0.0.min.css")
+    <!-- font awesome -->
+    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
+
+    <!-- custom css -->
+    @Styles.Render("~/Assets/Public/css/navbar.css")
+    @Styles.Render("~/Assets/Public/css/style.css")
+    @Styles.Render("~/Assets/Public/css/domain.css")
+
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="navbar-session">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg">
+                    <a class="navbar-brand" href="#"><img src="~/Assets/Public/images/fox.png" class="img-fluid" alt="" runat="server"></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">PRACTICE <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">COMPETE</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">JOBS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">LEADER BOARD</a>
+                            </li>
+                        </ul>
+                        <form class="form-inline my-2 my-lg-0 navbar-search-form">
+                            <input type="search">
+                            <i class="fa fa-search"></i>
+                        </form>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="far fa-comment-alt"></i> <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="far fa-bell"></i> <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="far fa-user"></i>Phuc
+                                </a>
+                                <div class="dropdown-menu base-box" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Profile</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Logout</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <section class="statistic">
+        <div class="container">
+            <div class="row">
+                <!-- Single Cool Facts Area -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="single-statistic text-center mb-100 wow">
+                        <div class="icon">
+                            <img src="~/Assets/Public/images/intro/docs.png" alt="" runat="server">
+                        </div>
+                        <h2><span class="counter">1912</span></h2>
+                        <h5>Success Challegens</h5>
+                    </div>
+                </div>
+
+                <!-- Single Cool Facts Area -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="single-statistic text-center mb-100 wow">
+                        <div class="icon">
+                            <img src="~/Assets/Public/images/intro/star.png" alt="" runat="server">
+                        </div>
+                        <h2><span class="counter">123</span></h2>
+                        <h5>Your Competes</h5>
+                    </div>
+                </div>
+
+                <!-- Single Cool Facts Area -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="single-statistic text-center mb-100 wow">
+                        <div class="icon">
+                            <img src="~/Assets/Public/images/intro/events.png" alt="" runat="server">
+                        </div>
+                        <h2><span class="counter">89</span></h2>
+                        <h5>Scheduled Events</h5>
+                    </div>
+                </div>
+
+                <!-- Single Cool Facts Area -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="single-statistic text-center mb-100 wow">
+                        <div class="icon">
+                            <img src="~/Assets/Public/images/intro/earth.png" alt="" runat="server">
+                        </div>
+                        <h2><span class="counter">56</span></h2>
+                        <h5>Available Languages</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--	end intro-->
+    <section class="skill-div">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3 test_list">
+                    <h1>Challenge List</h1>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <ul class="event-list">
+                                <!--one event-->
+                                <li>
+                                    <time datetime="2014-07-20">
+                                        <span class="day">4</span>
+                                        <span class="month">Jul</span>
+                                        <span class="year">2014</span>
+                                        <span class="time">ALL DAY</span>
+                                    </time>
+                                    <div class="info">
+                                        <h2 class="title">Independence Day</h2>
+                                        <p class="desc">United States Holiday</p>
+                                        <ul>
+                                            <li style="width:50%;"><a href="#website"> Enter <i class="far fa-hand-point-right"></i></a></li>
+                                            <li style="width:50%;"><i class="fas fa-info-circle"></i> View</li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <!--one event-->
+                                <li>
+                                    <time datetime="2014-07-20 0000">
+                                        <span class="day">8</span>
+                                        <span class="month">Jul</span>
+                                        <span class="year">2014</span>
+                                        <span class="time">12:00 AM</span>
+                                    </time>
+                                    <div class="info">
+                                        <h2 class="title">One Piece Unlimited World Red</h2>
+                                        <p class="desc">PS Vita</p>
+                                        <ul>
+                                            <li style="width:50%;"><a href="#website"> Enter <i class="far fa-hand-point-right"></i></a></li>
+                                            <li style="width:50%;"><i class="fas fa-info-circle"></i> View</li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <!--one event-->
+                                <li>
+                                    <time datetime="2014-07-20 2000">
+                                        <span class="day">20</span>
+                                        <span class="month">Jan</span>
+                                        <span class="year">2014</span>
+                                        <span class="time">8:00 PM</span>
+                                    </time>
+                                    <div class="info">
+                                        <h2 class="title">Mouse0270's 24th Birthday!</h2>
+                                        <p class="desc">Bar Hopping in Erie, Pa.</p>
+                                        <ul>
+                                            <li style="width:50%;"><a href="#website"> Enter <i class="far fa-hand-point-right"></i></a></li>
+                                            <li style="width:50%;"><i class="fas fa-info-circle"></i> View</li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                <!--one event-->
+                                <li>
+                                    <time datetime="2014-07-31 1600">
+                                        <span class="day">31</span>
+                                        <span class="month">Jan</span>
+                                        <span class="year">2014</span>
+                                        <span class="time">4:00 PM</span>
+                                    </time>
+                                    <div class="info">
+                                        <h2 class="title">Disney Junior Live On Tour!</h2>
+                                        <p class="desc"> Pirate and Princess Adventure</p>
+                                        <ul>
+                                            <li style="width:50%;"><a href="#website"> Enter <i class="far fa-hand-point-right"></i></a></li>
+                                            <li style="width:50%;"><i class="fas fa-info-circle"></i> View</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--end test_list-->
+                <div class="col-sm-9 student_course">
+                    <h1 class="text-center">Skills Board</h1>
+                    <h2 class="session-title">Your skills</h2>
+
+                    <div class="row skill-process">
+                        <!--1 skill-->
+                        <div class="col-sm-5 offset-1 base-box">
+                            <a class="skill-card-link" href="">
+                                <div class="skill-card">
+                                    <h5 class="skill-title">Specialized Skills</h5>
+                                    <div class="card-content">
+                                        <h3 class="card-title" title="Regex">Regex</h3>
+                                        <div class="skill-detail">
+                                            <div class="skill-progress-bar">
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 40%"></div>
+                                                </div>
+                                                <div class="progress-count text-content">
+                                                    <span class="percentage">17%</span><span class="points-left"> (8/47 challenges solved)</span>
+                                                </div>
+                                            </div>
+                                        </div><button class="btn btn-outline-success btn-lg" tabindex="0">
+                                            <div class="ui-content align-icon-right">
+                                                <span class="ui-text">Continue Practice</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!--end 1 skill-->
+
+                        <div class="col-sm-5 offset-1 base-box">
+                            <a class="skill-card-link" href="">
+                                <div class="skill-card">
+                                    <h5 class="skill-title">Specialized Skills</h5>
+                                    <div class="card-content">
+                                        <h3 class="card-title" title="Regex">Regex</h3>
+                                        <div class="skill-detail">
+                                            <div class="skill-progress-bar">
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 40%"></div>
+                                                </div>
+                                                <div class="progress-count text-content">
+                                                    <span class="percentage">17%</span><span class="points-left"> (8/47 challenges solved)</span>
+                                                </div>
+                                            </div>
+                                        </div><button class="btn btn-outline-success btn-lg" tabindex="0">
+                                            <div class="ui-content align-icon-right">
+                                                <span class="ui-text">Continue Practice</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!--1 skill-->
+                        <div class="col-sm-5 offset-1 base-box">
+                            <a class="skill-card-link" href="">
+                                <div class="skill-card">
+                                    <h5 class="skill-title">Specialized Skills</h5>
+                                    <div class="card-content">
+                                        <h3 class="card-title" title="Regex">Regex</h3>
+                                        <div class="skill-detail">
+                                            <div class="skill-progress-bar">
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 40%"></div>
+                                                </div>
+                                                <div class="progress-count text-content">
+                                                    <span class="percentage">17%</span><span class="points-left"> (8/47 challenges solved)</span>
+                                                </div>
+                                            </div>
+                                        </div><button class="btn btn-outline-success btn-lg" tabindex="0">
+                                            <div class="ui-content align-icon-right">
+                                                <span class="ui-text">Continue Practice</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!--end 1 skill-->
+                        <!--1 skill-->
+                        <div class="col-sm-5 offset-1 base-box">
+                            <a class="skill-card-link" href="">
+                                <div class="skill-card">
+                                    <h5 class="skill-title">Specialized Skills</h5>
+                                    <div class="card-content">
+                                        <h3 class="card-title" title="Regex">Regex</h3>
+                                        <div class="skill-detail">
+                                            <div class="skill-progress-bar">
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 40%"></div>
+                                                </div>
+                                                <div class="progress-count text-content">
+                                                    <span class="percentage">17%</span><span class="points-left"> (8/47 challenges solved)</span>
+                                                </div>
+                                            </div>
+                                        </div><button class="btn btn-outline-success btn-lg" tabindex="0">
+                                            <div class="ui-content align-icon-right">
+                                                <span class="ui-text">Continue Practice</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!--end 1 skill-->
+                    </div>
+                    <!--end skill-process-->
+                    <!--language-session-->
+                    <div class="language">
+                        <h2 class="session-title">Languages</h2>
+                        <div class="row">
+                            <div class="col-sm-4 offset-1 base-box">
+                                <div class="skill-card">
+                                    <h5 class="skill-title">Languages</h5>
+                                    <hr>
+                                    <div class="language-div">
+                                        <a class="one-language" href=""><h5 class="language-name">C++</h5></a>
+                                        <hr>
+                                        <a class="one-language" href=""><h5 class="language-name">C#</h5></a>
+                                        <hr>
+                                        <a class="one-language" href=""><h5 class="language-name">Java</h5></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--tutorial-session-->
+                    <div class="tutorial">
+                        <h2 class="session-title">Tutorials</h2>
+                        <div class="row">
+
+                            <!--one-tutorial-->
+                            <div class="col-sm-5 offset-1 base-box">
+                                <a class="skill-card-link" href="">
+                                    <div class="skill-card">
+                                        <h5 class="skill-title">Interview Preparation</h5>
+                                        <h5 class="skill-specify"><strong>Interview Preparation Kit</strong></h5>
+                                        <h5 class="skill-detail">Curated challenges and tips based on learnings from 1000+ companies to help you prepare</h5>
+                                        <a href="" class="view-tutorial">
+                                            View Tutorial
+                                        </a>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <!--one-tutorial-->
+                            <div class="col-sm-5 offset-1 base-box">
+                                <a class="skill-card-link" href="">
+                                    <div class="skill-card">
+                                        <h5 class="skill-title">30 Days of Code</h5>
+                                        <h5 class="skill-specify"><strong>Learn to code in 30 days</strong></h5>
+                                        <h5 class="skill-detail">Learn if-else statements, recursion, data structures, oops and more.</h5>
+                                        <a href="" class="view-tutorial">
+                                            View Tutorial
+                                        </a>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!--		end container-->
+    </section>
+
+
+    @Scripts.Render("~/Assets/Public/vendor/jquery/3.3.1.min.js")
+    @Scripts.Render("~/Assets/Public/vendor/jquery/popper.1.12.9.min.js")
+    @Scripts.Render("~/Assets/Public/vendor/bootstrap/4.0.0.min.js")
+</body>
+</html>

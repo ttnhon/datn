@@ -163,6 +163,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Common\HashMD5.cs" />
     <Compile Include="Common\InfoLogIn.cs" />
+    <Compile Include="Controllers\DomainController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -288,6 +289,15 @@
     <Content Include="Assets\Page\vendor\morrisjs\morris.min.js" />
     <Content Include="Assets\Page\vendor\raphael\raphael.js" />
     <Content Include="Assets\Page\vendor\raphael\raphael.min.js" />
+    <Content Include="Assets\Public\css\domain.css" />
+    <Content Include="Assets\Public\css\navbar.css" />
+    <Content Include="Assets\Public\css\style.css" />
+    <Content Include="Assets\Public\images\fox.png" />
+    <Content Include="Assets\Public\vendor\bootstrap\css\4.0.0.min.css" />
+    <Content Include="Assets\Public\vendor\bootstrap\js\4.0.0.min.js" />
+    <Content Include="Assets\Public\vendor\font-awesome\font-basic.css" />
+    <Content Include="Assets\Public\vendor\jquery\3.3.1.min.js" />
+    <Content Include="Assets\Public\vendor\jquery\popper.1.12.9.min.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -376,12 +386,15 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Domain\Index.cshtml" />
+    <Content Include="Views\User\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Assets\Public\js\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
