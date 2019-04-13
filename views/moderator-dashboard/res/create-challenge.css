@@ -13,7 +13,7 @@ body {
     background-color: white !important;
     border-radius: 0 !important;
     height: 60px;
-    padding-top: 25px !important;
+    padding: 25px 10px 0 0 !important;
 }
 
 .form-input textarea {

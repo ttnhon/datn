@@ -1,0 +1,151 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+.clearfix {
+    clear: both;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.span16 {
+    width: 100%;
+}
+
+.span12 {
+    width: 80% !important;
+}
+
+.span10 {
+    width: 60% !important;
+}
+
+.span8 {
+    width: 50% !important;
+}
+
+.span4 {
+    width: 25% !important;
+}
+
+.marginL {
+    margin-left: 10px;
+}
+
+.marginB {
+    margin-bottom: 10px;
+}
+
+.marginT {
+    margin-top: 10px;
+}
+
+body{   
+    font-family: Roboto, Arial !important;
+    vertical-align: middle;
+}
+
+.breadcrumb {
+    background-color: white !important;
+    border-radius: 0 !important;
+    height: 60px;
+    padding: 25px 10px 0 0 !important;
+}
+
+.breadcrumb li a {
+    color: rgb(145, 145, 145);
+    text-decoration: none; 
+}
+
+.breadcrumb li a:hover {
+    color: rgb(102, 102, 102);
+    text-decoration: none;
+}
+
+.title {
+    margin: .75em 0;
+}
+
+.subtitle {
+    width: 70%;
+    font-size: 14px;
+    color: rgb(161, 161, 161);
+}
+
+.required-indicator {
+    color: #f65039;
+}
+
+.error {
+    color: #f65039;
+    margin: 0;
+}
+
+.help-prompt {
+    position: relative;
+    cursor: pointer;
+}
+
+.help-prompt i {
+    top: -4px;
+    font-size: 16px;
+    color: #979faf;
+    transition: 0.2s color ease;
+}
+
+.help-text {
+    position: absolute;
+    width: 200px;
+    top: 5px;
+    left: 8px;
+    background: #ffffff;
+    z-index: 999;
+    color: #626b7f;
+    font-size: .9em;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    padding: 0;
+    opacity: 0;
+    transition-duration: .3s;
+    transform: scale(0.9,0.9);
+}
+
+.help-prompt:hover i {
+    color: #39424e;
+}
+
+.help-prompt:hover .help-text {
+    display: block;
+    transform: scale(1,1);
+    opacity: 1;
+    padding: 10px;
+    border: 1px solid #c2c7d0;
+}
+
+.btn {
+    background: #ffffff;
+    border: 1px solid #c2c7d0 !important;
+}
+
+.btn-primary {
+    background: #2ec866 !important;
+    border: 1px solid #13A853 !important;
+}
+
+.dropdown-toggle-split {
+    border-left: none !important;
+}
+
+.form-group {
+    padding: 10px 0 !important;
+}
+
+

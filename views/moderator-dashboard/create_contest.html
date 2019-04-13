@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="res/create-contest.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <title>Contest Create</title>
+</head>
+<body>
+    <div style="border-bottom: 1px solid #C2C7D0;"> 
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="#"><b>Manage Challenges</b></a>
+                    </li>
+
+                    <li class="breadcrumb-item active">
+                        <a href="#"><b>Create Contest</b></a>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 class="title">Create Contest</h1>
+
+        <p class="subtitle"><i>Host your own coding contest on HackerRank.
+             You can practice and compete with friends from your organization or school.
+             Select from our library of over 1,500 coding challenges or create your own.</i></p>
+        <p class="subtitle">Get started by providing the initial details for your contest.</p>
+        
+        <div class="form-group row form-margin">
+            <label for="name" class="col-sm-2 col-form-label"><b>Contest Name</b>
+                <span class="required-indicator">*</span>
+            </label>
+            <div class="col-sm-10">
+                <input type="text" id="name" class="form-control span4">
+                <small class="error name span12"></small>
+            </div>
+        </div>
+        
+        <div class="form-group row form-margin">
+            <label class="col-sm-2 col-form-label "><b>Start Time</b>
+                <span class="required-indicator">*</span>
+            </label>
+            <div class="col-sm-10 pull-left">
+                <input type="text" id="startdate" class="form-control span4 pull-left">
+                <p class="pull-left col-form-label marginL">at</p>
+                <input type="text" id="starttime" class="form-control span4 pull-left marginL">
+                <p class="pull-left col-form-label marginL">
+                    ICT
+                    <span class="help-prompt">
+                        <i class="material-icons">help</i>
+                        <span class="help-text">Times shown reflect your local timezone.</span>
+                    </span>
+                </p>
+                <small class="error stattime span12"></small>
+            </div>
+        </div>
+
+        <div class="form-group row form-margin">
+            <label class="col-sm-2 col-form-label "><b>End Time</b>
+                <span class="required-indicator">*</span>
+            </label>
+            <div class="col-sm-10 pull-left">
+                <input type="text" id="enddate" class="form-control span4 pull-left">
+                <p class="pull-left col-form-label marginL">at</p>
+                <input type="text" id="endtime" class="form-control span4 pull-left marginL">
+                <p class="pull-left col-form-label marginL">
+                    ICT
+                    <span class="help-prompt">
+                        <i class="material-icons">help</i>
+                        <span class="help-text">Times shown reflect your local timezone.</span>
+                    </span>
+                </p>
+                <div class="clearfix marginB ">
+                    <div class="form-check">
+                        <input type="checkbox" id="endtime_check" class="form-check-input">
+                        <label for="endtime_check" class="form-check-label">
+                            This content has no end time.
+                        </label>
+                    </div>
+                </div>
+                <small class="error endtime span12"></small>
+            </div>
+        </div>
+        <div class="form-group row form-margin">
+            <label class="col-sm-2 col-form-label "><b>Organization Type</b>
+                <span class="required-indicator">*</span>
+            </label>
+            <div class="col-sm-10">
+                <div class="btn-group span4">
+                    <button type="button" class="btn" style="width:220px; border-right:none !important;"></button>
+                    <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Company</a>
+                        <a class="dropdown-item" href="#">School</a>
+                        <a class="dropdown-item" href="#">Non Profit</a>
+                        <a class="dropdown-item" href="#">Bootcamp</a>
+                        <a class="dropdown-item" href="#">Other</a>
+                    </div>
+                </div>
+                <small class="error name span12"></small>
+            </div>
+        </div>
+
+        <div class="form-group row form-margin">
+            <label for="name" class="col-sm-2 col-form-label "><b>Contest Name</b>
+                <span class="required-indicator">*</span>
+            </label>
+            <div class="col-sm-10">
+                <input type="text" id="name" class="form-control span4">
+                <small class="error name span12"></small>
+            </div>
+        </div>
+
+        <div class="clearfix" style="margin-bottom:30px;padding-bottom:30px;">
+            <button type="button" class="btn btn-primary">Get Started</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+</body>
+</html>
