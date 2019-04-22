@@ -1,0 +1,381 @@
+//Color 
+$color-bg:#f3f7f7;
+$color-text:#000;
+$color-text-light:lighten($color-text, 50%);
+$color-text-medium-dark:lighten($color-text, 20%);
+$color-white:#ffff;
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Roboto, Arial !important;
+    vertical-align: middle;
+    background: $color-bg;
+}
+
+.content {
+    background: $color-bg;
+}
+
+.header {
+    box-shadow: 0 1px 3px #C2C7D0;
+    background-color: $color-white;
+    height: 20%;
+    position: relative;
+
+    .container {
+        display: grid;
+        grid-template-columns: auto 341px;
+        grid-template-areas:
+            "breadcrumb progress"
+            "title progress";
+    }
+}
+
+.breadcrumb {
+    background-color: $color-white !important;
+    padding: 20px 0 0 0 !important;
+    margin-bottom: 0 !important;
+    grid-area: breadcrumb;
+
+    li {
+        a {
+            color: $color-text-light;
+            text-decoration: none;
+            font-size: 14px;
+
+            &:hover {
+                color: $color-text;
+            }
+        }
+    }
+}
+
+.active {
+    opacity: .5;
+}
+
+.header-title {
+    grid-area: title;
+
+    input {
+        display: none;
+
+        &:checked~label .far {
+            font-weight: 600 !important;
+            color: #f6a416;
+        }
+    }
+
+    label {
+        vertical-align: middle;
+        font-size: 24px;
+        color: $color-text-light;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.header-progress {
+    grid-area: progress;
+    display: grid;
+    grid-template-columns: 75% 30%;
+    grid-column-gap: 20px;
+    align-items: center;
+}
+
+.point-wrap {
+    text-align: right;
+}
+
+.point {
+    color: #d0883c;
+}
+
+.progress {
+    height: 8px !important;
+    border-radius: 0 !important;
+}
+
+.progress-bar {
+    width: 75%;
+}
+
+.scoring-link {
+    color: $color-text-light;
+    float: right;
+
+    &:hover {
+        color: $color-text-medium-dark;
+    }
+}
+
+.badge-wrap {
+    background: lighten($color-text-light, 40%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    width: 50px;
+    height: 50px;
+}
+
+
+.badge-icon {
+    position: relative;
+
+    img,
+    span {
+        position: absolute;
+        left: 50%;
+        opacity: .4;
+    }
+
+    img {
+        transform: translate(-50%, 60%);
+        height: 16px;
+        width: 16px;
+    }
+
+    span {
+        transform: translate(-50%, 220%);
+        font-size: 8px;
+        text-transform: uppercase;
+    }
+}
+
+//Body Sectuon
+
+.content-body {
+    position: relative;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-template-areas:
+        "tab-bar tab-bar"
+        "body right-panel";
+}
+
+.tab-wrap {
+    position: relative;
+    margin-top: 20px;
+    grid-area: tab-bar;
+}
+
+.navbar {
+    padding: 0 !important;
+}
+
+.nav-tabs {
+    border-bottom: none !important;
+}
+
+.nav-item {
+    position: relative;
+    padding: 5px 10px 25px 10px;
+
+    &.active {
+        background: $color-white;
+        opacity: 1;
+
+        .nav-link {
+            color: $color-text-medium-dark;
+            font-weight: 700;
+        }
+    }
+
+    &:not(.active)::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        display: block;
+        width: 1px;
+        height: 20px;
+        background: $color-text-light;
+        transform: translateY(-50%);
+    }
+
+    a {
+        text-decoration: none;
+        color: $color-text-light;
+    }
+}
+
+.challenge-interface {
+    grid-area: body;
+    margin: auto;
+    display: grid;
+    grid-template-rows: auto auto;
+}
+
+.challenge-body {
+    background: $color-white;
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, .2);
+    min-width: auto;
+    padding: 10px 30px;
+}
+
+.container {
+    pre {
+        background: $color-bg;
+        padding: 20px 20px;
+    }
+}
+
+.code-editor {
+    position: relative;
+    overflow: hidden;
+    height: 600px;
+    width: auto;
+
+    margin: 50px 0 10px 0;
+}
+
+#editor {
+    position: absolute;
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    font-size: 20px;
+}
+
+.right-panel {
+    grid-area: right-panel;
+    margin-left: 2.5em;
+}
+
+.sidebar-difficulty-detail {
+    margin-bottom: 20px;
+}
+
+.difficulty-block {
+    display: grid;
+    grid-template-columns: 50% auto;
+    margin-bottom: 10px;
+
+    p {
+        margin-bottom: 0 !important;
+    }
+
+    a,
+    .difficulty-easy,
+    .difficulty-medium,
+    .difficulty-hard,
+    .difficulty-score {
+        text-align: right;
+    }
+}
+
+.difficulty-label {
+    color: $color-text-light;
+}
+
+.difficulty-easy {
+    color: #1ba94c;
+}
+
+.difficulty-medium {
+    color: #f65039;
+}
+
+.difficulty-hard,
+.error {
+    color: #db2644;
+}
+
+.sidebar-difficulty-help {
+
+    hr {
+        margin-top: 4px !important;
+    }
+
+    a {
+        text-decoration: none;
+        font-size: 20px;
+        display: grid;
+        grid-template-columns: 30px 1fr;
+
+        &:hover {
+            text-decoration: none;
+
+            i {
+                color: $color-text-medium-dark;
+            }
+        }
+
+        i {
+            align-self: center;
+            text-align: left;
+            color: $color-text-light;
+        }
+
+        span {
+            font-weight: 10;
+            display: inline-block;
+            color: #097bbf;
+            text-align: left;
+        }
+    }
+}
+
+.help-link {
+    margin-bottom: 20px;
+}
+
+h2 {
+    text-transform: uppercase;
+    font-size: 18px !important;
+    color: $color-text-light;
+    letter-spacing: 2px;
+}
+
+.rating {
+
+    float:left;
+    border: none;
+    margin-bottom: 20px;
+
+    &>input {
+        display: none;
+    }
+
+    &>label {
+        color: $color-text-light;
+        float: right;
+    }
+
+    &>label {
+        font-size: 26px;
+         
+        i {
+            margin: 5px 3px;
+        }
+    }
+
+    &>input:checked ~ label,
+    &:not(:checked) > label:hover,
+    &:not(:checked) > label:hover ~ label{
+        color: #f6a416;
+
+        i{
+            font-weight: 600 !important;
+        }
+    }
+}
+
+.social-link {
+    width: 100%;
+    a{
+        display: inline-block;
+        padding-right: 20px;
+        padding-top: 20px;
+        i {
+            font-size: 30px !important;
+        }
+    }
+}

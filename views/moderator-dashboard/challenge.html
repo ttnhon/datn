@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Challeng Title</title>
+
+    <link rel="stylesheet" href="/res/challenge.css" type="text/css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+</head>
+
+<body>
+    <div class="content">
+
+        <!--Header Section-->
+        <div class="header">
+            <div class="container">
+
+                <!--Breadcrumb-->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Pactice</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#">C++</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#">Introduction</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Challenge Title
+                        </li>
+                    </ol>
+                </nav>
+
+                <!--Title-->
+                <h1 class="header-title">Challenge Title
+                    <input type="checkbox" id="star-toggle">
+                    <label for="star-toggle">
+                        <i class="far fa-star"></i>
+                    </label>
+                </h1>
+
+                <!--Account Detail-->
+                <div class="header-progress">
+                    <div class="account">
+                        <div class="point-wrap">
+                            <span class="point">10 more points</span>
+                            to get your first star!
+                        </div>
+
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                        </div>
+
+                        <div class="score-info">
+                            <span class="current-rank">
+                                Rank:
+                                <span class="value">400166</span>
+                            </span>
+                            <span>|</span>
+                            <span class="current-ponts">
+                                Points:
+                                <span class="value">0/10</span>
+                            </span>
+                            <a class="scoring-link" href="#">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="badge-wrap">
+                        <div class="badge-icon">
+                            <img src="/res/cpp-739b350881.svg" alt="badge-icon">
+                            <span class="badge-title">cpp</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Body Section-->
+        <div class="container">
+            <div class="content-body">
+
+                <!--Tab Bar-->
+                <div class="tab-wrap">
+                    <nav class="navbar navbar-light">
+                        <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
+                            <li class="nav-item active"><a id="js-problem" class="nav-link" href="#">Problem</a></li>
+                            <li class="nav-item"><a id="js-submission" class="nav-link" href="#">Submissions</a></li>
+                            <li class="nav-item"><a id="js-ldboard" class="nav-link" href="#">Leaderboard</a></li>
+                            <li class="nav-item"><a id="js-discussion" class="nav-link" href="#">Discussions</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <!--Challenge Interface-->
+                <div class="challenge-interface">
+                    <section class="problem-statement">
+                        <div class="challenge-body">
+                            <div class="problem-statement-body">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus odio distinctio
+                                    corrupti perferendis consequuntur quasi blanditiis ex laboriosam deserunt!
+                                    Reiciendis,
+                                    earum sequi temporibus fugit quidem aspernatur vel, at eaque quo dolor dignissimos
+                                    similique id nulla, voluptates atque reprehenderit cum ratione possimus velit!
+                                    Iusto,
+                                    omnis quas iste saepe suscipit impedit illo aspernatur a neque tenetur perspiciatis,
+                                    soluta, eius quibusdam unde eligendi?</p>
+                            </div>
+
+                            <div class="challenge-input-format">
+                                <div class="challenge-input-format-title">
+                                    <p><strong>Input Format</strong></p>
+                                </div>
+                                <div class="challenge-input-format-body">
+                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam, voluptatibus
+                                        numquam modi, ipsa consectetur at non velit enim sapiente mollitia quis beatae
+                                        nesciunt recusandae, perferendis expedita blanditiis ut sunt? Magni.</p>
+                                </div>
+                            </div>
+
+                            <div class="challenge-output-format">
+                                <div class="challenge-output-format-title">
+                                    <p><strong>Output Format</strong></p>
+                                </div>
+                                <div class="challenge-output-format-body">
+                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam, voluptatibus
+                                        numquam modi, ipsa consectetur at non velit enim sapiente mollitia quis beatae
+                                        nesciunt recusandae, perferendis expedita blanditiis ut sunt? Magni.</p>
+                                </div>
+                            </div>
+
+                            <div class="challenge-sample-input">
+                                <div class="challenge-sample-input-title">
+                                    <p><strong>Sample Input</strong></p>
+                                </div>
+                                <div class="challenge-sample-input-body">
+                                    <pre>3 12345678912345 a 334.23 14049.30493</pre>
+                                </div>
+                            </div>
+
+                            <div class="challenge-sample-output">
+                                <div class="challenge-sample-output-title">
+                                    <p><strong>Sample Output</strong></p>
+                                </div>
+                                <div class="challenge-sample-input-body">
+                                    <pre><code>3
+12345678912345
+a
+334.230
+14049.304930000</code>              </pre>
+                                </div>
+                            </div>
+
+                            <div class="challenge-explanation">
+                                <div class="challenge-explanation-title">
+                                    <p><strong>Explanation</strong></p>
+                                </div>
+                                <div class="challenge-explanation-body">
+                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam, voluptatibus
+                                        numquam modi, ipsa consectetur at non velit enim sapiente mollitia quis beatae
+                                        nesciunt recusandae, perferendis expedita blanditiis ut sunt? Magni.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!--Code Editor-->
+                    <div class="container">
+                        <div class="code-editor">
+                            <div id="editor"></div>
+                            <iframe id="result" frameborder="0"></iframe>
+                        </div>
+                        <div style="float:right; margin-bottom:50px;">
+                            <button class="btn btn-primary">Run Code</button>
+                            <button class="btn btn-primary">Submit Code</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Right Panel-->
+                <div class="right-panel">
+                    <div class="sidebar-difficulty-detail">
+                        <div class="difficulty-block">
+                            <p class="difficulty-label">Author</p>
+                            <a href="#">abc</a>
+                        </div>
+                        <div class="difficulty-block">
+                            <p class="difficulty-label">Difficulty</p>
+                            <p class="difficulty-easy">Easy</p>
+                        </div>
+                        <div class="difficulty-block">
+                            <p class="difficulty-label">Max Score</p>
+                            <p class="difficulty-score">10</p>
+                        </div>
+                        <div class="difficulty-block">
+                            <p class="difficulty-label">Submitted By</p>
+                            <a href="#">2101241</a>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-difficulty-help">
+                        <h2>need help?</h2>
+                        <hr>
+                        <div style="margin-bottom:20px;">
+                            <div class="help-link">
+                                <a href="#">
+                                    <i class="far fa-comments"></i>
+                                    <span>View discussions</span>
+                                </a>
+                            </div>
+                            <div class="help-link">
+                                <a href="#">
+                                    <i class="far fa-user"></i>
+                                    <span>View editorial</span>
+                                </a>
+                            </div>
+                            <div class="help-link">
+                                <a href="#">
+                                    <i class="fas fa-trophy"></i>
+                                    <span>View discussions</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-rating">
+                        <h2>Rate this challenge</h2>
+                        <div class="rating">
+                            <input type="radio" name="rating" id="star5" value="5">
+                            <label for="star5">
+                                <i class="far fa-star"></i>
+                            </label>
+                            <input type="radio" name="rating" id="star4" value="4">
+                            <label for="star4">
+                                <i class="far fa-star"></i>
+                            </label>
+                            <input type="radio" name="rating" id="star3" value="3">
+                            <label for="star3">
+                                <i class="far fa-star"></i>
+                            </label>
+                            <input type="radio" name="rating" id="star2" value="2">
+                            <label for="star2">
+                                <i class="far fa-star"></i>
+                            </label>
+                            <input type="radio" name="rating" id="star1" value="1">
+                            <label for="star1">
+                                <i class="far fa-star"></i>
+                            </label>
+                        </div>
+                        <div class="feedback"></div>
+                    </div>
+
+                    <div class="sidebar-difficulty-help" style="clear:both;">
+                        <h2>More details</h2>
+                        <hr>
+                        <div style="margin-bottom:20px;">
+                            <div class="help-link">
+                                <a href="#">
+                                    <i class="far fa-arrow-alt-circle-down"></i>
+                                    <span>Download problem statement</span>
+                                </a>
+                            </div>
+                            <div class="help-link">
+                                <a href="#">
+                                    <i class="far fa-arrow-alt-circle-down"></i>
+                                    <span>Download sample test cases</span>
+                                </a>
+                            </div>
+                            <div class="help-link">
+                                <a href="#">
+                                    <i class="fas fa-edit"></i>
+                                    <span>Suggest Edits</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="social-link">
+                            <a href="#">
+                                <i class="fab fa-facebook-square"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" type="text/javascript" charset="utf-8">
+    </script>
+
+    <script>
+        function update() {
+            var res = document.getElementById('result').contentWindow.document;
+            res.open();
+            res.write(editor.getValue());
+            res.close();
+        }
+
+        function setupEditor() {
+            window.editor = ace.edit("editor");
+            editor.setTheme("ace/theme/monokai");
+            editor.session.setMode("ace/mode/html");
+            editor.setValue(`<h1>Hello World</h1>`,1);
+            editor.getSession().on('change',function() {
+                update();
+            });
+        }
+        setupEditor();
+        update();
+    </script>
+</body>
+
+</html>
