@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAO\LanguageDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="EF\ANSWER.cs" />
     <Compile Include="EF\CHALLENGE.cs" />

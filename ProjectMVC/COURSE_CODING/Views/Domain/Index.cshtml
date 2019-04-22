@@ -1,4 +1,4 @@
-﻿
+﻿@model COURSE_CODING.Models.DomainModel
 @{
     Layout = null;
 }
@@ -85,9 +85,9 @@
                 <div class="col-6 domain-header">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Practice</a></li>
-                        <li class="breadcrumb-item active">C++</li>
+                        <li class="breadcrumb-item active">@Html.DisplayFor(model => model.Language.Name)</li>
                     </ol>
-                    <h3 class="domain-title">C++</h3>
+                    <h3 class="domain-title">@Html.DisplayFor(model => model.Language.Name)</h3>
                 </div>
 
                 <div class="col-6">
@@ -102,101 +102,35 @@
             <div class="row">
                 <!--                Challenge list-->
                 <div class="col-9 challenge-list">
-                    <!--1 Challenge-->
-                    <a class="challenge-link" href="#">
-                        <div class="one-challenge-box base-box">
-                            <div class="row">
-                                <div class="col-8 challenge-info">
-                                    <h3 class="card-title" title="Regex">Say "Hello, World!" With C++</h3>
-                                    <div class="card-detail">
-                                        <p class="challenge-detail">
-                                            <span class="challenge-difficult">Easy </span>
-                                            <span>&nbsp;</span>
-                                            <span>Max score: 5</span>
-                                        </p>
+                    @if (Model.List.Count > 0)
+                    {
+                        foreach (var item in Model.List)
+                        {
+                            <!--1 Challenge-->
+                            <a class="challenge-link" href="#">
+                                <div class="one-challenge-box base-box">
+                                    <div class="row">
+                                        <div class="col-8 challenge-info">
+                                            <h3 class="card-title" title="Regex">@Html.DisplayFor(modelItem => item.Title)</h3>
+                                            <div class="card-detail">
+                                                <p class="challenge-detail">
+                                                    <span class="challenge-difficult">@Html.DisplayFor(modelItem => item.ChallengeDifficulty) </span>
+                                                    <span>&nbsp;</span>
+                                                    <span>Max score: @Html.DisplayFor(modelItem => item.Score)</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 challenge-enter">
+                                            <i class="far fa-star"></i> &nbsp;
+                                            <button class="btn btn-outline-success btn-lg" tabindex="0">
+                                                <span class="ui-text">Solve Challenge</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-4 challenge-enter">
-                                    <i class="far fa-star"></i> &nbsp;
-                                    <button class="btn btn-outline-success btn-lg" tabindex="0">
-                                        <span class="ui-text">Solve Challenge</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!--1 Challenge-->
-                    <a class="challenge-link" href="#">
-                        <div class="one-challenge-box base-box">
-                            <div class="row">
-                                <div class="col-8 challenge-info">
-                                    <h3 class="card-title" title="Regex">Say "Hello, World!" With C++</h3>
-                                    <div class="card-detail">
-                                        <p class="challenge-detail">
-                                            <span class="challenge-difficult">Easy </span>
-                                            <span>&nbsp;</span>
-                                            <span>Max score: 5</span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-4 challenge-enter">
-                                    <i class="far fa-star"></i> &nbsp;
-                                    <button class="btn btn-outline-success btn-lg" tabindex="0">
-                                        <span class="ui-text">Solve Challenge</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!--1 Challenge-->
-                    <a class="challenge-link" href="#">
-                        <div class="one-challenge-box base-box">
-                            <div class="row">
-                                <div class="col-8 challenge-info">
-                                    <h3 class="card-title" title="Regex">Say "Hello, World!" With C++</h3>
-                                    <div class="card-detail">
-                                        <p class="challenge-detail">
-                                            <span class="challenge-difficult">Easy </span>
-                                            <span>&nbsp;</span>
-                                            <span>Max score: 5</span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-4 challenge-enter">
-                                    <i class="far fa-star"></i> &nbsp;
-                                    <button class="btn btn-outline-success btn-lg" tabindex="0">
-                                        <span class="ui-text">Solve Challenge</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!--1 Challenge-->
-                    <a class="challenge-link" href="#">
-                        <div class="one-challenge-box base-box">
-                            <div class="row">
-                                <div class="col-8 challenge-info">
-                                    <h3 class="card-title" title="Regex">Say "Hello, World!" With C++</h3>
-                                    <div class="card-detail">
-                                        <p class="challenge-detail">
-                                            <span class="challenge-difficult">Easy </span>
-                                            <span>&nbsp;</span>
-                                            <span>Max score: 5</span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-4 challenge-enter">
-                                    <i class="far fa-star"></i> &nbsp;
-                                    <button class="btn btn-outline-success btn-lg" tabindex="0">
-                                        <span class="ui-text">Solve Challenge</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+                            </a>
+                        }
+                    }
 
                 </div>
 

@@ -25,6 +25,55 @@ namespace COURSE_CODING.Controllers
         [HttpGet]
         public ActionResult Dashboard()
         {
+            //1.GET DATA 
+                //get data archieve
+
+                //get data skill
+
+                //get data challenge list
+
+                //get language
+
+                //get add data(*)
+            //2.PREPARE DATA TO VIEW
+
+            //3.LOAD VIEW
+
+
+            if (ModelState.IsValid)
+            {
+                var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+                UserDashboardModel model = new UserDashboardModel();
+                LanguageDAO DAO = new LanguageDAO();
+                model.Languages = DAO.GetList();
+                model.Data.UserCompetes = DAO.GetCompeteCount();
+                model.Data.AvailableLanguages = model.Languages.Count;
+                if(ses != null)
+                {
+                    model.Data.SuccessChellenges = DAO.GetNumberSuccessChallengeByID(ses.ID);
+                    
+                    foreach (var item in model.Languages)
+                    {
+                        //get skill list
+                        int count = DAO.GetAnswerCountByID(ses.ID, item.Name);
+                        if (count > 0)
+                        {
+                            Skill skill = new Skill();
+                            skill.Language = item;
+                            skill.Solved = count;
+                            skill.Count = DAO.GetChallengeCount(item.Name);
+                            model.Skills.Add(skill);
+                        }
+                        //get next challenge list
+                        CHALLENGE c = DAO.GetNextChallengeByID(ses.ID, item.Name);
+                        if(c != null)
+                        {
+                            model.Challenges.Add(c);
+                        }
+                    }
+                }
+                return View(model);
+            }
             return View("Dashboard");
         }
 

@@ -4,8 +4,8 @@
     font-family: 'Lato', sans-serif;
 }
 
-.btn-outline-success:hover {
-    color: #28a745;
+.card-content.btn:hover {
+    color: white;
 }
 
 .breadcrumb-item.active {
