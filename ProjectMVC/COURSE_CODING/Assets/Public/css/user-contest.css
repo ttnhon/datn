@@ -1,0 +1,81 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Lato', sans-serif;
+}
+
+button.btn.btn-outline-success span.ui-text {
+    margin: 0;
+}
+
+button.btn.btn-outline-success:hover {
+    background: aliceblue;
+    color: #28a745;
+}
+
+button.btn.btn-outline-success {
+    padding: 8px 30px;
+}
+
+.contest-enter span {
+    font-size: .9rem;
+    margin-right: .7rem;
+}
+
+.time-happen {
+    margin-right: .7rem;
+}
+
+.contest-enter {
+    text-align: right;
+}
+
+.contest-info .card-title {
+    font-size: 1.1rem;
+    font-style: italic;
+    font-weight: bold;
+    opacity: .7;
+    margin: .5rem;
+}
+
+.contest-link:hover .one-contest-box {
+    border: 1px solid black;
+}
+
+.contest-link:hover {
+    text-decoration: none;
+}
+
+.one-contest-box {
+    background-color: white;
+    border: 1px solid #C2C7D0;
+    border-radius: 10px;
+    padding: 20px 20px;
+    color: black;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.one-contest-box:hover {
+    border: 1px solid black;
+}
+
+.contest-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+section.content-page {
+    padding: 3rem 0;
+}
+
+.sub-contest-title {
+    color: slategrey;
+    margin-bottom: 0;
+}
+
+section.header-page {
+    padding: 1rem 0;
+    background-color: #fff;
+    box-shadow: 0.1px 1px 4px 0 #e7eeef;
+}

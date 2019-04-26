@@ -8,7 +8,7 @@ namespace DAO.EF
     public partial class DCCourseCoding : DbContext
     {
         public DCCourseCoding()
-            : base("name=DCCourseCoding")
+            : base("name=CODING_CHALLENGE")
         {
         }
 

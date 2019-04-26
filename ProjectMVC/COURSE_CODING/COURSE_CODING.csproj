@@ -163,12 +163,14 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Common\HashMD5.cs" />
     <Compile Include="Common\InfoLogIn.cs" />
+    <Compile Include="Controllers\CompeteController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CompeteModel.cs" />
     <Compile Include="Models\DataAchieve.cs" />
     <Compile Include="Models\DomainModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -296,6 +298,7 @@
     <Content Include="Assets\Public\css\domain.css" />
     <Content Include="Assets\Public\css\navbar.css" />
     <Content Include="Assets\Public\css\style.css" />
+    <Content Include="Assets\Public\css\user-contest.css" />
     <Content Include="Assets\Public\images\fox.png" />
     <Content Include="Assets\Public\vendor\bootstrap\css\4.0.0.min.css" />
     <Content Include="Assets\Public\vendor\bootstrap\js\4.0.0.min.js" />
@@ -392,6 +395,7 @@
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\Domain\Index.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
+    <Content Include="Views\Compete\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

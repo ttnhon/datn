@@ -23,6 +23,9 @@ namespace DAO.EF
         [StringLength(256)]
         public string Title { get; set; }
 
+        [StringLength(256)]
+        public string Slug { get; set; }
+
         [Column(TypeName = "text")]
         public string Description { get; set; }
 
@@ -30,6 +33,11 @@ namespace DAO.EF
         public string Rules { get; set; }
 
         public int TotalScore { get; set; }
+
+        [Column(TypeName = "timestamp")]
+        [MaxLength(8)]
+        [Timestamp]
+        public byte[] TimeEnd { get; set; }
 
         public int ParticipantCount { get; set; }
 

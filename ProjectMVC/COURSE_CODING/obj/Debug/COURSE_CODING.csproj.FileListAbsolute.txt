@@ -9,9 +9,5 @@ C:\Users\nvpit\OneDrive\Documents\GitHub\datn\ProjectMVC\COURSE_CODING\bin\rosly
 C:\Users\nvpit\OneDrive\Documents\GitHub\datn\ProjectMVC\COURSE_CODING\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 C:\Users\nvpit\OneDrive\Documents\GitHub\datn\ProjectMVC\COURSE_CODING\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
 C:\Users\nvpit\OneDrive\Documents\GitHub\datn\ProjectMVC\COURSE_CODING\bin\roslyn\System.Collections.Immutable.dll
-C:\Users\nvpit\OneDrive\Documents\GitHub\datn\ProjectMVC\COURSE_CODING\bin\roslyn\System.IO.FileSystem.dll
-C:\Users\nvpit\OneDrive\Documents\GitHub\datn\ProjectMVC\COURSE_CODING\bin\roslyn\System.IO.FileSystem.Primitives.dll
 C:\Users\nvpit\OneDrive\Documents\GitHub\datn\ProjectMVC\COURSE_CODING\bin\roslyn\System.Reflection.Metadata.dll
-C:\Users\nvpit\OneDrive\Documents\GitHub\datn\ProjectMVC\COURSE_CODING\bin\roslyn\System.Security.Cryptography.Primitives.dll
-C:\Users\nvpit\OneDrive\Documents\GitHub\datn\ProjectMVC\COURSE_CODING\bin\roslyn\System.ValueTuple.dll
 C:\Users\nvpit\OneDrive\Documents\GitHub\datn\ProjectMVC\COURSE_CODING\bin\roslyn\VBCSCompiler.exe
