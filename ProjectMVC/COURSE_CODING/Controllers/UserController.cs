@@ -148,6 +148,17 @@ namespace COURSE_CODING.Controllers
                     sessionLogin.ID = user.ID;
                     sessionLogin.Name = user.UserName;
                     Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
+                    if (user.RoleUser.Equals(CommonConstant.ROLE_ADMIN))
+                    {
+                        //return Redirect("databoardAdmin");
+                    }
+                    else if(user.RoleUser.Equals(CommonConstant.ROLE_MEMBER)) {
+                       // return Redirect("databoardStudentOrmember");
+                    }
+                    else if(user.RoleUser.Equals(CommonConstant.ROLE_TEACHER))
+                    {
+                       // return Redirect("databoardTeacher");
+                    }
                     return Redirect("/");
                 }
                 else if (statusLogin.Equals(CommonConstant.STATUS_NOT_EXIST_ACCOUNT))

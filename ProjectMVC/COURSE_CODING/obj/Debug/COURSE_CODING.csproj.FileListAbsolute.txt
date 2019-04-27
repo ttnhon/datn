@@ -11,3 +11,14 @@ C:\Users\nvpit\OneDrive\Documents\GitHub\datn\ProjectMVC\COURSE_CODING\bin\rosly
 C:\Users\nvpit\OneDrive\Documents\GitHub\datn\ProjectMVC\COURSE_CODING\bin\roslyn\System.Collections.Immutable.dll
 C:\Users\nvpit\OneDrive\Documents\GitHub\datn\ProjectMVC\COURSE_CODING\bin\roslyn\System.Reflection.Metadata.dll
 C:\Users\nvpit\OneDrive\Documents\GitHub\datn\ProjectMVC\COURSE_CODING\bin\roslyn\VBCSCompiler.exe
+D:\NET\DATN\datn3\datn\ProjectMVC\COURSE_CODING\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\NET\DATN\datn3\datn\ProjectMVC\COURSE_CODING\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\NET\DATN\datn3\datn\ProjectMVC\COURSE_CODING\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\NET\DATN\datn3\datn\ProjectMVC\COURSE_CODING\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\NET\DATN\datn3\datn\ProjectMVC\COURSE_CODING\bin\roslyn\System.Collections.Immutable.dll
+D:\NET\DATN\datn3\datn\ProjectMVC\COURSE_CODING\bin\roslyn\System.IO.FileSystem.dll
+D:\NET\DATN\datn3\datn\ProjectMVC\COURSE_CODING\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\NET\DATN\datn3\datn\ProjectMVC\COURSE_CODING\bin\roslyn\System.Reflection.Metadata.dll
+D:\NET\DATN\datn3\datn\ProjectMVC\COURSE_CODING\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\NET\DATN\datn3\datn\ProjectMVC\COURSE_CODING\bin\roslyn\System.ValueTuple.dll
+D:\NET\DATN\datn3\datn\ProjectMVC\COURSE_CODING\bin\roslyn\VBCSCompiler.exe

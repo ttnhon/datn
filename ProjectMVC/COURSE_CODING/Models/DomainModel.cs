@@ -8,7 +8,7 @@ namespace COURSE_CODING.Models
 {
     public class DomainModel
     {
-        public LANGUAGE_CODE Language { get; set; }
+        public LANGUAGE Language { get; set; }
         public List<CHALLENGE> List = new List<CHALLENGE>();
         public string status { get; set; }
         public string difficulty { get; set; }

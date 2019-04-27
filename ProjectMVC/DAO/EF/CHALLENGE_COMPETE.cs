@@ -6,15 +6,20 @@ namespace DAO.EF
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class CHALLENGE_IN_COMPETE
+    public partial class CHALLENGE_COMPETE
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
+        [Key]
+        [Column(Order = 0)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ChallengeID { get; set; }
 
+        [Key]
+        [Column(Order = 1)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int CompeteID { get; set; }
-
-        public int SerialNumber { get; set; }
 
         public virtual CHALLENGE CHALLENGE { get; set; }
 

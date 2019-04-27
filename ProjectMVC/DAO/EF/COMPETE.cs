@@ -12,7 +12,7 @@ namespace DAO.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public COMPETE()
         {
-            CHALLENGE_IN_COMPETE = new HashSet<CHALLENGE_IN_COMPETE>();
+            CHALLENGE_COMPETE = new HashSet<CHALLENGE_COMPETE>();
         }
 
         public int ID { get; set; }
@@ -23,6 +23,7 @@ namespace DAO.EF
         [StringLength(256)]
         public string Title { get; set; }
 
+        [Required]
         [StringLength(256)]
         public string Slug { get; set; }
 
@@ -42,7 +43,7 @@ namespace DAO.EF
         public int ParticipantCount { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CHALLENGE_IN_COMPETE> CHALLENGE_IN_COMPETE { get; set; }
+        public virtual ICollection<CHALLENGE_COMPETE> CHALLENGE_COMPETE { get; set; }
 
         public virtual USER_INFO USER_INFO { get; set; }
     }

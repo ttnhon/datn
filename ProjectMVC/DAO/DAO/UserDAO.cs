@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CommonProject.CommonConstant;
 using DAO.EF;
+using PagedList;
 
 namespace DAO.DAO
 {
@@ -83,6 +84,23 @@ namespace DAO.DAO
             }
         }
 
+        public int UpdateStatus(int id)
+        {
+            var user = db.USER_INFOS.Find(id);
+            if (user.StatusUser.Equals(1))
+            {
+                user.StatusUser = 0;
+                db.SaveChanges();
+                return 0;
+            }
+            else
+            {
+                user.StatusUser = 1;
+                db.SaveChanges();
+                return 1;
+            }
+        }
+
         /// <summary>
         /// delete user in database by id
         /// </summary>
@@ -139,5 +157,18 @@ namespace DAO.DAO
         {
             return db.USER_INFOS.SingleOrDefault(x => x.UserName == Name);
         }
+
+        //paging data
+        public IEnumerable<USER_INFO> ListAllPaging(string searchString, int? page, int pageSize)
+        {
+            IQueryable<USER_INFO> model = db.USER_INFOS;
+            if (String.IsNullOrEmpty(searchString) == false)
+            {
+                model = model.Where(x => x.UserName.Contains(searchString) || x.Email.Contains(searchString));
+
+            }
+            return model.OrderByDescending(x => x.ID).ToPagedList(page ?? 1, pageSize);
+        }
+
     }
 }

@@ -20,9 +20,9 @@ namespace DAO.DAO
         /// </summary>
         /// <param name=""></param>
         /// <returns></returns>
-        public List<LANGUAGE_CODE> GetList()
+        public List<LANGUAGE> GetList()
         {
-            return db.LANGUAGE_CODES.ToList();
+            return db.LANGUAGES.ToList();
         }
 
         /// <summary>
@@ -30,9 +30,9 @@ namespace DAO.DAO
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public LANGUAGE_CODE GetLanguageByID(int id)
+        public LANGUAGE GetLanguageByID(int id)
         {
-            return db.LANGUAGE_CODES.Find(id);
+            return db.LANGUAGES.Find(id);
         }
 
         /// <summary>
@@ -40,9 +40,9 @@ namespace DAO.DAO
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public LANGUAGE_CODE GetLanguageByName(string name)
+        public LANGUAGE GetLanguageByName(string name)
         {
-            return db.LANGUAGE_CODES.SingleOrDefault(item => item.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            return db.LANGUAGES.SingleOrDefault(item => item.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
