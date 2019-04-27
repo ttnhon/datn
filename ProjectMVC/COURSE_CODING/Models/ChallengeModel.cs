@@ -22,6 +22,6 @@ namespace COURSE_CODING.Models
         public string Solution { get; set; }
         public string Tags { get; set; }
 
-        public List<LANGUAGE_CODE> languages = new List<LANGUAGE_CODE>();
+        public List<LANGUAGE> languages = new List<LANGUAGE>();
     }
 }
