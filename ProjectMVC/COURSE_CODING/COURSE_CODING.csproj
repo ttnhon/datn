@@ -295,10 +295,12 @@
     <Content Include="Assets\Page\vendor\morrisjs\morris.min.js" />
     <Content Include="Assets\Page\vendor\raphael\raphael.js" />
     <Content Include="Assets\Page\vendor\raphael\raphael.min.js" />
+    <Content Include="Assets\Public\css\challenge.css" />
     <Content Include="Assets\Public\css\domain.css" />
     <Content Include="Assets\Public\css\navbar.css" />
     <Content Include="Assets\Public\css\style.css" />
     <Content Include="Assets\Public\css\user-contest.css" />
+    <Content Include="Assets\Public\images\cpp-739b350881.svg" />
     <Content Include="Assets\Public\images\fox.png" />
     <Content Include="Assets\Public\vendor\bootstrap\css\4.0.0.min.css" />
     <Content Include="Assets\Public\vendor\bootstrap\js\4.0.0.min.js" />
@@ -396,6 +398,7 @@
     <Content Include="Views\Domain\Index.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
     <Content Include="Views\Compete\Index.cshtml" />
+    <Content Include="Views\Challenge\Problem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

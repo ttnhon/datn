@@ -1,0 +1,400 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, Arial !important;
+  vertical-align: middle;
+  background: #f3f7f7;
+}
+
+.content {
+  background: #f3f7f7;
+}
+
+.header {
+  -webkit-box-shadow: 0 1px 3px #C2C7D0;
+          box-shadow: 0 1px 3px #C2C7D0;
+  background-color: #ffff;
+  height: 20%;
+  position: relative;
+}
+
+.header .container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: auto 341px;
+      grid-template-columns: auto 341px;
+      grid-template-areas: "breadcrumb progress" "title progress";
+}
+
+.breadcrumb {
+  background-color: #ffff !important;
+  padding: 20px 0 0 0 !important;
+  margin-bottom: 0 !important;
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: breadcrumb;
+}
+
+.breadcrumb li a {
+  color: gray;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.breadcrumb li a:hover {
+  color: #000;
+}
+
+.active {
+  opacity: .5;
+}
+
+.header-title {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: title;
+}
+
+.header-title input {
+  display: none;
+}
+
+.header-title input:checked ~ label .far {
+  font-weight: 600 !important;
+  color: #f6a416;
+}
+
+.header-title label {
+  vertical-align: middle;
+  font-size: 24px;
+  color: gray;
+}
+
+.header-title label:hover {
+  cursor: pointer;
+}
+
+.header-progress {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 2;
+  grid-area: progress;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 75% 30%;
+      grid-template-columns: 75% 30%;
+  grid-column-gap: 20px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.point-wrap {
+  text-align: right;
+}
+
+.point {
+  color: #d0883c;
+}
+
+.progress {
+  height: 8px !important;
+  border-radius: 0 !important;
+}
+
+.progress-bar {
+  width: 75%;
+}
+
+.scoring-link {
+  color: gray;
+  float: right;
+}
+
+.scoring-link:hover {
+  color: #333333;
+}
+
+.badge-wrap {
+  background: #e6e6e6;
+  -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+          clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  width: 50px;
+  height: 50px;
+}
+
+.badge-icon {
+  position: relative;
+}
+
+.badge-icon img,
+.badge-icon span {
+  position: absolute;
+  left: 50%;
+  opacity: .4;
+}
+
+.badge-icon img {
+  -webkit-transform: translate(-50%, 60%);
+          transform: translate(-50%, 60%);
+  height: 16px;
+  width: 16px;
+}
+
+.badge-icon span {
+  -webkit-transform: translate(-50%, 220%);
+          transform: translate(-50%, 220%);
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+.content-body {
+  position: relative;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 70% 30%;
+      grid-template-columns: 70% 30%;
+      grid-template-areas: "tab-bar tab-bar" "body right-panel";
+}
+
+.tab-wrap {
+  position: relative;
+  margin-top: 20px;
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-area: tab-bar;
+}
+
+.navbar {
+  padding: 0 !important;
+}
+
+.nav-tabs {
+  border-bottom: none !important;
+}
+
+.nav-item {
+  position: relative;
+  padding: 5px 10px 25px 10px;
+}
+
+.nav-item.active {
+  background: #ffff;
+  opacity: 1;
+}
+
+.nav-item.active .nav-link {
+  color: #333333;
+  font-weight: 700;
+}
+
+.nav-item:not(.active)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: block;
+  width: 1px;
+  height: 20px;
+  background: gray;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.nav-item a {
+  text-decoration: none;
+  color: gray;
+}
+
+.challenge-interface {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: body;
+  margin: auto;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: auto auto;
+      grid-template-rows: auto auto;
+}
+
+.challenge-body {
+  background: #ffff;
+  -webkit-box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.2);
+  min-width: auto;
+  padding: 10px 30px;
+}
+
+.container pre {
+  background: #f3f7f7;
+  padding: 20px 20px;
+}
+
+.code-editor {
+  position: relative;
+  overflow: hidden;
+  height: 600px;
+  width: auto;
+  margin: 50px 0 10px 0;
+}
+
+#editor {
+  position: absolute;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  font-size: 20px;
+}
+
+.right-panel {
+  -ms-grid-row: 2;
+  -ms-grid-column: 2;
+  grid-area: right-panel;
+  margin-left: 2.5em;
+}
+
+.sidebar-difficulty-detail {
+  margin-bottom: 20px;
+}
+
+.difficulty-block {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 50% auto;
+      grid-template-columns: 50% auto;
+  margin-bottom: 10px;
+}
+
+.difficulty-block p {
+  margin-bottom: 0 !important;
+}
+
+.difficulty-block a,
+.difficulty-block .difficulty-easy,
+.difficulty-block .difficulty-medium,
+.difficulty-block .difficulty-hard,
+.difficulty-block .difficulty-score {
+  text-align: right;
+}
+
+.difficulty-label {
+  color: gray;
+}
+
+.difficulty-easy {
+  color: #1ba94c;
+}
+
+.difficulty-medium {
+  color: #f65039;
+}
+
+.difficulty-hard,
+.error {
+  color: #db2644;
+}
+
+.sidebar-difficulty-help hr {
+  margin-top: 4px !important;
+}
+
+.sidebar-difficulty-help a {
+  text-decoration: none;
+  font-size: 20px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 30px 1fr;
+      grid-template-columns: 30px 1fr;
+}
+
+.sidebar-difficulty-help a:hover {
+  text-decoration: none;
+}
+
+.sidebar-difficulty-help a:hover i {
+  color: #333333;
+}
+
+.sidebar-difficulty-help a i {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  text-align: left;
+  color: gray;
+}
+
+.sidebar-difficulty-help a span {
+  font-weight: 10;
+  display: inline-block;
+  color: #097bbf;
+  text-align: left;
+}
+
+.help-link {
+  margin-bottom: 20px;
+}
+
+h2 {
+  text-transform: uppercase;
+  font-size: 18px !important;
+  color: gray;
+  letter-spacing: 2px;
+}
+
+.rating {
+  float: left;
+  border: none;
+  margin-bottom: 20px;
+}
+
+.rating > input {
+  display: none;
+}
+
+.rating > label {
+  color: gray;
+  float: right;
+}
+
+.rating > label {
+  font-size: 26px;
+}
+
+.rating > label i {
+  margin: 5px 3px;
+}
+
+.rating > input:checked ~ label,
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+  color: #f6a416;
+}
+
+.rating > input:checked ~ label i,
+.rating:not(:checked) > label:hover i,
+.rating:not(:checked) > label:hover ~ label i {
+  font-weight: 600 !important;
+}
+
+.social-link {
+  width: 100%;
+}
+
+.social-link a {
+  display: inline-block;
+  padding-right: 20px;
+  padding-top: 20px;
+}
+
+.social-link a i {
+  font-size: 30px !important;
+}
+/*# sourceMappingURL=challenge.css.map */
