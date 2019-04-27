@@ -1,7 +1,8 @@
-﻿
+﻿@model COURSE_CODING.Models.ChallengeModel
+
 @{
     ViewBag.Title = "Problem";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
 <!DOCTYPE html>
@@ -15,7 +16,8 @@
 
     @Styles.Render("~/Assets/Public/css/challenge.css")
 
-    @Styles.Render("~/Assets/Public/vendor/bootstrap/css/4.0.0.min.css")
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
 
@@ -42,14 +44,14 @@
                             <a href="#">Introduction</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
-                            Challenge Title
+                            @Model.Title
                         </li>
                     </ol>
                 </nav>
 
                 <!--Title-->
                 <h1 class="header-title">
-                    Challenge Title
+                    @Model.Title
                     <input type="checkbox" id="star-toggle">
                     <label for="star-toggle">
                         <i class="far fa-star"></i>
@@ -117,26 +119,29 @@
                         <div class="challenge-body">
                             <div class="problem-statement-body">
                                 <p>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus odio distinctio
-                                    corrupti perferendis consequuntur quasi blanditiis ex laboriosam deserunt!
-                                    Reiciendis,
-                                    earum sequi temporibus fugit quidem aspernatur vel, at eaque quo dolor dignissimos
-                                    similique id nulla, voluptates atque reprehenderit cum ratione possimus velit!
-                                    Iusto,
-                                    omnis quas iste saepe suscipit impedit illo aspernatur a neque tenetur perspiciatis,
-                                    soluta, eius quibusdam unde eligendi?
+                                    @Model.Description
                                 </p>
                             </div>
-
+                            @if(Model.Constraints != "")
+                            {
+                                <div class="challenge-constraint">
+                                    <div class="challenge-constraint-title">
+                                        <p><strong>Constraints</strong></p>
+                                    </div>
+                                    <div class="challenge-constraint-body">
+                                        <p>
+                                            @Model.Constraints
+                                        </p>
+                                    </div>
+                                </div>
+                            }
                             <div class="challenge-input-format">
                                 <div class="challenge-input-format-title">
                                     <p><strong>Input Format</strong></p>
                                 </div>
                                 <div class="challenge-input-format-body">
                                     <p>
-                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam, voluptatibus
-                                        numquam modi, ipsa consectetur at non velit enim sapiente mollitia quis beatae
-                                        nesciunt recusandae, perferendis expedita blanditiis ut sunt? Magni.
+                                        @Model.InputFormat
                                     </p>
                                 </div>
                             </div>
@@ -147,9 +152,7 @@
                                 </div>
                                 <div class="challenge-output-format-body">
                                     <p>
-                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam, voluptatibus
-                                        numquam modi, ipsa consectetur at non velit enim sapiente mollitia quis beatae
-                                        nesciunt recusandae, perferendis expedita blanditiis ut sunt? Magni.
+                                        @Model.OutputFormat
                                     </p>
                                 </div>
                             </div>
@@ -159,7 +162,7 @@
                                     <p><strong>Sample Input</strong></p>
                                 </div>
                                 <div class="challenge-sample-input-body">
-                                    <pre>3 12345678912345 a 334.23 14049.30493</pre>
+                                    <pre><code>1 2 7</code></pre>
                                 </div>
                             </div>
 
@@ -168,11 +171,7 @@
                                     <p><strong>Sample Output</strong></p>
                                 </div>
                                 <div class="challenge-sample-input-body">
-                                    <pre><code>3
-12345678912345
-a
-334.230
-14049.304930000</code>              </pre>
+                                    <pre><code>10</code></pre>
                                 </div>
                             </div>
 
@@ -213,11 +212,23 @@ a
                         </div>
                         <div class="difficulty-block">
                             <p class="difficulty-label">Difficulty</p>
-                            <p class="difficulty-easy">Easy</p>
+                            @switch (Model.ChallengeDifficulty)
+                            {
+                                case 0:
+                                    <p class="difficulty-easy">Easy</p>
+                                    break;
+                                case 1:
+                                    <p class="difficulty-medium">Medium</p>
+                                    break;
+                                case 2:
+                                    <p class="difficulty-hard">Hard</p>
+                                    break;
+                                default: break;
+                            }
                         </div>
                         <div class="difficulty-block">
                             <p class="difficulty-label">Max Score</p>
-                            <p class="difficulty-score">10</p>
+                            <p class="difficulty-score">@Model.Score</p>
                         </div>
                         <div class="difficulty-block">
                             <p class="difficulty-label">Submitted By</p>
@@ -320,6 +331,9 @@ a
     @Scripts.Render("~/Assets/Public/vendor/jquery/3.3.1.min.js")
     @Scripts.Render("~/Assets/Public/vendor/jquery/popper.1.12.9.min.js")
     @Scripts.Render("~/Assets/Public/vendor/bootstrap/4.0.0.min.js")
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" type="text/javascript" charset="utf-8">
+    </script>
 
     @*Code Editor Script*@
     <script>
