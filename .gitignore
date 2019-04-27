@@ -6,7 +6,6 @@
 *.dll
 *.exe
 *.pdb
-*.dll.config
 *.cache
 *.suo
 # Include dlls if they’re in the NuGet packages directory
@@ -73,3 +72,4 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
+/ProjectMVC/.vs/COURSE_CODING/v15/Server/sqlite3

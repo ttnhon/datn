@@ -19,7 +19,7 @@ namespace COURSE_CODING.Models
         //public  int         ParticipantCount { get; set; }
 
         public List<COMPETE> competes = new List<COMPETE>();
-        public List<LANGUAGE_CODE> languages = new List<LANGUAGE_CODE>();
+        public List<LANGUAGE> languages = new List<LANGUAGE>();
 
     }
 }

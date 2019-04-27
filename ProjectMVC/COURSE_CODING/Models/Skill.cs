@@ -8,7 +8,7 @@ namespace COURSE_CODING.Models
 {
     public class Skill
     {
-        public LANGUAGE_CODE Language { get; set; }
+        public LANGUAGE Language { get; set; }
         public int Solved { get; set; }
         public int Count { get; set; }
     }

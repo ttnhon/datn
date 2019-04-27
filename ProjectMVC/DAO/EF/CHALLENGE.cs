@@ -12,10 +12,11 @@ namespace DAO.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CHALLENGE()
         {
-            ANSWER = new HashSet<ANSWER>();
+            ANSWERs = new HashSet<ANSWER>();
+            CHALLENGE_LANGUAGE = new HashSet<CHALLENGE_LANGUAGE>();
+            CHALLENGE_COMPETE = new HashSet<CHALLENGE_COMPETE>();
             CHALLENGE_EDITOR = new HashSet<CHALLENGE_EDITOR>();
-            CHALLENGE_IN_COMPETE = new HashSet<CHALLENGE_IN_COMPETE>();
-            TESTCASE = new HashSet<TESTCASE>();
+            TESTCASEs = new HashSet<TESTCASE>();
         }
 
         public int ID { get; set; }
@@ -55,12 +56,17 @@ namespace DAO.EF
         [StringLength(256)]
         public string Tags { get; set; }
 
-        [Required]
         [StringLength(256)]
         public string Languages { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ANSWER> ANSWER { get; set; }
+        public virtual ICollection<ANSWER> ANSWERs { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CHALLENGE_LANGUAGE> CHALLENGE_LANGUAGE { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CHALLENGE_COMPETE> CHALLENGE_COMPETE { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CHALLENGE_EDITOR> CHALLENGE_EDITOR { get; set; }
@@ -68,9 +74,6 @@ namespace DAO.EF
         public virtual USER_INFO USER_INFO { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CHALLENGE_IN_COMPETE> CHALLENGE_IN_COMPETE { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TESTCASE> TESTCASE { get; set; }
+        public virtual ICollection<TESTCASE> TESTCASEs { get; set; }
     }
 }

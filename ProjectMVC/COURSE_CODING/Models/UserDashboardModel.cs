@@ -10,7 +10,7 @@ namespace COURSE_CODING.Models
     public class UserDashboardModel
     {
         public USER_INFO Info { get; set; }
-        public List<LANGUAGE_CODE> Languages = new List<LANGUAGE_CODE>();
+        public List<LANGUAGE> Languages = new List<LANGUAGE>();
         public DataAchieve Data = new DataAchieve();
         public List<Skill> Skills = new List<Skill>();
         public List<CHALLENGE> Challenges = new List<CHALLENGE>();

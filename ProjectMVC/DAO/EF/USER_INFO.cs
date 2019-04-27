@@ -11,10 +11,10 @@ namespace DAO.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public USER_INFO()
         {
-            ANSWER = new HashSet<ANSWER>();
-            CHALLENGE = new HashSet<CHALLENGE>();
+            ANSWERs = new HashSet<ANSWER>();
+            CHALLENGEs = new HashSet<CHALLENGE>();
             CHALLENGE_EDITOR = new HashSet<CHALLENGE_EDITOR>();
-            COMPETE = new HashSet<COMPETE>();
+            COMPETEs = new HashSet<COMPETE>();
         }
 
         public int ID { get; set; }
@@ -52,15 +52,17 @@ namespace DAO.EF
         public byte[] CreateDate { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ANSWER> ANSWER { get; set; }
+        public virtual ICollection<ANSWER> ANSWERs { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CHALLENGE> CHALLENGE { get; set; }
+        public virtual ICollection<CHALLENGE> CHALLENGEs { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CHALLENGE_EDITOR> CHALLENGE_EDITOR { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<COMPETE> COMPETE { get; set; }
+        public virtual ICollection<COMPETE> COMPETEs { get; set; }
+
+        public virtual USER_DATA USER_DATA { get; set; }
     }
 }

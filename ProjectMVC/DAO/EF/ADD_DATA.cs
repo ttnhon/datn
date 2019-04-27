@@ -6,15 +6,16 @@ namespace DAO.EF
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class LANGUAGE_CODE
+    public partial class ADD_DATA
     {
         public int ID { get; set; }
 
         [Required]
-        [StringLength(100)]
-        public string Name { get; set; }
+        [StringLength(256)]
+        public string Title { get; set; }
 
         [Column(TypeName = "text")]
-        public string Description { get; set; }
+        [Required]
+        public string Data { get; set; }
     }
 }
