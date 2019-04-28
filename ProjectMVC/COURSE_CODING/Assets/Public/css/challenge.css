@@ -221,10 +221,6 @@ body {
   -ms-grid-column: 1;
   grid-area: body;
   margin: auto;
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-rows: auto auto;
-      grid-template-rows: auto auto;
 }
 
 .challenge-body {
@@ -235,9 +231,9 @@ body {
   padding: 10px 30px;
 }
 
-.container pre {
-  background: #f3f7f7;
-  padding: 20px 20px;
+pre {
+    background: #f3f7f7;
+    padding: 20px 20px;
 }
 
 .code-editor {
@@ -246,6 +242,7 @@ body {
   height: 600px;
   width: auto;
   margin: 50px 0 10px 0;
+  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 #editor {
@@ -399,4 +396,24 @@ h2 {
 .social-link a i {
   font-size: 30px !important;
 }
-/*# sourceMappingURL=challenge.css.map */
+
+.runcode-testcase {
+    display:grid;
+    grid-template-areas: "testcase detail";
+}
+
+.sample_testcase {
+    grid-area: testcase;
+}
+
+.runcode-detail {
+    grid-area: detail;
+}
+
+.result-wrong {
+  color:#db2644;
+}
+
+.result-right {
+  color: #1ba94c;
+}

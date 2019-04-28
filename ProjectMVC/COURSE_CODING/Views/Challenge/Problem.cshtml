@@ -197,8 +197,41 @@
                             <iframe id="result" frameborder="0"></iframe>
                         </div>
                         <div style="float:right; margin-bottom:50px;">
-                            <button class="btn btn-primary">Run Code</button>
+                            <button class="btn btn-primary" onclick="runCode()">Run Code</button>
                             <button class="btn btn-primary">Submit Code</button>
+                        </div>
+                    </div>
+
+                    <!--Run Code Result-->
+                    <div class="container runcode-display">
+                        <div class="runcode-body">
+                            <div class="runcode-result">
+                                <h3 class="result-wrong">Wrong Result :(</h3>
+                                <p>1/1 test case failed</p>
+                            </div>
+                            <div class="runcode-testcase">
+                                <div class="sample-testcase result-wrong">
+                                    <h4>Sample test case 0 X</h4>
+                                </div>
+                                <div class="runcode-detail">
+                                    <div class="message-compiler">
+                                        <p>Complier Message</p>
+                                        <pre><code>Wrong Answer</code></pre>
+                                    </div>
+                                    <div class="message-input">
+                                        <p>Input (stdin)</p>
+                                        <pre><code>1 2 7</code></pre>
+                                    </div>
+                                    <div class="message-youroutput">
+                                        <p>Your Output (stdout)</p>
+                                        <pre><code>~ no respone on stdout</code></pre>
+                                    </div>
+                                    <div class="message-output">
+                                        <p>Expected Output</p>
+                                        <pre><code>10</code></pre>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -335,8 +368,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" type="text/javascript" charset="utf-8">
     </script>
 
-    @*Code Editor Script*@
     <script>
+
+        function runCode() {
+            var element = document.getElementsByClassName('runcode-display');
+            element.style.display = "none";
+        }
+
+        @* Code Editor Script *@
         function update() {
             var res = document.getElementById('result').contentWindow.document;
             res.open();
