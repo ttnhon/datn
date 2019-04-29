@@ -44,14 +44,14 @@
                             <a href="#">Introduction</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
-                            @Model.Title
+                            @Model.challenge.Title
                         </li>
                     </ol>
                 </nav>
 
                 <!--Title-->
                 <h1 class="header-title">
-                    @Model.Title
+                    @Model.challenge.Title
                     <input type="checkbox" id="star-toggle">
                     <label for="star-toggle">
                         <i class="far fa-star"></i>
@@ -119,10 +119,10 @@
                         <div class="challenge-body">
                             <div class="problem-statement-body">
                                 <p>
-                                    @Model.Description
+                                    @Model.challenge.Description
                                 </p>
                             </div>
-                            @if(Model.Constraints != "")
+                            @if (Model.challenge.Constraints != "")
                             {
                                 <div class="challenge-constraint">
                                     <div class="challenge-constraint-title">
@@ -130,7 +130,7 @@
                                     </div>
                                     <div class="challenge-constraint-body">
                                         <p>
-                                            @Model.Constraints
+                                            @Model.challenge.Constraints
                                         </p>
                                     </div>
                                 </div>
@@ -141,7 +141,7 @@
                                 </div>
                                 <div class="challenge-input-format-body">
                                     <p>
-                                        @Model.InputFormat
+                                        @Model.challenge.InputFormat
                                     </p>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@
                                 </div>
                                 <div class="challenge-output-format-body">
                                     <p>
-                                        @Model.OutputFormat
+                                        @Model.challenge.OutputFormat
                                     </p>
                                 </div>
                             </div>
@@ -187,18 +187,31 @@
                                     </p>
                                 </div>
                             </div>
+
                         </div>
                     </section>
 
                     <!--Code Editor-->
-                    <div class="container">
+                    <div class="container code-section">
+                        <!--Code Option-->
+                        <div class="row code-option">
+                            <div class="form-group col-md-4 offset-md-8 language-option">
+                                @*<label for="inputState">State</label>*@
+                                <select id="inputLanguage" class="form-control">
+                                    @foreach (var item in Model.languages)
+                                    {
+                                        <option>@Html.DisplayFor(modelItem => item.Name)</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
                         <div class="code-editor">
                             <div id="editor"></div>
                             <iframe id="result" frameborder="0"></iframe>
                         </div>
-                        <div style="float:right; margin-bottom:50px;">
-                            <button class="btn btn-primary" onclick="runCode()">Run Code</button>
-                            <button class="btn btn-primary">Submit Code</button>
+                        <div class="code-submit">
+                            <button class="btn btn-outline-success btn-lg run-code" onclick="runCode()">Run Code</button>
+                            <button class="btn btn-success btn-lg submit-code">Submit Code</button>
                         </div>
                     </div>
 
@@ -241,11 +254,11 @@
                     <div class="sidebar-difficulty-detail">
                         <div class="difficulty-block">
                             <p class="difficulty-label">Author</p>
-                            <a href="#">abc</a>
+                            <a href="#">@Model.OwnerName</a>
                         </div>
                         <div class="difficulty-block">
                             <p class="difficulty-label">Difficulty</p>
-                            @switch (Model.ChallengeDifficulty)
+                            @switch (Model.challenge.ChallengeDifficulty)
                             {
                                 case 0:
                                     <p class="difficulty-easy">Easy</p>
@@ -261,7 +274,7 @@
                         </div>
                         <div class="difficulty-block">
                             <p class="difficulty-label">Max Score</p>
-                            <p class="difficulty-score">@Model.Score</p>
+                            <p class="difficulty-score">@Model.challenge.Score</p>
                         </div>
                         <div class="difficulty-block">
                             <p class="difficulty-label">Submitted By</p>
@@ -363,7 +376,7 @@
 
     @Scripts.Render("~/Assets/Public/vendor/jquery/3.3.1.min.js")
     @Scripts.Render("~/Assets/Public/vendor/jquery/popper.1.12.9.min.js")
-    @Scripts.Render("~/Assets/Public/vendor/bootstrap/4.0.0.min.js")
+    @Scripts.Render("~/Assets/Public/vendor/bootstrap/js/4.0.0.min.js")
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" type="text/javascript" charset="utf-8">
     </script>

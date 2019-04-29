@@ -158,6 +158,17 @@ namespace DAO.DAO
             return db.USER_INFOS.SingleOrDefault(x => x.UserName == Name);
         }
 
+        /// <summary>
+        /// get Name by ID
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns></returns>
+        public string GetNameByID(int id)
+        {
+            USER_INFO user_info = db.USER_INFOS.SingleOrDefault(x => x.ID == id);
+            return user_info.FirstName + " " + user_info.LastName;
+        }
+
         //paging data
         public IEnumerable<USER_INFO> ListAllPaging(string searchString, int? page, int pageSize)
         {
