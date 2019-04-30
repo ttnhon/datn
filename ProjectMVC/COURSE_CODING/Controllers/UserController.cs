@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BotDetect.Web.Mvc;
-using CommonProject.CommonConstant;
+using CommonProject;
 using COURSE_CODING.Common;
 using COURSE_CODING.Models;
 using DAO.DAO;
@@ -147,6 +147,7 @@ namespace COURSE_CODING.Controllers
                     var sessionLogin = new InfoLogIn();
                     sessionLogin.ID = user.ID;
                     sessionLogin.Name = user.UserName;
+                    sessionLogin.Role = (int)user.RoleUser;
                     Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
                     if (user.RoleUser.Equals(CommonConstant.ROLE_ADMIN))
                     {

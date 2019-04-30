@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CommonProject;
 
 namespace COURSE_CODING.Controllers
 {
@@ -10,6 +11,12 @@ namespace COURSE_CODING.Controllers
     {
         public ActionResult Index()
         {
+            API_Helper apiHelper = new API_Helper();
+            Source src = new Source();
+            src.stringSource = "Write.console";
+            src.versionFramework = "2.3";
+            var result = apiHelper.RequestAPI(CommonConstant.TYPE_CSHAP_COMPILER, src);
+           
             return View();
         }
 
@@ -26,5 +33,6 @@ namespace COURSE_CODING.Controllers
 
             return View();
         }
+
     }
 }

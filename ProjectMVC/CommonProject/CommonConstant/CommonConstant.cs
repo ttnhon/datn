@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CommonProject.CommonConstant
+namespace CommonProject
 {
     public class CommonConstant
     {
@@ -22,5 +22,14 @@ namespace CommonProject.CommonConstant
         public const int ROLE_TEACHER = 1;
         public const int ROLE_ADMIN = 2;
 
+        public const string URL_HOST_API = "http://localhost:52508";
+        public const string ROUTER_CSHAP_COMPILER_API = "/api/CSharpCompiler/Compiler";
+        public const string ROUTER_CPLUSS_COMPILER_API = "/api/CPlusCompiler/Compiler";
+        public const string ROUTER_JAVA_COMPILER_API = "/api/JavaCompiler/Compiler";
+       
+
+        public const int TYPE_CSHAP_COMPILER = 1;
+        public const int TYPE_CPLUSS_COMPILER = 2;
+        public const int TYPE_JAVA_COMPILER = 3;
     }
 }
