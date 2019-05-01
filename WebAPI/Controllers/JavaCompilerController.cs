@@ -17,12 +17,12 @@ namespace WebAPI.Controllers
     public class JavaCompilerController : ApiController
     {
         //private string text;
-        protected Dictionary<string, string> ExecuteJava(string directory_file_code = "E:", string file_code = "MyClass")
+        protected Dictionary<string, string> ExecuteJava(string directory_file_code, string file_code = "MyClass")
         {
             /*Run java command*/
             //set up
             System.Diagnostics.Process p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = "C:\\Users\\nvpit\\Downloads\\program files\\Java\\jdk1.8.0_151\\bin\\java.exe";  //Link to java.exe  => "javac"
+            p.StartInfo.FileName = "C:\\Users\\Admin\\Downloads\\Document\\jdk1.8.0_151\\bin\\java.exe";  //Link to java.exe  => "javac"
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.WorkingDirectory = directory_file_code;        //Link to directory of file need to execute
             p.StartInfo.Arguments = file_code;          //=> "javac E:\MyClass"
@@ -52,10 +52,10 @@ namespace WebAPI.Controllers
 
         }
 
-        protected Dictionary<string, string> ExecuteJavac(string directory_file_code = "E:", string file_code = "MyClass.java")
+        protected Dictionary<string, string> ExecuteJavac(string directory_file_code, string file_code = "MyClass.java")
         {
             System.Diagnostics.Process p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = "C:\\Users\\nvpit\\Downloads\\program files\\Java\\jdk1.8.0_151\\bin\\javac.exe";  //Link to javac.exe  => "javac"
+            p.StartInfo.FileName = "C:\\Users\\Admin\\Downloads\\Document\\jdk1.8.0_151\\bin\\javac.exe";  //Link to javac.exe  => "javac"
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.WorkingDirectory = directory_file_code;                //Link to directory of file need to execute
             p.StartInfo.Arguments = file_code;             // =>    "javac E:\MyClass.java"
@@ -89,9 +89,10 @@ namespace WebAPI.Controllers
         public IHttpActionResult Compiler(Source source)
         {
             string code = source.stringSource;
-            string directory_file = "E:";
+            string directory_file = "D:\\TestCompiler";
             string filename_code = "MyClass";
             string full_path = directory_file + "\\" + filename_code;
+            this.DeleteFile(full_path);
             /*write code to file.java*/
             using (StreamWriter w = new StreamWriter(full_path + ".java", true))
             {
@@ -106,6 +107,15 @@ namespace WebAPI.Controllers
             /*run java E:\\MyClass*/
             Dictionary<string, string> result_java = this.ExecuteJava(directory_file, filename_code);
 
+            this.DeleteFile(full_path);
+            //return java execute
+            if (result_javac["status"] == "fail")
+                return BadRequest(result_java["message"]);
+            return Ok(result_java["message"]);
+        }
+        
+        protected void DeleteFile(string full_path)
+        {
             if (System.IO.File.Exists(full_path))           //delete file MyClass and MyClass.java
             {
                 System.IO.File.Delete(full_path);
@@ -118,12 +128,6 @@ namespace WebAPI.Controllers
             {
                 System.IO.File.Delete(full_path + ".class");
             }
-            //return java execute
-            if (result_javac["status"] == "fail")
-                return BadRequest(result_java["message"]);
-            return Ok(result_java["message"]);
-
         }
-        
     }
 }

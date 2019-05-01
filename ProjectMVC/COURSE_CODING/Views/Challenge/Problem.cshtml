@@ -211,7 +211,7 @@
                         </div>
                         <div class="code-submit">
                             <button class="btn btn-outline-success btn-lg run-code" onclick="runCode()">Run Code</button>
-                            <button class="btn btn-success btn-lg submit-code">Submit Code</button>
+                            <button class="btn btn-success btn-lg submit-code" onclick="submitCode()">Submit Code</button>
                         </div>
                     </div>
 
@@ -222,11 +222,75 @@
                                 <h3 class="result-wrong">Wrong Result :(</h3>
                                 <p>1/1 test case failed</p>
                             </div>
-                            <div class="runcode-testcase">
+                            @*<div class="runcode-testcase">
                                 <div class="sample-testcase result-wrong">
                                     <h4>Sample test case 0 X</h4>
                                 </div>
                                 <div class="runcode-detail">
+                                    <div class="message-compiler">
+                                        <p>Complier Message</p>
+                                        <pre><code>Wrong Answer</code></pre>
+                                    </div>
+                                    <div class="message-input">
+                                        <p>Input (stdin)</p>
+                                        <pre><code>1 2 7</code></pre>
+                                    </div>
+                                    <div class="message-youroutput">
+                                        <p>Your Output (stdout)</p>
+                                        <pre><code>~ no respone on stdout</code></pre>
+                                    </div>
+                                    <div class="message-output">
+                                        <p>Expected Output</p>
+                                        <pre><code>10</code></pre>
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="runcode-testcase">
+                                <div class="tab">
+                                    <button class="tablinks" onclick="openCity(event, 'London')">London</button>
+                                    <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
+                                    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+                                </div>
+
+                                <div id="London" class="tabcontent">
+                                    <div class="message-compiler">
+                                        <p>Complier Message</p>
+                                        <pre><code>Wrong Answer</code></pre>
+                                    </div>
+                                    <div class="message-input">
+                                        <p>Input (stdin)</p>
+                                        <pre><code>1 2 7</code></pre>
+                                    </div>
+                                    <div class="message-youroutput">
+                                        <p>Your Output (stdout)</p>
+                                        <pre><code>~ no respone on stdout</code></pre>
+                                    </div>
+                                    <div class="message-output">
+                                        <p>Expected Output</p>
+                                        <pre><code>10</code></pre>
+                                    </div>
+                                </div>
+
+                                <div id="Paris" class="tabcontent">
+                                    <div class="message-compiler">
+                                        <p>Complier Message</p>
+                                        <pre><code>Wrong Answer</code></pre>
+                                    </div>
+                                    <div class="message-input">
+                                        <p>Input (stdin)</p>
+                                        <pre><code>1 2 7</code></pre>
+                                    </div>
+                                    <div class="message-youroutput">
+                                        <p>Your Output (stdout)</p>
+                                        <pre><code>~ no respone on stdout</code></pre>
+                                    </div>
+                                    <div class="message-output">
+                                        <p>Expected Output</p>
+                                        <pre><code>10</code></pre>
+                                    </div>
+                                </div>
+
+                                <div id="Tokyo" class="tabcontent">
                                     <div class="message-compiler">
                                         <p>Complier Message</p>
                                         <pre><code>Wrong Answer</code></pre>
@@ -379,8 +443,30 @@
     @Scripts.Render("~/Assets/Public/vendor/bootstrap/js/4.0.0.min.js")
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" type="text/javascript" charset="utf-8">
+    //<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ext-language_tools.js" type="text/javascript" charset="utf-8">
     </script>
+    <script>
+        function openCity(evt, cityName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
 
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the link that opened the tab
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
     <script>
 
         function runCode() {
@@ -398,15 +484,57 @@
 
         function setupEditor() {
             window.editor = ace.edit("editor");
-            editor.setTheme("ace/theme/monokai");
-            editor.session.setMode("ace/mode/html");
-            editor.setValue(`<h1>Hello World</h1>`, 1);
+            editor.setTheme("ace/theme/light");
+            editor.session.setMode("ace/mode/php");
+            //editor.setValue(`<h1>Hello World</h1>`, 1);
+            // trigger extension
+            ace.require("ace/ext/language_tools");
+            // enable autocompletion and snippets
+            editor.setOptions({
+                enableBasicAutocompletion: true,
+                enableSnippets: true,
+                enableLiveAutocompletion: false
+            });
             editor.getSession().on('change', function () {
                 update();
             });
         }
         setupEditor();
         update();
+
+        function runCode() {
+            code = editor.getValue();
+            $.ajax({
+                method: "POST",
+                url: "/Code/RunCode",
+                data: {
+                    challengeID: 1,
+                    userID: 1,
+                    Code: code,
+                    Language: 1
+                }
+            })
+                .done(function (msg) {
+                console.log(msg);
+                });
+        }
+
+        function submitCode() {
+            code = editor.getValue();
+            $.ajax({
+                method: "POST",
+                url: "/Code/SubmitCode",
+                data: {
+                    challengeID: 1,
+                    userID: 1,
+                    Code: code,
+                    Language: 1
+                }
+            })
+                .done(function (msg) {
+                    console.log(msg);
+                });
+        }
     </script>
 </body>
 
