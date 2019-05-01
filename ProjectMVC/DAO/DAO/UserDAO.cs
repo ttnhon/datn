@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CommonProject.CommonConstant;
+using CommonProject;
 using DAO.EF;
 using PagedList;
 
