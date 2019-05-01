@@ -17,5 +17,11 @@ namespace WebAPI.Common
         public static string FOOTER_DONE =    "==========      Compiler done!     =========== ";
         public static string BREAK_LINE = "/r/n";
         public static string OUTPUT = "Output: ";
+
+        public static string STATUS_SUCCESS = "success";
+        public static string STATUS_FAIL    = "fail";
+
+        public static string JAVA_EXECUTE_LINK = "C:\\Users\\Admin\\Downloads\\Document\\jdk1.8.0_151\\bin\\";
+        public static string FOLDER_CODE_DIR = "D:\\TestCompiler";
     }
 }
