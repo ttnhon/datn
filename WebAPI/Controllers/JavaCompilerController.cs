@@ -88,33 +88,40 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IHttpActionResult Compiler(Source source)
         {
-            string code = source.stringSource;
-            string directory_file = Constant.FOLDER_CODE_DIR;
-            string filename_code = "MyClass" + source.userKey;
-            string full_path = directory_file + "\\" + filename_code;
-            this.DeleteFile(full_path);
-            /*write code to file.java*/
-            using (StreamWriter w = new StreamWriter(full_path + ".java", true))
+            try
             {
-                w.WriteLine(code); // Write the text
+
+                string code = source.stringSource;
+                string directory_file = Constant.FOLDER_CODE_DIR;
+                string filename_code = "MyClass" + source.userKey;
+                string full_path = directory_file + "\\" + filename_code;
+                this.DeleteFile(full_path);
+                /*write code to file.java*/
+                using (StreamWriter w = new StreamWriter(full_path + ".java", true))
+                {
+                    w.WriteLine(code); // Write the text
+                }
+
+                /*run javac E:\\MyClass.java*/
+                Dictionary<string, string> result_javac = this.ExecuteJavac(directory_file, filename_code + ".java");
+                if (result_javac["status"] == Constant.STATUS_FAIL)            //return if run javac fail
+                    return Ok(result_javac);
+
+                /*run java E:\\MyClass*/
+                Dictionary<string, string> result_java = this.ExecuteJava(directory_file, filename_code);
+
+                this.DeleteFile(full_path);
+
+                //return java execute
+                //if (result_javac["status"] == Constant.STATUS_FAIL)
+                //    return BadRequest(result_java["message"]);
+                //return Ok(result_java["message"]);
+
+                return Ok(result_java);
+            }catch(Exception e)
+            {
+                return BadRequest(e.ToString());
             }
-
-            /*run javac E:\\MyClass.java*/
-            Dictionary<string, string> result_javac = this.ExecuteJavac(directory_file, filename_code + ".java");
-            if (result_javac["status"] == Constant.STATUS_FAIL)            //return if run javac fail
-                return Json(result_javac);
-
-            /*run java E:\\MyClass*/
-            Dictionary<string, string> result_java = this.ExecuteJava(directory_file, filename_code);
-
-            this.DeleteFile(full_path);
-
-            //return java execute
-            //if (result_javac["status"] == Constant.STATUS_FAIL)
-            //    return BadRequest(result_java["message"]);
-            //return Ok(result_java["message"]);
-
-            return Json(result_java);
         }
 
         // Xoa 3 file java, class, exe

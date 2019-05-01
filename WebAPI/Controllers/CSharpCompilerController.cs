@@ -31,7 +31,6 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IHttpActionResult Compiler(Source source)
         {
-
             try
             {
                 StringBuilder resultCompiler = new StringBuilder();
@@ -45,12 +44,16 @@ namespace WebAPI.Controllers
 
                 CSharpCodeProvider ccp = new CSharpCodeProvider();
                 ICodeCompiler icc = ccp.CreateCompiler();
-                    CompilerParameters parameters = new CompilerParameters(new[] { Constant.MSCOR_LIB,
+                CompilerParameters parameters = new CompilerParameters(new[] { Constant.MSCOR_LIB,
                 Constant.CORE_LIB }, outputCompiler, true);
                 //CompilerParameters parameters = new CompilerParameters();
                 //parameters.GenerateExecutable = true;
                 //parameters.OutputAssembly = outputCompiler;
                 CompilerResults result = icc.CompileAssemblyFromSource(parameters, source.stringSource);
+                //return result
+                string status = Constant.STATUS_SUCCESS;
+                string result_message = string.Empty;
+                   
                 if (result.Errors.HasErrors)
                 {
                     var listErrors = result.Errors.Cast<CompilerError>().ToList();
@@ -58,6 +61,7 @@ namespace WebAPI.Controllers
                     {
                         resultCompiler.Append(error.ErrorText);
                     }
+                    status = Constant.STATUS_FAIL;                  
                 }
                 else
                 {
@@ -131,26 +135,30 @@ namespace WebAPI.Controllers
                     //}
 
 
-                    System.Diagnostics.Process p = new System.Diagnostics.Process();
-                    p.StartInfo.FileName = @"cmd.exe";  //run cmd
-                    p.StartInfo.UseShellExecute = false;
-                    p.StartInfo.WorkingDirectory = pathFolder;        //Link to directory of file need to execute
-                    p.StartInfo.Arguments = "myclass.cs";         //=> "MyClass"
-                    p.StartInfo.CreateNoWindow = true;
-                    p.StartInfo.RedirectStandardInput = true;
-                    p.StartInfo.RedirectStandardOutput = true;
-                    p.StartInfo.RedirectStandardError = true;
+                    //System.Diagnostics.Process p = new System.Diagnostics.Process();
+                    //p.StartInfo.FileName = @"cmd.exe";  //run cmd
+                    //p.StartInfo.UseShellExecute = false;
+                    //p.StartInfo.WorkingDirectory = pathFolder;        //Link to directory of file need to execute
+                    //p.StartInfo.Arguments = "myclass.cs";         //=> "MyClass"
+                    //p.StartInfo.CreateNoWindow = true;
+                    //p.StartInfo.RedirectStandardInput = true;
+                    //p.StartInfo.RedirectStandardOutput = true;
+                    //p.StartInfo.RedirectStandardError = true;
 
-                    //run
-                    p.Start();
-                    string result_string = p.StandardOutput.ReadToEnd();
-                    string error_string = p.StandardError.ReadToEnd();
-                    p.WaitForExit();
+                    ////run
+                    //p.Start();
+                    //string result_string = p.StandardOutput.ReadToEnd();
+                    //string error_string = p.StandardError.ReadToEnd();
+                    //p.WaitForExit();
 
                     //  string resultString = Process.Start(@"cmd.exe ", @"/c" + outputCompiler).StandardOutput.ReadToEnd();
                     // Process.Start(@"cmd.exe ", @"/c"+ outputCompiler).WaitForExit();
                 }
-                return Ok(resultCompiler);
+                result_message = resultCompiler.ToString();
+                Dictionary<string, string> resultAPI = new Dictionary<string, string>();
+                resultAPI.Add("status", status);
+                resultAPI.Add("message", result_message);
+                return Ok(resultAPI);
             }
             catch (Exception e)
             {

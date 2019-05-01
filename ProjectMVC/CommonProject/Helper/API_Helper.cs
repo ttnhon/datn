@@ -30,7 +30,7 @@ namespace CommonProject
         /// <param name="typeAPI"></param>
         /// <param name="src"></param>
         /// <returns></returns>
-        public string RequestAPI(int typeAPI,Source src)
+        public Dictionary<string, string> RequestAPI(int typeAPI,Source src)
         {
             // choose type api
             if (CommonConstant.TYPE_CSHAP_COMPILER.Equals(typeAPI))
@@ -51,14 +51,14 @@ namespace CommonProject
             var responsePostTask =  client.PostAsJsonAsync<Source>("", src);
             responsePostTask.Wait();
             var result = responsePostTask.Result;
-            string stringResult = string.Empty;
+            Dictionary<string, string> resultAPI = new Dictionary<string, string>();
             if (result.IsSuccessStatusCode)
             {
-                var readTask = result.Content.ReadAsAsync<StringBuilder>();
+                var readTask = result.Content.ReadAsAsync<Dictionary<string, string>>();
                 readTask.Wait();
-                stringResult = readTask.Result.ToString();
+                resultAPI = readTask.Result;
             }
-            return stringResult;
+            return resultAPI;
         
         }
     }

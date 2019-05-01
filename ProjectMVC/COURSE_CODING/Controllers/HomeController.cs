@@ -15,6 +15,7 @@ namespace COURSE_CODING.Controllers
             Source src = new Source();
             src.stringSource = "Write.console";
             src.versionFramework = "2.3";
+            src.userKey = "01";
             var result = apiHelper.RequestAPI(CommonConstant.TYPE_CSHAP_COMPILER, src);
            
             return View();

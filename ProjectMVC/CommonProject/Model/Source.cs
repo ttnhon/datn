@@ -10,5 +10,6 @@ namespace CommonProject
     {
         public string stringSource { get; set; }
         public string versionFramework { get; set; }
+        public string userKey { get; set; }
     }
 }
