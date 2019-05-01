@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -37,6 +38,11 @@ namespace WebAPI.Controllers
                 String fileName = "Out.exe";
                 String pathFolder = System.AppDomain.CurrentDomain.BaseDirectory + @"Compilers\";
                 String outputCompiler = pathFolder+fileName;
+                //using (StreamWriter w = new StreamWriter(full_path + ".java", true))
+                //{
+                //    w.WriteLine(code); // Write the text
+                //}
+
                 CSharpCodeProvider ccp = new CSharpCodeProvider();
                 ICodeCompiler icc = ccp.CreateCompiler();
                     CompilerParameters parameters = new CompilerParameters(new[] { Constant.MSCOR_LIB,
@@ -55,6 +61,7 @@ namespace WebAPI.Controllers
                 }
                 else
                 {
+                    var data = result.CompiledAssembly;
                     //resultCompiler.Append(Constant.OUTPUT + outputCompiler);
                     //string a= result.PathToAssembly;
                     //Module module = result.CompiledAssembly.GetModules()[0];
@@ -100,40 +107,45 @@ namespace WebAPI.Controllers
                     //    MessageBox.Show(loError.Message, "Compiler Demo");
                     //}
 
-                  //  Get the compiled method and execute it.
+                    //  Get the compiled method and execute it.
                     //foreach (Type a_type in result.CompiledAssembly.GetTypes())
                     //{
                     //    Object instanceClass = result.CompiledAssembly.CreateInstance(a_type.Name);
                     //    // Get a MethodInfo object describing the SayHi method.
-                    //    MethodInfo method_info = a_type.GetMethod("Main");
+                    //    Module module = result.CompiledAssembly.GetModules()[0];
+                    //    Type mt = null;
+                    //    mt= module.GetType("HelloWorld.Hello");
+                    //    //MethodInfo method_info = a_type.GetMethod("Main");
+                    //    MethodInfo method_info = mt.GetMethod("Main");
                     //    if (method_info != null && a_type.IsClass && !a_type.IsNotPublic)
                     //    {
                     //        object[] method_params = new object[] { this };
-                    //        // Execute the method.
-                    //        //outputCompiler = method_info.Invoke(instanceClass,BindingFlags.InvokeMethod,
-                    //        //     null, method_params, CultureInfo.CurrentCulture).ToString();
-                    //        outputCompiler = method_info.Invoke(null, method_params).ToString();
+                    //       // Execute the method.
+                    //       //outputCompiler = method_info.Invoke(instanceClass, BindingFlags.InvokeMethod,
+                    //       //     null, method_params, CultureInfo.CurrentCulture).ToString();
+                    //       // outputCompiler = method_info.Invoke(null, method_params).ToString();
+                    //        Console.WriteLine(method_info.Invoke(null, new object[] { "here in dyna code" }));
                     //        resultCompiler.Append(Constant.OUTPUT + outputCompiler);
 
                     //    }
                     //}
 
 
-                    //System.Diagnostics.Process p = new System.Diagnostics.Process();
-                    //p.StartInfo.FileName = @"cmd.exe";  //run cmd
-                    //p.StartInfo.UseShellExecute = false;
-                    //p.StartInfo.WorkingDirectory = pathFolder;        //Link to directory of file need to execute
-                    //p.StartInfo.Arguments = @"/c" + pathFolder + fileName;         //=> "MyClass"
-                    //p.StartInfo.CreateNoWindow = true;
-                    //p.StartInfo.RedirectStandardInput = true;
-                    //p.StartInfo.RedirectStandardOutput = true;
-                    //p.StartInfo.RedirectStandardError = true;
+                    System.Diagnostics.Process p = new System.Diagnostics.Process();
+                    p.StartInfo.FileName = @"cmd.exe";  //run cmd
+                    p.StartInfo.UseShellExecute = false;
+                    p.StartInfo.WorkingDirectory = pathFolder;        //Link to directory of file need to execute
+                    p.StartInfo.Arguments = "myclass.cs";         //=> "MyClass"
+                    p.StartInfo.CreateNoWindow = true;
+                    p.StartInfo.RedirectStandardInput = true;
+                    p.StartInfo.RedirectStandardOutput = true;
+                    p.StartInfo.RedirectStandardError = true;
 
-                    ////run
-                    //p.Start();
-                    //string result_string = p.StandardOutput.ReadToEnd();
-                    //string error_string = p.StandardError.ReadToEnd();
-                    //p.WaitForExit();
+                    //run
+                    p.Start();
+                    string result_string = p.StandardOutput.ReadToEnd();
+                    string error_string = p.StandardError.ReadToEnd();
+                    p.WaitForExit();
 
                     //  string resultString = Process.Start(@"cmd.exe ", @"/c" + outputCompiler).StandardOutput.ReadToEnd();
                     // Process.Start(@"cmd.exe ", @"/c"+ outputCompiler).WaitForExit();
