@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
             /*Run java command*/
             //set up
             System.Diagnostics.Process p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = "C:\\Users\\Admin\\Downloads\\Document\\jdk1.8.0_151\\bin\\java.exe";  //Link to java.exe  => "javac"
+            p.StartInfo.FileName = Constant.JAVA_EXECUTE_LINK + "java.exe";  //Link to java.exe  => "javac"
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.WorkingDirectory = directory_file_code;        //Link to directory of file need to execute
             p.StartInfo.Arguments = file_code;          //=> "javac E:\MyClass"
@@ -38,11 +38,11 @@ namespace WebAPI.Controllers
             p.WaitForExit();
 
             //return result
-            string status = "success";
+            string status = Constant.STATUS_SUCCESS;
             string result_message = result_string;
             if (error_string != "")
             {
-                status = "fail";
+                status = Constant.STATUS_FAIL;
                 result_message = error_string;
             }
             Dictionary<string, string> result = new Dictionary<string, string>();
@@ -55,7 +55,7 @@ namespace WebAPI.Controllers
         protected Dictionary<string, string> ExecuteJavac(string directory_file_code, string file_code = "MyClass.java")
         {
             System.Diagnostics.Process p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = "C:\\Users\\Admin\\Downloads\\Document\\jdk1.8.0_151\\bin\\javac.exe";  //Link to javac.exe  => "javac"
+            p.StartInfo.FileName = Constant.JAVA_EXECUTE_LINK + "javac.exe";  //Link to javac.exe  => "javac"
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.WorkingDirectory = directory_file_code;                //Link to directory of file need to execute
             p.StartInfo.Arguments = file_code;             // =>    "javac E:\MyClass.java"
@@ -71,11 +71,11 @@ namespace WebAPI.Controllers
             p.WaitForExit();
 
             //return result
-            string status = "success";
+            string status = Constant.STATUS_SUCCESS;
             string result_message = result_string;
             if (error_string != "")
             {
-                status = "fail";
+                status = Constant.STATUS_FAIL;
                 result_message = error_string;
             }
             Dictionary<string, string> result = new Dictionary<string, string>();
@@ -89,8 +89,8 @@ namespace WebAPI.Controllers
         public IHttpActionResult Compiler(Source source)
         {
             string code = source.stringSource;
-            string directory_file = "D:\\TestCompiler";
-            string filename_code = "MyClass";
+            string directory_file = Constant.FOLDER_CODE_DIR;
+            string filename_code = "MyClass" + source.userKey;
             string full_path = directory_file + "\\" + filename_code;
             this.DeleteFile(full_path);
             /*write code to file.java*/
@@ -101,19 +101,23 @@ namespace WebAPI.Controllers
 
             /*run javac E:\\MyClass.java*/
             Dictionary<string, string> result_javac = this.ExecuteJavac(directory_file, filename_code + ".java");
-            if (result_javac["status"] == "fail")            //return if run javac fail
-                return BadRequest(result_javac["message"]);
+            if (result_javac["status"] == Constant.STATUS_FAIL)            //return if run javac fail
+                return Json(result_javac);
 
             /*run java E:\\MyClass*/
             Dictionary<string, string> result_java = this.ExecuteJava(directory_file, filename_code);
 
             this.DeleteFile(full_path);
+
             //return java execute
-            if (result_javac["status"] == "fail")
-                return BadRequest(result_java["message"]);
-            return Ok(result_java["message"]);
+            //if (result_javac["status"] == Constant.STATUS_FAIL)
+            //    return BadRequest(result_java["message"]);
+            //return Ok(result_java["message"]);
+
+            return Json(result_java);
         }
-        
+
+        // Xoa 3 file java, class, exe
         protected void DeleteFile(string full_path)
         {
             if (System.IO.File.Exists(full_path))           //delete file MyClass and MyClass.java
