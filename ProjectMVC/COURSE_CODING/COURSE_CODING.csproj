@@ -425,6 +425,8 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Base\" />
     <Folder Include="Areas\Admin\Views\Home\" />
+    <Folder Include="Assets\File_Resource\Code_File\" />
+    <Folder Include="Assets\File_Resource\Test_Case\" />
     <Folder Include="Assets\Public\js\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Code\" />
