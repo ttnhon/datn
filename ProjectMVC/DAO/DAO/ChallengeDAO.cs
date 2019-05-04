@@ -23,5 +23,10 @@ namespace DAO.DAO
         {
             return db.CHALLENGES.Find(id);
         }
+
+        public List<CHALLENGE> GetAll(int id)
+        {
+            return db.CHALLENGES.Where(table => table.USER_INFO.ID == id).ToList();
+        }
     }
 }

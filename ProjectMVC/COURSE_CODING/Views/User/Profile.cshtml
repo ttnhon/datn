@@ -1,0 +1,475 @@
+﻿@model COURSE_CODING.Models.UserProfileModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="~/Assets/Public/css/profile.css" type="text/css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+</head>
+
+<body>
+    <div class="content">
+        <div class="container profile-layout">
+            <div class="profile-sidebar">
+                <div role="button" class="profile-sumary">
+                    <div class="profile-avatar" id="pf-avatar">
+                        @if (Model.Info.PhotoURL != null)
+                        {
+                            <img src="@Model.Info.PhotoURL" alt="Alternate Text" />
+                            <div class="avatar-overlay">
+                                <i class="far fa-edit"></i>
+                            </div>
+                        }
+                        else
+                        {
+                            <img src="https://www.tvilight.com/wp-content/uploads/2017/06/background-04-768x430.jpg" alt="Alternate Text" />
+                            <div class="avatar-overlay">
+                                <i class="far fa-edit"></i>
+                            </div>
+                            <span>
+                                <span>P</span>
+                            </span>
+                        }
+                    </div>
+                </div>
+                <h1 class="profile-heading">@Model.Info.FirstName @Model.Info.LastName</h1>
+                <p class=" profile-username-heading">
+                    @Model.Info.UserName
+                </p>
+                <p class="profile-country">
+                    <span>Vietnam<!--Model.Info.Country--></span>
+                </p>
+                <ul class="profile-social-list">
+                    <li>
+                        <a href="#" class="social-link">
+                            <span class="fab fa-facebook"></span>
+                        </a>
+                    </li>
+                </ul>
+                <button class="btn-link" id="intro-edit">
+                    <div>
+                        <i class="fas fa-pen">
+
+                        </i>Edit Intro
+                    </div>
+                </button>
+                <hr>
+                <div class="profile-detail">
+                    <h2>About</h2>
+                    <div class="profile-detail-edit">
+                        <button class="btn-link" id="about-edit">
+                            <i class="fas fa-pen"></i>
+                        </button>
+                    </div>
+                    <div class="profile-detail-extra">
+                        <div class="profile-detail-graduation">
+                            <p>Expected year of Graduation</p>
+                            <p style="font-weight: 700;">2019</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-rightpanel">
+                <section class="badges-section">
+                    <h2>Badges</h2>
+                    <div class="badge-list">
+                        <div class="badge-wrap">
+                            <div class="badge-icon">
+                                <img src="~/Assets/Public/images/problem-solving-ecaf59a612.svg" alt="badge-icon">
+                                <span class="badge-title">problem solving</span>
+                                <div class="star-section">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="help-text">
+                                <h3 class="badge-title">problem solving</h3>
+                                <p class="badge-level">Bronze level</p>
+                                <p class="badge-current-point">You have earned 51 points so far</p>
+                                <p class="badge-next-point">Earn 49 more points to get to your next star.</p>
+                                <button class="btn btn-success">
+                                    <a href="#" class="challenge-link">Solve Challenge</a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="section-card">
+                    <div class="education-section">
+                        <div class="section-title">
+                            <i class="fas fa-graduation-cap"></i>
+
+                            Education
+                        </div>
+                        <div class="section-body">
+                            <!--No Education-->
+                            <button class="btn-link" id="school-add">
+                                +
+                                Add your education history
+                            </button>
+
+                            <!--Have Education-->
+                            <ul class="education-list">
+                                <li class="education-item">
+                                    <i class="fas fa-angle-double-right"></i>
+                                    <div>
+                                        <h2>Red Bank Regional High School</h2>
+                                        <p>
+                                            Computer Science & Engineering, BE
+                                            <span>
+                                                |
+                                                September 2015 - Present
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="profile-detail-edit">
+                                        <button class="btn-link" id="school-edit1">
+                                            <i class="fas fa-pen"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li class="education-item">
+                                    <i class="fas fa-angle-double-right"></i>
+                                    <div>
+                                        <h2>Red Bank Regional High School</h2>
+                                        <p>
+                                            Computer Science & Engineering, BE
+                                            <span>
+                                                |
+                                                September 2015 - Present
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="profile-detail-edit">
+                                        <button class="btn-link" id="school-edit2">
+                                            <i class="fas fa-pen"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                            </ul>
+                            <hr>
+                            <div class="education-add">
+                                <button class="btn-link" id="school-add">
+                                    +
+                                    Add new
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="section-card">
+                    <div class="submision-section">
+                        <div class="section-title">
+                            <i class="far fa-clipboard"></i>
+
+                            Submisions
+                        </div>
+                        <div class="section-body">
+                            @if (Model.Challenges.Count > 0)
+                            {
+                                foreach (var challenge in Model.Challenges)
+                                {
+                                    <div class="submision-list">
+                                        <a href="#" class="history-item">@challenge.Title</a>
+                                        <span class="time-ago">
+                                            -
+                                            <span class="time-ago-value">3 days ago</span>
+                                        </span>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </section>
+                <section class="section-card">
+                    <div class="contest-section">
+                        <div class="section-title">
+                            <i class="fas fa-history"></i>
+
+                            Contest History
+                        </div>
+                        <div class="section-body">
+                            @if (Model.Competes.Count > 0)
+                            {
+                                foreach (var compete in Model.Competes)
+                                {
+                                    <div class="contest-list">
+                                        <h2 class="contest-month">July,2014</h2>
+                                        <div>
+                                            <a href="#" class="contest-item">@compete.Title</a>
+                                            <span class="participant-count">
+                                                --
+                                                /
+                                                <span class="participant-count-value"> @compete.ParticipantCount participants</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!--Popup Window-->
+    <div class="popup" id="img-popup">
+        <div class="popup-modal">
+            <div class="popup-content img-popup">
+                <div class="content-header">
+                    <h1>Upload</h1>
+                    <button class="close" id="img-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <hr>
+                <div class="content-body">
+                    <input type="file" accept="image/*" id="upload-file">
+                    <p>Max files/folder size: 500MB</p>
+                    <button class="btn btn-primary" id="btn-img">
+                        <span>Upload File</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup" id="intro-popup">
+        <div class="popup-modal">
+            <div class="popup-content intro-popup">
+                <div class="content-header">
+                    <h1>Edit Intro</h1>
+                    <button class="close" id="intro-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <hr>
+                <div class="content-body">
+                    <form action="">
+                        <div class="input input-required">
+                            <label for="input-fname">First Name</label>
+                            <input type="text" id="input-fname">
+                        </div>
+                        <div class="input input-required">
+                            <label for="input-lname">Last Name</label>
+                            <input type="text" id="input-lname">
+                        </div>
+                        <div class="input input-required">
+                            <label for="input-country">Country</label>
+                            <input type="text" id="input-country">
+                        </div>
+                        <p>Link your social Websites</p>
+                        <div class="input-btn">
+                            <button class="btn btn-primary">Connect Facebook</button>
+                            <button class="btn btn-primary">Connect Google</button>
+                        </div>
+
+                        <div class="footer-btn">
+                            <button class="btn btn-secondary">Cancel</button>
+                            <button class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup" id="about-popup">
+        <div class="popup-modal">
+            <div class="popup-content about-popup">
+                <div class="content-header">
+                    <h1>Edit Details</h1>
+                    <button class="close" id="about-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <hr>
+                <div class="content-body">
+                    <form action="">
+                        <div class="input">
+                            <label for="input-about">About Me</label>
+                            <textarea id="input-about" cols="30" rows="6"></textarea>
+                        </div>
+                        <div class="input input-required">
+                            <label for="input-year">Expected year of Graduation</label>
+                            <div class="dropdown">
+                                <button class="btn btn-year dropdown-toggle" type="button" id="dropdownMenu"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Dropdown button
+                                </button>
+                                <div class="dropdown-menu year-list" aria-labelledby="dropdownMenu">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input input-required">
+                            <label for="input-education">Education</label>
+                            <div class="dropdown">
+                                <button class="btn btn-education dropdown-toggle" type="button" id="dropdownMenu"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Dropdown button
+                                </button>
+                                <div class="dropdown-menu education-list" aria-labelledby="dropdownMenu">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="footer-btn">
+                            <button class="btn btn-secondary">Cancel</button>
+                            <button class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup" id="school-popup">
+        <div class="popup-modal">
+            <div class="popup-content school-popup">
+                <div class="content-header">
+                    <h1>Add your educational <i class="mdi mdi-account-card-details"></i></h1>
+                    <button class="close" id="school-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <hr>
+                <div class="content-body">
+                    <form action="">
+                        <div class="input input-required">
+                            <label for="input-education">School</label>
+                            <div class="dropdown">
+                                <button class="btn btn-education dropdown-toggle" type="button" id="dropdownMenu"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Dropdown button
+                                </button>
+                                <div class="dropdown-menu education-list" aria-labelledby="dropdownMenu">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input" style="flex-direction: row;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    Currently studying here
+                                </label>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr;">
+                            <div class="input input-required">
+                                <label for="input-startdate">Start From</label>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr;">
+                                    <div class="dropdown">
+                                        <button class="btn btn-schoolyear dropdown-toggle" type="button"
+                                                id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                            Month
+                                        </button>
+                                        <div class="dropdown-menu schoolyear-list" aria-labelledby="dropdownMenu">
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another</a>
+                                            <a class="dropdown-item" href="#">Something</a>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-schoolyear dropdown-toggle" type="button"
+                                                id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                            Year
+                                        </button>
+                                        <div class="dropdown-menu schoolyear-list" aria-labelledby="dropdownMenu">
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another</a>
+                                            <a class="dropdown-item" href="#">Some</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="input input-required" id="school-end-date">
+                                <label for="input-enddate">End in</label>
+                                <div style="display: grid; grid-template-columns: auto auto;">
+                                    <div class="dropdown">
+                                        <button class="btn btn-schoolyear dropdown-toggle" type="button"
+                                                id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                            Month
+                                        </button>
+                                        <div class="dropdown-menu schoolyear-list" aria-labelledby="dropdownMenu">
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another</a>
+                                            <a class="dropdown-item" href="#">Some</a>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-schoolyear dropdown-toggle" type="button"
+                                                id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                            Year
+                                        </button>
+                                        <div class="dropdown-menu schoolyear-list" aria-labelledby="dropdownMenu">
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another</a>
+                                            <a class="dropdown-item" href="#">Some</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="input">
+                            <label for="input-description">Description</label>
+                            <textarea id="input-description" cols="30" rows="6"></textarea>
+                        </div>
+
+                        <div class="footer-btn">
+                            <button class="btn btn-secondary">Cancel</button>
+                            <button class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <script src="~/Assets/Public/js/profile.js"></script>
+</body>
+
+</html>
+

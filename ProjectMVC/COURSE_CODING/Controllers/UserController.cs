@@ -329,6 +329,14 @@ namespace COURSE_CODING.Controllers
                 return uriBuilder.Uri;
             }
         }
+
+        public ActionResult Profile(int id)
+        {
+            UserProfileModel model = new UserProfileModel();
+            model.Challenges = (new ChallengeDAO().GetAll(id));
+            model.Competes = (new CompeteDAO().GetAll(id));
+            return View(model);
+        }
     }
 
 }
