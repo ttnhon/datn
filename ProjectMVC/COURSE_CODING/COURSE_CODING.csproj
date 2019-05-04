@@ -195,6 +195,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Script\Admin_User.js" />
+    <Content Include="Assets\File_Resource\Test_Case\challenge111_output.txt" />
+    <Content Include="Assets\File_Resource\Test_Case\challenge11_output.txt" />
+    <Content Include="Assets\File_Resource\Test_Case\challenge1_output.txt" />
     <Content Include="Assets\Page\data\flot-data.js" />
     <Content Include="Assets\Page\data\morris-data.js" />
     <Content Include="Assets\Page\dist\css\sb-admin-2.css" />
@@ -426,7 +429,6 @@
     <Folder Include="Areas\Admin\Views\Base\" />
     <Folder Include="Areas\Admin\Views\Home\" />
     <Folder Include="Assets\File_Resource\Code_File\" />
-    <Folder Include="Assets\File_Resource\Test_Case\" />
     <Folder Include="Assets\Public\js\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Code\" />

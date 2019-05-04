@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using COURSE_CODING.Models;
+using CommonProject;
 using DAO.DAO;
 using DAO.EF;
 
@@ -20,16 +21,18 @@ namespace COURSE_CODING.Controllers
 
         // GET: Code
         [HttpPost]
-        public ActionResult SubmitCode(int challengeID, int userID, string Code, int Language)
+        public ActionResult SubmitCode(int challengeID, string Code, string Language)
         {
+            int userID = this.GetUserID();
             List<TestCaseResultModel> result = new List<TestCaseResultModel>();
             int count_success = 0;
             //get test case
             List<TESTCASE> test_cases = (new TestCaseDAO()).GetAllByChallengeID(challengeID);
             foreach (var one_test_case in test_cases)
             {
-                string input_file = one_test_case.Input;
-                string output_file = one_test_case.Output;
+                string app_path = AppDomain.CurrentDomain.BaseDirectory;
+                string input_file = one_test_case.Input != "" ? app_path + CommonConstant.DIR_TESTCASE + one_test_case.Input : "";
+                string output_file = one_test_case.Output != "" ? app_path + CommonConstant.DIR_TESTCASE + one_test_case.Output : "";
 
                 //get test case
                 Dictionary<string, string> test_case_content = this.ReadTestCaseContent(input_file, output_file);
@@ -41,7 +44,7 @@ namespace COURSE_CODING.Controllers
                 string code_run = this.ChangeCode(Code, file_name, input_file);
                 //validate code
 
-                TestCaseResultModel one_test_case_result = RunOneTestCase(input_expect, output_expect, file_name, code_run, Language);
+                TestCaseResultModel one_test_case_result = RunOneTestCase(input_expect, output_expect, file_name, code_run, Language, userID);
                 result.Add(one_test_case_result);
                 if (one_test_case_result.Status == "success")
                 {
@@ -49,30 +52,34 @@ namespace COURSE_CODING.Controllers
                 }
             }
 
-            //    //save submit to DB
-            //if (count_success == test_cases.Count()) {
-            //    ANSWER answer = new ANSWER()
-            //    {
-            //        ChallengeID = challengeID,
-            //        UserId = userID,
-            //        Content = Code,
-            //        Result = true,
-            //        TimeDone = BitConverter.GetBytes((Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds)       //timestamp now
-            //    };
-            //}
+            //save submit to DB
+            if (count_success == test_cases.Count())
+            {
+                ANSWER answer = new ANSWER()
+                {
+                    ChallengeID = challengeID,
+                    UserId = userID,
+                    Content = Code,
+                    Result = true,
+                    TimeDone = BitConverter.GetBytes((Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds)       //timestamp now
+                };
+
+                bool insert_status = (new AnswerDAO()).Insert(answer);
+            }
 
             return Json(result);
         }
 
         [HttpPost]
-        public ActionResult RunCode(int challengeID, int userID, string Code, int Language)
+        public ActionResult RunCode(int challengeID, string Code, string Language)
         {
+            int userID = this.GetUserID();
             List<TestCaseResultModel> result = new List<TestCaseResultModel>();
-
+            string app_path = AppDomain.CurrentDomain.BaseDirectory;
             //get test case
             TESTCASE one_test_case = (new TestCaseDAO()).GetOneByChallengeID(challengeID);
-            string input_file = one_test_case.Input;
-            string output_file = one_test_case.Output;
+            string input_file = one_test_case.Input != "" ? app_path + CommonConstant.DIR_TESTCASE + one_test_case.Input : "";
+            string output_file = one_test_case.Output != "" ? app_path + CommonConstant.DIR_TESTCASE + one_test_case.Output : "";
 
             //read test case
             Dictionary<string, string> test_case_content = this.ReadTestCaseContent(input_file, output_file);
@@ -84,13 +91,19 @@ namespace COURSE_CODING.Controllers
             string code_run = this.ChangeCode(Code, file_name, input_file);
             //@TODO validate code 
 
-            TestCaseResultModel one_test_case_result =  RunOneTestCase(input_expect, output_expect, file_name, code_run, Language);
+            TestCaseResultModel one_test_case_result =  RunOneTestCase(input_expect, output_expect, file_name, code_run, Language, userID);
             result.Add(one_test_case_result);
 
             return Json(result);
         }
 
-        //TODO do this later 
+        //@TODO get user id (from session)
+        protected int GetUserID()
+        {
+            return 1;
+        }
+
+        //@TODO do this later 
         //API for user live code
         [HttpPost]
         public ActionResult LiveCode(string Code, int language)
@@ -111,10 +124,14 @@ namespace COURSE_CODING.Controllers
             return View();
         }
 
-        protected TestCaseResultModel RunOneTestCase( string input_expect, string output_expect, string file_name, string code_run, int language)
+        protected TestCaseResultModel RunOneTestCase( string input_expect, string output_expect, string file_name, string code_run, string language, int userID)
         {
             //call api to run
-            Dictionary<string, string> result_api = this.CallAPI(code_run, language);
+            Dictionary<string, string> result_api = this.CallAPI(code_run, language, userID);
+
+            char[] charsToTrim = {'\r','\n'};
+            result_api["message"] = result_api["message"].TrimEnd(charsToTrim);
+
             if (result_api["status"] == "success")
             {
                 //Check result with output testcase
@@ -188,29 +205,48 @@ namespace COURSE_CODING.Controllers
             return Code;
         }
 
-        protected Dictionary<string, string> CallAPI(string code, int language)
+        protected Dictionary<string, string> CallAPI(string code, string language, int userID)
         {
-            var dictionary = new Dictionary<string, string>();
-            dictionary.Add("status", "success");
-            dictionary.Add("message", "Code you run is successfully");
-            return dictionary;
+            API_Helper apiHelper = new API_Helper();
+            Source src = new Source();
+            src.stringSource = code;
+            src.versionFramework = "2.3";
+            src.userKey = userID.ToString();
+            var result = apiHelper.RequestAPI(CommonConstant.TYPE_JAVA_COMPILER, src);
+
+            //var dictionary = new Dictionary<string, string>();
+            //dictionary.Add("status", "success");
+            //dictionary.Add("message", "Code you run is successfully");
+            //return dictionary;
+            return result;
         }
 
         protected Dictionary<string, string> ReadTestCaseContent(string input_file, string output_file)
         {
             Dictionary<string, string> test_case_content = new Dictionary<string, string>();
 
-            //using (StreamReader reader = new StreamReader(input_file))
-            //{
-            //    test_case_content.Add("input", reader.ReadToEnd());
-            //}
-            //using (StreamReader reader = new StreamReader(output_file))
-            //{
-            //    test_case_content.Add("output", reader.ReadToEnd());
-            //}
-
-            test_case_content.Add("input", "1 2 3 4 5 6");
-            test_case_content.Add("output", "6 5 4 3 2 1");
+            if (System.IO.File.Exists(input_file))
+            {
+                using (StreamReader reader = new StreamReader(input_file))
+                {
+                    test_case_content.Add("input", reader.ReadToEnd());
+                }
+            }
+            else
+            {
+                test_case_content.Add("input", "NO INPUT");
+            }
+            if (System.IO.File.Exists(output_file))
+            {
+                using (StreamReader reader = new StreamReader(output_file))
+                {
+                    test_case_content.Add("output", reader.ReadToEnd());
+                }
+            }
+            else
+            {
+                test_case_content.Add("output", "NO OUTPUT");
+            }
             return test_case_content;
         }
     }

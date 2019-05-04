@@ -30,16 +30,18 @@ namespace CommonProject
         /// <param name="typeAPI"></param>
         /// <param name="src"></param>
         /// <returns></returns>
-        public Dictionary<string, string> RequestAPI(int typeAPI,Source src)
+        public Dictionary<string, string> RequestAPI(string typeAPI,Source src)
         {
+            typeAPI = typeAPI.ToUpper();
+
             // choose type api
-            if (CommonConstant.TYPE_CSHAP_COMPILER.Equals(typeAPI))
+            if (CommonConstant.TYPE_CSHARP_COMPILER.Equals(typeAPI))
             {
-                client.BaseAddress = new Uri(CommonConstant.URL_HOST_API + CommonConstant.ROUTER_CSHAP_COMPILER_API);
+                client.BaseAddress = new Uri(CommonConstant.URL_HOST_API + CommonConstant.ROUTER_CSHARP_COMPILER_API);
             }
-            else if (CommonConstant.TYPE_CPLUSS_COMPILER.Equals(typeAPI))
+            else if (CommonConstant.TYPE_CPLUS_COMPILER.Equals(typeAPI))
             {
-                client.BaseAddress = new Uri(CommonConstant.URL_HOST_API + CommonConstant.ROUTER_CPLUSS_COMPILER_API);
+                client.BaseAddress = new Uri(CommonConstant.URL_HOST_API + CommonConstant.ROUTER_CPLUS_COMPILER_API);
             }
             else if (CommonConstant.TYPE_JAVA_COMPILER.Equals(typeAPI))
             {

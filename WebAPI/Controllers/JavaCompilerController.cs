@@ -95,7 +95,9 @@ namespace WebAPI.Controllers
                 string directory_file = Constant.FOLDER_CODE_DIR;
                 string filename_code = "MyClass" + source.userKey;
                 string full_path = directory_file + "\\" + filename_code;
+
                 this.DeleteFile(full_path);
+
                 /*write code to file.java*/
                 using (StreamWriter w = new StreamWriter(full_path + ".java", true))
                 {

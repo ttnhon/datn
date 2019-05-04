@@ -200,7 +200,7 @@
                                 <select id="inputLanguage" class="form-control">
                                     @foreach (var item in Model.languages)
                                     {
-                                        <option>@Html.DisplayFor(modelItem => item.Name)</option>
+                                        <option value="@Html.DisplayFor(modelItem => item.Name)">@Html.DisplayFor(modelItem => item.Name)</option>
                                     }
                                 </select>
                             </div>
@@ -216,100 +216,85 @@
                     </div>
 
                     <!--Run Code Result-->
-                    <div class="container runcode-display">
+                    <div class="container runcode-display d-none">
                         <div class="runcode-body">
                             <div class="runcode-result">
                                 <h3 class="result-wrong">Wrong Result :(</h3>
                                 <p>1/1 test case failed</p>
                             </div>
-                            @*<div class="runcode-testcase">
-                                <div class="sample-testcase result-wrong">
-                                    <h4>Sample test case 0 X</h4>
-                                </div>
-                                <div class="runcode-detail">
-                                    <div class="message-compiler">
-                                        <p>Complier Message</p>
-                                        <pre><code>Wrong Answer</code></pre>
-                                    </div>
-                                    <div class="message-input">
-                                        <p>Input (stdin)</p>
-                                        <pre><code>1 2 7</code></pre>
-                                    </div>
-                                    <div class="message-youroutput">
-                                        <p>Your Output (stdout)</p>
-                                        <pre><code>~ no respone on stdout</code></pre>
-                                    </div>
-                                    <div class="message-output">
-                                        <p>Expected Output</p>
-                                        <pre><code>10</code></pre>
-                                    </div>
-                                </div>
-                            </div>*@
+
                             <div class="runcode-testcase">
-                                <div class="tab">
-                                    <button class="tablinks" onclick="openCity(event, 'London')">London</button>
-                                    <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
-                                    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
-                                </div>
-
-                                <div id="London" class="tabcontent">
-                                    <div class="message-compiler">
-                                        <p>Complier Message</p>
-                                        <pre><code>Wrong Answer</code></pre>
+                                <div class="row">
+                                    <div class="col-xl-4 testcase-title">
+                                        <ul class="nav nav-pills nav-stacked flex-column">
+                                            @*<li class="active test-success"><a href="#tab_a" data-toggle="pill">TAB 1</a></li>
+                                            <li class="test-fail"><a href="#tab_b" data-toggle="pill">TAB 2</a></li>
+                                            <li><a href="#tab_c" data-toggle="pill">TAB 3</a></li>*@
+                                        </ul>
                                     </div>
-                                    <div class="message-input">
-                                        <p>Input (stdin)</p>
-                                        <pre><code>1 2 7</code></pre>
-                                    </div>
-                                    <div class="message-youroutput">
-                                        <p>Your Output (stdout)</p>
-                                        <pre><code>~ no respone on stdout</code></pre>
-                                    </div>
-                                    <div class="message-output">
-                                        <p>Expected Output</p>
-                                        <pre><code>10</code></pre>
-                                    </div>
-                                </div>
-
-                                <div id="Paris" class="tabcontent">
-                                    <div class="message-compiler">
-                                        <p>Complier Message</p>
-                                        <pre><code>Wrong Answer</code></pre>
-                                    </div>
-                                    <div class="message-input">
-                                        <p>Input (stdin)</p>
-                                        <pre><code>1 2 7</code></pre>
-                                    </div>
-                                    <div class="message-youroutput">
-                                        <p>Your Output (stdout)</p>
-                                        <pre><code>~ no respone on stdout</code></pre>
-                                    </div>
-                                    <div class="message-output">
-                                        <p>Expected Output</p>
-                                        <pre><code>10</code></pre>
-                                    </div>
-                                </div>
-
-                                <div id="Tokyo" class="tabcontent">
-                                    <div class="message-compiler">
-                                        <p>Complier Message</p>
-                                        <pre><code>Wrong Answer</code></pre>
-                                    </div>
-                                    <div class="message-input">
-                                        <p>Input (stdin)</p>
-                                        <pre><code>1 2 7</code></pre>
-                                    </div>
-                                    <div class="message-youroutput">
-                                        <p>Your Output (stdout)</p>
-                                        <pre><code>~ no respone on stdout</code></pre>
-                                    </div>
-                                    <div class="message-output">
-                                        <p>Expected Output</p>
-                                        <pre><code>10</code></pre>
+                                    <div class="col-xl-8 testcase-result">
+                                        <div class="tab-content">
+                                            @*<div class="tab-pane active" id="tab_a">
+                                                <div class="message-compiler">
+                                                    <p>Complier Message</p>
+                                                    <pre><code>Wrong Answer</code></pre>
+                                                </div>
+                                                <div class="message-input">
+                                                    <p>Input (stdin)</p>
+                                                    <pre><code>1 2 7</code></pre>
+                                                </div>
+                                                <div class="message-youroutput">
+                                                    <p>Your Output (stdout)</p>
+                                                    <pre><code>~ no respone on stdout</code></pre>
+                                                </div>
+                                                <div class="message-output">
+                                                    <p>Expected Output</p>
+                                                    <pre><code>10</code></pre>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab_b">
+                                                <div class="message-compiler">
+                                                    <p>Complier Message</p>
+                                                    <pre><code>Wrong Answer 1</code></pre>
+                                                </div>
+                                                <div class="message-input">
+                                                    <p>Input (stdin)</p>
+                                                    <pre><code>1 2 7</code></pre>
+                                                </div>
+                                                <div class="message-youroutput">
+                                                    <p>Your Output (stdout)</p>
+                                                    <pre><code>~ no respone on stdout</code></pre>
+                                                </div>
+                                                <div class="message-output">
+                                                    <p>Expected Output</p>
+                                                    <pre><code>10</code></pre>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab_c">
+                                                <div class="message-compiler">
+                                                    <p>Complier Message</p>
+                                                    <pre><code>Wrong Answer 2</code></pre>
+                                                </div>
+                                                <div class="message-input">
+                                                    <p>Input (stdin)</p>
+                                                    <pre><code>1 2 7</code></pre>
+                                                </div>
+                                                <div class="message-youroutput">
+                                                    <p>Your Output (stdout)</p>
+                                                    <pre><code>~ no respone on stdout</code></pre>
+                                                </div>
+                                                <div class="message-output">
+                                                    <p>Expected Output</p>
+                                                    <pre><code>10</code></pre>
+                                                </div>
+                                            </div>*@
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            @*end tabs*@
                         </div>
+                        @*end runcode-body*@
                     </div>
                 </div>
 
@@ -446,33 +431,16 @@
     //<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ext-language_tools.js" type="text/javascript" charset="utf-8">
     </script>
     <script>
-        function openCity(evt, cityName) {
-            // Declare all variables
-            var i, tabcontent, tablinks;
+        $(function () {
+            var $a = $(".runcode-testcase li");
+            $a.click(function () {
+                $a.removeClass("active");
+                $(this).addClass("active");
+            });
+        });
 
-            // Get all elements with class="tabcontent" and hide them
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-
-            // Get all elements with class="tablinks" and remove the class "active"
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-
-            // Show the current tab, and add an "active" class to the link that opened the tab
-            document.getElementById(cityName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
     </script>
     <script>
-
-        function runCode() {
-            var element = document.getElementsByClassName('runcode-display');
-            element.style.display = "none";
-        }
 
         @* Code Editor Script *@
         function update() {
@@ -502,37 +470,140 @@
         setupEditor();
         update();
 
+        challengeID = '@Model.challenge.ID';
+        function renderTitleResult(result_array) {
+            $('.runcode-result').empty();
+
+            len = result_array.length;
+            count_success = 0;
+            //render Title
+            content = '';
+            for (var i = 0; i < len; i++) {
+                one_result = result_array[i];
+                if (one_result['Status'] == 'success') {
+                    count_success++;
+                }
+            }
+            if (count_success == len) {
+                content = `<h3 class="result-success">Right Result :)</h3>
+                           <p>Let's submit Your code</p>`;
+            }
+            else {
+                content = `<h3 class="result-wrong">Wrong Result :(</h3>
+                           <p>${len - count_success}/${len} test case failed</p>`;
+            }
+            $('.runcode-result').append(content);
+        }
+
+        function renderBodyResult(result_array) {
+            $('.testcase-title ul').empty();
+            $('.tab-content').empty();
+            
+            content = '';
+            for (var i = 0; i < len; i++) {
+                one_result = result_array[i];
+                renderOneResult(one_result, i);
+            }
+        }
+        function renderOneResult(result, pos) {
+            if (result['Status'] == 'success') {
+                tab = `<li class="test-success"><a href="#tab_${pos}" data-toggle="pill">TEST CASE ${pos}</a></li>`;
+                content = `<div class="tab-pane active" id="tab_${pos}">
+                        <div class="message-compiler">
+                            <p>Complier Message</p>
+                            <pre><code>Right Answer</code></pre>
+                        </div>
+                        <div class="message-input">
+                            <p>Input (stdin)</p>
+                            <pre><code>${result['Input']}</code></pre>
+                        </div>
+                        <div class="message-youroutput">
+                            <p>Your Output (stdout)</p>
+                            <pre><code>${result['Output']}</code></pre>
+                        </div>
+                        <div class="message-output">
+                            <p>Expected Output</p>
+                            <pre><code>${result['OutputExpect']}</code></pre>
+                        </div>
+                    </div>`;
+            }
+            else {
+                tab = `<li class="test-fail"><a href="#tab_${pos}" data-toggle="pill">TEST CASE ${pos}</a></li>`;
+                content = `<div class="tab-pane" id="tab_${pos}">
+                        <div class="message-compiler">
+                            <p>Complier Message</p>
+                            <pre><code>Wrong Answer</code></pre>
+                        </div>
+                        <div class="message-input">
+                            <p>Input (stdin)</p>
+                            <pre><code>${result['Input']}</code></pre>
+                        </div>
+                        <div class="message-youroutput">
+                            <p>Your Output (stdout)</p>
+                            <pre><code>${result['Output']}</code></pre>
+                        </div>
+                        <div class="message-output">
+                            <p>Expected Output</p>
+                            <pre><code>${result['OutputExpect']}</code></pre>
+                        </div>
+                    </div>`;
+            }
+
+            $('.testcase-title ul').append(tab);
+            $('.tab-content').append(content);
+        }
+        function showResult(result_array) {
+
+            //render Title
+            renderTitleResult(result_array);
+
+            //render Body
+            renderBodyResult(result_array);
+
+
+            $('.runcode-display').removeClass('d-none');
+            $(".tab-pane").removeClass("active");
+            $(".tab-pane").first().addClass("active");
+
+            $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
+
+        }
         function runCode() {
             code = editor.getValue();
+            language = $('#inputLanguage').val();
             $.ajax({
                 method: "POST",
                 url: "/Code/RunCode",
                 data: {
-                    challengeID: 1,
-                    userID: 1,
+                    challengeID: challengeID,
                     Code: code,
-                    Language: 1
+                    Language: language
                 }
             })
                 .done(function (msg) {
-                console.log(msg);
+                    if (msg) {
+                        console.log(msg);
+                        showResult(msg)
+                    }
+                    
                 });
         }
 
         function submitCode() {
             code = editor.getValue();
+            language = $('#inputLanguage').val();
             $.ajax({
                 method: "POST",
                 url: "/Code/SubmitCode",
                 data: {
-                    challengeID: 1,
-                    userID: 1,
+                    challengeID: challengeID,
                     Code: code,
-                    Language: 1
+                    Language: language
                 }
             })
                 .done(function (msg) {
                     console.log(msg);
+                    showResult(msg)
                 });
         }
     </script>

@@ -23,13 +23,16 @@ namespace CommonProject
         public const int ROLE_ADMIN = 2;
 
         public const string URL_HOST_API = "http://localhost:52508";
-        public const string ROUTER_CSHAP_COMPILER_API = "/api/CSharpCompiler/Compiler";
-        public const string ROUTER_CPLUSS_COMPILER_API = "/api/CPlusCompiler/Compiler";
+        public const string ROUTER_CSHARP_COMPILER_API = "/api/CSharpCompiler/Compiler";
+        public const string ROUTER_CPLUS_COMPILER_API = "/api/CPlusCompiler/Compiler";
         public const string ROUTER_JAVA_COMPILER_API = "/api/JavaCompiler/Compiler";
        
 
-        public const int TYPE_CSHAP_COMPILER = 1;
-        public const int TYPE_CPLUSS_COMPILER = 2;
-        public const int TYPE_JAVA_COMPILER = 3;
+        public const string TYPE_CSHARP_COMPILER = "CSHARP";
+        public const string TYPE_CPLUS_COMPILER = "C++";
+        public const string TYPE_JAVA_COMPILER = "JAVA";
+
+        public const string DIR_CODE = "/Assets/File_Resource/Code_File/";
+        public const string DIR_TESTCASE = "/Assets/File_Resource/Test_Case/";
     }
 }
