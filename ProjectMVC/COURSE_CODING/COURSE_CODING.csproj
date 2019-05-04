@@ -193,6 +193,7 @@
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\TestCaseResultModel.cs" />
     <Compile Include="Models\UserDashboardModel.cs" />
+    <Compile Include="Models\UserProfileModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -315,11 +316,14 @@
     <Content Include="Assets\Public\css\challenge.css" />
     <Content Include="Assets\Public\css\domain.css" />
     <Content Include="Assets\Public\css\navbar.css" />
+    <Content Include="Assets\Public\css\profile.css" />
     <Content Include="Assets\Public\css\style.css" />
     <Content Include="Assets\Public\css\manage-challenges.css" />
     <Content Include="Assets\Public\css\user-contest.css" />
     <Content Include="Assets\Public\images\cpp-739b350881.svg" />
     <Content Include="Assets\Public\images\fox.png" />
+    <Content Include="Assets\Public\images\problem-solving-ecaf59a612.svg" />
+    <Content Include="Assets\Public\js\profile.js" />
     <Content Include="Assets\Public\vendor\ace-editor\ace.js" />
     <Content Include="Assets\Public\vendor\bootstrap\css\4.0.0.min.css" />
     <Content Include="Assets\Public\vendor\bootstrap\js\4.0.0.min.js" />
@@ -423,6 +427,7 @@
     <Content Include="Views\Compete\Index.cshtml" />
     <Content Include="Views\Challenge\Problem.cshtml" />
     <Content Include="Views\ManageChallenge\ManageChallenge.cshtml" />
+    <Content Include="Views\User\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -431,7 +436,6 @@
     <Folder Include="Areas\Admin\Views\Home\" />
     <Folder Include="Assets\File_Resource\Code_File\" />
     <Folder Include="Assets\File_Resource\Test_Case\" />
-    <Folder Include="Assets\Public\js\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Code\" />
   </ItemGroup>

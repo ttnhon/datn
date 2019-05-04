@@ -23,5 +23,10 @@ namespace DAO.DAO
         {
             return db.COMPETES.ToList();
         }
+
+        public List<COMPETE> GetAll(int id)
+        {
+            return db.COMPETES.Where(table => table.USER_INFO.ID == id).ToList();
+        }
     }
 }
