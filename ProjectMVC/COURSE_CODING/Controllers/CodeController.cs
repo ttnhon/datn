@@ -24,6 +24,7 @@ namespace COURSE_CODING.Controllers
         public ActionResult SubmitCode(int challengeID, string Code, string Language)
         {
             int userID = this.GetUserID();
+
             List<TestCaseResultModel> result = new List<TestCaseResultModel>();
             int count_success = 0;
             //get test case
@@ -41,7 +42,7 @@ namespace COURSE_CODING.Controllers
 
                 //change code to suitable with test case (read write input output)
                 string file_name = "MyClass" + userID.ToString();
-                string code_run = this.ChangeCode(Code, file_name, input_file);
+                string code_run = this.ChangeCode(Code, file_name, input_file, Language);
                 //validate code
 
                 TestCaseResultModel one_test_case_result = RunOneTestCase(input_expect, output_expect, file_name, code_run, Language, userID);
@@ -74,6 +75,7 @@ namespace COURSE_CODING.Controllers
         public ActionResult RunCode(int challengeID, string Code, string Language)
         {
             int userID = this.GetUserID();
+
             List<TestCaseResultModel> result = new List<TestCaseResultModel>();
             string app_path = AppDomain.CurrentDomain.BaseDirectory;
             //get test case
@@ -88,7 +90,7 @@ namespace COURSE_CODING.Controllers
 
             //change code to suitable with test case (read write input output)
             string file_name = "MyClass" + userID.ToString();
-            string code_run = this.ChangeCode(Code, file_name, input_file);
+            string code_run = this.ChangeCode(Code, file_name, input_file, Language);
             //@TODO validate code 
 
             TestCaseResultModel one_test_case_result =  RunOneTestCase(input_expect, output_expect, file_name, code_run, Language, userID);
@@ -194,13 +196,18 @@ namespace COURSE_CODING.Controllers
         }
 
         //Change code to specific with every user
-        protected string ChangeCode(string Code, string className, string inputFileName)
+        protected string ChangeCode(string Code, string className, string inputFileName, string Language)
         {
-            //Replace class name
-            Code = Code.Replace("class MyClass", "class "+className);
-            
-            //Replace Input and Output file name
-            Code = Code.Replace("INPUT_FILE_NAME", inputFileName);
+            Language = Language.ToUpper();
+            if (Language.Equals(CommonConstant.TYPE_JAVA_COMPILER))
+            {
+                //Replace class name
+                Code = Code.Replace("class MyClass", "class " + className);
+
+                //Replace Input and Output file name
+                Code = Code.Replace("INPUT_FILE_NAME", inputFileName);
+            }
+            //@TODO cac ngon ngu khac thi tiep tuc ifelse
 
             return Code;
         }
