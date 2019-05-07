@@ -72,3 +72,5 @@ _[Ss]cripts
 *.dot[Cc]over
 /ProjectMVC/.vs/COURSE_CODING/v15/Server/sqlite3
 /.vs/WebAPI/v15/Server/sqlite3/db.lock
+/.vs
+/ProjectMVC/.vs/config

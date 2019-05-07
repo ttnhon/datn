@@ -250,7 +250,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\Code_File\Csharp\" />
+    <Folder Include="App_Data\Test_File\Csharp\" />
     <Folder Include="Compilers\" />
   </ItemGroup>
   <ItemGroup>
