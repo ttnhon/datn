@@ -20,9 +20,10 @@ namespace WebAPI.Controllers
         protected Dictionary<string, string> ExecuteJava(string directory_file_code, string file_code = "MyClass")
         {
             /*Run java command*/
+            string app_path = AppDomain.CurrentDomain.BaseDirectory;
             //set up
             System.Diagnostics.Process p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = Constant.JAVA_EXECUTE_LINK + "java.exe";  //Link to java.exe  => "javac"
+            p.StartInfo.FileName = app_path + Constant.JAVA_EXECUTE_LINK + "java.exe";  //Link to java.exe  => "javac"
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.WorkingDirectory = directory_file_code;        //Link to directory of file need to execute
             p.StartInfo.Arguments = file_code;          //=> "javac E:\MyClass"
@@ -54,8 +55,11 @@ namespace WebAPI.Controllers
 
         protected Dictionary<string, string> ExecuteJavac(string directory_file_code, string file_code = "MyClass.java")
         {
+            /*Run javac command*/
+            string app_path = AppDomain.CurrentDomain.BaseDirectory;
+            //set up
             System.Diagnostics.Process p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = Constant.JAVA_EXECUTE_LINK + "javac.exe";  //Link to javac.exe  => "javac"
+            p.StartInfo.FileName = app_path + Constant.JAVA_EXECUTE_LINK + "javac.exe";  //Link to javac.exe  => "javac"
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.WorkingDirectory = directory_file_code;                //Link to directory of file need to execute
             p.StartInfo.Arguments = file_code;             // =>    "javac E:\MyClass.java"
@@ -92,7 +96,8 @@ namespace WebAPI.Controllers
             {
 
                 string code = source.stringSource;
-                string directory_file = Constant.FOLDER_CODE_DIR;
+                string app_path = AppDomain.CurrentDomain.BaseDirectory;
+                string directory_file = app_path + Constant.FOLDER_CODE_DIR;
                 string filename_code = "MyClass" + source.userKey;
                 string full_path = directory_file + "\\" + filename_code;
 

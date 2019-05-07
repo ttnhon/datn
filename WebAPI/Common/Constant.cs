@@ -21,7 +21,7 @@ namespace WebAPI.Common
         public static string STATUS_SUCCESS = "success";
         public static string STATUS_FAIL    = "fail";
 
-        public static string JAVA_EXECUTE_LINK = "C:\\Users\\Admin\\Downloads\\Document\\jdk1.8.0_151\\bin\\";
-        public static string FOLDER_CODE_DIR = "D:\\TestCompiler";
+        public static string JAVA_EXECUTE_LINK = "/App_Data/JavaSDK/jdk1.8.0_151/bin/";
+        public static string FOLDER_CODE_DIR = "/App_Data/Dir_Code/";
     }
 }
