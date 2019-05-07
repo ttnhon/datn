@@ -431,6 +431,7 @@
     <Content Include="Views\Challenge\Problem.cshtml" />
     <Content Include="Views\ManageChallenge\ManageChallenge.cshtml" />
     <Content Include="Views\User\Profile.cshtml" />
+    <Content Include="Views\Shared\_User_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -438,8 +439,6 @@
     <Folder Include="Areas\Admin\Views\Base\" />
     <Folder Include="Areas\Admin\Views\Home\" />
     <Folder Include="Assets\File_Resource\Code_File\" />
-    <Folder Include="Assets\Public\js\" />
-    <Folder Include="Assets\File_Resource\Test_Case\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Code\" />
   </ItemGroup>

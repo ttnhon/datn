@@ -7,6 +7,10 @@
     box-sizing: border-box;
 }
 
+.tabs-bar a.nav-link {
+    padding: 23px 40px;
+}
+
 .result-success {
     color: #1bc11b;
 }
@@ -270,47 +274,51 @@ a.active.show {
     grid-area: tab-bar;
 }
 
-.navbar {
-    padding: 0 !important;
-    justify-content: inherit !important;
-}
+    .tab-wrap .navbar {
+        padding: 0 !important;
+        justify-content: inherit !important;
+    }
 
 .nav-runcode-testcase {
     border-bottom: none !important;
 }
 
-.nav-item {
+.nav-tabs .nav-item {
     position: relative;
     padding: 5px 10px 5px 10px;
 }
 
-    .nav-item.active {
+    .nav-tabs .nav-item.active {
         background: #ffff;
         opacity: 1;
     }
 
-        .nav-item.active .nav-link {
-            color: #333333;
-            font-weight: 700;
-        }
+.tabs-bar .nav-item.active .nav-link {
+    color: #333333;
+    font-weight: 700;
+}
 
-    .nav-item:not(.active)::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 0;
-        display: block;
-        width: 1px;
-        height: 20px;
-        background: gray;
-        -webkit-transform: translateY(-50%);
-        transform: translateY(-50%);
-    }
+.nav-item.active .nav-link {
+    color: white;
+}
 
-    .nav-item a {
-        text-decoration: none;
-        color: gray;
-    }
+.nav-item:not(.active)::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    display: block;
+    width: 1px;
+    height: 20px;
+    background: gray;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.tabs-bar .nav-item a {
+    text-decoration: none;
+    color: gray;
+}
 
 .challenge-interface {
     -ms-grid-row: 2;

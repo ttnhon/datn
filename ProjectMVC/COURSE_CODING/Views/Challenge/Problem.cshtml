@@ -2,239 +2,228 @@
 
 @{
     ViewBag.Title = "Problem";
-    Layout = null;
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
 }
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Challeng Title</title>
-
+@section CustomCSS
+{
     @Styles.Render("~/Assets/Public/css/challenge.css")
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-</head>
+}
 
-<body>
-    <div class="content">
 
-        <!--Header Section-->
-        <div class="header">
-            <div class="container">
+<div class="content">
+    <!--Header Section-->
+    <div class="header">
+        <div class="container">
 
-                <!--Breadcrumb-->
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="#">Pactice</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="#">C++</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="#">Introduction</a>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            @Model.challenge.Title
-                        </li>
-                    </ol>
-                </nav>
+            <!--Breadcrumb-->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="#">Pactice</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="#">C++</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="#">Introduction</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        @Model.challenge.Title
+                    </li>
+                </ol>
+            </nav>
 
-                <!--Title-->
-                <h1 class="header-title">
-                    @Model.challenge.Title
-                    <input type="checkbox" id="star-toggle">
-                    <label for="star-toggle">
-                        <i class="far fa-star"></i>
-                    </label>
-                </h1>
+            <!--Title-->
+            <h1 class="header-title">
+                @Model.challenge.Title
+                <input type="checkbox" id="star-toggle">
+                <label for="star-toggle">
+                    <i class="far fa-star"></i>
+                </label>
+            </h1>
 
-                <!--Account Detail-->
-                <div class="header-progress">
-                    <div class="account">
-                        <div class="point-wrap">
-                            <span class="point">10 more points</span>
-                            to get your first star!
-                        </div>
-
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0"
-                                 aria-valuemax="100"></div>
-                        </div>
-
-                        <div class="score-info">
-                            <span class="current-rank">
-                                Rank:
-                                <span class="value">400166</span>
-                            </span>
-                            <span>|</span>
-                            <span class="current-ponts">
-                                Points:
-                                <span class="value">0/10</span>
-                            </span>
-                            <a class="scoring-link" href="#">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </a>
-                        </div>
+            <!--Account Detail-->
+            <div class="header-progress">
+                <div class="account">
+                    <div class="point-wrap">
+                        <span class="point">10 more points</span>
+                        to get your first star!
                     </div>
 
-                    <div class="badge-wrap">
-                        <div class="badge-icon">
-                            <img src="~/Assets/Public/images/cpp-739b350881.svg" alt="badge-icon">
-                            <span class="badge-title">cpp</span>
-                        </div>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                    </div>
+
+                    <div class="score-info">
+                        <span class="current-rank">
+                            Rank:
+                            <span class="value">400166</span>
+                        </span>
+                        <span>|</span>
+                        <span class="current-ponts">
+                            Points:
+                            <span class="value">0/10</span>
+                        </span>
+                        <a class="scoring-link" href="#">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="badge-wrap">
+                    <div class="badge-icon">
+                        <img src="~/Assets/Public/images/cpp-739b350881.svg" alt="badge-icon">
+                        <span class="badge-title">cpp</span>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!--Body Section-->
-        <div class="container">
-            <div class="content-body">
+    <!--Body Section-->
+    <div class="container">
+        <div class="content-body">
 
-                <!--Tab Bar-->
-                <div class="tab-wrap">
-                    <nav class="navbar navbar-light">
-                        <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
-                            <li class="nav-item active"><a id="js-problem" class="nav-link" href="#">Problem</a></li>
-                            <li class="nav-item"><a id="js-submission" class="nav-link" href="#">Submissions</a></li>
-                            <li class="nav-item"><a id="js-ldboard" class="nav-link" href="#">Leaderboard</a></li>
-                            <li class="nav-item"><a id="js-discussion" class="nav-link" href="#">Discussions</a></li>
-                        </ul>
-                    </nav>
-                </div>
+            <!--Tab Bar-->
+            <div class="tab-wrap">
+                <nav class="navbar navbar-light">
+                    <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
+                        <li class="nav-item active"><a id="js-problem" class="nav-link" href="#">Problem</a></li>
+                        <li class="nav-item"><a id="js-submission" class="nav-link" href="#">Submissions</a></li>
+                        <li class="nav-item"><a id="js-ldboard" class="nav-link" href="#">Leaderboard</a></li>
+                        <li class="nav-item"><a id="js-discussion" class="nav-link" href="#">Discussions</a></li>
+                    </ul>
+                </nav>
+            </div>
 
-                <!--Challenge Interface-->
-                <div class="challenge-interface">
-                    <section class="problem-statement">
-                        <div class="challenge-body">
-                            <div class="problem-statement-body">
+            <!--Challenge Interface-->
+            <div class="challenge-interface">
+                <section class="problem-statement">
+                    <div class="challenge-body">
+                        <div class="problem-statement-body">
+                            <p>
+                                @Model.challenge.Description
+                            </p>
+                        </div>
+                        @if (Model.challenge.Constraints != "")
+                        {
+                            <div class="challenge-constraint">
+                                <div class="challenge-constraint-title">
+                                    <p><strong>Constraints</strong></p>
+                                </div>
+                                <div class="challenge-constraint-body">
+                                    <p>
+                                        @Model.challenge.Constraints
+                                    </p>
+                                </div>
+                            </div>
+                        }
+                        <div class="challenge-input-format">
+                            <div class="challenge-input-format-title">
+                                <p><strong>Input Format</strong></p>
+                            </div>
+                            <div class="challenge-input-format-body">
                                 <p>
-                                    @Model.challenge.Description
+                                    @Model.challenge.InputFormat
                                 </p>
                             </div>
-                            @if (Model.challenge.Constraints != "")
-                            {
-                                <div class="challenge-constraint">
-                                    <div class="challenge-constraint-title">
-                                        <p><strong>Constraints</strong></p>
-                                    </div>
-                                    <div class="challenge-constraint-body">
-                                        <p>
-                                            @Model.challenge.Constraints
-                                        </p>
-                                    </div>
-                                </div>
-                            }
-                            <div class="challenge-input-format">
-                                <div class="challenge-input-format-title">
-                                    <p><strong>Input Format</strong></p>
-                                </div>
-                                <div class="challenge-input-format-body">
-                                    <p>
-                                        @Model.challenge.InputFormat
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="challenge-output-format">
-                                <div class="challenge-output-format-title">
-                                    <p><strong>Output Format</strong></p>
-                                </div>
-                                <div class="challenge-output-format-body">
-                                    <p>
-                                        @Model.challenge.OutputFormat
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="challenge-sample-input">
-                                <div class="challenge-sample-input-title">
-                                    <p><strong>Sample Input</strong></p>
-                                </div>
-                                <div class="challenge-sample-input-body">
-                                    <pre><code>1 2 7</code></pre>
-                                </div>
-                            </div>
-
-                            <div class="challenge-sample-output">
-                                <div class="challenge-sample-output-title">
-                                    <p><strong>Sample Output</strong></p>
-                                </div>
-                                <div class="challenge-sample-input-body">
-                                    <pre><code>10</code></pre>
-                                </div>
-                            </div>
-
-                            <div class="challenge-explanation">
-                                <div class="challenge-explanation-title">
-                                    <p><strong>Explanation</strong></p>
-                                </div>
-                                <div class="challenge-explanation-body">
-                                    <p>
-                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam, voluptatibus
-                                        numquam modi, ipsa consectetur at non velit enim sapiente mollitia quis beatae
-                                        nesciunt recusandae, perferendis expedita blanditiis ut sunt? Magni.
-                                    </p>
-                                </div>
-                            </div>
-
                         </div>
-                    </section>
 
-                    <!--Code Editor-->
-                    <div class="container code-section">
-                        <!--Code Option-->
-                        <div class="row code-option">
-                            <div class="form-group col-md-4 offset-md-8 language-option">
-                                @*<label for="inputState">State</label>*@
-                                <select id="inputLanguage" class="form-control">
-                                    @foreach (var item in Model.languages)
-                                    {
-                                        <option value="@Html.DisplayFor(modelItem => item.Name)">@Html.DisplayFor(modelItem => item.Name)</option>
-                                    }
-                                </select>
+                        <div class="challenge-output-format">
+                            <div class="challenge-output-format-title">
+                                <p><strong>Output Format</strong></p>
+                            </div>
+                            <div class="challenge-output-format-body">
+                                <p>
+                                    @Model.challenge.OutputFormat
+                                </p>
                             </div>
                         </div>
-                        <div class="code-editor">
-                            <div id="editor"></div>
-                            <iframe id="result" frameborder="0"></iframe>
+
+                        <div class="challenge-sample-input">
+                            <div class="challenge-sample-input-title">
+                                <p><strong>Sample Input</strong></p>
+                            </div>
+                            <div class="challenge-sample-input-body">
+                                <pre><code>1 2 7</code></pre>
+                            </div>
                         </div>
-                        <div class="code-submit">
-                            <button class="btn btn-outline-success btn-lg run-code" onclick="runCode()">Run Code</button>
-                            <button class="btn btn-success btn-lg submit-code" onclick="submitCode()">Submit Code</button>
+
+                        <div class="challenge-sample-output">
+                            <div class="challenge-sample-output-title">
+                                <p><strong>Sample Output</strong></p>
+                            </div>
+                            <div class="challenge-sample-input-body">
+                                <pre><code>10</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="challenge-explanation">
+                            <div class="challenge-explanation-title">
+                                <p><strong>Explanation</strong></p>
+                            </div>
+                            <div class="challenge-explanation-body">
+                                <p>
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam, voluptatibus
+                                    numquam modi, ipsa consectetur at non velit enim sapiente mollitia quis beatae
+                                    nesciunt recusandae, perferendis expedita blanditiis ut sunt? Magni.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!--Code Editor-->
+                <div class="container code-section">
+                    <!--Code Option-->
+                    <div class="row code-option">
+                        <div class="form-group col-md-4 offset-md-8 language-option">
+                            @*<label for="inputState">State</label>*@
+                            <select id="inputLanguage" class="form-control">
+                                @foreach (var item in Model.languages)
+                                {
+                                    <option value="@Html.DisplayFor(modelItem => item.Name)">@Html.DisplayFor(modelItem => item.Name)</option>
+                                }
+                            </select>
                         </div>
                     </div>
+                    <div class="code-editor">
+                        <div id="editor"></div>
+                        <iframe id="result" frameborder="0"></iframe>
+                    </div>
+                    <div class="code-submit">
+                        <button class="btn btn-outline-success btn-lg run-code" onclick="runCode()">Run Code</button>
+                        <button class="btn btn-success btn-lg submit-code" onclick="submitCode()">Submit Code</button>
+                    </div>
+                </div>
 
-                    <!--Run Code Result-->
-                    <div class="container runcode-display d-none">
-                        <div class="runcode-body">
-                            <div class="runcode-result">
-                                <h3 class="result-wrong">Wrong Result :(</h3>
-                                <p>1/1 test case failed</p>
-                            </div>
+                <!--Run Code Result-->
+                <div class="container runcode-display d-none">
+                    <div class="runcode-body">
+                        <div class="runcode-result">
+                            <h3 class="result-wrong">Wrong Result :(</h3>
+                            <p>1/1 test case failed</p>
+                        </div>
 
-                            <div class="runcode-testcase">
-                                <div class="row">
-                                    <div class="col-xl-4 testcase-title">
-                                        <ul class="nav nav-pills nav-stacked flex-column">
-                                            @*<li class="active test-success"><a href="#tab_a" data-toggle="pill">TAB 1</a></li>
+                        <div class="runcode-testcase">
+                            <div class="row">
+                                <div class="col-xl-4 testcase-title">
+                                    <ul class="nav nav-pills nav-stacked flex-column">
+                                        @*<li class="active test-success"><a href="#tab_a" data-toggle="pill">TAB 1</a></li>
                                             <li class="test-fail"><a href="#tab_b" data-toggle="pill">TAB 2</a></li>
                                             <li><a href="#tab_c" data-toggle="pill">TAB 3</a></li>*@
-                                        </ul>
-                                    </div>
-                                    <div class="col-xl-8 testcase-result">
-                                        <div class="tab-content">
-                                            @*<div class="tab-pane active" id="tab_a">
+                                    </ul>
+                                </div>
+                                <div class="col-xl-8 testcase-result">
+                                    <div class="tab-content">
+                                        @*<div class="tab-pane active" id="tab_a">
                                                 <div class="message-compiler">
                                                     <p>Complier Message</p>
                                                     <pre><code>Wrong Answer</code></pre>
@@ -288,147 +277,145 @@
                                                     <pre><code>10</code></pre>
                                                 </div>
                                             </div>*@
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            @*end tabs*@
                         </div>
-                        @*end runcode-body*@
+                        @*end tabs*@
+                    </div>
+                    @*end runcode-body*@
+                </div>
+            </div>
+
+            <!--Right Panel-->
+            <div class="right-panel">
+                <div class="sidebar-difficulty-detail">
+                    <div class="difficulty-block">
+                        <p class="difficulty-label">Author</p>
+                        <a href="#">@Model.OwnerName</a>
+                    </div>
+                    <div class="difficulty-block">
+                        <p class="difficulty-label">Difficulty</p>
+                        @switch (Model.challenge.ChallengeDifficulty)
+                        {
+                            case 0:
+                                <p class="difficulty-easy">Easy</p>
+                                break;
+                            case 1:
+                                <p class="difficulty-medium">Medium</p>
+                                break;
+                            case 2:
+                                <p class="difficulty-hard">Hard</p>
+                                break;
+                            default: break;
+                        }
+                    </div>
+                    <div class="difficulty-block">
+                        <p class="difficulty-label">Max Score</p>
+                        <p class="difficulty-score">@Model.challenge.Score</p>
+                    </div>
+                    <div class="difficulty-block">
+                        <p class="difficulty-label">Submitted By</p>
+                        <a href="#">2101241</a>
                     </div>
                 </div>
 
-                <!--Right Panel-->
-                <div class="right-panel">
-                    <div class="sidebar-difficulty-detail">
-                        <div class="difficulty-block">
-                            <p class="difficulty-label">Author</p>
-                            <a href="#">@Model.OwnerName</a>
-                        </div>
-                        <div class="difficulty-block">
-                            <p class="difficulty-label">Difficulty</p>
-                            @switch (Model.challenge.ChallengeDifficulty)
-                            {
-                                case 0:
-                                    <p class="difficulty-easy">Easy</p>
-                                    break;
-                                case 1:
-                                    <p class="difficulty-medium">Medium</p>
-                                    break;
-                                case 2:
-                                    <p class="difficulty-hard">Hard</p>
-                                    break;
-                                default: break;
-                            }
-                        </div>
-                        <div class="difficulty-block">
-                            <p class="difficulty-label">Max Score</p>
-                            <p class="difficulty-score">@Model.challenge.Score</p>
-                        </div>
-                        <div class="difficulty-block">
-                            <p class="difficulty-label">Submitted By</p>
-                            <a href="#">2101241</a>
-                        </div>
-                    </div>
-
-                    <div class="sidebar-difficulty-help">
-                        <h2>need help?</h2>
-                        <hr>
-                        <div style="margin-bottom:20px;">
-                            <div class="help-link">
-                                <a href="#">
-                                    <i class="far fa-comments"></i>
-                                    <span>View discussions</span>
-                                </a>
-                            </div>
-                            <div class="help-link">
-                                <a href="#">
-                                    <i class="far fa-user"></i>
-                                    <span>View editorial</span>
-                                </a>
-                            </div>
-                            <div class="help-link">
-                                <a href="#">
-                                    <i class="fas fa-trophy"></i>
-                                    <span>View discussions</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="sidebar-rating">
-                        <h2>Rate this challenge</h2>
-                        <div class="rating">
-                            <input type="radio" name="rating" id="star5" value="5">
-                            <label for="star5">
-                                <i class="far fa-star"></i>
-                            </label>
-                            <input type="radio" name="rating" id="star4" value="4">
-                            <label for="star4">
-                                <i class="far fa-star"></i>
-                            </label>
-                            <input type="radio" name="rating" id="star3" value="3">
-                            <label for="star3">
-                                <i class="far fa-star"></i>
-                            </label>
-                            <input type="radio" name="rating" id="star2" value="2">
-                            <label for="star2">
-                                <i class="far fa-star"></i>
-                            </label>
-                            <input type="radio" name="rating" id="star1" value="1">
-                            <label for="star1">
-                                <i class="far fa-star"></i>
-                            </label>
-                        </div>
-                        <div class="feedback"></div>
-                    </div>
-
-                    <div class="sidebar-difficulty-help" style="clear:both;">
-                        <h2>More details</h2>
-                        <hr>
-                        <div style="margin-bottom:20px;">
-                            <div class="help-link">
-                                <a href="#">
-                                    <i class="far fa-arrow-alt-circle-down"></i>
-                                    <span>Download problem statement</span>
-                                </a>
-                            </div>
-                            <div class="help-link">
-                                <a href="#">
-                                    <i class="far fa-arrow-alt-circle-down"></i>
-                                    <span>Download sample test cases</span>
-                                </a>
-                            </div>
-                            <div class="help-link">
-                                <a href="#">
-                                    <i class="fas fa-edit"></i>
-                                    <span>Suggest Edits</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="social-link">
+                <div class="sidebar-difficulty-help">
+                    <h2>need help?</h2>
+                    <hr>
+                    <div style="margin-bottom:20px;">
+                        <div class="help-link">
                             <a href="#">
-                                <i class="fab fa-facebook-square"></i>
-                            </a>
-                            <a href="#">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a href="#">
-                                <i class="fab fa-linkedin"></i>
+                                <i class="far fa-comments"></i>
+                                <span>View discussions</span>
                             </a>
                         </div>
+                        <div class="help-link">
+                            <a href="#">
+                                <i class="far fa-user"></i>
+                                <span>View editorial</span>
+                            </a>
+                        </div>
+                        <div class="help-link">
+                            <a href="#">
+                                <i class="fas fa-trophy"></i>
+                                <span>View discussions</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-rating">
+                    <h2>Rate this challenge</h2>
+                    <div class="rating">
+                        <input type="radio" name="rating" id="star5" value="5">
+                        <label for="star5">
+                            <i class="far fa-star"></i>
+                        </label>
+                        <input type="radio" name="rating" id="star4" value="4">
+                        <label for="star4">
+                            <i class="far fa-star"></i>
+                        </label>
+                        <input type="radio" name="rating" id="star3" value="3">
+                        <label for="star3">
+                            <i class="far fa-star"></i>
+                        </label>
+                        <input type="radio" name="rating" id="star2" value="2">
+                        <label for="star2">
+                            <i class="far fa-star"></i>
+                        </label>
+                        <input type="radio" name="rating" id="star1" value="1">
+                        <label for="star1">
+                            <i class="far fa-star"></i>
+                        </label>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+
+                <div class="sidebar-difficulty-help" style="clear:both;">
+                    <h2>More details</h2>
+                    <hr>
+                    <div style="margin-bottom:20px;">
+                        <div class="help-link">
+                            <a href="#">
+                                <i class="far fa-arrow-alt-circle-down"></i>
+                                <span>Download problem statement</span>
+                            </a>
+                        </div>
+                        <div class="help-link">
+                            <a href="#">
+                                <i class="far fa-arrow-alt-circle-down"></i>
+                                <span>Download sample test cases</span>
+                            </a>
+                        </div>
+                        <div class="help-link">
+                            <a href="#">
+                                <i class="fas fa-edit"></i>
+                                <span>Suggest Edits</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="social-link">
+                        <a href="#">
+                            <i class="fab fa-facebook-square"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    @Scripts.Render("~/Assets/Public/vendor/jquery/3.3.1.min.js")
-    @Scripts.Render("~/Assets/Public/vendor/jquery/popper.1.12.9.min.js")
-    @Scripts.Render("~/Assets/Public/vendor/bootstrap/js/4.0.0.min.js")
-
+@section scripts
+{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" type="text/javascript" charset="utf-8">
-    //<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ext-language_tools.js" type="text/javascript" charset="utf-8">
+        //<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ext-language_tools.js" type="text/javascript" charset="utf-8">
     </script>
     <script>
         $(function () {
@@ -498,7 +485,7 @@
         function renderBodyResult(result_array) {
             $('.testcase-title ul').empty();
             $('.tab-content').empty();
-            
+
             content = '';
             for (var i = 0; i < len; i++) {
                 one_result = result_array[i];
@@ -585,7 +572,7 @@
                         console.log(msg);
                         showResult(msg)
                     }
-                    
+
                 });
         }
 
@@ -607,7 +594,6 @@
                 });
         }
     </script>
-</body>
+}
 
-</html>
 
