@@ -105,6 +105,10 @@ namespace WebAPI.Controllers
             {
                 System.IO.File.Delete(full_path + ".exe");
             }
+            if (System.IO.File.Exists(full_path + ".pdb"))
+            {
+                System.IO.File.Delete(full_path + ".pdb");
+            }
         }
         /// <summary>
         /// get output when compile string source
