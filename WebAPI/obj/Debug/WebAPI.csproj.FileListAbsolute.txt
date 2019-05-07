@@ -298,3 +298,9 @@ C:\Users\nvpit\OneDrive\Documents\GitHub\datn\WebAPI\obj\Debug\WebAPI.csproj.Cor
 C:\Users\nvpit\OneDrive\Documents\GitHub\datn\WebAPI\obj\Debug\WebAPI.csproj.CopyComplete
 C:\Users\nvpit\OneDrive\Documents\GitHub\datn\WebAPI\obj\Debug\WebAPI.dll
 C:\Users\nvpit\OneDrive\Documents\GitHub\datn\WebAPI\obj\Debug\WebAPI.pdb
+D:\NET\DATN\datn3\datn\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\NET\DATN\datn3\datn\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\NET\DATN\datn3\datn\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\NET\DATN\datn3\datn\WebAPI\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\NET\DATN\datn3\datn\WebAPI\bin\roslyn\System.IO.Compression.dll
+D:\NET\DATN\datn3\datn\WebAPI\bin\roslyn\VBCSCompiler.exe

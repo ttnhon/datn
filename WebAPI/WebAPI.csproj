@@ -1771,6 +1771,8 @@
     <Folder Include="App_Data\Dir_Code\" />
     <Folder Include="App_Data\JavaSDK\jdk1.8.0_151\jre\lib\applet\" />
     <Folder Include="App_Data\JavaSDK\jdk1.8.0_151\lib\missioncontrol\p2\org.eclipse.equinox.p2.engine\profileRegistry\JMC.profile\.data\" />
+    <Folder Include="App_Data\Code_File\Csharp\" />
+    <Folder Include="App_Data\Test_File\Csharp\" />
     <Folder Include="Compilers\" />
   </ItemGroup>
   <ItemGroup>

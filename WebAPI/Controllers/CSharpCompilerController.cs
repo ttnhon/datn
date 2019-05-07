@@ -22,7 +22,90 @@ namespace WebAPI.Controllers
     /// </summary>
     public class CSharpCompilerController : ApiController
     {
+        protected Dictionary<string, string> ExecuteCMD(string directory_file_code , string file_code)
+        {
+            /*Run cmd command*/
+            //set up
+            System.Diagnostics.Process p = new System.Diagnostics.Process();
+            p.StartInfo.FileName = "cmd.exe";  //run cmd
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.WorkingDirectory = directory_file_code;        //Link to directory of file need to execute
+            p.StartInfo.Arguments = "/C "+ file_code;        
+            p.StartInfo.CreateNoWindow = true;
+            p.StartInfo.RedirectStandardInput = true;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.RedirectStandardError = true;
 
+            //run
+            p.Start();
+            string result_string = string.Empty;
+            string error_string = p.StandardError.ReadToEnd();
+            result_string = p.StandardOutput.ReadToEnd();
+            p.WaitForExit();
+
+            //return result
+            string status = Constant.STATUS_SUCCESS;
+            string result_message = result_string;
+            if (error_string != "")
+            {
+                status = Constant.STATUS_FAIL;
+                result_message = error_string;
+            }
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            result.Add("status", status);
+            result.Add("message", result_message);
+            return result;
+          
+        }
+
+        //create a.exe (defaut) file
+        protected Dictionary<string, string> ExecuteCSC(string directory_file_code , string file_code)
+        {
+            string ProjDir = System.AppDomain.CurrentDomain.BaseDirectory;
+            System.Diagnostics.Process p = new System.Diagnostics.Process();
+            p.StartInfo.FileName = ProjDir + @"\Compilers\v4.0.30319\csc.exe";  
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.WorkingDirectory = directory_file_code;            
+            p.StartInfo.Arguments =  file_code;            
+            p.StartInfo.CreateNoWindow = true;
+            p.StartInfo.RedirectStandardInput = true;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.RedirectStandardError = true;
+
+            //run
+            p.Start();
+            string result_string = p.StandardOutput.ReadToEnd();
+            string error_string = p.StandardError.ReadToEnd();
+            p.WaitForExit();
+
+            //return result
+            string status = "success";
+            string result_message = result_string;
+            if (error_string != "")
+            {
+                status = "fail";
+                result_message = error_string;
+            }
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            result.Add("status", status);
+            result.Add("message", result_message);
+            return result;
+        }
+        protected void DeleteFile(string full_path)
+        {
+            if (System.IO.File.Exists(full_path))           
+            {
+                System.IO.File.Delete(full_path);
+            }
+            if (System.IO.File.Exists(full_path + ".cs"))
+            {
+                System.IO.File.Delete(full_path + ".cs");
+            }
+            if (System.IO.File.Exists(full_path + ".exe"))
+            {
+                System.IO.File.Delete(full_path + ".exe");
+            }
+        }
         /// <summary>
         /// get output when compile string source
         /// </summary>
@@ -34,22 +117,19 @@ namespace WebAPI.Controllers
             try
             {
                 StringBuilder resultCompiler = new StringBuilder();
-                String fileName = "Out.exe";
-                String pathFolder = System.AppDomain.CurrentDomain.BaseDirectory + @"Compilers\";
+                String fileName = "Outputcshap"+Guid.NewGuid().ToString();
+                String pathFolder = System.AppDomain.CurrentDomain.BaseDirectory + @"App_Data\Code_File\Csharp\";
                 String outputCompiler = pathFolder+fileName;
-                //using (StreamWriter w = new StreamWriter(full_path + ".java", true))
-                //{
-                //    w.WriteLine(code); // Write the text
-                //}
+                Dictionary<string, string> resultAPI = new Dictionary<string, string>();
+                using (StreamWriter w = new StreamWriter(pathFolder + fileName+".cs" , true))
+                {
+                    w.WriteLine(source.stringSource); 
+                }
 
                 CSharpCodeProvider ccp = new CSharpCodeProvider();
-                ICodeCompiler icc = ccp.CreateCompiler();
                 CompilerParameters parameters = new CompilerParameters(new[] { Constant.MSCOR_LIB,
                 Constant.CORE_LIB }, outputCompiler, true);
-                //CompilerParameters parameters = new CompilerParameters();
-                //parameters.GenerateExecutable = true;
-                //parameters.OutputAssembly = outputCompiler;
-                CompilerResults result = icc.CompileAssemblyFromSource(parameters, source.stringSource);
+                CompilerResults result = ccp.CompileAssemblyFromSource(parameters, source.stringSource);
                 //return result
                 string status = Constant.STATUS_SUCCESS;
                 string result_message = string.Empty;
@@ -65,99 +145,15 @@ namespace WebAPI.Controllers
                 }
                 else
                 {
-                    var data = result.CompiledAssembly;
-                    //resultCompiler.Append(Constant.OUTPUT + outputCompiler);
-                    //string a= result.PathToAssembly;
-                    //Module module = result.CompiledAssembly.GetModules()[0];
-                    //Type mt = null;
-                    //MethodInfo methInfo = null;
-                    //if (module != null)
-                    //{
-                    //    mt = module.GetType("DynaCore.DynaCore");
-                    //}
-                    //if (mt != null)
-                    //{
-                    //    methInfo = mt.GetMethod("Main");
-                    //}
-                    //if (methInfo != null)
-                    //{
-                    //    Console.WriteLine(methInfo.Invoke(null, new object[] { "here in dyna code" }));
-                    //    outputCompiler = methInfo.Invoke(null, new object[] { "here in dyna code" }).ToString();
-                    //    resultCompiler.Append(Constant.OUTPUT + outputCompiler);
-                    //}         
+                    Dictionary<string, string> result_compiler = this.ExecuteCSC(pathFolder, fileName+".cs");
+                    if (result_compiler["status"] == Constant.STATUS_FAIL)            //return if run javac fail
+                        return Ok(result_compiler);
 
+                    /*run java E:\\MyClass*/
+                    resultAPI = this.ExecuteCMD(pathFolder, fileName);
 
-                    //Assembly loAssembly = loCompiled.CompiledAssembly;
-                    //// *** Retrieve an obj ref – generic type only
-                    //object loObject = loAssembly.CreateInstance("MyNamespace.MyClass");
-                    //if (loObject == null)
-                    //{
-                    //    MessageBox.Show("Couldn't load class.");
-                    //    return;
-                    //}
-                    //object[] loCodeParms = new object[1];
-                    //loCodeParms[0] = "West Wind Technologies";
-                    //try
-                    //{
-                    //    object loResult = loObject.GetType().InvokeMember(
-                    //                     "DynamicCode", BindingFlags.InvokeMethod,
-                    //                     null, loObject, loCodeParms);
-                    //    DateTime ltNow = (DateTime)loResult;
-                    //    MessageBox.Show("Method Call Result:\r\n\r\n" +
-                    //                    loResult.ToString(), "Compiler Demo");
-                    //}
-                    //catch (Exception loError)
-                    //{
-                    //    MessageBox.Show(loError.Message, "Compiler Demo");
-                    //}
-
-                    //  Get the compiled method and execute it.
-                    //foreach (Type a_type in result.CompiledAssembly.GetTypes())
-                    //{
-                    //    Object instanceClass = result.CompiledAssembly.CreateInstance(a_type.Name);
-                    //    // Get a MethodInfo object describing the SayHi method.
-                    //    Module module = result.CompiledAssembly.GetModules()[0];
-                    //    Type mt = null;
-                    //    mt= module.GetType("HelloWorld.Hello");
-                    //    //MethodInfo method_info = a_type.GetMethod("Main");
-                    //    MethodInfo method_info = mt.GetMethod("Main");
-                    //    if (method_info != null && a_type.IsClass && !a_type.IsNotPublic)
-                    //    {
-                    //        object[] method_params = new object[] { this };
-                    //       // Execute the method.
-                    //       //outputCompiler = method_info.Invoke(instanceClass, BindingFlags.InvokeMethod,
-                    //       //     null, method_params, CultureInfo.CurrentCulture).ToString();
-                    //       // outputCompiler = method_info.Invoke(null, method_params).ToString();
-                    //        Console.WriteLine(method_info.Invoke(null, new object[] { "here in dyna code" }));
-                    //        resultCompiler.Append(Constant.OUTPUT + outputCompiler);
-
-                    //    }
-                    //}
-
-
-                    //System.Diagnostics.Process p = new System.Diagnostics.Process();
-                    //p.StartInfo.FileName = @"cmd.exe";  //run cmd
-                    //p.StartInfo.UseShellExecute = false;
-                    //p.StartInfo.WorkingDirectory = pathFolder;        //Link to directory of file need to execute
-                    //p.StartInfo.Arguments = "myclass.cs";         //=> "MyClass"
-                    //p.StartInfo.CreateNoWindow = true;
-                    //p.StartInfo.RedirectStandardInput = true;
-                    //p.StartInfo.RedirectStandardOutput = true;
-                    //p.StartInfo.RedirectStandardError = true;
-
-                    ////run
-                    //p.Start();
-                    //string result_string = p.StandardOutput.ReadToEnd();
-                    //string error_string = p.StandardError.ReadToEnd();
-                    //p.WaitForExit();
-
-                    //  string resultString = Process.Start(@"cmd.exe ", @"/c" + outputCompiler).StandardOutput.ReadToEnd();
-                    // Process.Start(@"cmd.exe ", @"/c"+ outputCompiler).WaitForExit();
+                    this.DeleteFile(outputCompiler);
                 }
-                result_message = resultCompiler.ToString();
-                Dictionary<string, string> resultAPI = new Dictionary<string, string>();
-                resultAPI.Add("status", status);
-                resultAPI.Add("message", result_message);
                 return Ok(resultAPI);
             }
             catch (Exception e)
