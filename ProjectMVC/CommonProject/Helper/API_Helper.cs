@@ -47,9 +47,9 @@ namespace CommonProject
             {
                 client.BaseAddress = new Uri(CommonConstant.URL_HOST_API + CommonConstant.ROUTER_JAVA_COMPILER_API);
             }
-            //client.BaseAddress = new Uri("http://localhost:52508/api/CSharpCompiler/Compiler");
+            
             client.DefaultRequestHeaders.Accept.Clear();
-           // client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+          
             var responsePostTask =  client.PostAsJsonAsync<Source>("", src);
             responsePostTask.Wait();
             var result = responsePostTask.Result;
