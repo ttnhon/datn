@@ -4,6 +4,12 @@
     font-family: 'Lato', sans-serif;
 }
 
+.no-skill {
+    text-align: center;
+    margin: auto;
+    padding: 2rem 0;
+}
+
 .test_list h1, .student_course h1 {
     font-size: xx-large;
     font-weight: bolder;

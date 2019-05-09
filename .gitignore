@@ -72,3 +72,4 @@ _[Ss]cripts
 *.dot[Cc]over
 /ProjectMVC/.vs
 /.vs
+/WebAPI/App_Data/JavaSDK

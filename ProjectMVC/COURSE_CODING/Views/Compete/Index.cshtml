@@ -43,7 +43,7 @@
                                 <div class="col-7 contest-enter">
                                     <span><strong class="time-happen">Mar 17th, 12:00 am +07</strong><i class="contest-status">Open</i></span>
                                     @*<a href="" class="btn btn-outline-success">Enter Contest</a>*@
-                                    <button class="btn btn-outline-success" tabindex="0">
+                                    <button class="btn btn-outline-success" tabindex="0" onclick="location.href='/Compete/Detail/@item.ID'">
                                         <span class="ui-text">Enter Contest</span>
                                     </button>
                                 </div>
@@ -128,6 +128,9 @@
                 $(this).children(".contest-description").slideToggle("slow");
             });
         });
+
+
     </script>
+
 }
 

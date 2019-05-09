@@ -117,7 +117,7 @@
                                                 <div class="skill-detail">
                                                     <div class="skill-progress-bar">
                                                         <div class="progress">
-                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: @((((item.Solved*1.0)/item.Count)*100).ToString() + "%")"></div>
+                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: @((((item.Solved * 1.0) / item.Count) * 100).ToString() + "%")"></div>
                                                         </div>
                                                         <div class="progress-count text-content">
                                                             <span class="percentage">@((((item.Solved * 1.0) / item.Count) * 100).ToString() + "%")</span><span class="points-left"> (@(item.Solved.ToString() + "/" + item.Count.ToString()) challenges solved)</span>
@@ -134,6 +134,9 @@
                                 </div>
                                 <!--end 1 skill-->
                             }
+                        }
+                        else {
+                            <h4 class="no-skill">You didn't got skill yet</h4>
                         }
                     </div>
                     <!--end skill-process-->

@@ -1,0 +1,108 @@
+﻿@model COURSE_CODING.Models.CompeteChallengesModel
+@{
+    ViewBag.Title = "Comptete " + Model.compete.Title;
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
+}
+@section CustomCSS
+{
+    @Styles.Render("~/Assets/Public/css/style.css")
+    @Styles.Render("~/Assets/Public/css/domain.css")
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+}
+
+<section class="header-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-6 domain-header">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Practice</a></li>
+                    <li class="breadcrumb-item active">@Html.DisplayFor(model => model.compete.Title)</li>
+                </ol>
+                <h3 class="domain-title">@Html.DisplayFor(model => model.compete.Title)</h3>
+            </div>
+
+            <div class="col-6">
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content-page">
+    <div class="container">
+        <div class="row">
+            <!--                Challenge list-->
+            <div class="col-9 challenge-list">
+                @if (Model.challenges.Count > 0)
+                {
+                    foreach (var item in Model.challenges)
+                    {
+                        <!--1 Challenge-->
+                        <a class="challenge-link" href="/Challenge/Problem/@Html.DisplayFor(modelItem => item.ID)">
+                            <div class="one-challenge-box base-box">
+                                <div class="row">
+                                    <div class="col-8 challenge-info">
+                                        <h3 class="card-title" title="Regex">@Html.DisplayFor(modelItem => item.Title)</h3>
+                                        <div class="card-detail">
+                                            <p class="challenge-detail">
+                                                <span class="challenge-difficult">@Html.DisplayFor(modelItem => item.ChallengeDifficulty) </span>
+                                                <span>&nbsp;</span>
+                                                <span>Max score: @Html.DisplayFor(modelItem => item.Score)</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 challenge-enter">
+                                        <i class="far fa-star"></i> &nbsp;
+                                        <button class="btn btn-outline-success btn-lg" tabindex="0">
+                                            <span class="ui-text">Solve Challenge</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                }
+
+            </div>
+
+            <!--filter-->
+            <div class="col-3 challenge-list-filter">
+                <div class="one-filter">
+                    <h4 class="label">STATUS</h4>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="status_easy" checked>
+                        <label class="custom-control-label" for="status_easy">Unsolved</label>
+                    </div>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="status_normal">
+                        <label class="custom-control-label" for="status_normal">Solved</label>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="one-filter">
+                    <h4 class="label">DIFFICULTY</h4>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="difficult_easy" checked>
+                        <label class="custom-control-label" for="difficult_easy">Easy</label>
+                    </div>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="difficult_normal">
+                        <label class="custom-control-label" for="difficult_normal">Normal</label>
+                    </div>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="difficult_hard">
+                        <label class="custom-control-label" for="difficult_hard">hard</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

@@ -184,6 +184,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ChallengeModel.cs" />
+    <Compile Include="Models\CompeteChallengesModel.cs" />
     <Compile Include="Models\CompeteModel.cs" />
     <Compile Include="Models\DataAchieve.cs" />
     <Compile Include="Models\DomainModel.cs" />
@@ -432,6 +433,7 @@
     <Content Include="Views\ManageChallenge\ManageChallenge.cshtml" />
     <Content Include="Views\User\Profile.cshtml" />
     <Content Include="Views\Shared\_User_Layout.cshtml" />
+    <Content Include="Views\Compete\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

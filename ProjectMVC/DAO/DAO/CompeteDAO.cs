@@ -28,5 +28,10 @@ namespace DAO.DAO
         {
             return db.COMPETES.Where(table => table.USER_INFO.ID == id).ToList();
         }
+
+        public COMPETE GetOne(int id)
+        {
+            return db.COMPETES.Find(id);
+        }
     }
 }
