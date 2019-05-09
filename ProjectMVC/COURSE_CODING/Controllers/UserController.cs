@@ -154,7 +154,7 @@ namespace COURSE_CODING.Controllers
                         //return Redirect("databoardAdmin");
                     }
                     else if(user.RoleUser.Equals(CommonConstant.ROLE_MEMBER)) {
-                       // return Redirect("databoardStudentOrmember");
+                        return Redirect("/User/Dashboard");
                     }
                     else if(user.RoleUser.Equals(CommonConstant.ROLE_TEACHER))
                     {
