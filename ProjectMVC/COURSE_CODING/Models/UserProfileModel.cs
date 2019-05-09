@@ -10,7 +10,7 @@ namespace COURSE_CODING.Models
     public class UserProfileModel
     {
         public USER_INFO Info { get; set; }
-        //public List<SCHOOL> Schools =new List<SCHOOL>();
+        public SCHOOL School { get; set; }
         public List<CHALLENGE> Challenges = new List<CHALLENGE>();
         public List<COMPETE> Competes = new List<COMPETE>();
     }
