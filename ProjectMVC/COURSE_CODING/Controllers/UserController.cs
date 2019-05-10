@@ -279,18 +279,22 @@ namespace COURSE_CODING.Controllers
 
         // POST: User/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(USER_INFO user)
         {
-            try
+            if(ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                var userDao = new UserDAO();
+                var result = userDao.Update(user);
+                if(result)
+                {
+                    return Redirect(String.Format("/User/Profile/{0}",user.ID));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Update Success!");
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
         // GET: User/Delete/5
@@ -330,12 +334,45 @@ namespace COURSE_CODING.Controllers
             }
         }
 
-        public ActionResult Profile(int id)
+        // GET: User/Profile/5
+        [HttpGet]
+        public new ActionResult Profile(int id)
         {
-            UserProfileModel model = new UserProfileModel();
-            model.Challenges = (new ChallengeDAO().GetAll(id));
-            model.Competes = (new CompeteDAO().GetAll(id));
-            return View(model);
+            if(ModelState.IsValid)
+            {
+                UserProfileModel model = new UserProfileModel();
+                model.Info = (new UserDAO().GetUserById(id));
+                model.Challenges = (new ChallengeDAO().GetAll(id));
+                model.Competes = (new CompeteDAO().GetAll(id));
+                model.School = (new SchoolDAO().GetSchoolByID(id));
+                SetViewBag();
+                return View(model);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public new ActionResult Profile(UserProfileModel user)
+        {
+            if (ModelState.IsValid)
+            {
+                var userDAO = new UserDAO();
+                var result = userDAO.Update(user.Info);
+                if (result)
+                {
+                    return Redirect(String.Format("/User/Profile/{0}", user.Info.ID));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Update Success!");
+                }
+            }
+            return View();
+        }
+
+        public void SetViewBag(int? selectedID = null)
+        {
+            ViewBag.School = new SelectList(new SchoolDAO().GetList(), "ID", "Name", selectedID);
         }
     }
 

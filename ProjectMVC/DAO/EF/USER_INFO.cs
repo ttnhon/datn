@@ -37,6 +37,10 @@ namespace DAO.EF
 
         [Required]
         [StringLength(50)]
+        public string Country { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string Email { get; set; }
 
         public int? StatusUser { get; set; }
@@ -51,6 +55,19 @@ namespace DAO.EF
         [Timestamp]
         public byte[] CreateDate { get; set; }
 
+        [Column(TypeName = "text")]
+        public string About { get; set; }
+
+        public int? SchoolID { get; set; }
+
+        public int? YearGraduation { get; set; }
+
+        [StringLength(256)]
+        public string FacebookLink { get; set; }
+
+        [StringLength(256)]
+        public string GoogleLink { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANSWER> ANSWERs { get; set; }
 
@@ -62,6 +79,8 @@ namespace DAO.EF
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<COMPETE> COMPETEs { get; set; }
+
+        public virtual SCHOOL SCHOOL { get; set; }
 
         public virtual USER_DATA USER_DATA { get; set; }
     }

@@ -66,16 +66,7 @@ namespace DAO.DAO
             try
             {
                 var u = db.USER_INFOS.Find(entity.ID);
-                if (u != null)
-                {
-                    u.UserName = entity.UserName;
-                    u.FirstName = entity.FirstName;
-                    u.LastName = entity.LastName;
-                    u.PasswordUser = entity.PasswordUser;
-                    u.PhotoURL = entity.PhotoURL;
-                    u.RoleUser = entity.RoleUser;
-                    u.StatusUser = entity.RoleUser;                
-                }
+                db.Entry(entity).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return true;
             }catch(Exception e)

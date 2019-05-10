@@ -27,7 +27,6 @@ body {
 .profile-layout {
     display: grid;
     grid-template-columns: 400px auto;
-    grid-template-rows: auto auto;
     grid-template-areas: "sidebar rightpanel";
     margin-top: 30px;
 }
@@ -51,9 +50,15 @@ body {
     position: relative;
 }
 
+    .profile-avatar > img {
+        max-width: 100%;
+        min-height: 100%;
+    }
+
     .profile-avatar > span {
         position: relative;
         display: inline-block;
+        background-image: url("https://www.tvilight.com/wp-content/uploads/2017/06/background-04-768x430.jpg");
         background-size: cover;
         width: 80px;
         height: 80px;
@@ -188,9 +193,14 @@ ul {
     right: 0;
 }
 
-.profile-detail-graduation p {
-    margin-bottom: 0 !important;
+.profile-detail-extra {
+    margin-bottom: 20px;
 }
+
+.profile-detail-extra .extra-title {
+    margin:0 !important;
+}
+
 
 /* Profile RightPanel*/
 
@@ -204,53 +214,32 @@ ul {
     .badges-section h2 {
         font-weight: 700;
         font-size: 24px;
+        margin-bottom: 1.3em;
     }
 
 .badge-list {
     position: relative;
 }
 
-.badge-wrap {
-    width: 120px;
-    height: 120px;
-    display: inline-block;
-    margin-top: 5px;
-    margin-right: 20px;
-    cursor: pointer;
-}
-
-.help-text {
-    position: absolute;
-    width: 300px;
-    height: 290px;
-    top: 8rem;
-    left: 3rem;
-    background: #ffffff;
-    z-index: 999;
-    color: #626b7f;
-    font-size: .9em;
-    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    display: none;
-    padding: 0;
-    opacity: 0;
-    transition-duration: .3s;
-    transform: scale(0.9,0.9);
-}
-
-    .help-text h3 {
-        margin-bottom: 20px;
+    .badge-list li {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1em;
     }
+
+.badge-img {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
 
 .badge-level,
 .badge-current-point,
 .badge-next-point {
     font-size: 1.1rem;
-}
-
-.badge-level {
-    color: #b9722d;
-    margin: 0;
 }
 
 .badge-current-point {
@@ -262,58 +251,41 @@ ul {
     text-decoration: none;
     color: #ffffff;
     font-weight: 700;
-    font-size: 1.3em;
+    font-size: .8em;
     letter-spacing: 1px;
-    margin: 1em 1.2em;
 }
 
 
-.badge-wrap:hover .help-text {
-    display: block;
-    transform: scale(1,1);
-    opacity: 1;
-    padding: 20px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.badge-icon {
-    position: relative;
-    display: inline-block;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    width: 100%;
-    height: 100%;
-    background: #e6e6e6;
-}
-
-    .badge-icon img,
-    .badge-icon span,
-    .star-section {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-    }
-
-    .badge-icon img {
-        width: 35px;
-        height: 35px;
-        transform: translate(-50%, -100%);
-    }
 
 .badge-title {
     text-transform: capitalize;
+    font-size: 1.3rem;
     font-weight: 700;
 }
 
-.badge-icon span {
-    font-size: 12px;
-    transform: translate(-50%, 40%);
-    width: 100%;
-    text-align: center;
+.badge-progress {
+    display: grid;
+    min-width: 50%;
+    grid-template: "level exp" auto "progress progress" auto / 4fr auto;
 }
 
-.star-section {
-    font-size: 10px;
-    transform: translate(-50%, 200%);
+.badge-level {
+    color: #b9722d;
+    margin: 0;
+    grid-area: level;
+}
+
+.badge-exp {
+    grid-area: exp;
+}
+
+.progress {
+    grid-area: progress;
+    height: 10px !important;
+}
+
+.progress-bar {
+    width: 51%;
 }
 
 .section-card {
@@ -338,35 +310,6 @@ ul {
     margin: 30px 0 0 20px;
 }
 
-.education-list {
-    position: relative;
-    list-style: none;
-    padding-right: 30px;
-    padding-bottom: 10px;
-}
-
-.education-item {
-    position: relative;
-    margin: 30px 0 0;
-    padding-left: 20px;
-}
-
-    .education-item i {
-        position: absolute;
-        top: 2px;
-        left: 0;
-        font-size: 16px;
-        transform: translateX(-50%);
-    }
-
-    .education-item h2 {
-        font-size: 18px;
-        font-weight: 700;
-    }
-
-.education-add {
-    margin-top: 30px;
-}
 
 .submision-list {
     margin-bottom: 15px;
@@ -483,7 +426,7 @@ ul {
 
 .intro-popup {
     width: 600px;
-    height: 600px;
+    height: 580px;
 }
 
 .input {
@@ -501,11 +444,6 @@ ul {
     content: "*";
     color: red;
     margin-left: 5px;
-}
-
-.input input {
-    font-size: 16px;
-    padding: 8px 6px;
 }
 
 .input textarea {
@@ -539,15 +477,9 @@ ul {
     height: 600px;
 }
 
-.btn {
-    border: 1px solid rgb(169, 169, 169) !important;
-    position: relative;
-    text-align: left !important;
-}
-
-.btn-year,
 .year-list {
-    width: 50%;
+    position:relative;
+    width: 50% !important;
 }
 
 .btn-education,
@@ -559,27 +491,4 @@ ul {
     position: absolute;
     right: 15px;
     top: 15px;
-}
-
-.school-popup {
-    width: 600px;
-    height: 640px;
-}
-
-.btn-schoolyear {
-    width: 90%;
-}
-
-.schoolyear-list {
-    min-width: 90% !important;
-    width: 90%;
-}
-
-.form-check input[type=checkbox] {
-    width: 18px;
-    height: 18px;
-}
-
-.form-check label {
-    margin-left: 10px;
 }
