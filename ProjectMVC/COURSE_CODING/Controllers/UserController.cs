@@ -116,7 +116,7 @@ namespace COURSE_CODING.Controllers
                         Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
                         ViewBag.Success = "Register sussesfull";
                         model = new RegisterModel();
-                        return Redirect("/");
+                        return Redirect("/User/Dashboard");
                     }
                     else
                     {
@@ -151,7 +151,7 @@ namespace COURSE_CODING.Controllers
                     Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
                     if (user.RoleUser.Equals(CommonConstant.ROLE_ADMIN))
                     {
-                        //return Redirect("databoardAdmin");
+                        return Redirect("/Admin/User/Index");
                     }
                     else if(user.RoleUser.Equals(CommonConstant.ROLE_MEMBER)) {
                         return Redirect("/User/Dashboard");

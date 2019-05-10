@@ -11,14 +11,15 @@ namespace COURSE_CODING.Controllers
     {
         public ActionResult Index()
         {
-            API_Helper apiHelper = new API_Helper();
-            Source src = new Source();
-            src.stringSource = "Write.console";
-            src.versionFramework = "2.3";
-            src.userKey = "01";
-            var result = apiHelper.RequestAPI(CommonConstant.TYPE_CSHARP_COMPILER, src);
-           
-            return View();
+            //API_Helper apiHelper = new API_Helper();
+            //Source src = new Source();
+            //src.stringSource = "Write.console";
+            //src.versionFramework = "2.3";
+            //src.userKey = "01";
+            //var result = apiHelper.RequestAPI(CommonConstant.TYPE_CSHARP_COMPILER, src);
+
+            return Redirect("/User/Dashboard");
+            //return View();
         }
 
         public ActionResult About()
