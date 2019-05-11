@@ -69,8 +69,8 @@
     <Compile Include="EF\CHALLENGE_EDITOR.cs" />
     <Compile Include="EF\CHALLENGE_LANGUAGE.cs" />
     <Compile Include="EF\COMPETE.cs" />
-    <Compile Include="EF\LANGUAGE.cs" />
     <Compile Include="EF\DCCourseCoding.cs" />
+    <Compile Include="EF\LANGUAGE.cs" />
     <Compile Include="EF\SCHOOL.cs" />
     <Compile Include="EF\TESTCASE.cs" />
     <Compile Include="EF\USER_DATA.cs" />
@@ -95,5 +95,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
