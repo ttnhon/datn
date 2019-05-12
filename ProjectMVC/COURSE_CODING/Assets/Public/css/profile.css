@@ -407,13 +407,9 @@ ul {
 }
 
 .content-body {
-    text-align: center;
+    text-align: left;
     margin-top: 25px;
 }
-
-    .content-body form {
-        text-align: left !important;
-    }
 
     .content-body span {
         font-size: 20px;
@@ -426,7 +422,7 @@ ul {
 
 .intro-popup {
     width: 600px;
-    height: 580px;
+    height: 600px;
 }
 
 .input {
@@ -474,7 +470,7 @@ ul {
 
 .about-popup {
     width: 600px;
-    height: 600px;
+    height: 640px;
 }
 
 .year-list {
@@ -491,4 +487,12 @@ ul {
     position: absolute;
     right: 15px;
     top: 15px;
+}
+
+.school-dropdown {
+    margin-bottom:1em;
+}
+
+.invalid-feedback {
+    display: none;
 }

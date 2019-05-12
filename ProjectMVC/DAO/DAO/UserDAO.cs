@@ -61,15 +61,58 @@ namespace DAO.DAO
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public Boolean Update(USER_INFO entity)
+        public Boolean UpdateIntro(USER_INFO entity)
         {
             try
             {
                 var u = db.USER_INFOS.Find(entity.ID);
-                db.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+                if(u.ID > 0)
+                {
+                    u.FirstName = entity.FirstName;
+                    u.LastName = entity.LastName;
+                    u.Country = entity.Country;   
+                }
                 db.SaveChanges();
                 return true;
             }catch(Exception e)
+            {
+                return false;
+            }
+        }
+
+        public Boolean UpdateAbout(USER_INFO entity)
+        {
+            try
+            {
+                var u = db.USER_INFOS.Find(entity.ID);
+                if (u.ID > 0)
+                {
+                    u.About = entity.About;
+                    u.YearGraduation = entity.YearGraduation;
+                    u.SchoolID = entity.SchoolID;
+                }
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public Boolean UpdatePhoto(USER_INFO entity, string filename)
+        {
+            try
+            {
+                var u = db.USER_INFOS.Find(entity.ID);
+                if (u.ID > 0)
+                {
+                    u.PhotoURL = filename;
+                }
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
             {
                 return false;
             }

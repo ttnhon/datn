@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -285,19 +286,6 @@ namespace COURSE_CODING.Controllers
         [HttpPost]
         public ActionResult Edit(USER_INFO user)
         {
-            if(ModelState.IsValid)
-            {
-                var userDao = new UserDAO();
-                var result = userDao.Update(user);
-                if(result)
-                {
-                    return Redirect(String.Format("/User/Profile/{0}",user.ID));
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Update Success!");
-                }
-            }
             return View();
         }
 
@@ -348,20 +336,21 @@ namespace COURSE_CODING.Controllers
                 model.Info = (new UserDAO().GetUserById(id));
                 model.Challenges = (new ChallengeDAO().GetAll(id));
                 model.Competes = (new CompeteDAO().GetAll(id));
-                model.School = (new SchoolDAO().GetSchoolByID(id));
-                SetViewBag();
+                model.School = (new SchoolDAO().GetSchoolByID(model.Info.SchoolID));
+                SetSchoolViewBag(model.Info.SchoolID);
+                SetYearViewBag(model.Info.YearGraduation);
                 return View(model);
             }
             return View();
         }
 
         [HttpPost]
-        public new ActionResult Profile(UserProfileModel user)
+        public ActionResult EditIntro(UserProfileModel user)
         {
             if (ModelState.IsValid)
             {
                 var userDAO = new UserDAO();
-                var result = userDAO.Update(user.Info);
+                var result = userDAO.UpdateIntro(user.Info);
                 if (result)
                 {
                     return Redirect(String.Format("/User/Profile/{0}", user.Info.ID));
@@ -374,9 +363,69 @@ namespace COURSE_CODING.Controllers
             return View();
         }
 
-        public void SetViewBag(int? selectedID = null)
+        [HttpPost]
+        public ActionResult EditAbout(UserProfileModel user)
+        {
+            if (ModelState.IsValid)
+            {
+                var userDAO = new UserDAO();
+                var result = userDAO.UpdateAbout(user.Info);
+                if (result)
+                {
+                    return Redirect(String.Format("/User/Profile/{0}", user.Info.ID));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Update Success!");
+                }
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Upload(UserProfileModel user, HttpPostedFileBase file)
+        {
+            var userDAO = new UserDAO();
+
+            if (file.ContentLength > 0)
+            {
+                string _fileName = Path.GetFileName(file.FileName);
+                string _path = Path.Combine(Server.MapPath("~/Assets/Public/images/profile_photos"), _fileName);
+                file.SaveAs(_path);
+
+                var result = userDAO.UpdatePhoto(user.Info, _fileName);
+                if (result)
+                {
+                    return Redirect(String.Format("/User/Profile/{0}", user.Info.ID));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Update Success!");
+                }
+            }
+            return View();
+        }
+
+        public void SetSchoolViewBag(int? selectedID = null)
         {
             ViewBag.School = new SelectList(new SchoolDAO().GetList(), "ID", "Name", selectedID);
+        }
+
+        public void SetYearViewBag(int? selectedID = null)
+        {
+            List<SelectListItem> yearList = new List<SelectListItem>();
+            for (int i = DateTime.Now.Year; i < (DateTime.Now.Year + 6); i++)
+            {
+                SelectListItem year = new SelectListItem
+                {
+                    Text = i.ToString(),
+                    Value = i.ToString()
+                };
+                yearList.Add(year);
+            }
+            yearList.Add(new SelectListItem { Value="0",Text="I am still in HighSchool"});
+
+            ViewBag.Year = new SelectList(yearList, "Value", "Text", selectedID);
         }
     }
 

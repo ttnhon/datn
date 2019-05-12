@@ -1,336 +1,341 @@
 ﻿@model COURSE_CODING.Models.UserProfileModel
 
 @{
-    Layout = null;
+    ViewBag.Title = String.Format("{0} {1} - {2}",Model.Info.FirstName,Model.Info.LastName,Model.Info.UserName);
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-
+@section CustomCSS
+{
     <link rel="stylesheet" href="~/Assets/Public/css/profile.css" type="text/css">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
-
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-</head>
+}
 
-<body>
-    <div class="content">
-        <div class="container profile-layout">
-            <div class="profile-sidebar">
-                <div role="button" class="profile-sumary">
-                    <div class="profile-avatar" id="pf-avatar">
-                        @if (Model.Info.PhotoURL == "hahaha")
-                        {
-                            <img src="@Model.Info.PhotoURL" alt="Alternate Text" />
-                            <div class="avatar-overlay">
-                                <i class="far fa-edit"></i>
-                            </div>
-                        }
-                        else
-                        {
-                            <img src="https://www.tvilight.com/wp-content/uploads/2017/06/background-04-768x430.jpg" alt="Alternate Text" />
-                            <div class="avatar-overlay">
-                                <i class="far fa-edit"></i>
-                            </div>
-                        }
-                        </div>
-                </div>
-                <h1 class="profile-heading">@Model.Info.FirstName @Model.Info.LastName</h1>
-                <p class=" profile-username-heading">
-                   @@@Model.Info.UserName
-                </p>
-                <p class="profile-country">
-                    <span>@Model.Info.Country</span>
-                </p>
-                <ul class="profile-social-list">
-                    <li>
-                        <a href="#" class="social-link">
-                            <span class="fab fa-facebook"></span>
-                        </a>
-                    </li>
-                </ul>
-                <button class="btn-link" id="intro-edit">
-                    <div>
-                        <i class="fas fa-pen">
-
-                        </i>Edit Intro
-                    </div>
-                </button>
-                <hr>
-                <div class="profile-detail">
-                    <h2>About</h2>
-                    <div class="profile-detail-edit">
-                        <button class="btn-link" id="about-edit">
-                            <i class="fas fa-pen"></i>
-                        </button>
-                    </div>
-                    @if (Model.School != null)
+<div class="content">
+    <div class="container profile-layout">
+        <div class="profile-sidebar">
+            <div role="button" class="profile-sumary">
+                <div class="profile-avatar" id="pf-avatar">
+                    @if (Model.Info.PhotoURL != null)
                     {
-                        <div class="profile-detail-extra">
-                            <div>
-                                <p class="extra-title">Education</p>
-                                <p style="font-weight: 700;">@Model.School.Name</p>
-                            </div>
+                        <img src="~/Assets/Public/images/profile_photos/@Model.Info.PhotoURL" alt="Photo is not found!" />
+                        <div class="avatar-overlay">
+                            <i class="far fa-edit"></i>
                         </div>
                     }
-                    @if (Model.Info.YearGraduation != null)
+                    else
                     {
-                        <div class="profile-detail-extra">
-                            <div>
-                                <p class="extra-title">Expected year of Graduation</p>
-                                <p style="font-weight: 700;">@Model.Info.YearGraduation</p>
-                            </div>
+                        <img src="https://www.tvilight.com/wp-content/uploads/2017/06/background-04-768x430.jpg" alt="Alternate Text" />
+                        <div class="avatar-overlay">
+                            <i class="far fa-edit"></i>
                         </div>
                     }
-                    @if (Model.Info.About != null)
-                    {
-                        <div class="profile-detail-extra">
-                            <div class="extra-title">
-                                <p>More about me</p>
-                                <p style="font-size: .8em">@Model.Info.About</p>
-                            </div>
-                        </div>
-                    }
-
                 </div>
             </div>
-            <div class="profile-rightpanel">
-                <section class="badges-section">
-                    <h2>Badges</h2>
-                    <ul class="badge-list">
-                        <li>
-                            <span class="badge-title">
-                                <img class="badge-img" src="~/Assets/Public/images/problem-solving-ecaf59a612.svg" alt="problem solving">
-                                problem solving
-                            </span>
-                            <div class="badge-progress">
-                                <p class="badge-level">
-                                    Bronze level
-                                    <i class="fas fa-star"></i>
-                                </p>
-                                <span class="badge-exp">51/100 pts</span>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="51" aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <button class="btn btn-success">
-                                <a href="#" class="challenge-link">Solve Challenge</a>
-                            </button>
-                        </li>
-                        <li>
-                            <span class="badge-title">
-                                <img class="badge-img" src="~/Assets/Public/images/problem-solving-ecaf59a612.svg" alt="problem solving">
-                                problem solving
-                            </span>
-                            <div class="badge-progress">
-                                <p class="badge-level">
-                                    Bronze level
-                                    <i class="fas fa-star"></i>
-                                </p>
-                                <span class="badge-exp">51/100 pts</span>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="51" aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <button class="btn btn-success">
-                                <a href="#" class="challenge-link">Solve Challenge</a>
-                            </button>
-                        </li>
-                    </ul>
-                </section>
-                <section class="section-card">
-                    <div class="submision-section">
-                        <div class="section-title">
-                            <i class="far fa-clipboard"></i>
+            <h1 class="profile-heading">@Model.Info.FirstName @Model.Info.LastName</h1>
+            <p class=" profile-username-heading">
+                @@@Model.Info.UserName
+            </p>
+            <p class="profile-country">
+                <span>@Model.Info.Country</span>
+            </p>
+            <ul class="profile-social-list">
+                <li>
+                    <a href="#" class="social-link">
+                        <span class="fab fa-facebook"></span>
+                    </a>
+                </li>
+            </ul>
+            <button class="btn-link" id="intro-edit">
+                <div>
+                    <i class="fas fa-pen">
 
-                            Submisions
+                    </i>Edit Intro
+                </div>
+            </button>
+            <hr>
+            <div class="profile-detail">
+                <h2>About</h2>
+                <div class="profile-detail-edit">
+                    <button class="btn-link" id="about-edit">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                </div>
+                @if (Model.School != null)
+                {
+                    <div class="profile-detail-extra">
+                        <div>
+                            <p class="extra-title">Education</p>
+                            <p style="font-weight: 700;">@Model.School.Name</p>
                         </div>
-                        <div class="section-body">
-                            @if (Model.Challenges.Count > 0)
+                    </div>
+                }
+                @if (Model.Info.YearGraduation != null)
+                {
+                    <div class="profile-detail-extra">
+                        <div>
+                            <p class="extra-title">Expected year of Graduation</p>
+                            <p style="font-weight: 700;">@Model.Info.YearGraduation</p>
+                        </div>
+                    </div>
+                }
+                @if (Model.Info.About != null)
+                {
+                    <div class="profile-detail-extra">
+                        <div class="extra-title">
+                            <p>More about me</p>
+                            <p style="font-size: .8em">@Model.Info.About</p>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div class="profile-rightpanel">
+            <section class="badges-section">
+                <h2>Badges</h2>
+                <ul class="badge-list">
+                    <li>
+                        <span class="badge-title">
+                            <img class="badge-img" src="~/Assets/Public/images/problem-solving-ecaf59a612.svg" alt="problem solving">
+                            problem solving
+                        </span>
+                        <div class="badge-progress">
+                            <p class="badge-level">
+                                Bronze level
+                                <i class="fas fa-star"></i>
+                            </p>
+                            <span class="badge-exp">51/100 pts</span>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="51" aria-valuemin="0"
+                                     aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <button class="btn btn-success">
+                            <a href="#" class="challenge-link">Solve Challenge</a>
+                        </button>
+                    </li>
+                    <li>
+                        <span class="badge-title">
+                            <img class="badge-img" src="~/Assets/Public/images/problem-solving-ecaf59a612.svg" alt="problem solving">
+                            problem solving
+                        </span>
+                        <div class="badge-progress">
+                            <p class="badge-level">
+                                Bronze level
+                                <i class="fas fa-star"></i>
+                            </p>
+                            <span class="badge-exp">51/100 pts</span>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="51" aria-valuemin="0"
+                                     aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <button class="btn btn-success">
+                            <a href="#" class="challenge-link">Solve Challenge</a>
+                        </button>
+                    </li>
+                </ul>
+            </section>
+            <section class="section-card">
+                <div class="submision-section">
+                    <div class="section-title">
+                        <i class="far fa-clipboard"></i>
+
+                        Submisions
+                    </div>
+                    <div class="section-body">
+                        @if (Model.Challenges.Count > 0)
+                        {
+                            foreach (var challenge in Model.Challenges)
                             {
-                                foreach (var challenge in Model.Challenges)
+                                <div class="submision-list">
+                                    <a href="#" class="history-item">@challenge.Title</a>
+                                    <span class="time-ago">
+                                        -
+                                        <span class="time-ago-value">3 days ago</span>
+                                    </span>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </section>
+            <section class="section-card">
+                <div class="contest-section">
+                    <div class="section-title">
+                        <i class="fas fa-history"></i>
+
+                        Contest History
+                    </div>
+                    <div class="section-body">
+                        <div class="contest-list">
+                            <h2 class="contest-month">July,2014</h2>
+                            @if (Model.Competes.Count > 0)
+                            {
+                                foreach (var compete in Model.Competes)
                                 {
-                                    <div class="submision-list">
-                                        <a href="#" class="history-item">@challenge.Title</a>
-                                        <span class="time-ago">
-                                            -
-                                            <span class="time-ago-value">3 days ago</span>
+                                    <div>
+                                        <a href="#" class="contest-item">@compete.Title</a>
+                                        <span class="participant-count">
+                                            --
+                                            /
+                                            <span class="participant-count-value"> @compete.ParticipantCount participants</span>
                                         </span>
                                     </div>
+
                                 }
                             }
                         </div>
                     </div>
-                </section>
-                <section class="section-card">
-                    <div class="contest-section">
-                        <div class="section-title">
-                            <i class="fas fa-history"></i>
-
-                            Contest History
-                        </div>
-                        <div class="section-body">
-                            <div class="contest-list">
-                                <h2 class="contest-month">July,2014</h2>
-                                @if (Model.Competes.Count > 0)
-                                {
-                                    foreach (var compete in Model.Competes)
-                                    {
-                                        <div>
-                                            <a href="#" class="contest-item">@compete.Title</a>
-                                            <span class="participant-count">
-                                                --
-                                                /
-                                                <span class="participant-count-value"> @compete.ParticipantCount participants</span>
-                                            </span>
-                                        </div>
-
-                                    }
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
+                </div>
+            </section>
         </div>
     </div>
+</div>
 
-    <!--Popup Window-->
-    <div class="popup" id="img-popup">
-        <div class="popup-modal">
-            <div class="popup-content img-popup">
-                <div class="content-header">
-                    <h1>Upload</h1>
-                    <button class="close" id="img-close">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <hr>
-                <div class="content-body">
-                    @using (Html.BeginForm("Upload", "UserController", FormMethod.Post))
-                    {
-                        @Html.TextBoxFor(model => model.Info.PhotoURL, new { @type="file", @accept="image/*"})
+<!--Popup Window-->
+<div class="popup" id="img-popup">
+    <div class="popup-modal">
+        <div class="popup-content img-popup">
+            <div class="content-header">
+                <h1>Upload</h1>
+                <button class="close" id="img-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <hr>
+            <div class="content-body">
+                @using (Html.BeginForm("Upload", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                    @Html.HiddenFor(model => model.Info.ID)
+                    <div style="text-align: center !important">
+                        @Html.TextBox("file", "", new { @type = "file", @accept = "image/*" })
                         <p>Max files/folder size: 500MB</p>
                         <button class="btn btn-primary" id="btn-img" type="submit">
                             <span>Upload File</span>
                         </button>
-                    }
+                    </div>
+                }
 
-                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="popup" id="intro-popup">
-        <div class="popup-modal">
-            <div class="popup-content intro-popup">
-                <div class="content-header">
-                    <h1>Edit Intro</h1>
-                    <button class="close" id="intro-close">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <hr>
-                <div class="content-body">
-                    @using (Html.BeginForm())
-                    {
-                        @Html.HiddenFor(model => model.Info.ID)
-                        <div class="input input-required">
-                            @Html.LabelFor(model => model.Info.FirstName, "First Name")
-                            @Html.EditorFor(model => model.Info.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                        <div class="input input-required">
-                            @Html.LabelFor(model => model.Info.LastName, "Last Name")
-                            @Html.EditorFor(model => model.Info.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                        <div class="input input-required">
-                            @Html.LabelFor(model => model.Info.Country, "Country")
-                            @Html.EditorFor(model => model.Info.Country, new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                        <p>Link your social Websites</p>
-                        <div class="input-btn">
-                            <button class="btn btn-primary">Connect Facebook</button>
-                            <button class="btn btn-primary">Connect Google</button>
-                        </div>
+<div class="popup" id="intro-popup">
+    <div class="popup-modal">
+        <div class="popup-content intro-popup">
+            <div class="content-header">
+                <h1>Edit Intro</h1>
+                <button class="close" id="intro-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <hr>
+            <div class="content-body">
+                @using (Html.BeginForm("EditIntro", "User", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
 
-                        <div class="footer-btn">
-                            <button class="btn btn-secondary">Cancel</button>
-                            <button class="btn btn-success" type="submit">Save</button>
-                        </div>
-                    }
-                </div>
+                    @Html.HiddenFor(model => model.Info.ID)
+                    @Html.HiddenFor(model => model.Info.UserName)
+                    @Html.HiddenFor(model => model.Info.PasswordUser)
+                    @Html.HiddenFor(model => model.Info.Email)
+                    @Html.HiddenFor(model => model.Info.SchoolID)
+                    @Html.HiddenFor(model => model.Info.CreateDate)
+                    @Html.HiddenFor(model => model.Info.RoleUser)
+
+                    <div class="input input-required">
+                        @Html.LabelFor(model => model.Info.FirstName, "First Name")
+                        @Html.EditorFor(model => model.Info.FirstName, new { htmlAttributes = new { @class = "form-control", @id = "text_fn" } })
+                    </div>
+                    <div class="input input-required">
+                        @Html.LabelFor(model => model.Info.LastName, "Last Name")
+                        @Html.EditorFor(model => model.Info.LastName, new { htmlAttributes = new { @class = "form-control", @id = "text_ln" } })
+                    </div>
+                    <div class="input input-required">
+                        @Html.LabelFor(model => model.Info.Country, "Country")
+                        @Html.EditorFor(model => model.Info.Country, new { htmlAttributes = new { @class = "form-control", @id = "text_ct" } })
+                    </div>
+                    <p>Link your social Websites</p>
+                    <div class="input-btn">
+                        <button class="btn btn-primary">Connect Facebook</button>
+                        <button class="btn btn-primary">Connect Google</button>
+                    </div>
+
+                    <div class="footer-btn">
+                        <button class="btn btn-secondary" type="button" id="cancelbtn_1">Cancel</button>
+                        <button class="btn btn-success" type="submit" id="intro_submit">Save</button>
+                    </div>
+                }
             </div>
         </div>
     </div>
+</div>
 
-    <div class="popup" id="about-popup">
-        <div class="popup-modal">
-            <div class="popup-content about-popup">
-                <div class="content-header">
-                    <h1>Edit Details</h1>
-                    <button class="close" id="about-close">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <hr>
-                <div class="content-body">
-                    @using (Html.BeginForm("Profile", "User", FormMethod.Post))
-                    {
-                        @Html.HiddenFor(model => model.Info.ID)
-                        <div class="input">
-                            @Html.LabelFor(model => model.Info.About, "About Me")
-                            @Html.TextAreaFor(model => model.Info.About, new { @class = "form-control", @rows = "6" })
-                        </div>
-                        <div class="input input-required">
-                            <label for="input-year">Expected year of Graduation</label>
-                            <select class="form-control year-list" aria-labelledby="dropdownMenu">
-                                @for (int i = DateTime.Now.Year; i < (DateTime.Now.Year + 6); i++)
-                                {
-                                    <option>@i</option>
-                                }
-                                <option>I am still in HighSchool</option>
-                            </select>
-                        </div>
-                        <div class="input input-required">
-                            <label for="input-education">Education</label>
-                            @Html.DropDownListFor(model => model.School,
-                                                         null,
-                                                         "Education", new { @class = "form-control" })
-                        </div>
+<div class="popup" id="about-popup">
+    <div class="popup-modal">
+        <div class="popup-content about-popup">
+            <div class="content-header">
+                <h1>Edit Details</h1>
+                <button class="close" id="about-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <hr>
+            <div class="content-body">
+                @using (Html.BeginForm("EditAbout", "User", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
 
-                        <div class="footer-btn">
-                            <button class="btn btn-secondary">Cancel</button>
-                            <button class="btn btn-success" type="submit">Save</button>
-                        </div>
-                    }
-                </div>
+                    @Html.HiddenFor(model => model.Info.ID)
+                    @Html.HiddenFor(model => model.Info.UserName)
+                    @Html.HiddenFor(model => model.Info.PasswordUser)
+                    @Html.HiddenFor(model => model.Info.Email)
+                    @Html.HiddenFor(model => model.Info.CreateDate)
+                    @Html.HiddenFor(model => model.Info.FirstName)
+                    @Html.HiddenFor(model => model.Info.LastName)
+                    @Html.HiddenFor(model => model.Info.RoleUser)
+
+                    <div class="input">
+                        @Html.LabelFor(model => model.Info.About, "About Me")
+                        @Html.TextAreaFor(model => model.Info.About, new { @class = "form-control", @rows = "6" })
+                    </div>
+                    <div class="input input-required">
+                        <label for="input-year">Expected year of Graduation</label>
+                        @Html.DropDownListFor(model => model.Info.YearGraduation, (IEnumerable<SelectListItem>)ViewBag.Year, "Year", new { @class = "form-control" })
+                    </div>
+                    <div class="input input-required">
+                        <label for="input-education">Education</label>
+                        @Html.DropDownListFor(model => model.Info.SchoolID, new SelectList(ViewBag.School, "Value", "Text"), "Education", new { @class = "form-control school-dropdown" })
+
+                        @if (Model.Info.SchoolID == 1)
+                        {
+                            @Html.LabelFor(model => model.School.Name, "Enter your school:")
+                            @Html.EditorFor(model => model.School.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        }
+                    </div>
+
+                    <div class="footer-btn">
+                        <button class="btn btn-secondary" type="button" id="cancelbtn_2">Cancel</button>
+                        <button class="btn btn-success" type="submit" id="about_submit">Save</button>
+                    </div>
+                }
             </div>
         </div>
     </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-    </script>
+@section scripts
+{
     <script src="~/Assets/Public/js/profile.js"></script>
-</body>
+}
 
-</html>
 
