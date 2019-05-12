@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CommonProject;
+using COURSE_CODING.Areas.Admin.Models;
+using COURSE_CODING.Common;
 using DAO.DAO;
+using DAO.EF;
 
 namespace COURSE_CODING.Areas.Admin.Controllers
 {
@@ -26,18 +30,69 @@ namespace COURSE_CODING.Areas.Admin.Controllers
         // GET: Admin/User/Create
         public ActionResult Create()
         {
-            return View();
+            List<StatusDefinition> statusDefinition = new List<StatusDefinition>();
+            statusDefinition.Add(new StatusDefinition(CommonConstant.STATUS_LOCK_ACCOUNT, "Locked"));
+            statusDefinition.Add(new StatusDefinition(CommonConstant.STATUS_RIGHT_ACCOUNT, "Not Lock"));
+            List<RoleDefinition> roleDefinition = new List<RoleDefinition>();
+            roleDefinition.Add(new RoleDefinition(CommonConstant.ROLE_ADMIN, "Admin"));
+            roleDefinition.Add(new RoleDefinition(CommonConstant.ROLE_MEMBER, "Member"));
+            roleDefinition.Add(new RoleDefinition(CommonConstant.ROLE_TEACHER, "Teacher"));
+            SelectList statusList = new SelectList(statusDefinition, "ID", "NameStatus");
+            SelectList roleList = new SelectList(roleDefinition, "ID", "NameRole");
+            ViewBag.statusList = statusList;
+            ViewBag.roleList = roleList;
+            return View(); 
         }
 
         // POST: Admin/User/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(UserModel model)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    var DAO = new UserDAO();
+                    if (DAO.CheckUserNameExist(model.UserName))
+                    {
+                        ModelState.AddModelError(String.Empty, "This user name is existed");
+                    }
+                    else if (DAO.CheckUserNameExist(model.Email))
+                    {
+                        ModelState.AddModelError(String.Empty, "Your email is registerd");
+                    }
+                    else
+                    {
+                        USER_INFO u = new USER_INFO();
+                        u.FirstName = model.FirstName;
+                        u.LastName = model.LastName;
+                        u.UserName = model.UserName;
+                        u.PasswordUser = HashMD5.HashStringMD5(model.PasswordUser);
+                        u.RoleUser = model.RoleUser;
+                        u.RoleUser = model.StatusUser;
+                        u.Country = model.Country;
+                        u.Email = model.Email;
+                        u.CreateDate = DateTime.Now;
+                        u.About = model.About;
+                        u.YearGraduation = model.YearGraduation;
+                        Boolean result = DAO.Insert(u);
+                        if (result)
+                        {
+                            var sessionLogin = new InfoLogIn();
+                            sessionLogin.ID = u.ID;
+                            sessionLogin.Name = u.UserName;
+                            Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
+                            ViewBag.Success = "Create sussesfull";
+                            model = new UserModel();
+                            //return Redirect("/User/Dashboard");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(String.Empty, "Fail register your account");
+                        }
+                    }
+                }
+                return RedirectToAction("Create");
             }
             catch
             {

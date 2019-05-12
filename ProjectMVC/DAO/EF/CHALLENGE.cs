@@ -56,9 +56,6 @@ namespace DAO.EF
         [StringLength(256)]
         public string Tags { get; set; }
 
-        [StringLength(256)]
-        public string Languages { get; set; }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANSWER> ANSWERs { get; set; }
 

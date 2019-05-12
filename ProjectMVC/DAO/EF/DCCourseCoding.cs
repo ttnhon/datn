@@ -12,18 +12,18 @@ namespace DAO.EF
         {
         }
 
-        public virtual DbSet<ADD_DATA> ADD_DATAS { get; set; }
-        public virtual DbSet<ANSWER> ANSWERS { get; set; }
-        public virtual DbSet<CHALLENGE> CHALLENGES { get; set; }
-        public virtual DbSet<CHALLENGE_COMPETE> CHALLENGE_COMPETES { get; set; }
-        public virtual DbSet<CHALLENGE_EDITOR> CHALLENGE_EDITORS { get; set; }
-        public virtual DbSet<CHALLENGE_LANGUAGE> CHALLENGE_LANGUAGES { get; set; }
-        public virtual DbSet<COMPETE> COMPETES { get; set; }
-        public virtual DbSet<LANGUAGE> LANGUAGES { get; set; }
-        public virtual DbSet<SCHOOL> SCHOOLS { get; set; }
-        public virtual DbSet<TESTCASE> TESTCASES { get; set; }
-        public virtual DbSet<USER_DATA> USER_DATAS { get; set; }
-        public virtual DbSet<USER_INFO> USER_INFOS { get; set; }
+        public virtual DbSet<ADD_DATA> ADD_DATAS{ get; set; }
+        public virtual DbSet<ANSWER> ANSWERS{ get; set; }
+        public virtual DbSet<CHALLENGE> CHALLENGES{ get; set; }
+        public virtual DbSet<CHALLENGE_COMPETE> CHALLENGE_COMPETES{ get; set; }
+        public virtual DbSet<CHALLENGE_EDITOR> CHALLENGE_EDITORS{ get; set; }
+        public virtual DbSet<CHALLENGE_LANGUAGE> CHALLENGE_LANGUAGES{ get; set; }
+        public virtual DbSet<COMPETE> COMPETES{ get; set; }
+        public virtual DbSet<LANGUAGE> LANGUAGES{ get; set; }
+        public virtual DbSet<SCHOOL> SCHOOLS{ get; set; }
+        public virtual DbSet<TESTCASE> TESTCASES{ get; set; }
+        public virtual DbSet<USER_DATA> USER_DATAS{ get; set; }
+        public virtual DbSet<USER_INFO> USER_INFOS{ get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -38,10 +38,6 @@ namespace DAO.EF
             modelBuilder.Entity<ANSWER>()
                 .Property(e => e.Content)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<ANSWER>()
-                .Property(e => e.TimeDone)
-                .IsFixedLength();
 
             modelBuilder.Entity<CHALLENGE>()
                 .Property(e => e.Slug)
@@ -61,10 +57,6 @@ namespace DAO.EF
 
             modelBuilder.Entity<CHALLENGE>()
                 .Property(e => e.Solution)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<CHALLENGE>()
-                .Property(e => e.Languages)
                 .IsUnicode(false);
 
             modelBuilder.Entity<CHALLENGE>()
@@ -102,10 +94,6 @@ namespace DAO.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<COMPETE>()
-                .Property(e => e.TimeEnd)
-                .IsFixedLength();
-
-            modelBuilder.Entity<COMPETE>()
                 .HasMany(e => e.CHALLENGE_COMPETE)
                 .WithRequired(e => e.COMPETE)
                 .WillCascadeOnDelete(false);
@@ -122,6 +110,11 @@ namespace DAO.EF
             modelBuilder.Entity<SCHOOL>()
                 .Property(e => e.Description)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<SCHOOL>()
+                .HasMany(e => e.USER_INFO)
+                .WithRequired(e => e.SCHOOL)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<TESTCASE>()
                 .Property(e => e.Input)
@@ -142,10 +135,6 @@ namespace DAO.EF
             modelBuilder.Entity<USER_INFO>()
                 .Property(e => e.PhotoURL)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<USER_INFO>()
-                .Property(e => e.CreateDate)
-                .IsFixedLength();
 
             modelBuilder.Entity<USER_INFO>()
                 .Property(e => e.About)

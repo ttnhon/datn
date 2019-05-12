@@ -37,28 +37,22 @@ namespace DAO.EF
 
         [Required]
         [StringLength(50)]
-        public string Country { get; set; }
-
-        [Required]
-        [StringLength(50)]
         public string Email { get; set; }
 
-        public int? StatusUser { get; set; }
-
-        public int? RoleUser { get; set; }
+        public int RoleUser { get; set; }
 
         [StringLength(256)]
         public string PhotoURL { get; set; }
 
-        [Column(TypeName = "timestamp")]
-        [MaxLength(8)]
-        [Timestamp]
-        public byte[] CreateDate { get; set; }
+        public int? StatusUser { get; set; }
+
+        [StringLength(50)]
+        public string Country { get; set; }
 
         [Column(TypeName = "text")]
         public string About { get; set; }
 
-        public int? SchoolID { get; set; }
+        public int SchoolID { get; set; }
 
         public int? YearGraduation { get; set; }
 
@@ -67,6 +61,8 @@ namespace DAO.EF
 
         [StringLength(256)]
         public string GoogleLink { get; set; }
+
+        public DateTime CreateDate { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANSWER> ANSWERs { get; set; }
