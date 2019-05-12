@@ -20,6 +20,7 @@ namespace DAO.EF
         public virtual DbSet<CHALLENGE_LANGUAGE> CHALLENGE_LANGUAGES { get; set; }
         public virtual DbSet<COMPETE> COMPETES { get; set; }
         public virtual DbSet<LANGUAGE> LANGUAGES { get; set; }
+        public virtual DbSet<SCHOOL> SCHOOLS { get; set; }
         public virtual DbSet<TESTCASE> TESTCASES { get; set; }
         public virtual DbSet<USER_DATA> USER_DATAS { get; set; }
         public virtual DbSet<USER_INFO> USER_INFOS { get; set; }
@@ -118,6 +119,10 @@ namespace DAO.EF
                 .WithRequired(e => e.LANGUAGE)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<SCHOOL>()
+                .Property(e => e.Description)
+                .IsUnicode(false);
+
             modelBuilder.Entity<TESTCASE>()
                 .Property(e => e.Input)
                 .IsUnicode(false);
@@ -141,6 +146,18 @@ namespace DAO.EF
             modelBuilder.Entity<USER_INFO>()
                 .Property(e => e.CreateDate)
                 .IsFixedLength();
+
+            modelBuilder.Entity<USER_INFO>()
+                .Property(e => e.About)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<USER_INFO>()
+                .Property(e => e.FacebookLink)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<USER_INFO>()
+                .Property(e => e.GoogleLink)
+                .IsUnicode(false);
 
             modelBuilder.Entity<USER_INFO>()
                 .HasMany(e => e.ANSWERs)

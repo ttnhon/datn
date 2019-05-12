@@ -1,201 +1,136 @@
 ﻿@model COURSE_CODING.Models.CompeteModel
+
 @{
-    Layout = null;
+    ViewBag.Title = "Compete";
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
 }
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width" />
-    <title>Student Dashboard</title>
-
-    <!-- bootstrap -->
-    @Styles.Render("~/Assets/Public/vendor/bootstrap/css/4.0.0.min.css")
-    <!-- font awesome -->
-    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
-
-    <!-- custom css -->
-    @Styles.Render("~/Assets/Public/css/navbar.css")
+@section CustomCSS
+{
     @Styles.Render("~/Assets/Public/css/user-contest.css")
-
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-</head>
-<body>
-    <header>
-        <div class="navbar-session">
-            <div class="container">
-                <nav class="navbar navbar-expand-lg">
-                    <a class="navbar-brand" href="#"><img src="~/Assets/Public/images/fox.png" class="img-fluid" alt=""></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+}
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">PRACTICE <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">COMPETE</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">JOBS</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">LEADER BOARD</a>
-                            </li>
-                        </ul>
-                        <form class="form-inline my-2 my-lg-0 navbar-search-form">
-                            <input type="search">
-                            <i class="fa fa-search"></i>
-                        </form>
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="far fa-comment-alt"></i> <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="far fa-bell"></i> <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="far fa-user"></i>Phuc
-                                </a>
-                                <div class="dropdown-menu base-box" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Profile</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Logout</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
+<section class="header-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-6 domain-header">
+                <p class="sub-contest-title">All Contests</p>
+                <h3 class="contest-title">Contests</h3>
+            </div>
+
+            <div class="col-6">
+
             </div>
         </div>
-    </header>
-    <section class="header-page">
-        <div class="container">
-            <div class="row">
-                <div class="col-6 domain-header">
-                    <p class="sub-contest-title">All Contests</p>
-                    <h3 class="contest-title">Contests</h3>
-                </div>
-
-                <div class="col-6">
-
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="content-page">
-        <div class="container">
-            <div class="row">
-                <!--Contest list-->
-                <div class="col-9 challenge-list">
-                    @if (Model.competes.Count > 0)
+    </div>
+</section>
+<section class="content-page">
+    <div class="container">
+        <div class="row">
+            <!--Contest list-->
+            <div class="col-9 challenge-list">
+                @if (Model.competes.Count > 0)
+                {
+                    foreach (var item in Model.competes)
                     {
-                        foreach (var item in Model.competes)
-                        {
-                            <!--1 Contest-->
-                            <div class="one-contest-box">
-                                <div class="row">
-                                    <div class="col-5 contest-info">
-                                        <h3 class="card-title" title="Regex">@Html.DisplayFor(modelItem => item.Title)</h3>
-                                    </div>
-                                    <div class="col-7 contest-enter">
-                                        <span><strong class="time-happen">Mar 17th, 12:00 am +07</strong><i class="contest-status">Open</i></span>
-                                        <button class="btn btn-outline-success" tabindex="0">
-                                            <span class="ui-text">Enter Contest</span>
-                                        </button>
-                                    </div>
+                        <!--1 Contest-->
+                        <div class="one-contest-box">
+                            <div class="row">
+                                <div class="col-5 contest-info">
+                                    <h3 class="card-title" title="Regex">@Html.DisplayFor(modelItem => item.Title)</h3>
                                 </div>
-                                <div class="contest-description" style="display: none;">
-                                    <hr>
-                                    <h5><strong>Description</strong></h5>
-                                    <p>
-                                        @Html.DisplayFor(modelItem => item.Description)
-                                    </p>
+                                <div class="col-7 contest-enter">
+                                    <span><strong class="time-happen">Mar 17th, 12:00 am +07</strong><i class="contest-status">Open</i></span>
+                                    @*<a href="" class="btn btn-outline-success">Enter Contest</a>*@
+                                    <button class="btn btn-outline-success" tabindex="0" onclick="location.href='/Compete/Detail/@item.ID'">
+                                        <span class="ui-text">Enter Contest</span>
+                                    </button>
                                 </div>
                             </div>
+                            <div class="contest-description" style="display: none;">
+                                <hr>
+                                <h5><strong>Description</strong></h5>
+                                <p>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </p>
+                            </div>
+                        </div>
 
+                    }
+                }
+            </div>
+
+            <!--filter-->
+            <div class="col-3 contest-filter">
+                <div class="one-filter">
+                    <h6 class="label">STATUS</h6>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="status_easy" checked>
+                        <label class="custom-control-label" for="status_easy">Unjoined</label>
+                    </div>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="status_normal">
+                        <label class="custom-control-label" for="status_normal">Joined</label>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="one-filter">
+                    <h6 class="label">DIFFICULTY</h6>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="difficult_easy" checked>
+                        <label class="custom-control-label" for="difficult_easy">Easy</label>
+                    </div>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="difficult_normal">
+                        <label class="custom-control-label" for="difficult_normal">Normal</label>
+                    </div>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="difficult_hard">
+                        <label class="custom-control-label" for="difficult_hard">hard</label>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="one-filter">
+                    <h6 class="label">LANGUAGE</h6>
+                    @if (true)
+                    {
+                        foreach (var item in Model.languages)
+                        {
+                            <!-- Default indeterminate -->
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label" for="language_@Html.DisplayFor(modelItem => item.Name)">@Html.DisplayFor(modelItem => item.Name)</label>
+                            </div>
                         }
                     }
-                </div>
-
-                <!--filter-->
-                <div class="col-3 contest-filter">
-                    <div class="one-filter">
-                        <h6 class="label">STATUS</h6>
-                        <!-- Default indeterminate -->
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="status_easy" checked>
-                            <label class="custom-control-label" for="status_easy">Unjoined</label>
-                        </div>
-                        <!-- Default indeterminate -->
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="status_normal">
-                            <label class="custom-control-label" for="status_normal">Joined</label>
-                        </div>
-                    </div>
-                    <hr>
-
-                    <div class="one-filter">
-                        <h6 class="label">DIFFICULTY</h6>
-                        <!-- Default indeterminate -->
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="difficult_easy" checked>
-                            <label class="custom-control-label" for="difficult_easy">Easy</label>
-                        </div>
-                        <!-- Default indeterminate -->
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="difficult_normal">
-                            <label class="custom-control-label" for="difficult_normal">Normal</label>
-                        </div>
-                        <!-- Default indeterminate -->
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="difficult_hard">
-                            <label class="custom-control-label" for="difficult_hard">hard</label>
-                        </div>
-                    </div>
-                    <hr>
-
-                    <div class="one-filter">
-                        <h6 class="label">LANGUAGE</h6>
-                        @if (true)
-                        {
-                            foreach (var item in Model.languages)
-                            {
-                                <!-- Default indeterminate -->
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input">
-                                    <label class="custom-control-label" for="language_@Html.DisplayFor(modelItem => item.Name)">@Html.DisplayFor(modelItem => item.Name)</label>
-                                </div>
-                            }
-                        }
-
-                    </div>
 
                 </div>
+
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-
-    @Scripts.Render("~/Assets/Public/vendor/jquery/3.3.1.min.js")
-    @Scripts.Render("~/Assets/Public/vendor/jquery/popper.1.12.9.min.js")
-    @Scripts.Render("~/Assets/Public/vendor/bootstrap/4.0.0.min.js")
-
-    @*Custome JS*@
+@*Custome JS*@
+@section scripts
+{
     <script type="text/javascript">
         $(document).ready(function () {
             $(".one-contest-box").click(function () {
                 $(this).children(".contest-description").slideToggle("slow");
             });
         });
+
+
     </script>
-</body>
-</html>
+
+}
+

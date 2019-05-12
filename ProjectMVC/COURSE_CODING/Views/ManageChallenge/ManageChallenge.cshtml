@@ -1,0 +1,139 @@
+﻿@model COURSE_CODING.Models.ManageChallengesModel
+
+@{
+    ViewBag.Title = "ManageChallenge";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @Styles.Render("~/Assets/Public/css/manage-challenges.css")
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <title>Moderator Dashboard</title>
+</head>
+<body>
+    <div class="container" style="vertical-align: center;">
+        <h1 class="title">Moderator Dashboard</h1>
+        <nav class="navbar navbar-light bg-light">
+            <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
+                <li class="nav-item"><a id="js-mng-contests" class="nav-link" href="#">Manage Contests</a></li>
+                <li class="nav-item"><a id="js-mng-challenges" class="nav-link active" href="#">Manage Challenges</a></li>
+                <li class="nav-item"><a id="js-statistics" class="nav-link" href="#">Statistics</a></li>
+            </ul>
+
+            <form>
+                <div class="form-group mr-sm-2">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+            </form>
+
+        </nav>
+
+
+        <div class="mng-contests-modal main-modal" hidden>
+            <div class="clearfix">
+                <div style="float: left;">
+                    Contests you can edit are below.
+                </div>
+                <a class="btn btn-success" href="#" style="float: right;">Create Contest</a>
+            </div>
+
+            <div id=" 	" class="table-adjustable">
+                <div class="table">
+                    <div class="row table-title no-margin">
+                        <div class="col-xs-1 vd-col-xs-20" style="margin-left: 5px;">
+                            Contest Name
+                        </div>
+                        <div class="col-xs-1 vd-col-xs-20 text-center">
+                            Contest Slug
+                        </div>
+                        <div class="col-xs-1 vd-col-xs-20 text-center">
+                            Contest Owner
+                        </div>
+                        <div class="col-xs-1 vd-col-xs-15 text-center">
+                            Start Date
+                        </div>
+                        <div class="col-xs-1 vd-col-xs-10 text-center">
+                            Signups
+                        </div>
+                        <div class="col-xs-1 vd-col-xs-15 text-center">
+                            Participants
+                        </div>
+                    </div>
+                    <div class="table-border table-cs table-body">
+                        <div id="no-content" class="row table-row no-margin table-cs">
+                            <div class="col-sm-12 text-center">
+                                You have not created any contests.
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="row table-row no-margin table-cs">
+                                <div class="col-xs-1 vd-col-xs-20" style="margin-left: 5px;">contest 1</div>
+                                <div class="col-xs-1 vd-col-xs-20 text-center">contest-1</div>
+                                <div class="col-xs-1 vd-col-xs-20 text-center">reficul</div>
+                                <div class="col-xs-1 vd-col-xs-15 text-center">Apr 10, 2019</div>
+                                <div class="col-xs-1 vd-col-xs-10 text-center">0</div>
+                                <div class="col-xs-1 vd-col-xs-15 text-center">0</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mng-challenges-modal main-modal">
+            <div class="clearfix">
+                <div style="float: left;">
+                    Challenges you can edit are below.
+                </div>
+                <a class="btn btn-success" href="#" style="float: right;">Create Challenges</a>
+            </div>
+
+            <div id="" class="table-adjustable">
+                <div class="table">
+                    <div class="row table-title no-margin">
+                        <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">
+                            Challenge Name
+                        </div>
+                        <div class="col-xs-1 vd-col-xs-30 text-center">
+                            Challenge Slug
+                        </div>
+                        <div class="col-xs-1 vd-col-xs-30 text-center">
+                            Challenge Owner
+                        </div>
+                    </div>
+                    <div class="table-border table-cs table-body">
+                        <div id="no-content" class="row table-row no-margin table-cs">
+                            <div class="col-sm-12 text-center">
+                                You have not created any challenges.
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="row table-row no-margin table-cs">
+                                <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">Hello World in Java</div>
+                                <div class="col-xs-1 vd-col-xs-30 text-center">hello-world-in-java</div>
+                                <div class="col-xs-1 vd-col-xs-30 text-center">reficul</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="statistics-modal main-modal" hidden>
+            <div class="clearfix">
+                <p>There's nothing here!!</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

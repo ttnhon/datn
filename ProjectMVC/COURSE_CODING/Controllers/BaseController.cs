@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using CommonProject.CommonConstant;
+using CommonProject;
 using COURSE_CODING.Common;
 
 namespace COURSE_CODING.Controllers

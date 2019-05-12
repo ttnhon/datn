@@ -3,16 +3,15 @@
 ###################
 *.com
 *.class
-*.dll
+
 *.exe
 *.pdb
 *.cache
 *.suo
 # Include dlls if they’re in the NuGet packages directory
-!/packages/*/lib/*.dll
-!/packages/*/lib/*/*.dll
+
 # Include dlls if they're in the CommonReferences directory
-!*CommonReferences/*.dll
+
 ####################
 # VS Upgrade stuff #
 ####################
@@ -64,12 +63,13 @@ Thumbs.db
 *.user
 *.[Cc]ache
 *[Rr]esharper*
-packages
+
 NuGet.exe
 _[Ss]cripts
 *.exe
-*.dll
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
-/ProjectMVC/.vs/COURSE_CODING/v15/Server/sqlite3
+/ProjectMVC/.vs
+/.vs
+/WebAPI/App_Data/JavaSDK

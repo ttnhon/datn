@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CommonProject.CommonConstant;
+using CommonProject;
 using DAO.EF;
 using PagedList;
 
@@ -66,16 +66,7 @@ namespace DAO.DAO
             try
             {
                 var u = db.USER_INFOS.Find(entity.ID);
-                if (u != null)
-                {
-                    u.UserName = entity.UserName;
-                    u.FirstName = entity.FirstName;
-                    u.LastName = entity.LastName;
-                    u.PasswordUser = entity.PasswordUser;
-                    u.PhotoURL = entity.PhotoURL;
-                    u.RoleUser = entity.RoleUser;
-                    u.StatusUser = entity.RoleUser;                
-                }
+                db.Entry(entity).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return true;
             }catch(Exception e)
@@ -156,6 +147,17 @@ namespace DAO.DAO
         public USER_INFO GetByName(string Name)
         {
             return db.USER_INFOS.SingleOrDefault(x => x.UserName == Name);
+        }
+
+        /// <summary>
+        /// get Name by ID
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns></returns>
+        public string GetNameByID(int id)
+        {
+            USER_INFO user_info = db.USER_INFOS.SingleOrDefault(x => x.ID == id);
+            return user_info.FirstName + " " + user_info.LastName;
         }
 
         //paging data

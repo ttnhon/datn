@@ -17,12 +17,13 @@ namespace WebAPI.Controllers
     public class JavaCompilerController : ApiController
     {
         //private string text;
-        protected Dictionary<string, string> ExecuteJava(string directory_file_code = "E:", string file_code = "MyClass")
+        protected Dictionary<string, string> ExecuteJava(string directory_file_code, string file_code = "MyClass")
         {
             /*Run java command*/
+            string app_path = AppDomain.CurrentDomain.BaseDirectory;
             //set up
             System.Diagnostics.Process p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = "C:\\Users\\nvpit\\Downloads\\program files\\Java\\jdk1.8.0_151\\bin\\java.exe";  //Link to java.exe  => "javac"
+            p.StartInfo.FileName = app_path + Constant.JAVA_EXECUTE_LINK + "java.exe";  //Link to java.exe  => "javac"
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.WorkingDirectory = directory_file_code;        //Link to directory of file need to execute
             p.StartInfo.Arguments = file_code;          //=> "javac E:\MyClass"
@@ -38,11 +39,11 @@ namespace WebAPI.Controllers
             p.WaitForExit();
 
             //return result
-            string status = "success";
+            string status = Constant.STATUS_SUCCESS;
             string result_message = result_string;
             if (error_string != "")
             {
-                status = "fail";
+                status = Constant.STATUS_FAIL;
                 result_message = error_string;
             }
             Dictionary<string, string> result = new Dictionary<string, string>();
@@ -52,10 +53,13 @@ namespace WebAPI.Controllers
 
         }
 
-        protected Dictionary<string, string> ExecuteJavac(string directory_file_code = "E:", string file_code = "MyClass.java")
+        protected Dictionary<string, string> ExecuteJavac(string directory_file_code, string file_code = "MyClass.java")
         {
+            /*Run javac command*/
+            string app_path = AppDomain.CurrentDomain.BaseDirectory;
+            //set up
             System.Diagnostics.Process p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = "C:\\Users\\nvpit\\Downloads\\program files\\Java\\jdk1.8.0_151\\bin\\javac.exe";  //Link to javac.exe  => "javac"
+            p.StartInfo.FileName = app_path + Constant.JAVA_EXECUTE_LINK + "javac.exe";  //Link to javac.exe  => "javac"
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.WorkingDirectory = directory_file_code;                //Link to directory of file need to execute
             p.StartInfo.Arguments = file_code;             // =>    "javac E:\MyClass.java"
@@ -71,11 +75,11 @@ namespace WebAPI.Controllers
             p.WaitForExit();
 
             //return result
-            string status = "success";
+            string status = Constant.STATUS_SUCCESS;
             string result_message = result_string;
             if (error_string != "")
             {
-                status = "fail";
+                status = Constant.STATUS_FAIL;
                 result_message = error_string;
             }
             Dictionary<string, string> result = new Dictionary<string, string>();
@@ -88,24 +92,48 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IHttpActionResult Compiler(Source source)
         {
-            string code = source.stringSource;
-            string directory_file = "E:";
-            string filename_code = "MyClass";
-            string full_path = directory_file + "\\" + filename_code;
-            /*write code to file.java*/
-            using (StreamWriter w = new StreamWriter(full_path + ".java", true))
+            try
             {
-                w.WriteLine(code); // Write the text
+
+                string code = source.stringSource;
+                string app_path = AppDomain.CurrentDomain.BaseDirectory;
+                string directory_file = app_path + Constant.FOLDER_CODE_DIR;
+                string filename_code = "MyClass" + source.userKey;
+                string full_path = directory_file + "\\" + filename_code;
+
+                this.DeleteFile(full_path);
+
+                /*write code to file.java*/
+                using (StreamWriter w = new StreamWriter(full_path + ".java", true))
+                {
+                    w.WriteLine(code); // Write the text
+                }
+
+                /*run javac E:\\MyClass.java*/
+                Dictionary<string, string> result_javac = this.ExecuteJavac(directory_file, filename_code + ".java");
+                if (result_javac["status"] == Constant.STATUS_FAIL)            //return if run javac fail
+                    return Ok(result_javac);
+
+                /*run java E:\\MyClass*/
+                Dictionary<string, string> result_java = this.ExecuteJava(directory_file, filename_code);
+
+                this.DeleteFile(full_path);
+
+                //return java execute
+                //if (result_javac["status"] == Constant.STATUS_FAIL)
+                //    return BadRequest(result_java["message"]);
+                //return Ok(result_java["message"]);
+
+                return Ok(result_java);
+            }catch(Exception e)
+            {
+                return BadRequest(e.ToString());
             }
+        }
 
-            /*run javac E:\\MyClass.java*/
-            Dictionary<string, string> result_javac = this.ExecuteJavac(directory_file, filename_code + ".java");
-            if (result_javac["status"] == "fail")            //return if run javac fail
-                return BadRequest(result_javac["message"]);
-
-            /*run java E:\\MyClass*/
-            Dictionary<string, string> result_java = this.ExecuteJava(directory_file, filename_code);
-
+        // Xoa 3 file java, class, exe
+        protected void DeleteFile(string full_path)
+        {
             if (System.IO.File.Exists(full_path))           //delete file MyClass and MyClass.java
             {
                 System.IO.File.Delete(full_path);
@@ -118,12 +146,6 @@ namespace WebAPI.Controllers
             {
                 System.IO.File.Delete(full_path + ".class");
             }
-            //return java execute
-            if (result_javac["status"] == "fail")
-                return BadRequest(result_java["message"]);
-            return Ok(result_java["message"]);
-
         }
-        
     }
 }

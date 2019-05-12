@@ -25,7 +25,7 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
 
                     @{
-        var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.CommonConstant.SESSION_INFO_LOGIN];
+        var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
                     }
                     @if (session == null)
     {

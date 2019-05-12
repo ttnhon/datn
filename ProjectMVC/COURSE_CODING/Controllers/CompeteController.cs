@@ -30,5 +30,22 @@ namespace COURSE_CODING.Controllers
             }
             return View();
         }
+
+        // GET: Compete/Detail/id
+        public ActionResult Detail(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                CompeteChallengesModel model = new CompeteChallengesModel();    //Model
+                //Prepare data
+                CompeteDAO competeDao = new CompeteDAO();
+                ChallengeDAO challenge = new ChallengeDAO();
+
+                model.compete = competeDao.GetOne(id);
+                model.challenges = challenge.GetAllByCompeteID(id);
+                return View(model);
+            }
+            return View();
+        }
     }
 }

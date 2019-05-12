@@ -1,0 +1,494 @@
+﻿*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background: #f3f7f7;
+}
+
+body {
+    font-family: Roboto, Arial !important;
+    vertical-align: middle;
+    background: #f3f7f7;
+}
+
+.container {
+    max-width: 1420px !important;
+}
+
+.content {
+    background: #f3f7f7;
+}
+
+.profile-layout {
+    display: grid;
+    grid-template-columns: 400px auto;
+    grid-template-areas: "sidebar rightpanel";
+    margin-top: 30px;
+}
+
+.profile-sidebar {
+    grid-area: sidebar;
+    margin-right: 20px;
+    padding: 15px 0 30px;
+}
+
+.profile-rightpanel {
+    grid-area: rightpanel;
+    margin-left: 10px;
+}
+
+
+/*Profile Sidebar*/
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    position: relative;
+}
+
+    .profile-avatar > img {
+        max-width: 100%;
+        min-height: 100%;
+    }
+
+    .profile-avatar > span {
+        position: relative;
+        display: inline-block;
+        background-image: url("https://www.tvilight.com/wp-content/uploads/2017/06/background-04-768x430.jpg");
+        background-size: cover;
+        width: 80px;
+        height: 80px;
+        font-size: 27px;
+        box-sizing: border-box;
+        border-radius: 5px;
+    }
+
+        .profile-avatar > span > span {
+            color: #ffffff;
+            font-weight: 700;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+.avatar-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    overflow: hidden;
+    width: 100%;
+    height: 0%;
+    background-color: rgba(0, 0, 0, .4);
+    color: #ffffff;
+    cursor: pointer;
+    transition: .1s;
+    font-size: 18px;
+}
+
+    .avatar-overlay i {
+        display: inline;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+.profile-avatar:hover .avatar-overlay {
+    height: 100%;
+}
+
+.profile-heading {
+    font-weight: 700;
+    margin: 20px 0 0;
+    text-transform: capitalize;
+    font-size: 26px;
+    line-height: 1.2;
+}
+
+.profile-username-heading {
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.profile-country {
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.profile-social-list {
+    list-style-type: none;
+    display: flex;
+    margin-top: 15px;
+    font-size: 24px;
+}
+
+ul {
+    margin-bottom: 0 !important;
+}
+
+.profile-social-list a {
+    padding-right: 20px;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.social-link:first-of-type {
+    padding-right: 20px;
+    padding-left: 0;
+}
+
+.profile-social-list span {
+    position: relative;
+    cursor: pointer;
+}
+
+.btn-link,
+.btn-link:focus {
+    text-decoration: none !important;
+    background: transparent;
+    outline: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+    .btn-link > div {
+        margin-top: 20px;
+    }
+
+    .btn-link i {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+
+    .btn-link:hover {
+        text-decoration: none !important;
+    }
+
+.profile-detail {
+    position: relative;
+}
+
+    .profile-detail h2 {
+        font-weight: 700;
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+.profile-detail-edit {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.profile-detail-extra {
+    margin-bottom: 20px;
+}
+
+.profile-detail-extra .extra-title {
+    margin:0 !important;
+}
+
+
+/* Profile RightPanel*/
+
+.badges-section {
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .1);
+    background-color: #ffffff;
+    padding: 30px;
+    position: relative;
+}
+
+    .badges-section h2 {
+        font-weight: 700;
+        font-size: 24px;
+        margin-bottom: 1.3em;
+    }
+
+.badge-list {
+    position: relative;
+}
+
+    .badge-list li {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1em;
+    }
+
+.badge-img {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.badge-level,
+.badge-current-point,
+.badge-next-point {
+    font-size: 1.1rem;
+}
+
+.badge-current-point {
+    margin-bottom: 30px;
+}
+
+.challenge-link,
+.challenge-link:hover {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: .8em;
+    letter-spacing: 1px;
+}
+
+
+
+.badge-title {
+    text-transform: capitalize;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.badge-progress {
+    display: grid;
+    min-width: 50%;
+    grid-template: "level exp" auto "progress progress" auto / 4fr auto;
+}
+
+.badge-level {
+    color: #b9722d;
+    margin: 0;
+    grid-area: level;
+}
+
+.badge-exp {
+    grid-area: exp;
+}
+
+.progress {
+    grid-area: progress;
+    height: 10px !important;
+}
+
+.progress-bar {
+    width: 51%;
+}
+
+.section-card {
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .1);
+    background-color: #ffffff;
+    margin-top: 30px;
+    overflow-x: hidden;
+    padding: 30px;
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+    .section-title i {
+        color: gray;
+        margin-right: 5px;
+    }
+
+.section-body {
+    margin: 30px 0 0 20px;
+}
+
+
+.submision-list {
+    margin-bottom: 15px;
+}
+
+.history-item {
+    font-size: 18px;
+}
+
+    .history-item:hover {
+        text-decoration: none;
+    }
+
+.time-ago {
+    margin-left: 10px;
+    font-size: 19px;
+}
+
+.contest-list > div {
+    display: flex;
+}
+
+.contest-month {
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.contest-item {
+    font-size: 18px;
+    width: 32%;
+}
+
+.participant-count {
+    margin-left: 10px;
+    width: 18%;
+}
+
+
+.popup {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 10000;
+    overflow: auto;
+    height: 0;
+    width: 100%;
+    transition: 0.1s ease-out;
+}
+
+.popup-modal {
+    width: 100%;
+    height: 100%;
+    background: #e7eeefb2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-content {
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .1);
+    background: white;
+    border-radius: 4px;
+    padding: 0 30px;
+    position: relative;
+}
+
+.img-popup {
+    width: 700px;
+    height: 260px;
+}
+
+.content-header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: inherit;
+    margin: 20px 0;
+    text-transform: none;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    margin: 20px 0;
+    padding: 10px;
+    font-size: 14px;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 400;
+}
+
+.content-body {
+    text-align: center;
+    margin-top: 25px;
+}
+
+    .content-body form {
+        text-align: left !important;
+    }
+
+    .content-body span {
+        font-size: 20px;
+        margin: 10px 20px;
+    }
+
+    .content-body p {
+        margin-top: 10px;
+    }
+
+.intro-popup {
+    width: 600px;
+    height: 580px;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+    .input label {
+        margin-bottom: 5px;
+        font-size: 18px;
+    }
+
+.input-required > label::after {
+    content: "*";
+    color: red;
+    margin-left: 5px;
+}
+
+.input textarea {
+    overflow: auto;
+    resize: none;
+}
+
+.input-btn {
+    display: flex;
+}
+
+    .input-btn button {
+        margin-right: 20px;
+    }
+
+.footer-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 60px;
+}
+
+    .footer-btn button {
+        font-size: 18px;
+        font-weight: 700;
+        margin-left: 20px;
+        padding: 10px 30px;
+    }
+
+.about-popup {
+    width: 600px;
+    height: 600px;
+}
+
+.year-list {
+    position:relative;
+    width: 50% !important;
+}
+
+.btn-education,
+.education-list {
+    width: 100%;
+}
+
+.dropdown-toggle::after {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}

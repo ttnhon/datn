@@ -10,5 +10,6 @@ namespace COURSE_CODING.Common
     {
         public int ID { get; set; }
         public String Name { get; set; }
+        public int Role { get; set; }
     }
 }

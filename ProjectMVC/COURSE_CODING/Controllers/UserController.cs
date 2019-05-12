@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BotDetect.Web.Mvc;
-using CommonProject.CommonConstant;
+using CommonProject;
 using COURSE_CODING.Common;
 using COURSE_CODING.Models;
 using DAO.DAO;
@@ -116,7 +116,7 @@ namespace COURSE_CODING.Controllers
                         Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
                         ViewBag.Success = "Register sussesfull";
                         model = new RegisterModel();
-                        return Redirect("/");
+                        return Redirect("/User/Dashboard");
                     }
                     else
                     {
@@ -147,13 +147,14 @@ namespace COURSE_CODING.Controllers
                     var sessionLogin = new InfoLogIn();
                     sessionLogin.ID = user.ID;
                     sessionLogin.Name = user.UserName;
+                    sessionLogin.Role = (int)user.RoleUser;
                     Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
                     if (user.RoleUser.Equals(CommonConstant.ROLE_ADMIN))
                     {
-                        //return Redirect("databoardAdmin");
+                        return Redirect("/Admin/User/Index");
                     }
                     else if(user.RoleUser.Equals(CommonConstant.ROLE_MEMBER)) {
-                       // return Redirect("databoardStudentOrmember");
+                        return Redirect("/User/Dashboard");
                     }
                     else if(user.RoleUser.Equals(CommonConstant.ROLE_TEACHER))
                     {
@@ -278,18 +279,22 @@ namespace COURSE_CODING.Controllers
 
         // POST: User/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(USER_INFO user)
         {
-            try
+            if(ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                var userDao = new UserDAO();
+                var result = userDao.Update(user);
+                if(result)
+                {
+                    return Redirect(String.Format("/User/Profile/{0}",user.ID));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Update Success!");
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
         // GET: User/Delete/5
@@ -327,6 +332,47 @@ namespace COURSE_CODING.Controllers
                 uriBuilder.Path = Url.Action("FacebookCallback");
                 return uriBuilder.Uri;
             }
+        }
+
+        // GET: User/Profile/5
+        [HttpGet]
+        public new ActionResult Profile(int id)
+        {
+            if(ModelState.IsValid)
+            {
+                UserProfileModel model = new UserProfileModel();
+                model.Info = (new UserDAO().GetUserById(id));
+                model.Challenges = (new ChallengeDAO().GetAll(id));
+                model.Competes = (new CompeteDAO().GetAll(id));
+                model.School = (new SchoolDAO().GetSchoolByID(id));
+                SetViewBag();
+                return View(model);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public new ActionResult Profile(UserProfileModel user)
+        {
+            if (ModelState.IsValid)
+            {
+                var userDAO = new UserDAO();
+                var result = userDAO.Update(user.Info);
+                if (result)
+                {
+                    return Redirect(String.Format("/User/Profile/{0}", user.Info.ID));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Update Success!");
+                }
+            }
+            return View();
+        }
+
+        public void SetViewBag(int? selectedID = null)
+        {
+            ViewBag.School = new SelectList(new SchoolDAO().GetList(), "ID", "Name", selectedID);
         }
     }
 

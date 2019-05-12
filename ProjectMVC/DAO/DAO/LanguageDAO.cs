@@ -111,5 +111,17 @@ namespace DAO.DAO
             return db.ANSWERS.Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t,p) => new { t, p})
                 .Count(u => u.t.UserId == id && u.p.Languages.Contains(language));
         }
+
+        /// <summary>
+        /// Get number of answer of language by user id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<LANGUAGE> GetByChallengeID(int id)
+        {
+            return db.CHALLENGE_LANGUAGES.Where(table => table.ChallengeID == id)
+                .Join(db.LANGUAGES, t => t.LanguageID, p => p.ID, (t, p) => new { t, p })
+                .Select(item => item.p).ToList();
+        }
     }
 }

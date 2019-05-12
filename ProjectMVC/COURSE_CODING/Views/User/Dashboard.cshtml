@@ -1,82 +1,17 @@
 ﻿@model COURSE_CODING.Models.UserDashboardModel
+
 @{
-    Layout = null;
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
 }
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width" />
-    <title>Student Dashboard</title>
-
-    <!-- bootstrap -->
-    @Styles.Render("~/Assets/Public/vendor/bootstrap/css/4.0.0.min.css")
-    <!-- font awesome -->
-    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
-
-    <!-- custom css -->
-    @Styles.Render("~/Assets/Public/css/navbar.css")
+@section CustomCSS
+{
     @Styles.Render("~/Assets/Public/css/style.css")
-    @Styles.Render("~/Assets/Public/css/domain.css")
-
+    @*@Styles.Render("~/Assets/Public/css/domain.css")*@
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-</head>
-<body>
-    <header>
-        <div class="navbar-session">
-            <div class="container">
-                <nav class="navbar navbar-expand-lg">
-                    <a class="navbar-brand" href="#"><img src="~/Assets/Public/images/fox.png" class="img-fluid" alt="" runat="server"></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+}
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">PRACTICE <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">COMPETE</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">JOBS</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">LEADER BOARD</a>
-                            </li>
-                        </ul>
-                        <form class="form-inline my-2 my-lg-0 navbar-search-form">
-                            <input type="search">
-                            <i class="fa fa-search"></i>
-                        </form>
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="far fa-comment-alt"></i> <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="far fa-bell"></i> <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="far fa-user"></i>Phuc
-                                </a>
-                                <div class="dropdown-menu base-box" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Profile</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Logout</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-            </div>
-        </div>
-    </header>
     <section class="statistic">
         <div class="container">
             <div class="row">
@@ -142,11 +77,11 @@
                                         <!--one event-->
                                         <li>
                                             @*<time datetime="2014-07-20">
-                                                <span class="day">4</span>
-                                                <span class="month">Jul</span>
-                                                <span class="year">2014</span>
-                                                <span class="time">ALL DAY</span>
-                                            </time>*@
+                                                    <span class="day">4</span>
+                                                    <span class="month">Jul</span>
+                                                    <span class="year">2014</span>
+                                                    <span class="time">ALL DAY</span>
+                                                </time>*@
                                             <div class="info">
                                                 <h2 class="title">@item.Title</h2>
                                                 <p class="desc">@item.Description</p>
@@ -182,10 +117,10 @@
                                                 <div class="skill-detail">
                                                     <div class="skill-progress-bar">
                                                         <div class="progress">
-                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: @((((item.Solved*1.0)/item.Count)*100).ToString() + "%")"></div>
+                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: @((((item.Solved * 1.0) / item.Count) * 100).ToString() + "%")"></div>
                                                         </div>
                                                         <div class="progress-count text-content">
-                                                            <span class="percentage">@((((item.Solved * 1.0) / item.Count) * 100).ToString() + "%")</span><span class="points-left"> (@(item.Solved.ToString() +"/"+ item.Count.ToString()) challenges solved)</span>
+                                                            <span class="percentage">@((((item.Solved * 1.0) / item.Count) * 100).ToString() + "%")</span><span class="points-left"> (@(item.Solved.ToString() + "/" + item.Count.ToString()) challenges solved)</span>
                                                         </div>
                                                     </div>
                                                 </div><button class="btn btn-outline-success btn-lg" tabindex="0">
@@ -199,6 +134,9 @@
                                 </div>
                                 <!--end 1 skill-->
                             }
+                        }
+                        else {
+                            <h4 class="no-skill">You didn't got skill yet</h4>
                         }
                     </div>
                     <!--end skill-process-->
@@ -215,7 +153,7 @@
                                         {
                                             foreach (var item in Model.Languages)
                                             {
-                                                <a class="one-language" href=""><h5 class="language-name">@Html.DisplayFor(modelItem => item.Name)</h5></a>
+                                                <a class="one-language" href="/Domain/Index/@item.Name"><h5 class="language-name">@Html.DisplayFor(modelItem => item.Name)</h5></a>
                                                 <hr>
                                             }
                                         }
@@ -266,10 +204,3 @@
         </div>
         <!--		end container-->
     </section>
-
-
-    @Scripts.Render("~/Assets/Public/vendor/jquery/3.3.1.min.js")
-    @Scripts.Render("~/Assets/Public/vendor/jquery/popper.1.12.9.min.js")
-    @Scripts.Render("~/Assets/Public/vendor/bootstrap/4.0.0.min.js")
-</body>
-</html>
