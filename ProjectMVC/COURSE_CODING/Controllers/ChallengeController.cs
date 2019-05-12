@@ -32,5 +32,28 @@ namespace COURSE_CODING.Controllers
             };
             return View(model);
         }
+
+        // GET: Challenge/edit/:id
+        public ActionResult Edit(int id)
+        {
+            EditChallengeModel model = new EditChallengeModel()
+            {
+                Slug = "test-1",
+                Name = "test 1"
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(EditChallengeModel model)
+        {
+            return null;
+        }
+
+        [HttpPost]
+        public JsonResult UpdateDetails(EditChallengeModel model)
+        {
+            return Json(new { model });
+        }
     }
 }

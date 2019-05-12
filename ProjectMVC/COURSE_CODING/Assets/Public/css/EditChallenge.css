@@ -1,0 +1,49 @@
+.edit-challenge .main-modal {
+    padding: 15px 0 15px 0;
+}
+
+.edit-challenge .test-case-popup .modal-content {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.edit-challenge .form-group .setting-des {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.edit-challenge .form-group label {
+    font-weight: bold;
+}
+
+.edit-challenge .save-change-btn-group {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid grey;
+    padding: 20px;
+    background-color: white;
+}
+
+.save-change-btn-group button {
+    float: right;
+}
+
+.edit-challenge .table-test-case {
+    padding-top: 15px;
+}
+
+.edit-challenge .moderators-list ul {
+    list-style-type: none;
+}
+
+.edit-challenge .moderators-list .profile-pic {
+    max-height: 40px;
+}
+
+@media (min-width: 576px) {
+    .edit-challenge .test-case-popup {
+        max-width: 800px;
+    }
+}

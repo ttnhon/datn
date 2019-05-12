@@ -185,6 +185,7 @@
     <Compile Include="Models\CompeteModel.cs" />
     <Compile Include="Models\DataAchieve.cs" />
     <Compile Include="Models\DomainModel.cs" />
+    <Compile Include="Models\EditChallengeModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\Skill.cs" />
@@ -310,11 +311,13 @@
     <Content Include="Assets\Page\vendor\raphael\raphael.min.js" />
     <Content Include="Assets\Public\css\challenge.css" />
     <Content Include="Assets\Public\css\domain.css" />
+    <Content Include="Assets\Public\css\EditChallenge.css" />
     <Content Include="Assets\Public\css\navbar.css" />
     <Content Include="Assets\Public\css\style.css" />
     <Content Include="Assets\Public\css\user-contest.css" />
     <Content Include="Assets\Public\images\cpp-739b350881.svg" />
     <Content Include="Assets\Public\images\fox.png" />
+    <Content Include="Assets\Public\js\EditChallenge.js" />
     <Content Include="Assets\Public\vendor\bootstrap\css\4.0.0.min.css" />
     <Content Include="Assets\Public\vendor\bootstrap\js\4.0.0.min.js" />
     <Content Include="Assets\Public\vendor\font-awesome\font-basic.css" />
@@ -416,13 +419,13 @@
     <Content Include="Views\User\Dashboard.cshtml" />
     <Content Include="Views\Compete\Index.cshtml" />
     <Content Include="Views\Challenge\Problem.cshtml" />
+    <Content Include="Views\Challenge\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Base\" />
     <Folder Include="Areas\Admin\Views\Home\" />
-    <Folder Include="Assets\Public\js\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
