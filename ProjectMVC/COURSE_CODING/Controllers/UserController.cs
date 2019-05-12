@@ -64,6 +64,10 @@ namespace COURSE_CODING.Controllers
                             skill.Count = DAO.GetChallengeCount(item.Name);
                             model.Skills.Add(skill);
                         }
+                        else
+                        {
+                            continue;
+                        }
                         //get next challenge list
                         CHALLENGE c = DAO.GetNextChallengeByID(ses.ID, item.Name);
                         if(c != null)

@@ -52,8 +52,10 @@ namespace DAO.DAO
         /// <returns></returns>
         public List<CHALLENGE> GetChallenge(string language)
         {
-            //return db.CHALLENGES.Where(item => item.Languages.Contains(language)).ToList();
-            return null;
+            return db.CHALLENGE_LANGUAGES
+                .Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t, p) => new { t, p})
+                .Join(db.LANGUAGES, t => t.t.LanguageID, p => p.ID, (t,p) => new { t, p })
+                .Where(table => table.p.Name.Contains(language)).Select(item => item.t.p).ToList();
         }
 
         /// <summary>
@@ -63,8 +65,10 @@ namespace DAO.DAO
         /// <returns></returns>
         public int GetChallengeCount(string language)
         {
-            // return db.CHALLENGES.Count(item => item.Languages.Contains(language));
-            return 0;
+            return db.CHALLENGE_LANGUAGES
+                .Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t, p) => new { t, p })
+                .Join(db.LANGUAGES, t => t.t.LanguageID, p => p.ID, (t, p) => new { t, p })
+                .Count(table => table.p.Name.Contains(language));
         }
 
         /// <summary>
@@ -94,14 +98,16 @@ namespace DAO.DAO
         /// <returns></returns>
         public CHALLENGE GetNextChallengeByID(int id, string language)
         {
-            //var res = db.CHALLENGES.Where(table => table.Languages.Contains(language)).Select(item => item.ID)
-            //    .Except(
-            //    db.CHALLENGES.Join(db.ANSWERS, t => t.ID, p => p.ChallengeID, (t, p) => new { t, p })
-            //    .Where(table => table.p.UserId == id && table.t.Languages.Contains(language))
-            //    .Select(item => item.t.ID)
-            //    ).ToList();
-            // return db.CHALLENGES.Where(table => res.Contains(table.ID)).FirstOrDefault();
-            return null;
+            var res = db.CHALLENGES.Join(db.CHALLENGE_LANGUAGES, t => t.ID, p => p.ChallengeID, (t, p) => new { t, p })
+                .Join(db.LANGUAGES, t => t.p.LanguageID, p => p.ID, (t, p) => new { t, p })
+                .Where(table => table.p.Name.Contains(language)).Select(item => item.t.t.ID)
+                .Except(
+                db.CHALLENGES.Join(db.ANSWERS, t => t.ID, p => p.ChallengeID, (t, p) => new { t, p })
+                .Join(db.CHALLENGE_LANGUAGES, t => t.t.ID, p => p.ChallengeID, (t, p) => new { t, p })
+                .Join(db.LANGUAGES, t => t.p.LanguageID, p => p.ID, (t, p) => new { t, p })
+                .Where(table => table.t.t.p.UserId == id && table.p.Name.Contains(language)).Select(item => item.t.t.t.ID)
+                ).ToList();
+            return db.CHALLENGES.Where(table => res.Contains(table.ID)).FirstOrDefault();
         }
 
         /// <summary>
@@ -111,9 +117,10 @@ namespace DAO.DAO
         /// <returns></returns>
         public int GetAnswerCountByID(int id, string language)
         {
-            //return db.ANSWERS.Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t,p) => new { t, p})
-            //    .Count(u => u.t.UserId == id && u.p.Languages.Contains(language));
-            return 0;
+            return db.ANSWERS.Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t,p) => new { t, p})
+                .Join(db.CHALLENGE_LANGUAGES, t => t.p.ID, p => p.ChallengeID, (t, p) => new { t, p })
+                .Join(db.LANGUAGES, t => t.p.LanguageID, p => p.ID, (t, p) => new { t, p })
+                .Count(table => table.p.Name.Contains(language));
         }
 
         /// <summary>
