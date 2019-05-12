@@ -52,7 +52,8 @@ namespace DAO.DAO
         /// <returns></returns>
         public List<CHALLENGE> GetChallenge(string language)
         {
-            return db.CHALLENGES.Where(item => item.Languages.Contains(language)).ToList();
+            //return db.CHALLENGES.Where(item => item.Languages.Contains(language)).ToList();
+            return null;
         }
 
         /// <summary>
@@ -62,7 +63,8 @@ namespace DAO.DAO
         /// <returns></returns>
         public int GetChallengeCount(string language)
         {
-            return db.CHALLENGES.Count(item => item.Languages.Contains(language));
+            // return db.CHALLENGES.Count(item => item.Languages.Contains(language));
+            return 0;
         }
 
         /// <summary>
@@ -92,13 +94,14 @@ namespace DAO.DAO
         /// <returns></returns>
         public CHALLENGE GetNextChallengeByID(int id, string language)
         {
-            var res = db.CHALLENGES.Where(table => table.Languages.Contains(language)).Select(item => item.ID)
-                .Except(
-                db.CHALLENGES.Join(db.ANSWERS, t => t.ID, p => p.ChallengeID, (t, p) => new { t, p })
-                .Where(table => table.p.UserId == id && table.t.Languages.Contains(language))
-                .Select(item => item.t.ID)
-                ).ToList();
-            return db.CHALLENGES.Where(table => res.Contains(table.ID)).FirstOrDefault();
+            //var res = db.CHALLENGES.Where(table => table.Languages.Contains(language)).Select(item => item.ID)
+            //    .Except(
+            //    db.CHALLENGES.Join(db.ANSWERS, t => t.ID, p => p.ChallengeID, (t, p) => new { t, p })
+            //    .Where(table => table.p.UserId == id && table.t.Languages.Contains(language))
+            //    .Select(item => item.t.ID)
+            //    ).ToList();
+            // return db.CHALLENGES.Where(table => res.Contains(table.ID)).FirstOrDefault();
+            return null;
         }
 
         /// <summary>
@@ -108,8 +111,9 @@ namespace DAO.DAO
         /// <returns></returns>
         public int GetAnswerCountByID(int id, string language)
         {
-            return db.ANSWERS.Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t,p) => new { t, p})
-                .Count(u => u.t.UserId == id && u.p.Languages.Contains(language));
+            //return db.ANSWERS.Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t,p) => new { t, p})
+            //    .Count(u => u.t.UserId == id && u.p.Languages.Contains(language));
+            return 0;
         }
 
         /// <summary>

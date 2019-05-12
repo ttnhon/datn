@@ -62,7 +62,7 @@ namespace COURSE_CODING.Controllers
                     UserId = userID,
                     Content = Code,
                     Result = true,
-                    TimeDone = BitConverter.GetBytes((Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds)       //timestamp now
+                   // TimeDone = BitConverter.GetBytes((Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds)       //timestamp now
                 };
 
                 bool insert_status = (new AnswerDAO()).Insert(answer);

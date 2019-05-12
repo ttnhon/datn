@@ -35,10 +35,7 @@ namespace DAO.EF
 
         public int TotalScore { get; set; }
 
-        [Column(TypeName = "timestamp")]
-        [MaxLength(8)]
-        [Timestamp]
-        public byte[] TimeEnd { get; set; }
+        public DateTime? TimeEnd { get; set; }
 
         public int ParticipantCount { get; set; }
 

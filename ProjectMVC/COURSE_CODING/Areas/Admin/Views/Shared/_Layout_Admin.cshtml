@@ -255,7 +255,11 @@
                     }
                     @if (session == null)
     {
-                @Html.ActionLink("Login", "../../User/Login")
+                    <h5>
+                        @Html.ActionLink("LogIn", "../../User/Login", null, htmlAttributes: new { @class = "font-weight-bold" })
+                    </h5>
+                
+
 }
 else
 {
