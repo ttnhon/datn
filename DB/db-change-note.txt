@@ -1,0 +1,9 @@
+﻿12/05/2019
+-thay đổi kiểu timestamp => datetime
+	USER_INFO - CreateDate
+	Compete   - TimeEnd
+	Answer	  - TimeDone
+- Thay đổi thứ tự các cột trong table
+	USER_INFO
+
+- Bỏ column Languages trong CHALLENGE	=> đã mapping với language qua table CHALLENGE_LANGUAGE
