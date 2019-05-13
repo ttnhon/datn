@@ -22,11 +22,12 @@ namespace CommonProject
         public const int ROLE_TEACHER = 1;
         public const int ROLE_ADMIN = 2;
 
-        public const string URL_HOST_API = "http://aipcompiler.somee.com";
+        //public const string URL_HOST_API = "http://aipcompiler.somee.com";
+        public const string URL_HOST_API = "http://localhost:52508";
         public const string ROUTER_CSHARP_COMPILER_API = "/api/CSharpCompiler/Compiler";
         public const string ROUTER_CPLUS_COMPILER_API = "/api/CPlusCompiler/Compiler";
         public const string ROUTER_JAVA_COMPILER_API = "/api/JavaCompiler/Compiler";
-       
+        public const string ROUTE_TESTCASE_API = "/api/TestCaseFileManager/GetTestCase";
 
         public const string TYPE_CSHARP_COMPILER = "CSHARP";
         public const string TYPE_CPLUS_COMPILER = "C++";

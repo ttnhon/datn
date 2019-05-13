@@ -57,6 +57,7 @@
     <Compile Include="CommonConstant\CommonConstant.cs" />
     <Compile Include="Helper\API_Helper.cs" />
     <Compile Include="Model\Source.cs" />
+    <Compile Include="Model\TestCaseFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

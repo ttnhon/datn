@@ -23,5 +23,7 @@ namespace WebAPI.Common
 
         public static string JAVA_EXECUTE_LINK = "/App_Data/JavaSDK/jdk1.8.0_151/bin/";
         public static string FOLDER_CODE_DIR = "/App_Data/Dir_Code/";
+
+        public static string TESTCASE_DIR = "/App_Data/Dir_TestCase/";
     }
 }

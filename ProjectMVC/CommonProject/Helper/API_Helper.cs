@@ -61,7 +61,31 @@ namespace CommonProject
                 resultAPI = readTask.Result;
             }
             return resultAPI;
-        
+        }
+
+        /// <summary>
+        /// in client call this method need to check result return with flag: result.IsSuccessStatusCode
+        /// </summary>
+        /// <param name="typeAPI"></param>
+        /// <param name="src"></param>
+        /// <returns></returns>
+        public Dictionary<int, Dictionary<string, string>> ReadTestCase(Dictionary<int,Dictionary<string,string>> TestCase)
+        {
+            client.BaseAddress = new Uri(CommonConstant.URL_HOST_API + CommonConstant.ROUTE_TESTCASE_API);
+
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            var responsePostTask = client.PostAsJsonAsync<Dictionary<int, Dictionary<string, string>>>("", TestCase);
+            responsePostTask.Wait();
+            var result = responsePostTask.Result;
+            Dictionary<int, Dictionary<string, string>> resultAPI = new Dictionary<int, Dictionary<string, string>>();
+            if (result.IsSuccessStatusCode)
+            {
+                var readTask = result.Content.ReadAsAsync<Dictionary<int, Dictionary<string, string>>>();
+                readTask.Wait();
+                resultAPI = readTask.Result;
+            }
+            return resultAPI;
         }
     }
 }

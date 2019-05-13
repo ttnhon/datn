@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web.Http;
 using WebAPI.Common;
 using WebAPI.Models;
@@ -94,17 +95,21 @@ namespace WebAPI.Controllers
         {
             try
             {
-
                 string code = source.stringSource;
-                string app_path = AppDomain.CurrentDomain.BaseDirectory;
-                string directory_file = app_path + Constant.FOLDER_CODE_DIR;
-                string filename_code = "MyClass" + source.userKey;
-                string full_path = directory_file + "\\" + filename_code;
+                string app_path = AppDomain.CurrentDomain.BaseDirectory;        //get app_path
+                string directory_file = app_path + Constant.FOLDER_CODE_DIR;    //get directory execute
+                string filename_code = "MyClass" + source.userKey;              //file to execute
+                string class_name = filename_code;                              //class name in file execute   ( = filename)
+                string input_file = source.Data["inputFile"];                   //input file name to read when execute
 
-                this.DeleteFile(full_path);
+                //Change code
+                code = this.ChangeCode(code, class_name, input_file);
+
+                string path_file_execute = directory_file + "\\" + filename_code;
+                this.DeleteFile(path_file_execute);             // make sure file not exit to create file
 
                 /*write code to file.java*/
-                using (StreamWriter w = new StreamWriter(full_path + ".java", true))
+                using (StreamWriter w = new StreamWriter(path_file_execute + ".java", true))
                 {
                     w.WriteLine(code); // Write the text
                 }
@@ -117,7 +122,7 @@ namespace WebAPI.Controllers
                 /*run java E:\\MyClass*/
                 Dictionary<string, string> result_java = this.ExecuteJava(directory_file, filename_code);
 
-                this.DeleteFile(full_path);
+                this.DeleteFile(path_file_execute);
 
                 //return java execute
                 //if (result_javac["status"] == Constant.STATUS_FAIL)
@@ -129,6 +134,21 @@ namespace WebAPI.Controllers
             {
                 return BadRequest(e.ToString());
             }
+        }
+
+        //Change code to specific with every user
+        protected string ChangeCode(string Code, string className, string inputFileName)
+        {
+            string app_path = AppDomain.CurrentDomain.BaseDirectory;
+            string input_file_path = app_path + Constant.TESTCASE_DIR + inputFileName;
+            //Replace class name
+            //Code = Code.Replace("class MyClass", "class " + className);
+            Code = Regex.Replace(Code, @"(?<=class )(.*?)(?={)", className);       // class Abcdfegh   => class Classname
+
+            //Replace Input and Output file name
+            Code = Code.Replace("INPUT_FILE_NAME", input_file_path);
+
+            return Code;
         }
 
         // Xoa 3 file java, class, exe

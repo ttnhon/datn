@@ -10,5 +10,7 @@ namespace WebAPI.Models
         public string stringSource { get; set; }
         public string versionFramework { get; set; }
         public string userKey { get; set; }
+
+        public Dictionary<string, string> Data = new Dictionary<string, string>();
     }
 }

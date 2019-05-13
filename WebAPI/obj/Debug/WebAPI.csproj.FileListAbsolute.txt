@@ -398,3 +398,10 @@ D:\NET\DATN\datn3\datn\WebAPI\obj\Debug\WebAPI.csproj.CoreCompileInputs.cache
 D:\NET\DATN\datn3\datn\WebAPI\obj\Debug\WebAPI.csproj.CopyComplete
 D:\NET\DATN\datn3\datn\WebAPI\obj\Debug\WebAPI.dll
 D:\NET\DATN\datn3\datn\WebAPI\obj\Debug\WebAPI.pdb
+C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\bin\roslyn\VBCSCompiler.exe
