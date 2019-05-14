@@ -19,8 +19,16 @@ namespace COURSE_CODING.Controllers
             return View();
         }
 
-        // GET: Code
+        /* Submit code to anser the challenge
+        ** Input    : challengeID, Code, Language: string
+        ** Output   : List{   Status : "success" | "fail",
+                              Input  : string,
+                              Output : string,
+                              OutputExpect : string,
+                      }
+        */
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult SubmitCode(int challengeID, string Code, string Language)
         {
             int userID = this.GetUserID();
@@ -63,7 +71,15 @@ namespace COURSE_CODING.Controllers
             return Json(result);
         }
 
+        /* Run code to test the challenge
+        ** Input    : challengeID, Code, Language: string
+        ** Output   : Status : "success" | "fail",
+                      Input  : string,
+                      Output : string,
+                      OutputExpect : string,
+        */
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult RunCode(int challengeID, string Code, string Language)
         {
             int userID = this.GetUserID();

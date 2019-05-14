@@ -165,8 +165,8 @@ INSERT INTO COMPETE VALUES(1,N'Project code challenge 8', 'project-code-challeng
 INSERT INTO COMPETE VALUES(1,N'Project code challenge 9', 'project-code-challenge-9', N'Chỉ là mô tả thôi 8', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
 
 --CHALLENGE
-INSERT INTO CHALLENGE VALUES (1, N'''Print Hello world!''', N'''print-hello-world''', N'''Tét thôi ghi đại di''', N'''hahaha''', N'''hahaha''', 1, N'1', 60, 100, N'''tét thôi''', N'''hahahahaha''')
-INSERT INTO CHALLENGE VALUES (2, N'test number 2', N'test-number-2', N'test 2', N'fadfd', N'sfgfgf', 1, N'1', 60, 100, N'gdfgdfg', N'ttttt')
+INSERT INTO CHALLENGE VALUES (1, N'Print Hello world! Java', N'''print-hello-world''', N'''Tét thôi ghi đại di''', N'''hahaha''', N'''hahaha''', 1, N'1', 60, 100, N'''tét thôi''', N'''hahahahaha''')
+INSERT INTO CHALLENGE VALUES (2, N'Array sum Java', N'array-sum-java', N'test 2', N'fadfd', N'sfgfgf', 1, N'1', 60, 100, N'gdfgdfg', N'ttttt')
 INSERT INTO CHALLENGE VALUES (3, N'test number 3', N'test-number-3', N'test 3', N'fadfd', N'sfgfgf', 1, N'1', 60, 100, N'gdfgdfg', N'ttttt')
 INSERT INTO CHALLENGE VALUES (4, N'test number 4', N'test-number-4', N'test 4', N'fadfd', N'sfgfgf', 1, N'1', 60, 100, N'gdfgdfg', N'ttttt')
 INSERT INTO CHALLENGE VALUES (5, N'test number 5', N'test-number-5', N'test 5', N'fadfd', N'sfgfgf', 1, N'1', 60, 100, N'gdfgdfg', N'ttttt')
@@ -211,6 +211,9 @@ INSERT INTO CHALLENGE_EDITOR VALUES (1, 4)
 INSERT INTO CHALLENGE_EDITOR VALUES (2, 1)
 
 --TEST_CASE
-INSERT INTO TESTCASE VALUES (1, 'challenge1_input.txt', 'challenge1_output.txt')
-INSERT INTO TESTCASE VALUES (1, 'challenge11_input.txt', 'challenge11_output.txt')
-INSERT INTO TESTCASE VALUES (1, 'challenge111_input.txt', 'challenge111_output.txt')
+INSERT INTO TESTCASE VALUES (1, 'challenge_1_input_0.txt', 'challenge_1_output_0.txt')
+INSERT INTO TESTCASE VALUES (1, 'challenge_1_input_1.txt', 'challenge_1_output_1.txt')
+INSERT INTO TESTCASE VALUES (1, 'challenge_1_input_2.txt', 'challenge_1_output_2.txt')
+INSERT INTO TESTCASE VALUES (2, 'challenge_2_input_0.txt', 'challenge_2_output_0.txt')
+INSERT INTO TESTCASE VALUES (2, 'challenge_2_input_1.txt', 'challenge_2_output_1.txt')
+INSERT INTO TESTCASE VALUES (2, 'challenge_2_input_2.txt', 'challenge_2_output_2.txt')

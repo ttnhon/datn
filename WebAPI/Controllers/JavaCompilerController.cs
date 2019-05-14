@@ -141,6 +141,7 @@ namespace WebAPI.Controllers
         {
             string app_path = AppDomain.CurrentDomain.BaseDirectory;
             string input_file_path = app_path + Constant.TESTCASE_DIR + inputFileName;
+            input_file_path = input_file_path.Replace("\\", "/");
             //Replace class name
             //Code = Code.Replace("class MyClass", "class " + className);
             Code = Regex.Replace(Code, @"(?<=class )(.*?)(?={)", className);       // class Abcdfegh   => class Classname
