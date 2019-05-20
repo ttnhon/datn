@@ -15,7 +15,7 @@ namespace COURSE_CODING.Controllers
             var session = (InfoLogIn)Session[CommonConstant.SESSION_INFO_LOGIN];
             if (session == null)
             {
-                filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary(new { Controller = "login", Action = "Index", Areas = "admin" }));
+                filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary(new { Controller = "Authen", Action = "Login", Areas = "" }));
                 // neu session rong tuc chua có dang nhap thanh cong thi se dieu huong sang hàm index( trang login) của controler login thuoc areas admin
             }
             base.OnActionExecuted(filterContext);// thuc thi bo loc

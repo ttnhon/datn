@@ -12,7 +12,7 @@ using DAO.DAO;
 
 namespace COURSE_CODING.Controllers
 {
-    public class CompeteController : Controller
+    public class CompeteController : BaseController
     {
         // GET: Compete
         public ActionResult Index()

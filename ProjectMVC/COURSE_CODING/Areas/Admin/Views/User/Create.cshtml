@@ -92,6 +92,7 @@ else
                             @Html.LabelFor(model => model.StatusUser, htmlAttributes: new { @class = "control-label col-md-3" })
                             <div class="col-md-7">
                                 @Html.DropDownListFor(model => model.StatusUser, (IEnumerable<SelectListItem>)ViewBag.statusList, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.StatusUser, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -101,6 +102,7 @@ else
                             @Html.LabelFor(model => model.RoleUser, htmlAttributes: new { @class = "control-label col-md-3" })
                             <div class="col-md-7">
                                 @Html.DropDownListFor(model => model.RoleUser, (IEnumerable<SelectListItem>)ViewBag.roleList, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.RoleUser, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>

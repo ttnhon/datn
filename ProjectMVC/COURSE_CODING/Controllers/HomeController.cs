@@ -18,7 +18,8 @@ namespace COURSE_CODING.Controllers
             //src.userKey = "01";
             //var result = apiHelper.RequestAPI(CommonConstant.TYPE_CSHARP_COMPILER, src);
 
-            return Redirect("/User/Dashboard");
+           // return Redirect("/User/Dashboard");
+            return Redirect("/Authen/login");
             //return View();
         }
 

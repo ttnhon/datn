@@ -11,9 +11,14 @@ using DAO.EF;
 
 namespace COURSE_CODING.Areas.Admin.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
-        public ActionResult Index(string searchString, int? page, int pageSize = 2)
+        private UserDAO UDAO;
+        public UserController()
+        {
+            UDAO = new UserDAO();
+        }
+        public ActionResult Index(string searchString, int? page, int pageSize = 5)
         {
             var dao = new UserDAO();
             var model = dao.ListAllPaging(searchString, page ?? 1, pageSize);
@@ -21,14 +26,14 @@ namespace COURSE_CODING.Areas.Admin.Controllers
             return View(model);
         }
 
+                         
         // GET: Admin/User/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Admin/User/Create
-        public ActionResult Create()
+        private void AddDataCombobox(int ? selectedStatus=null, int ? selectedRole=null)
         {
             List<StatusDefinition> statusDefinition = new List<StatusDefinition>();
             statusDefinition.Add(new StatusDefinition(CommonConstant.STATUS_LOCK_ACCOUNT, "Locked"));
@@ -37,10 +42,16 @@ namespace COURSE_CODING.Areas.Admin.Controllers
             roleDefinition.Add(new RoleDefinition(CommonConstant.ROLE_ADMIN, "Admin"));
             roleDefinition.Add(new RoleDefinition(CommonConstant.ROLE_MEMBER, "Member"));
             roleDefinition.Add(new RoleDefinition(CommonConstant.ROLE_TEACHER, "Teacher"));
-            SelectList statusList = new SelectList(statusDefinition, "ID", "NameStatus");
-            SelectList roleList = new SelectList(roleDefinition, "ID", "NameRole");
+            SelectList statusList = new SelectList(statusDefinition, "ID", "NameStatus",selectedStatus);
+            SelectList roleList = new SelectList(roleDefinition, "ID", "NameRole",selectedRole);
             ViewBag.statusList = statusList;
             ViewBag.roleList = roleList;
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            AddDataCombobox();
             return View(); 
         }
 
@@ -48,8 +59,7 @@ namespace COURSE_CODING.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(UserModel model)
         {
-            try
-            {
+          
                 if (ModelState.IsValid)
                 {
                     var DAO = new UserDAO();
@@ -69,11 +79,12 @@ namespace COURSE_CODING.Areas.Admin.Controllers
                         u.UserName = model.UserName;
                         u.PasswordUser = HashMD5.HashStringMD5(model.PasswordUser);
                         u.RoleUser = model.RoleUser;
-                        u.RoleUser = model.StatusUser;
+                        u.StatusUser = model.StatusUser;
                         u.Country = model.Country;
                         u.Email = model.Email;
                         u.CreateDate = DateTime.Now;
                         u.About = model.About;
+                        u.SchoolID = 1;     
                         u.YearGraduation = model.YearGraduation;
                         Boolean result = DAO.Insert(u);
                         if (result)
@@ -84,7 +95,7 @@ namespace COURSE_CODING.Areas.Admin.Controllers
                             Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
                             ViewBag.Success = "Create sussesfull";
                             model = new UserModel();
-                            //return Redirect("/User/Dashboard");
+                            return Redirect("/User/Dashboard");
                         }
                         else
                         {
@@ -92,34 +103,82 @@ namespace COURSE_CODING.Areas.Admin.Controllers
                         }
                     }
                 }
-                return RedirectToAction("Create");
-            }
-            catch
-            {
-                return View();
-            }
+                AddDataCombobox();
+                return View("Create");
+           
         }
 
+        [HttpGet]
         // GET: Admin/User/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            UserDAO UDAO = new UserDAO();
+            USER_INFO user = UDAO.GetUserById(id);
+            UserModel model = new UserModel();
+            model.ID = user.ID;
+            model.UserName = user.UserName;
+            model.LastName = user.LastName;
+            model.FirstName = user.FirstName;
+            model.Email = user.Email;
+            model.PasswordUser = user.PasswordUser;
+            model.Country = user.Country;
+            model.YearGraduation = user.YearGraduation;
+            //model.RoleUser = user.RoleUser;
+            //model.StatusUser = user.StatusUser;
+            AddDataCombobox(user.StatusUser, user.RoleUser);
+            model.About = user.About;
+            model.ComfirmPasswordUser = user.PasswordUser;
+            return View(model);
         }
+
 
         // POST: Admin/User/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(UserModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                var DAO = new UserDAO();
+                if (DAO.CheckUserNameExist(model.UserName))
+                {
+                    ModelState.AddModelError(String.Empty, "This user name is existed");
+                }
+                else if (DAO.CheckUserNameExist(model.Email))
+                {
+                    ModelState.AddModelError(String.Empty, "Your email is registerd");
+                }
+                else
+                {
+                    USER_INFO user = UDAO.GetUserById(model.ID);
+                    user.UserName = model.UserName;
+                    user.LastName = model.LastName;
+                    user.FirstName = model.FirstName;
+                    user.Email = model.Email;
+                    user.PasswordUser = model.PasswordUser;
+                    user.Country = model.Country;
+                    user.YearGraduation = model.YearGraduation;
+                    user.RoleUser = model.RoleUser;
+                    user.StatusUser = model.StatusUser;
+                    user.About = model.About;
+                    Boolean result = UDAO.Update(user);
+                    if (result)
+                    {
+                        var sessionLogin = new InfoLogIn();
+                        sessionLogin.ID = user.ID;
+                        sessionLogin.Name = user.UserName;
+                        Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
+                        ViewBag.Success = "Edit sussesfull";
+                        model = new UserModel();
+                        return Redirect("/User/Dashboard");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(String.Empty, "Fail Edit this account");
+                    }
+                }
             }
-            catch
-            {
-                return View();
-            }
+            AddDataCombobox();
+            return View("Edit");
         }
 
 

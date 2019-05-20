@@ -11,7 +11,7 @@ using DAO.EF;
 
 namespace COURSE_CODING.Controllers
 {
-    public class CodeController : Controller
+    public class CodeController : BaseController
     {
         // GET: Code
         public ActionResult Index()

@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace COURSE_CODING.Controllers
 {
-    public class ManageChallengeController : Controller
+    public class ManageChallengeController : BaseController
     {
         // GET: ManageChallenge
         public ActionResult ManageChallenge()

@@ -175,6 +175,7 @@
     <Compile Include="Common\InfoLogIn.cs" />
     <Compile Include="Common\RoleDefinition.cs" />
     <Compile Include="Common\StatusDefinition.cs" />
+    <Compile Include="Controllers\AuthenController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ChallengeController.cs" />
     <Compile Include="Controllers\CodeController.cs" />
@@ -405,6 +406,7 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout_Admin.cshtml" />
     <Content Include="Areas\Admin\Views\User\Index.cshtml" />
     <Content Include="Areas\Admin\Views\User\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -431,8 +433,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\User\Register.cshtml" />
-    <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\Domain\Index.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
     <Content Include="Views\Compete\Index.cshtml" />
@@ -442,6 +442,8 @@
     <Content Include="Views\User\Profile.cshtml" />
     <Content Include="Views\Shared\_User_Layout.cshtml" />
     <Content Include="Views\Compete\Detail.cshtml" />
+    <Content Include="Views\Authen\Login.cshtml" />
+    <Content Include="Views\Authen\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

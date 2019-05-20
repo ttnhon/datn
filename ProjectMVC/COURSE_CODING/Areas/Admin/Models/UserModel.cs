@@ -51,7 +51,7 @@ namespace COURSE_CODING.Areas.Admin.Models
         public string Country { get; set; }
 
         [Display(Name = "Status")]
-        public int StatusUser { get; set; }
+        public int ? StatusUser { get; set; }
 
         [Display(Name = "Role")]
         public int RoleUser { get; set; }
@@ -61,6 +61,14 @@ namespace COURSE_CODING.Areas.Admin.Models
 
         [Display(Name = "YearGraduation")]
         public int? YearGraduation { get; set; }
+
+        [Display(Name = "Facebook Link")]
+        [StringLength(256)]
+        public string FacebookLink { get; set; }
+
+        [Display(Name = "Google Link")]
+        [StringLength(256)]
+        public string GoogleLink { get; set; }
 
     }
 }

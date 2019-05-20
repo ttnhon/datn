@@ -8,7 +8,7 @@ using DAO.DAO;
 
 namespace COURSE_CODING.Controllers
 {
-    public class ChallengeController : Controller
+    public class ChallengeController : BaseController
     {
         // GET: Challenge
         public ActionResult Problem( int id)
