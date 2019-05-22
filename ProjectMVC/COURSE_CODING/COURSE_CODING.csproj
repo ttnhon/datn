@@ -188,6 +188,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ChallengeModel.cs" />
+    <Compile Include="Models\CommentListModel.cs" />
+    <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\CompeteChallengesModel.cs" />
     <Compile Include="Models\CompeteModel.cs" />
     <Compile Include="Models\DataAchieve.cs" />
@@ -196,6 +198,7 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ManageChallengesModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
+    <Compile Include="Models\ReplyModel.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\TestCaseResultModel.cs" />
     <Compile Include="Models\UserDashboardModel.cs" />
@@ -323,6 +326,7 @@
     <Content Include="Assets\Page\vendor\raphael\raphael.js" />
     <Content Include="Assets\Page\vendor\raphael\raphael.min.js" />
     <Content Include="Assets\Public\css\challenge.css" />
+    <Content Include="Assets\Public\css\discussion.css" />
     <Content Include="Assets\Public\css\domain.css" />
     <Content Include="Assets\Public\css\EditChallenge.css" />
     <Content Include="Assets\Public\css\navbar.css" />
@@ -332,6 +336,8 @@
     <Content Include="Assets\Public\css\user-contest.css" />
     <Content Include="Assets\Public\images\cpp-739b350881.svg" />
     <Content Include="Assets\Public\images\fox.png" />
+    <Content Include="Assets\Public\images\profile_photos\12794737_842123109243955_6568604772712850558_o.jpg" />
+    <Content Include="Assets\Public\images\profile_photos\13151438_1694488630768857_5430165903041365933_n.png" />
     <Content Include="Assets\Public\js\EditChallenge.js" />
     <Content Include="Assets\Public\images\problem-solving-ecaf59a612.svg" />
     <Content Include="Assets\Public\js\profile.js" />
@@ -444,6 +450,7 @@
     <Content Include="Views\Compete\Detail.cshtml" />
     <Content Include="Views\Authen\Login.cshtml" />
     <Content Include="Views\Authen\Register.cshtml" />
+    <Content Include="Views\Challenge\Discussion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

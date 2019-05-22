@@ -25,6 +25,45 @@ namespace COURSE_CODING.Controllers
             return View(model);
         }
 
+        public ActionResult Discussion(int id)
+        {
+            var models = new CommentListModel();
+
+            //Lay user login info
+            models.Info = (new UserDAO().GetUserById(2));
+            models.challenge = (new ChallengeDAO().GetOne(id));
+            models.comments = new List<CommentModel>();
+
+            var commentList = (new CommentDAO().GetAllByChallenge(id));
+            if(commentList.Count > 0)
+            {
+                for (int i = 0; i < commentList.Count; i++)
+                {
+                    var model = new CommentModel();
+                    model.comment = commentList[i];
+                    model.owner = (new UserDAO().GetUserById(model.comment.OwnerID));
+                    model.replies = new List<ReplyModel>();
+
+                    var replyList = (new ReplyDAO().GetAllByComment(model.comment.ID));
+                    if (replyList.Count > 0)
+                    {
+                        for (int j = 0; j < replyList.Count; j++)
+                        {
+                            var reply = new ReplyModel();
+                            reply.reply = replyList[i];
+                            reply.owner = (new UserDAO().GetUserById(reply.reply.OwnerID));
+
+                            model.replies.Add(reply);
+                        }
+                    }
+
+                    models.comments.Add(model);
+                }
+            }
+
+            return View(models);
+        }
+
         // GET: Challenge/edit/:id
         public ActionResult Edit(int id)
         {

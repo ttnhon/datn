@@ -7,3 +7,6 @@
 	USER_INFO
 
 - Bỏ column Languages trong CHALLENGE	=> đã mapping với language qua table CHALLENGE_LANGUAGE
+
+22/05/2019
+-thêm database COMMENT và REPLY và dữ liệu
