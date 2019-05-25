@@ -31,5 +31,19 @@ namespace DAO.DAO
                 .ToList();
         }
 
+        public Boolean Insert(REPLY entity)
+        {
+            try
+            {
+                db.REPLIES.Add(entity);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
     }
 }

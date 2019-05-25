@@ -13,5 +13,10 @@ namespace COURSE_CODING.Models
         public COMMENT comment { get; set; }
         public USER_INFO owner { get; set; }
         public List<ReplyModel> replies { get; set; }
+
+        public CommentModel()
+        {
+            replies = new List<ReplyModel>();
+        }
     }
 }

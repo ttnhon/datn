@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using COURSE_CODING.Models;
 using DAO.DAO;
+using DAO.EF;
 
 namespace COURSE_CODING.Controllers
 {
@@ -32,7 +33,6 @@ namespace COURSE_CODING.Controllers
             //Lay user login info
             models.Info = (new UserDAO().GetUserById(2));
             models.challenge = (new ChallengeDAO().GetOne(id));
-            models.comments = new List<CommentModel>();
 
             var commentList = (new CommentDAO().GetAllByChallenge(id));
             if(commentList.Count > 0)
@@ -42,7 +42,6 @@ namespace COURSE_CODING.Controllers
                     var model = new CommentModel();
                     model.comment = commentList[i];
                     model.owner = (new UserDAO().GetUserById(model.comment.OwnerID));
-                    model.replies = new List<ReplyModel>();
 
                     var replyList = (new ReplyDAO().GetAllByComment(model.comment.ID));
                     if (replyList.Count > 0)
@@ -62,6 +61,56 @@ namespace COURSE_CODING.Controllers
             }
 
             return View(models);
+        }
+
+        [HttpPost]
+        public ActionResult AddComment(int userID,int challengeID,string input)
+        {
+            if(ModelState.IsValid)
+            {
+                var commentDAO = new CommentDAO();
+                COMMENT c = new COMMENT();
+                c.Text = input;
+                c.Likes = 0;
+                c.OwnerID = userID;
+                c.ChallengeID = challengeID;
+                c.CreateDate = DateTime.Now;
+                Boolean result = commentDAO.Insert(c);
+                if(result)
+                {
+                    return Redirect(String.Format("/Problem/{0}/Discussion", challengeID));
+                }
+                else
+                {
+                    ModelState.AddModelError(String.Empty, "Fail to add comment");
+                }
+            }
+            return View("Discussion");
+        }
+
+        [HttpPost]
+        public ActionResult AddReply(int userID, int commentID, string input)
+        {
+            if (ModelState.IsValid)
+            {
+                var replyDAO = new ReplyDAO();
+                REPLY c = new REPLY();
+                c.Text = input;
+                c.Likes = 0;
+                c.OwnerID = userID;
+                c.CommentID = commentID;
+                c.CreateDate = DateTime.Now;
+                Boolean result = replyDAO.Insert(c);
+                if (result)
+                {
+                    return Redirect(String.Format("/Problem/{0}/Discussion", c.COMMENT.ChallengeID));
+                }
+                else
+                {
+                    ModelState.AddModelError(String.Empty, "Fail to add comment");
+                }
+            }
+            return View("Discussion");
         }
 
         // GET: Challenge/edit/:id

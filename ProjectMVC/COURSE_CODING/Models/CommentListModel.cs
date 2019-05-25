@@ -12,5 +12,10 @@ namespace COURSE_CODING.Models
         public List<CommentModel> comments { get; set; }
         public USER_INFO Info { get; set; }
         public CHALLENGE challenge { get; set; }
+
+        public CommentListModel()
+        {
+            comments = new List<CommentModel>();
+        }
     }
 }

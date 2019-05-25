@@ -55,5 +55,19 @@ namespace DAO.DAO
         {
             return db.COMMENTS.Where(table => table.ChallengeID == id).ToList();
         }
+
+        public Boolean Insert(COMMENT entity)
+        {
+            try
+            {
+                db.COMMENTS.Add(entity);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
     }
 }

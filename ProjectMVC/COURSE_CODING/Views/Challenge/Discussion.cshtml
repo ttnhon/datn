@@ -35,14 +35,14 @@
                         <a href="#">Introduction</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        Challenge Title
+                        @Model.challenge.Title
                     </li>
                 </ol>
             </nav>
 
             <!--Title-->
             <h1 class="header-title">
-                Challenge Title
+                @Model.challenge.Title
                 <input type="checkbox" id="star-toggle">
                 <label for="star-toggle">
                     <i class="far fa-star"></i>
@@ -120,15 +120,13 @@
                     <div class="discussion__input">
                         <img class="discussion__avatar"
                              src="~/Assets/Public/images/profile_photos/@Model.Info.PhotoURL" alt="Profile Picture">
-                        @using (Html.BeginForm("AddComment","Challenge",FormMethod.Post))
+                        @using (Html.BeginForm("AddReply","Challenge",FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true)
                             @Html.HiddenFor(model=>model.Info.ID)
                             @Html.HiddenFor(model=>model.challenge.ID)
-                            @Html.TextArea("comment_input", new { @class = "discussion__text", @id = "comment_input", @rows = "6"})
-                            <textarea class="discussion__text" name="comment_input" id="comment_input"
-                                      rows="6"></textarea>
+                            @Html.TextArea("input", new { @class = "discussion__text", @id = "comment_input", @rows = "6"})
                             <button class="btn btn-primary" type="submit">Post Comment</button>
                         }
                     </div>
@@ -189,16 +187,13 @@
                                                 <div class="discussion__input">
                                                     <img class="discussion__avatar"
                                                          src="~/Assets/Public/images/profile_photos/@Model.Info.PhotoURL" alt="Profile Picture">
-                                                    @using (Html.BeginForm("AddComment", "Challenge", FormMethod.Post))
+                                                    @using (Html.BeginForm("AddReply", "Challenge", FormMethod.Post))
                                                     {
                                                         @Html.AntiForgeryToken()
                                                         @Html.ValidationSummary(true)
                                                         @Html.HiddenFor(model => model.Info.ID)
-                                                        @Html.HiddenFor(model => model.challenge.ID)
                                                         @Html.HiddenFor(model => comment.comment.ID)
-                                                        @Html.TextArea("comment_input", new { @class = "discussion__text", @id = "comment_input", @rows = "6" })
-                                                        <textarea class="discussion__text" name="comment_input" id="comment_input"
-                                                                  rows="6"></textarea>
+                                                        @Html.TextArea("comment_input", new { @class = "discussion__text", @id = "comment_input", @rows = "2" })
                                                         <button class="btn btn-primary" type="submit">Post Comment</button>
                                                     }
                                                 </div>
