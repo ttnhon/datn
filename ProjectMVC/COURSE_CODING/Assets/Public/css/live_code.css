@@ -1,0 +1,42 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+#btn_run {
+    padding: 1px 20px;
+    font-size: 20px;
+}
+
+#runcode_result {
+    height: 400px;
+    background-color: lightslategray;
+    color: white;
+}
+
+select#language_option {
+    float: right;
+    width: 200px;
+}
+
+#option {
+    padding: 10px 20px;
+    border-bottom: 1px solid lightgray;
+}
+
+#code_editor {
+    position: relative;
+    height: 600px;
+}
+
+#editor {
+    font-size: 16px;
+}
+
+#editor {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
