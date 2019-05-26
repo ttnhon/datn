@@ -12,18 +12,20 @@ namespace DAO.EF
         {
         }
 
-        public virtual DbSet<ADD_DATA> ADD_DATAS{ get; set; }
-        public virtual DbSet<ANSWER> ANSWERS{ get; set; }
-        public virtual DbSet<CHALLENGE> CHALLENGES{ get; set; }
-        public virtual DbSet<CHALLENGE_COMPETE> CHALLENGE_COMPETES{ get; set; }
-        public virtual DbSet<CHALLENGE_EDITOR> CHALLENGE_EDITORS{ get; set; }
-        public virtual DbSet<CHALLENGE_LANGUAGE> CHALLENGE_LANGUAGES{ get; set; }
-        public virtual DbSet<COMPETE> COMPETES{ get; set; }
-        public virtual DbSet<LANGUAGE> LANGUAGES{ get; set; }
-        public virtual DbSet<SCHOOL> SCHOOLS{ get; set; }
-        public virtual DbSet<TESTCASE> TESTCASES{ get; set; }
-        public virtual DbSet<USER_DATA> USER_DATAS{ get; set; }
-        public virtual DbSet<USER_INFO> USER_INFOS{ get; set; }
+        public virtual DbSet<ADD_DATA> ADD_DATAS { get; set; }
+        public virtual DbSet<ANSWER> ANSWERS { get; set; }
+        public virtual DbSet<CHALLENGE> CHALLENGES { get; set; }
+        public virtual DbSet<CHALLENGE_COMPETE> CHALLENGE_COMPETES { get; set; }
+        public virtual DbSet<CHALLENGE_EDITOR> CHALLENGE_EDITORS { get; set; }
+        public virtual DbSet<CHALLENGE_LANGUAGE> CHALLENGE_LANGUAGES { get; set; }
+        public virtual DbSet<COMMENT> COMMENTS { get; set; }
+        public virtual DbSet<COMPETE> COMPETES { get; set; }
+        public virtual DbSet<LANGUAGE> LANGUAGES { get; set; }
+        public virtual DbSet<REPLY> REPLIES { get; set; }
+        public virtual DbSet<SCHOOL> SCHOOLS { get; set; }
+        public virtual DbSet<TESTCASE> TESTCASES { get; set; }
+        public virtual DbSet<USER_DATA> USER_DATAS { get; set; }
+        public virtual DbSet<USER_INFO> USER_INFOS { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -85,6 +87,20 @@ namespace DAO.EF
                 .WithRequired(e => e.CHALLENGE)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<CHALLENGE>()
+                .HasMany(e => e.COMMENTs)
+                .WithRequired(e => e.CHALLENGE)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<COMMENT>()
+                .Property(e => e.Text)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<COMMENT>()
+                .HasMany(e => e.REPLies)
+                .WithRequired(e => e.COMMENT)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<COMPETE>()
                 .Property(e => e.Slug)
                 .IsUnicode(false);
@@ -106,6 +122,10 @@ namespace DAO.EF
                 .HasMany(e => e.CHALLENGE_LANGUAGE)
                 .WithRequired(e => e.LANGUAGE)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<REPLY>()
+                .Property(e => e.Text)
+                .IsUnicode(false);
 
             modelBuilder.Entity<SCHOOL>()
                 .Property(e => e.Description)
@@ -167,7 +187,19 @@ namespace DAO.EF
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<USER_INFO>()
+                .HasMany(e => e.COMMENTs)
+                .WithRequired(e => e.USER_INFO)
+                .HasForeignKey(e => e.OwnerID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<USER_INFO>()
                 .HasMany(e => e.COMPETEs)
+                .WithRequired(e => e.USER_INFO)
+                .HasForeignKey(e => e.OwnerID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<USER_INFO>()
+                .HasMany(e => e.REPLies)
                 .WithRequired(e => e.USER_INFO)
                 .HasForeignKey(e => e.OwnerID)
                 .WillCascadeOnDelete(false);

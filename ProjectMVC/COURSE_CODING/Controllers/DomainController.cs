@@ -8,7 +8,7 @@ using DAO.DAO;
 
 namespace COURSE_CODING.Controllers
 {
-    public class DomainController : Controller
+    public class DomainController : BaseController
     {
         // GET: Domain
         // Domain/index/:language

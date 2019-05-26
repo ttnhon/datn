@@ -117,7 +117,32 @@ namespace DAO.DAO
                 return false;
             }
         }
-
+        public Boolean Update(USER_INFO user)
+        {
+            var resultUser = db.USER_INFOS.Find(user.ID);
+            try
+            {
+                resultUser.UserName = user.UserName;
+                resultUser.LastName = user.LastName;
+                resultUser.FirstName = user.FirstName;
+                resultUser.Email = user.Email;
+                resultUser.PasswordUser = user.PasswordUser;
+                resultUser.Country = user.Country;
+                resultUser.YearGraduation = user.YearGraduation;
+                resultUser.RoleUser = user.RoleUser;
+                resultUser.StatusUser = user.StatusUser;
+                resultUser.About = user.About;
+                resultUser.PhotoURL = user.PhotoURL;
+                resultUser.FacebookLink = user.FacebookLink;
+                resultUser.GoogleLink = user.GoogleLink;
+                db.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }     
+        }
         public int UpdateStatus(int id)
         {
             var user = db.USER_INFOS.Find(id);

@@ -100,8 +100,12 @@ namespace WebAPI.Controllers
                 string directory_file = app_path + Constant.FOLDER_CODE_DIR;    //get directory execute
                 string filename_code = "MyClass" + source.userKey;              //file to execute
                 string class_name = filename_code;                              //class name in file execute   ( = filename)
-                string input_file = source.Data["inputFile"];                   //input file name to read when execute
-
+                string input_file = "";
+                if (source.Data.Count > 0)
+                {
+                    input_file = source.Data["inputFile"] ?? "";                   //input file name to read when execute
+                }
+                
                 //Change code
                 code = this.ChangeCode(code, class_name, input_file);
 

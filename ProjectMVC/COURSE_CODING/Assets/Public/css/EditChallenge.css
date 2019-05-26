@@ -24,6 +24,7 @@
     border-top: 1px solid grey;
     padding: 20px;
     background-color: white;
+    z-index: 100;
 }
 
 .save-change-btn-group button {
@@ -40,6 +41,23 @@
 
 .edit-challenge .moderators-list .profile-pic {
     max-height: 40px;
+}
+
+.code-editor {
+    position: relative;
+    overflow: hidden;
+    height: 600px;
+    width: auto;
+    /* margin: 50px 0 10px 0; */
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+#editor {
+    position: absolute;
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    font-size: 20px;
 }
 
 @media (min-width: 576px) {

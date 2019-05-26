@@ -15,6 +15,13 @@ namespace COURSE_CODING.Areas.Admin
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
+                 "Admin",
+                    "Admin/User/login",
+                    new { Controller = "Authen", Action = "Login", Areas = "" },
+                     namespaces: new[] { "COURSE_CODING.Controllers" }
+                 );
+
+            context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional },

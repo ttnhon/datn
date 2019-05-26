@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Live Code";
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
+}
+
+@section CustomCSS
+{
+    @Styles.Render("~/Assets/Public/css/live_code.css")
+}
+<div id="code_editor">
+    <div id="editor"></div>
+</div>
+<div id="option">
+    <button id="btn_run" class="btn btn-success" onclick="runCode()">Run &nbsp; <i class="fas fa-play"></i></button>
+    <select class="form-control" id="language_option">
+        <option value="CPlus">C++</option>
+        <option value="CSharp">C#</option>
+        <option value="Java">Java</option>
+    </select>
+</div>
+<div id="runcode_result">
+
+</div>
+
+@section scripts
+{
+    <!--ace editor-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ext-language_tools.js"></script>
+
+    <script>
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        //editor.session.setMode("ace/mode/javascript");
+        editor.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: true
+        });
+
+        function loadPage() {
+            console.log("load page roi nha")
+            let language = $('#language_option').val();
+            setModeEditor(language);
+        }
+
+        loadPage();
+
+        $('#language_option').on('change', function () {
+            let language = this.value;
+            setModeEditor(language);
+
+        });
+
+        function setModeEditor(language) {
+            if (language == "C++") {
+                language = "c_cpp";
+            } else if (language == "C#") {
+                language = "csharp";
+            } else if (language == "Java") {
+                language = "java";
+            }
+
+            editor.session.setMode("ace/mode/" + language);
+        }
+
+        //Run code
+        function runCode() {
+            code = editor.getValue();
+            language = $('#language_option').val();
+
+            $.ajax({
+                method: "POST",
+                url: "/Code/LiveCode",
+                data: {
+                    Code: code,
+                    Language: language
+                }
+            })
+                .done(function (msg) {
+                    if (msg) {
+                        console.log(msg);
+                    }
+
+                });
+        }
+    </script>
+}

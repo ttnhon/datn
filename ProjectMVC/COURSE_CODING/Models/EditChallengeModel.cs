@@ -9,23 +9,35 @@ namespace COURSE_CODING.Models
 {
     public class EditChallengeModel
     {
+        [Key]
+        public int ID { get; set; }
+
         [Display(Name = "Language")]
         public Language Language { get; set; }
+
         [Display(Name = "Challenge Difficulty")]
         public Difficulty Difficulty { get; set; }
+
         [Display(Name = "Challenge Name")]
         public string Name { get; set; }
+
         public string Slug { get; set; }
+
         [Display(Name = "Description")]
         public string Description { get; set; }
+
         [Display(Name = "Problem Statement")]
         public string ProblemStatement { get; set; }
+
         [Display(Name = "Input Format")]
         public string InputFormat { get; set; }
+
         [Display(Name = "Constraints")]
         public string Constraints { get; set; }
+
         [Display(Name = "Output Format")]
         public string OutputFormat { get; set; }
+
         [Display(Name = "Tags")]
         public string Tags { get; set; }
         //moderators
@@ -33,9 +45,13 @@ namespace COURSE_CODING.Models
         //test cases
         public List<TESTCASE> TestCases = new List<TESTCASE>();
         //code stubs
-        public List<string> CodeStubs = new List<string>();
+        public string CodeStubs_CSharp { get; set; }
+        public string CodeStubs_Cpp { get; set; }
+        public string CodeStubs_Java { get; set; }
         //languages
-        public List<string> ListLanguages = new List<string>();
+        public bool LanguageCSharp { get; set; }
+        public bool LanguageCpp { get; set; }
+        public bool LanguageJava { get; set; }
         //settings
         public bool DisCompileTest { get; set; }
         public bool DisCustomTestcase { get; set; }

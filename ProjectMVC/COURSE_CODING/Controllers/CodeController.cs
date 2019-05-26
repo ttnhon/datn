@@ -11,7 +11,7 @@ using DAO.EF;
 
 namespace COURSE_CODING.Controllers
 {
-    public class CodeController : Controller
+    public class CodeController : BaseController
     {
         // GET: Code
         public ActionResult Index()
@@ -105,28 +105,24 @@ namespace COURSE_CODING.Controllers
         //@TODO get user id (from session)
         protected int GetUserID()
         {
-            return 1;
+            var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
+            if (session != null)
+            {
+                return session.ID;
+            }
+            return (new Random()).Next(1,100);
         }
 
         //@TODO do this later 
         //API for user live code
         [HttpPost]
-        public ActionResult LiveCode(string Code, int language)
+        [ValidateInput(false)]
+        public ActionResult LiveCode(string Code, string Language)
         {
-            switch (language)
-            {
-                case 1:
-                    //call api C++
-                    break;
-                case 2:
-                    //call api C#
-                    break;
-                case 3:
-                    //call api Java
-                    break;
-            }
+            int userID = this.GetUserID();
 
-            return View();
+            Dictionary<string, string> result_api = CallAPI(Code, Language, userID,"");
+            return Json(result_api);
         }
 
         protected TestCaseResultModel RunOneTestCase(string code_run, string language, string input_expect, string output_expect, int user_id, string input_file_name_change_in_code)
@@ -232,7 +228,6 @@ namespace COURSE_CODING.Controllers
             var result = apiHelper.RequestAPI(CommonConstant.TYPE_JAVA_COMPILER, src);
             return result;
         }
-
 
 
 

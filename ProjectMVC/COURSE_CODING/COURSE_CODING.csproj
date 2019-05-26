@@ -77,12 +77,21 @@
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.110.0\lib\net46\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -166,6 +175,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
@@ -175,18 +185,23 @@
     <Compile Include="Common\InfoLogIn.cs" />
     <Compile Include="Common\RoleDefinition.cs" />
     <Compile Include="Common\StatusDefinition.cs" />
+    <Compile Include="Controllers\AuthenController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ChallengeController.cs" />
     <Compile Include="Controllers\CodeController.cs" />
     <Compile Include="Controllers\CompeteController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LiveCodeController.cs" />
     <Compile Include="Controllers\ManageChallengeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ChallengeModel.cs" />
+    <Compile Include="Models\CodeStubs.cs" />
+    <Compile Include="Models\CommentListModel.cs" />
+    <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\CompeteChallengesModel.cs" />
     <Compile Include="Models\CompeteModel.cs" />
     <Compile Include="Models\DataAchieve.cs" />
@@ -195,6 +210,7 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ManageChallengesModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
+    <Compile Include="Models\ReplyModel.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\TestCaseResultModel.cs" />
     <Compile Include="Models\UserDashboardModel.cs" />
@@ -322,8 +338,10 @@
     <Content Include="Assets\Page\vendor\raphael\raphael.js" />
     <Content Include="Assets\Page\vendor\raphael\raphael.min.js" />
     <Content Include="Assets\Public\css\challenge.css" />
+    <Content Include="Assets\Public\css\discussion.css" />
     <Content Include="Assets\Public\css\domain.css" />
     <Content Include="Assets\Public\css\EditChallenge.css" />
+    <Content Include="Assets\Public\css\live_code.css" />
     <Content Include="Assets\Public\css\navbar.css" />
     <Content Include="Assets\Public\css\profile.css" />
     <Content Include="Assets\Public\css\style.css" />
@@ -331,6 +349,8 @@
     <Content Include="Assets\Public\css\user-contest.css" />
     <Content Include="Assets\Public\images\cpp-739b350881.svg" />
     <Content Include="Assets\Public\images\fox.png" />
+    <Content Include="Assets\Public\images\profile_photos\12794737_842123109243955_6568604772712850558_o.jpg" />
+    <Content Include="Assets\Public\images\profile_photos\13151438_1694488630768857_5430165903041365933_n.png" />
     <Content Include="Assets\Public\js\EditChallenge.js" />
     <Content Include="Assets\Public\images\problem-solving-ecaf59a612.svg" />
     <Content Include="Assets\Public\js\profile.js" />
@@ -405,6 +425,7 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout_Admin.cshtml" />
     <Content Include="Areas\Admin\Views\User\Index.cshtml" />
     <Content Include="Areas\Admin\Views\User\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -431,8 +452,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\User\Register.cshtml" />
-    <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\Domain\Index.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
     <Content Include="Views\Compete\Index.cshtml" />
@@ -442,6 +461,10 @@
     <Content Include="Views\User\Profile.cshtml" />
     <Content Include="Views\Shared\_User_Layout.cshtml" />
     <Content Include="Views\Compete\Detail.cshtml" />
+    <Content Include="Views\Authen\Login.cshtml" />
+    <Content Include="Views\Authen\Register.cshtml" />
+    <Content Include="Views\Challenge\Discussion.cshtml" />
+    <Content Include="Views\LiveCode\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

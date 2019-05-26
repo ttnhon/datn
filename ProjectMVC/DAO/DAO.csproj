@@ -57,8 +57,10 @@
   <ItemGroup>
     <Compile Include="DAO\AnswerDAO.cs" />
     <Compile Include="DAO\ChallengeDAO.cs" />
+    <Compile Include="DAO\CommentDAO.cs" />
     <Compile Include="DAO\CompeteDAO.cs" />
     <Compile Include="DAO\LanguageDAO.cs" />
+    <Compile Include="DAO\ReplyDAO.cs" />
     <Compile Include="DAO\SchoolDAO.cs" />
     <Compile Include="DAO\TestCaseDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
@@ -68,9 +70,11 @@
     <Compile Include="EF\CHALLENGE_COMPETE.cs" />
     <Compile Include="EF\CHALLENGE_EDITOR.cs" />
     <Compile Include="EF\CHALLENGE_LANGUAGE.cs" />
+    <Compile Include="EF\COMMENT.cs" />
     <Compile Include="EF\COMPETE.cs" />
     <Compile Include="EF\DCCourseCoding.cs" />
     <Compile Include="EF\LANGUAGE.cs" />
+    <Compile Include="EF\REPLY.cs" />
     <Compile Include="EF\SCHOOL.cs" />
     <Compile Include="EF\TESTCASE.cs" />
     <Compile Include="EF\USER_DATA.cs" />
