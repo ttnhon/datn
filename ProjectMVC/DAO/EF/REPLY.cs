@@ -9,7 +9,6 @@ namespace DAO.EF
     [Table("REPLY")]
     public partial class REPLY
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID { get; set; }
 
         public int CommentID { get; set; }

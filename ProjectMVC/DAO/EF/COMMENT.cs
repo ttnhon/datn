@@ -15,7 +15,6 @@ namespace DAO.EF
             REPLies = new HashSet<REPLY>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID { get; set; }
 
         [Column(TypeName = "text")]

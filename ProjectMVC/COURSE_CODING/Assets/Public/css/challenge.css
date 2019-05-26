@@ -1,4 +1,4 @@
-*,
+﻿*,
 *::before,
 *::after {
     margin: 0;
@@ -324,7 +324,6 @@ a.active.show {
     -ms-grid-row: 2;
     -ms-grid-column: 1;
     grid-area: body;
-    margin: auto;
 }
 
 .challenge-body {
