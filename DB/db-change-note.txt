@@ -8,6 +8,9 @@
 
 - Bỏ column Languages trong CHALLENGE	=> đã mapping với language qua table CHALLENGE_LANGUAGE
 
+22/05/2019
+-thêm database COMMENT và REPLY và dữ liệu
+
 26/05/2019
 - Thêm thuộc tính cho table CHALLENGE
 	string ProblemStatement
@@ -32,9 +35,3 @@
 	string TesterCode
 
 - Thêm thuộc tính CodeStub vào bảng CHALLENGE_LANGUAGE
-
-22/05/2019
--thêm database COMMENT và REPLY và dữ liệu
-
-22/05/2019
--thêm database COMMENT và REPLY và dữ liệu

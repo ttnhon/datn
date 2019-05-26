@@ -89,7 +89,7 @@ CREATE TABLE CHALLENGE_LANGUAGE(		--Lưu các ngôn ngữ của 1 challenge
   ID            int       NOT NULL IDENTITY,
   ChallengeID   int       NOT NULL,
   LanguageID    int		  NOT NULL,
-  CodeStub nvarchar(256),
+  CodeStub ntext,
 
   PRIMARY KEY (ChallengeID, LanguageID),
   foreign key (ChallengeID) references  CHALLENGE(ID),
@@ -149,6 +149,30 @@ CREATE TABLE USER_DATA(	--Dùng để lưu trữ dữ liệu của người dùn
 	Data			    text			NOT NULL      --dạng json (mảng dữ liệu)
 
 	foreign key (UserId)		references USER_INFO(ID)
+);
+
+CREATE TABLE COMMENT(
+	[ID]				[int]			NOT NULL IDENTITY PRIMARY KEY,
+	[Text]				[text]			NOT NULL,
+	[CreateDate]		[datetime]		NOT NULL,
+	[Likes]				[int]			NULL,
+	[OwnerID]			[int]			NOT NULL,
+	[ChallengeID]		[int]			NOT NULL,
+
+	FOREIGN KEY (OwnerID)		REFERENCES USER_INFO(ID),
+	FOREIGN KEY (ChallengeID)	REFERENCES CHALLENGE(ID)
+);
+
+CREATE TABLE REPLY(
+	[ID]				[int] NOT NULL IDENTITY PRIMARY KEY,
+	[CommentID]			[int] NOT NULL,
+	[OwnerID]			[int] NOT NULL,
+	[Text]				[text] NOT NULL,
+	[CreateDate]		[datetime] NOT NULL,
+	[Likes]				[int] NULL,
+
+	FOREIGN KEY (OwnerID)		REFERENCES USER_INFO(ID),
+	FOREIGN KEY (CommentID)		REFERENCES COMMENT(ID)
 );
 
 --Create data
@@ -236,3 +260,9 @@ INSERT INTO TESTCASE VALUES (1, 'challenge_1_input_2.txt', 'challenge_1_output_2
 INSERT INTO TESTCASE VALUES (2, 'challenge_2_input_0.txt', 'challenge_2_output_0.txt')
 INSERT INTO TESTCASE VALUES (2, 'challenge_2_input_1.txt', 'challenge_2_output_1.txt')
 INSERT INTO TESTCASE VALUES (2, 'challenge_2_input_2.txt', 'challenge_2_output_2.txt')
+
+--COMMENT
+INSERT INTO COMMENT ([ID], [Text], [CreateDate], [Likes], [OwnerID], [ChallengeID]) VALUES (1, N'Comment choi thoi', CAST(N'2019-01-01 00:00:00.000' AS DateTime), 1, 2, 2)
+
+--REPLY
+INSERT INTO REPLY ([ID], [CommentID], [OwnerID], [Text], [CreateDate], [Likes]) VALUES (1, 1, 2, N'Reply choi thoi', CAST(N'2019-01-10 00:00:00.000' AS DateTime), 10)

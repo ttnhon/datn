@@ -505,14 +505,29 @@
 
             if (selectedVal === 1) {
                 editor.setValue(code_CSharp);
+                setModeEditor("C#")
             }
             else if (selectedVal === 2) {
                 editor.setValue(code_Cpp);
+                setModeEditor("C++")
             }
             else if (selectedVal === 3) {
                 editor.setValue(code_Java);
+                setModeEditor("Java")
             }
         });
+
+        function setModeEditor(language) {
+            if (language == "C++") {
+                language = "c_cpp";
+            } else if (language == "C#") {
+                language = "csharp";
+            } else if (language == "Java") {
+                language = "java";
+            }
+
+            editor.session.setMode("ace/mode/" + language);
+        }
 
         @* Code Editor Script *@
         function update(id) {
@@ -535,7 +550,7 @@
         function setupEditor(id) {
             window.editor = ace.edit(id);
             editor.setTheme("ace/theme/light");
-            editor.session.setMode("ace/mode/php");
+            editor.session.setMode("ace/mode/csharp");
             //editor.setValue(`<h1>Hello World</h1>`, 1);
             // trigger extension
             ace.require("ace/ext/language_tools");

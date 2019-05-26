@@ -438,7 +438,7 @@
         }
 
         function setupEditor() {
-            var editor = ace.edit("editor");
+            window.editor = ace.edit("editor");
             editor.setTheme("ace/theme/light");
             editor.session.setMode("ace/mode/php");
             // enable autocompletion and snippets
@@ -455,7 +455,7 @@
         update();
 
         //Onclick Change Language
-        $('#language_option').on('change', function () {
+        $('#inputLanguage').on('change', function () {
             let language = this.value;
             setModeEditor(language);
 
