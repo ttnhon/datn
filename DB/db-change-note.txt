@@ -7,3 +7,31 @@
 	USER_INFO
 
 - Bỏ column Languages trong CHALLENGE	=> đã mapping với language qua table CHALLENGE_LANGUAGE
+
+22/05/2019
+-thêm database COMMENT và REPLY và dữ liệu
+
+26/05/2019
+- Thêm thuộc tính cho table CHALLENGE
+	string ProblemStatement
+	bit LanguageCSharp
+	bit LanguageCpp
+	bit LanguageJava
+
+	bit DisCompileTest
+	bit DisCustomTestcase
+	bit DisSubmissions
+	bit PublicTestcase
+	bit PublicSolutions
+
+	string RequiredKnowledge
+	string TimeComplexity
+	string Editorialist
+	string PartialEditorial
+	string Approach
+	string ProblemSetter
+	string SetterCode
+	string ProblemTester
+	string TesterCode
+
+- Thêm thuộc tính CodeStub vào bảng CHALLENGE_LANGUAGE

@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebAPI.Common;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -61,6 +62,119 @@ namespace WebAPI.Controllers
                 test_case_content.Add("Output", "NO OUTPUT");
             }
             return test_case_content;
+        }
+
+        /// <summary>
+        /// upload string to create file txt test case in server
+        /// </summary>
+        /// <param name="file"> content of file</param>
+        /// <returns></returns>
+        [HttpPost]
+        public IHttpActionResult Upload(FileManager file)
+        {
+            try
+            {
+                //return result
+                string res = "success";
+                string content = file.Content;
+                string app_path = AppDomain.CurrentDomain.BaseDirectory;
+                string directory_file = app_path + Constant.TESTCASE_DIR;
+                //challenge_{id_challenge}_input/output_{id_testcase}.txt
+                string filename_code = file.FileName;
+                string full_path = directory_file + filename_code;
+                /*write code to file.txt*/
+                if (!System.IO.File.Exists(full_path + ".txt"))
+                {
+                    using (StreamWriter w = new StreamWriter(full_path + ".txt", true))
+                    {
+                        w.WriteLine(content); // Write the text
+                    }
+
+                    return Ok(res);
+                }
+                else
+                {
+                    return BadRequest("Error: file already exists.");
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
+
+        /// <summary>
+        /// update content file txt test case in server by name
+        /// </summary>
+        /// <param name="file"> content of file</param>
+        /// <returns></returns>
+        [HttpPost]
+        public IHttpActionResult UpdateFile(FileManager file)
+        {
+            try
+            {
+                //return result
+                string res = "success";
+                string content = file.Content;
+                string app_path = AppDomain.CurrentDomain.BaseDirectory;
+                string directory_file = app_path + Constant.TESTCASE_DIR;
+                //challenge_{id_challenge}_input/output_{id_testcase}
+                string filename_code = file.FileName;
+                string full_path = directory_file + filename_code;
+                /*write code to file.txt*/
+                if (System.IO.File.Exists(full_path + ".txt"))
+                {
+                    System.IO.File.Delete(full_path + ".txt");
+                    using (StreamWriter w = new StreamWriter(full_path + ".txt", true))
+                    {
+                        w.WriteLine(content); // Write the text
+                    }
+                }
+                else
+                {
+                    return BadRequest("Error: file is not exists.");
+                }
+                return Ok(res);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
+
+        /// <summary>
+        /// delete file txt test case in server by name
+        /// </summary>
+        /// <param name="file"> content of file</param>
+        /// <returns></returns>
+        [HttpPost]
+        public IHttpActionResult DeleteFile(FileManager file)
+        {
+            try
+            {
+                //return result
+                string res = "success";
+                string content = file.Content;
+                string app_path = AppDomain.CurrentDomain.BaseDirectory;
+                string directory_file = app_path + Constant.TESTCASE_DIR;
+                //challenge_{id_challenge}_input/output_{id_testcase}
+                string filename_code = file.FileName;
+                string full_path = directory_file + filename_code;
+                /*write code to file.txt*/
+                if (System.IO.File.Exists(full_path + ".txt"))
+                {
+                    System.IO.File.Delete(full_path + ".txt");
+                }
+                else
+                {
+                    return BadRequest("Error: file is not exists.");
+                }
+                return Ok(res);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
         }
     }
 }

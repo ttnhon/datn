@@ -57,8 +57,10 @@
   <ItemGroup>
     <Compile Include="DAO\AnswerDAO.cs" />
     <Compile Include="DAO\ChallengeDAO.cs" />
+    <Compile Include="DAO\CommentDAO.cs" />
     <Compile Include="DAO\CompeteDAO.cs" />
     <Compile Include="DAO\LanguageDAO.cs" />
+    <Compile Include="DAO\ReplyDAO.cs" />
     <Compile Include="DAO\SchoolDAO.cs" />
     <Compile Include="DAO\TestCaseDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />

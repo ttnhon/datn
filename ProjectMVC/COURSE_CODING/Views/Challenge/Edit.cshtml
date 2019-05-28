@@ -3,250 +3,205 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = null;
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width" />
-    <title>Edit Challenge</title>
-
-    <!-- bootstrap -->
-    @Styles.Render("~/Assets/Public/vendor/bootstrap/css/4.0.0.min.css")
-    <!-- font awesome -->
-    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
-
-    <!-- custom css -->
-    @Styles.Render("~/Assets/Public/css/navbar.css")
-    @Styles.Render("~/Assets/Public/css/style.css")
+@section CustomCSS
+{
     @Styles.Render("~/Assets/Public/css/EditChallenge.css")
 
-    <!-- google font -->
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 
-</head>
-<body>
-    <header>
-        <div class="navbar-session">
-            <div class="container">
-                <nav class="navbar navbar-expand-lg">
-                    <a class="navbar-brand" href="#"><img src="~/Assets/Public/images/fox.png" class="img-fluid" alt="" runat="server"></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">PRACTICE <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">COMPETE</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">JOBS</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">LEADER BOARD</a>
-                            </li>
-                        </ul>
-                        <form class="form-inline my-2 my-lg-0 navbar-search-form">
-                            <input type="search">
-                            <i class="fa fa-search"></i>
-                        </form>
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="far fa-comment-alt"></i> <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="far fa-bell"></i> <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="far fa-user"></i>Phuc
-                                </a>
-                                <div class="dropdown-menu base-box" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Profile</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Logout</a>
-                                </div>
-                            </li>
-                        </ul>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<section class="content-page edit-challenge">
+    <div class="container">
+        <h1 class="title">Challenge Name</h1>
+        <nav class="navbar navbar-light bg-light">
+            <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
+                <li class="nav-item">
+                    <a id="js-details" class="nav-link active" href="javascript:;">Details</a>
+                </li>
+                <li class="nav-item"><a id="js-moderators" class="nav-link" href="javascript:;">Moderators</a></li>
+                <li class="nav-item"><a id="js-test-cases" class="nav-link" href="javascript:;">Test cases</a></li>
+                <li class="nav-item"><a id="js-code-stubs" class="nav-link" href="javascript:;">Code stubs</a></li>
+                <li class="nav-item"><a id="js-languages" class="nav-link" href="javascript:;">Languages</a></li>
+                <li class="nav-item"><a id="js-settings" class="nav-link" href="javascript:;">Settings</a></li>
+                <li class="nav-item"><a id="js-editorial" class="nav-link" href="javascript:;">Editorial</a></li>
+            </ul>
+        </nav>
+
+
+        <div class="details-modal main-modal" id="div-details-modal">
+            <div class="clearfix" style="padding-bottom: 15px;">
+                <div style="float: left;">
+                    This is the basic infomation that describes your challenge.
+                </div>
+                <!-- <a class="btn btn-success" href="#" style="float: right;">Create Contest</a> -->
+            </div>
+
+            @using (Ajax.BeginForm("UpdateDetails", "Challenge", new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnSuccess = "OnSuccess",
+                OnFailure = "OnFailure"
+            }, new { @class = "form-horizontal" }))
+            {
+                @Html.Hidden("ID", Model.ID)
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="language_Input">Language</label>
+                    <div class="col-sm-3">
+                        @Html.DropDownListFor(model => model.Language,
+                                            new SelectList(Enum.GetValues(typeof(Language))),
+                                            new { @class = "form-control", @id = "language_Input" })
+                        @*<select class="form-control" id="language_Input">
+                                <option>English</option>
+                                <option>Vietnamese</option>
+                            </select>*@
                     </div>
-                </nav>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="difficulty_Input">Challenge Difficulty</label>
+                    <div class="col-sm-3">
+                        @Html.DropDownListFor(model => model.Difficulty,
+                                            new SelectList(Enum.GetValues(typeof(Difficulty))),
+                                            new { @class = "form-control", @id = "difficulty_Input" })
+                        @*<select class="form-control" id="difficulty_Input">
+                                <option>Easy</option>
+                                <option>Medium</option>
+                                <option>Hard</option>
+                                <option>Advanced</option>
+                                <option>Expert</option>
+                            </select>*@
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="name_Input">Challenge Name</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "name_Input" })
+                        @*<input class="form-control" id="name_Input" type="text">*@
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="slug_Input">Challenge Slug</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static" id="slug_Input">https://www.khtnfitk15.somee.com/.../@Html.DisplayFor(model => model.Slug)</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="description_Input">Description</label>
+                    <div class="col-sm-8">
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @id = "description_Input", @rows = "2" })
+                        @*<textarea class="form-control" rows="2" id="description_Input"></textarea>*@
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="problem_Input">Problem Statement</label>
+                    <div class="col-sm-8">
+                        @Html.TextAreaFor(model => model.ProblemStatement, new { @class = "form-control", @id = "problem_Input", @rows = "2" })
+                        @*<textarea class="form-control" rows="2" id="problem_Input"></textarea>*@
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="inputFormat_Input">Input Format</label>
+                    <div class="col-sm-8">
+                        @Html.TextAreaFor(model => model.InputFormat, new { @class = "form-control", @id = "inputFormat_Input", @rows = "2" })
+                        @*<textarea class="form-control" rows="2" id="inputFormat_Input"></textarea>*@
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="constraints_Input">Constraints</label>
+                    <div class="col-sm-8">
+                        @Html.TextAreaFor(model => model.Constraints, new { @class = "form-control", @id = "constraints_Input", @rows = "2" })
+                        @*<textarea class="form-control" rows="2" id="constraints_Input"></textarea>*@
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="outputFormat_Input">Output Format</label>
+                    <div class="col-sm-8">
+                        @Html.TextAreaFor(model => model.OutputFormat, new { @class = "form-control", @id = "outputFormat_Input", @rows = "2" })
+                        @*<textarea class="form-control" rows="2" id="outputFormat_Input"></textarea>*@
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="tags_Input">Tags</label>
+                    <div class="col-sm-8">
+                        @Html.TextAreaFor(model => model.Tags, new { @class = "form-control", @id = "tags_Input", @rows = "2" })
+                        @*<textarea class="form-control" rows="2" id="tags_Input"></textarea>*@
+                    </div>
+                </div>
+                <div class="save-change-btn-group">
+                    <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
+                </div>
+            }
+            @*<form class="form-horizontal" method="post">
+
+                </form>*@
+        </div>
+
+        <div class="moderators-modal main-modal" id="div-moderators-modal" hidden>
+            @using (Ajax.BeginForm("AddModerator", "Challenge", new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnSuccess = "OnSuccessModerator",
+                OnFailure = "OnFailureModerator"
+            }, new { @class = "form-horizontal" }))
+            {
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="moderators_Input">Moderators</label>
+                    <div class="col-sm-3">
+                        @Html.TextBox("moderator", "", new { @class = "form-control", @id = "moderators_Input" })
+                        @*<input class="form-control" id="moderators_Input" type="text">*@
+                        @Html.Hidden("challengeID", Model.ID)
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn moderator-add-btn" id="js-moderator-add-btn" type="submit">Add</button>
+                    </div>
+                </div>
+            }
+            <div class="moderators-list row">
+                <div class="col-sm-2">
+                </div>
+                <ul class="col-sm-8" id="moderatorList">
+                    @if (Model.Moderators.Count > 0)
+                    {
+                        foreach (var item in Model.Moderators)
+                        {
+                            <li><img src="http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg" alt="profile picture" class="profile-pic"> @item.UserName</li>
+                        }
+                    }
+                </ul>
             </div>
         </div>
-    </header>
 
-    <section class="content-page edit-challenge">
-        <div class="container">
-            <h1 class="title">Challenge Name</h1>
-            <nav class="navbar navbar-light bg-light">
-                <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
-                    <li class="nav-item">
-                        <a id="js-details" class="nav-link active" href="#">Details</a>
-                    </li>
-                    <li class="nav-item"><a id="js-moderators" class="nav-link" href="#">Moderators</a></li>
-                    <li class="nav-item"><a id="js-test-cases" class="nav-link" href="#">Test cases</a></li>
-                    <li class="nav-item"><a id="js-code-stubs" class="nav-link" href="#">Code stubs</a></li>
-                    <li class="nav-item"><a id="js-languages" class="nav-link" href="#">Languages</a></li>
-                    <li class="nav-item"><a id="js-settings" class="nav-link" href="#">Settings</a></li>
-                    <li class="nav-item"><a id="js-editorial" class="nav-link" href="#">Editorial</a></li>
-                </ul>
-            </nav>
-
-
-            <div class="details-modal main-modal">
-                <div class="clearfix" style="padding-bottom: 15px;">
-                    <div style="float: left;">
-                        This is the basic infomation that describes your challenge.
-                    </div>
-                    <!-- <a class="btn btn-success" href="#" style="float: right;">Create Contest</a> -->
-                </div>
-
-                @using (Ajax.BeginForm("UpdateDetails","Challenge", new AjaxOptions()
-                {
-
-                }, new { @class = "form-horizontal" }))
-                {
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label" for="language_Input">Language</label>
-                        <div class="col-sm-3">
-                            @Html.DropDownListFor(model => model.Language,
-                                                new SelectList(Enum.GetValues(typeof(Language))),
-                                                new { @class = "form-control", @id = "language_Input" })
-                            @*<select class="form-control" id="language_Input">
-                        <option>English</option>
-                        <option>Vietnamese</option>
-                    </select>*@
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label" for="difficulty_Input">Challenge Difficulty</label>
-                        <div class="col-sm-3">
-                            @Html.DropDownListFor(model => model.Difficulty,
-                                                new SelectList(Enum.GetValues(typeof(Difficulty))),
-                                                new { @class = "form-control", @id = "difficulty_Input" })
-                            @*<select class="form-control" id="difficulty_Input">
-                        <option>Easy</option>
-                        <option>Medium</option>
-                        <option>Hard</option>
-                        <option>Advanced</option>
-                        <option>Expert</option>
-                    </select>*@
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label" for="name_Input">Challenge Name</label>
-                        <div class="col-sm-8">
-                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "name_Input" })
-                            @*<input class="form-control" id="name_Input" type="text">*@
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label" for="slug_Input">Challenge Slug</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-static" id="slug_Input">https://www.khtnfitk15.somee.com/.../@Html.DisplayFor(model => model.Slug)</p>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label" for="description_Input">Description</label>
-                        <div class="col-sm-8">
-                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @id = "description_Input", @rows = "2" })
-                            @*<textarea class="form-control" rows="2" id="description_Input"></textarea>*@
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label" for="problem_Input">Problem Statement</label>
-                        <div class="col-sm-8">
-                            @Html.TextAreaFor(model => model.ProblemStatement, new { @class = "form-control", @id = "problem_Input", @rows = "2" })
-                            @*<textarea class="form-control" rows="2" id="problem_Input"></textarea>*@
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label" for="inputFormat_Input">Input Format</label>
-                        <div class="col-sm-8">
-                            @Html.TextAreaFor(model => model.InputFormat, new { @class = "form-control", @id = "inputFormat_Input", @rows = "2" })
-                            @*<textarea class="form-control" rows="2" id="inputFormat_Input"></textarea>*@
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label" for="constraints_Input">Constraints</label>
-                        <div class="col-sm-8">
-                            @Html.TextAreaFor(model => model.Constraints, new { @class = "form-control", @id = "constraints_Input", @rows = "2" })
-                            @*<textarea class="form-control" rows="2" id="constraints_Input"></textarea>*@
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label" for="outputFormat_Input">Output Format</label>
-                        <div class="col-sm-8">
-                            @Html.TextAreaFor(model => model.OutputFormat, new { @class = "form-control", @id = "outputFormat_Input", @rows = "2" })
-                            @*<textarea class="form-control" rows="2" id="outputFormat_Input"></textarea>*@
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label" for="tags_Input">Tags</label>
-                        <div class="col-sm-8">
-                            @Html.TextAreaFor(model => model.Tags, new { @class = "form-control", @id = "tags_Input", @rows = "2" })
-                            @*<textarea class="form-control" rows="2" id="tags_Input"></textarea>*@
-                        </div>
-                    </div>
-                    <div class="save-change-btn-group">
-                        <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
-                    </div>
-                }
-                @*<form class="form-horizontal" method="post">
-
-        </form>*@
+        <div class="test-cases-modal main-modal" id="div-test-cases-modal" hidden>
+            <div class="clearfix">
+                <p>Add test cases to judge the correctness of a user’s code.</p>
             </div>
+            <!-- Trigger the modal with a button -->
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#test-case-modal">
+                Add
+                Test Case
+            </button>
 
-            <div class="moderators-modal main-modal" hidden>
-                <form class="form-horizontal">
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label" for="moderators_Input">Moderators</label>
-                        <div class="col-sm-3">
-                            <input class="form-control" id="moderators_Input" type="text">
-                        </div>
-                        <div class="col-sm-3">
-                            <button class="btn moderator-add-btn" id="js-moderator-add-btn">Add</button>
-                        </div>
-                    </div>
-                </form>
-                <div class="moderators-list row">
-                    <div class="col-sm-2">
-                    </div>
-                    <ul class="col-sm-8">
-                        @if (Model.Moderators.Count > 0)
+            <!-- Modal -->
+            <div id="test-case-modal" class="modal fade" role="dialog">
+                <div class="modal-dialog test-case-popup">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        @using (Ajax.BeginForm("AddTestCase", "Challenge", new AjaxOptions()
                         {
-                            foreach (var item in Model.Moderators)
-                            {
-                                <li><img src="http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg" alt="profile picture" class="profile-pic"> @item.FirstName</li>
-                            }
-                        }
-                    </ul>
-                </div>
-            </div>
-
-            <div class="test-cases-modal main-modal" hidden>
-                <div class="clearfix">
-                    <p>Add test cases to judge the correctness of a user’s code.</p>
-                </div>
-                <!-- Trigger the modal with a button -->
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#test-case-modal">
-                    Add
-                    Test Case
-                </button>
-
-                <!-- Modal -->
-                <div id="test-case-modal" class="modal fade" role="dialog">
-                    <div class="modal-dialog test-case-popup">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
+                            HttpMethod = "POST",
+                            OnSuccess = "OnSuccessTestCase",
+                            OnFailure = "OnFailureTestCase"
+                        }, new { @class = "form-horizontal" }))
+                        {
                             <div class="modal-header">
                                 <h4 class="modal-title">Add Test Case</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -255,62 +210,72 @@
                                 <div class="test-case-input-field">
                                     <label class="control-label" for="test_input_Input">Input</label>
                                     <div class="">
-                                        <textarea class="form-control" rows="2" id="test_input_Input"></textarea>
+                                        @Html.TextArea("input", "", new { @class = "form-control", @id = "test_input_Input", @rows = "2" })
+                                        @*<textarea class="form-control" rows="2" id="test_input_Input"></textarea>*@
                                     </div>
                                 </div>
                                 <div class="test-case-input-field">
                                     <label class="control-label" for="test_output_Input">Output</label>
                                     <div class="">
-                                        <textarea class="form-control" rows="2" id="test_output_Input"></textarea>
+                                        @Html.TextArea("output", "", new { @class = "form-control", @id = "test_output_Input", @rows = "2" })
+                                        @*<textarea class="form-control" rows="2" id="test_output_Input"></textarea>*@
                                     </div>
                                 </div>
+                                @Html.Hidden("challengeID", Model.ID)
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default btn-success"
+                                <button type="submit" class="btn btn-default btn-success"
                                         id="js-save-test-case-btn">
                                     Save
                                 </button>
                             </div>
-                        </div>
+                        }
                     </div>
                 </div>
-                <!--end modal-->
-                <div class="table-test-case">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Order</th>
-                                <th>Input</th>
-                                <th>Output</th>
-                                <th>Select</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>0</td>
-                                <td><a href="#">input00.txt</a></td>
-                                <td><a href="#">output00.txt</a></td>
-                                <td><input type="checkbox" id="test_case_0" value=""></td>
-                                <td><a href="#"><i class="far fa-edit"></i></a>   <a href="#"><i class="far fa-trash-alt"></i></a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="save-change-btn-group">
-                    <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
-                </div>
             </div>
-            <div class="code-stubs-modal main-modal" hidden>
-                <div class="clearfix">
-                    <p>
-                        You must use our Domain Specific Language (DSL) to generate code stubs that read test case data
-                        from standard input. <a target="_blank" rel="noopener noreferrer"
-                                                href="https://help.hackerrank.com/hc/en-us/articles/360008561014">Click here</a> to learn
-                        how to write DSL.
-                    </p>
-                </div>
-                <div class="form-group row dsl-input">
+            <!--end modal-->
+            <div class="table-test-case">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Order</th>
+                            <th>Input</th>
+                            <th>Output</th>
+                            <th>Select</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="testCaseList">
+                        @if (Model.TestCases.Count > 0)
+                        {
+                            for (int i = 0; i < Model.TestCases.Count; i++)
+                            {
+                                <tr>
+                                    <td>@i</td>
+                                    <td><a href="javascript:;">@Model.TestCases[i].Input</a></td>
+                                    <td><a href="javascript:;">@Model.TestCases[i].Output</a></td>
+                                    <td><input type="checkbox" id="test_case_0" value=""></td>
+                                    <td><a href="javascript:EditTestCase(@Model.TestCases[i].ID, @Model.ID);"><i class="far fa-edit"></i></a>   <a href="javascript:DeleteTestCase(@Model.TestCases[i].ID, @Model.ID);"><i class="far fa-trash-alt"></i></a></td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="save-change-btn-group">
+                <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
+            </div>
+        </div>
+        <div class="code-stubs-modal main-modal" id="div-code-stubs-modal" hidden>
+            <div class="clearfix">
+                <p>
+                    You must use our Domain Specific Language (DSL) to generate code stubs that read test case data
+                    from standard input. <a target="_blank" rel="noopener noreferrer"
+                                            href="https://help.hackerrank.com/hc/en-us/articles/360008561014">Click here</a> to learn
+                    how to write DSL.
+                </p>
+            </div>
+            @*<div class="form-group row dsl-input">
                     <label class="col-sm-2 control-label" for="dsl_Input">DSL for code stubs</label>
                     <div class="col-sm-8">
                         <textarea class="form-control" rows="4" id="dsl_Input"></textarea>
@@ -319,18 +284,39 @@
                             Stubs
                         </button>
                     </div>
+                </div>*@
+            <!--Code Editor-->
+            <div class="container code-section">
+                <!--Code Option-->
+                <div class="row code-option">
+                    <div class="form-group col-md-4 offset-md-8 language-option">
+                        @*<label for="inputState">State</label>*@
+                        <select id="inputLanguage" class="form-control">
+                            <option value="1">C#</option>
+                            <option value="2">C++</option>
+                            <option value="3">Java</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="dsl-ouput">
-
-                </div>
-                <div class="save-change-btn-group">
-                    <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
+                <div class="code-editor" id="div-CSharp">
+                    <div id="editor">@Model.CodeStubs_CSharp</div>
+                    <iframe id="result" frameborder="0"></iframe>
                 </div>
             </div>
-            <div class="languages-modal main-modal" hidden>
-                <div class="clearfix">
-                    <p>Select the enviroment for available languages and libraries.</p>
-                </div>
+            <div class="save-change-btn-group">
+                <button class="btn btn-success" id="js-save-changes-btn" onclick="CodeStubSave()">Save Changes</button>
+            </div>
+        </div>
+        <div class="languages-modal main-modal" id="div-languages-modal" hidden>
+            <div class="clearfix">
+                <p>Select the enviroment for available languages and libraries.</p>
+            </div>
+            @using (Ajax.BeginForm("UpdateLanguages", "Challenge", new AjaxOptions()
+            {
+                HttpMethod = "POST"
+            }, new { @class = "form-horizontal" }))
+            {
+                @Html.Hidden("ID", Model.ID)
                 <table class="table">
                     <thead>
                         <tr>
@@ -341,26 +327,33 @@
                     <tbody>
                         <tr>
                             <td>C#</td>
-                            <td><input type="checkbox" id="language_csharp_checkbox" value=""></td>
+                            <td>@Html.CheckBoxFor(model => model.LanguageCSharp, new { @id = "language_csharp_checkbox" })@*<input type="checkbox" id="language_csharp_checkbox" value="">*@</td>
                         </tr>
                         <tr>
                             <td>C++</td>
-                            <td><input type="checkbox" id="language_cpp_checkbox" value=""></td>
+                            <td>@Html.CheckBoxFor(model => model.LanguageCpp, new { @id = "language_cpp_checkbox" })@*<input type="checkbox" id="language_cpp_checkbox" value="">*@</td>
                         </tr>
                         <tr>
                             <td>Java</td>
-                            <td><input type="checkbox" id="language_java_checkbox" value=""></td>
+                            <td>@Html.CheckBoxFor(model => model.LanguageJava, new { @id = "language_java_checkbox" })@*<input type="checkbox" id="language_java_checkbox" value="">*@</td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="save-change-btn-group">
                     <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
                 </div>
+            }
+        </div>
+        <div class="settings-modal main-modal" id="div-settings-modal" hidden>
+            <div class="clearfix">
+                <p>Set various challenge flags and parameters.</p>
             </div>
-            <div class="settings-modal main-modal" hidden>
-                <div class="clearfix">
-                    <p>Set various challenge flags and parameters.</p>
-                </div>
+            @using (Ajax.BeginForm("UpdateSettings", "Challenge", new AjaxOptions()
+            {
+                HttpMethod = "POST"
+            }, new { @class = "form-horizontal" }))
+            {
+                @Html.Hidden("ID", Model.ID)
                 <div class="form-group row setting-item">
                     <label class="col-sm-3 control-label" for="setting_1">Disable Compile & Test</label>
                     <div class="col-sm-7">
@@ -404,11 +397,18 @@
                 <div class="save-change-btn-group">
                     <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
                 </div>
-            </div>
-            <div class="editorial-modal main-modal" hidden>
-                <!-- <div class="clearfix">
+            }
+        </div>
+        <div class="editorial-modal main-modal" id="div-editorial-modal" hidden>
+            <!-- <div class="clearfix">
         <p>There's nothing here!!</p>
     </div> -->
+            @using (Ajax.BeginForm("UpdateEditorial", "Challenge", new AjaxOptions()
+            {
+                HttpMethod = "POST"
+            }, new { @class = "form-horizontal" }))
+            {
+                @Html.Hidden("ID", Model.ID)
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="editorial_1">Required Knowledge</label>
                     <div class="col-sm-8">
@@ -476,19 +476,163 @@
                 <div class="save-change-btn-group">
                     <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
                 </div>
-            </div>
-            <div style="height: 100px;">
+            }
+        </div>
+        <div style="height: 100px;">
 
-            </div>
-            @*<div class="save-change-btn-group">
+        </div>
+        @*<div class="save-change-btn-group">
                 <button class="btn btn-success" id="js-save-changes-btn">Save Changes</button>
             </div>*@
-        </div>
-    </section>
+    </div>
+</section>
 
-    @Scripts.Render("~/Assets/Public/vendor/jquery/3.3.1.min.js")
-    @Scripts.Render("~/Assets/Public/vendor/jquery/popper.1.12.9.min.js")
-    @Scripts.Render("~/Assets/Public/vendor/bootstrap/4.0.0.min.js")
-    @Scripts.Render("~/Assets/Public/js/EditChallenge.js")
-</body>
-</html>
+@Scripts.Render("~/Assets/Public/js/EditChallenge.js")
+
+@section scripts
+    {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" type="text/javascript" charset="utf-8">
+        //<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ext-language_tools.js" type="text/javascript" charset="utf-8">
+    </script>
+    <script type="text/javascript">
+        //code
+        var code_CSharp = "@(Model.CodeStubs_CSharp)";
+        var code_Cpp = "@(Model.CodeStubs_Cpp)";
+        var code_Java = "@(Model.CodeStubs_Java)";
+
+        $("#inputLanguage").change(function () {
+            var selectedVal = Number.parseInt(this.value);
+
+            if (selectedVal === 1) {
+                editor.setValue(code_CSharp);
+                setModeEditor("C#")
+            }
+            else if (selectedVal === 2) {
+                editor.setValue(code_Cpp);
+                setModeEditor("C++")
+            }
+            else if (selectedVal === 3) {
+                editor.setValue(code_Java);
+                setModeEditor("Java")
+            }
+        });
+
+        function setModeEditor(language) {
+            if (language == "C++") {
+                language = "c_cpp";
+            } else if (language == "C#") {
+                language = "csharp";
+            } else if (language == "Java") {
+                language = "java";
+            }
+
+            editor.session.setMode("ace/mode/" + language);
+        }
+
+        @* Code Editor Script *@
+        function update(id) {
+            var res = document.getElementById(id).contentWindow.document;
+            res.open();
+            res.write(editor.getValue());
+            res.close();
+            var select = Number.parseInt($('#inputLanguage').val());
+            if (select === 1) {
+                code_CSharp = editor.getValue();
+            }
+            else if (select === 2) {
+                code_Cpp = editor.getValue();
+            }
+            else if (select === 3) {
+                code_Java = editor.getValue();
+            }
+        }
+
+        function setupEditor(id) {
+            window.editor = ace.edit(id);
+            editor.setTheme("ace/theme/light");
+            editor.session.setMode("ace/mode/csharp");
+            //editor.setValue(`<h1>Hello World</h1>`, 1);
+            // trigger extension
+            ace.require("ace/ext/language_tools");
+            // enable autocompletion and snippets
+            editor.setOptions({
+                enableBasicAutocompletion: true,
+                enableSnippets: true,
+                enableLiveAutocompletion: false
+            });
+            editor.getSession().on('change', function () {
+                update("result");
+            });
+        }
+
+        setupEditor("editor");
+        update("result");
+
+        function OnSuccess(data) {
+            alert('Save changes succeed');
+            document.getElementById("slug_Input").innerHTML = 'https://www.khtnfitk15.somee.com/.../' + data.data.Slug;
+        }
+        function OnFailure(data) {
+            alert('Save changes fail');
+        }
+
+        function OnSuccessModerator(data) {
+            //alert('Add succeed');
+            console.log(data);
+            if (data.result) {
+                document.getElementById("moderatorList").innerHTML += '<li><img src="http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg" alt="profile picture" class="profile-pic"> ' + data.data.UserName + '</li>';
+            } else {
+                alert('The person not exists');
+            }
+        }
+        function OnFailureModerator(data) {
+            alert('Fail to add moderator');
+        }
+
+        function OnSuccessTestCase(data) {
+            //alert('Add succeed');
+            console.log(data);
+            if (data.result) {
+                document.getElementById("testCaseList").innerHTML +=
+                    '<tr>' +
+                    '<td>' + data.count + '</td>' +
+                    '<td><a href="#">' + data.data.Input + '</a></td>' +
+                    '<td><a href="#">' + data.data.Output + '</a></td>' +
+                    '<td><input type="checkbox" id="test_case_0" value=""></td>' +
+                    '<td><a href="javascript:EditTestCase(' + data.data.ID + ', @Model.ID);"><i class="far fa-edit"></i></a>   <a href="javascript:DeleteTestCase(' + data.data.ID + ', @Model.ID);"><i class="far fa-trash-alt"></i></a></td>' +
+                    '</tr>';
+            } else {
+                alert('Fail to add test case');
+            }
+        }
+        function OnFailureTestCase(data) {
+            alert('POST: Fail');
+        }
+        function EditTestCase(testcaseID, challengeID) {
+
+        }
+        function DeleteTestCase(testcaseID, challengeID) {
+
+        }
+
+            function CodeStubSave() {
+                code = editor.getValue();
+                language = $('#inputLanguage').val();
+                $.ajax({
+                    method: "POST",
+                    url: "/Challenge/UpdateCodeStubs",
+                    data: {
+                        challengeID: @(Model.ID),
+                        Code: { CSharp: code_CSharp, Cpp: code_Cpp, Java: code_Java }
+                    }
+                })
+                    .done(function (msg) {
+                        if (msg) {
+                            //console.log(msg);
+                            //alert(msg);
+                        }
+
+                    });
+            }
+    </script>
+}

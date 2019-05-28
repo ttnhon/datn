@@ -1,4 +1,4 @@
-$(document).ready(function () {
+﻿$(document).ready(function () {
 	$('#js-details').click(function() {
 		$(this).addClass('active');
 		$('#js-moderators').removeClass('active');
@@ -130,7 +130,5 @@ $(document).ready(function () {
 	$('#js-save-test-case-btn').click(function() {
 	});
 	$('#js-save-changes-btn').click(function() {
-	});
-
-    
+    });
 });

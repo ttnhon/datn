@@ -1,0 +1,140 @@
+﻿.discussion {
+    background: #ffff;
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.2);
+    width: 100%;
+    padding: 10px 30px;
+    margin-bottom: 10em;
+}
+
+.discussion__sort {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: left;
+    margin: .75em auto;
+}
+
+    .discussion__sort p {
+        margin: auto .75em;
+    }
+
+    .discussion__sort select {
+        padding: .3em 1.2em .3em .3em;
+        border-radius: 5px;
+        background: rgb(236, 236, 236);
+    }
+
+.discussion__input {
+    margin: 2em 0;
+    position: relative;
+    display: grid;
+    width: 100%;
+    grid-template: "avatar input" auto ".      btn" 1fr / 60px 1fr;
+}
+
+.discussion__avatar {
+    grid-area: avatar;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    vertical-align: top !important;
+    margin-right: .5em;
+}
+
+.discussion__text {
+    grid-area: input;
+    font-size: 1.2rem;
+    padding: .2em .5em;
+    resize: none;
+    overflow-y: scroll;
+    border: 3px solid transparent;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4 );
+    border-radius: 6px;
+}
+
+.discussion__input button {
+    grid-area: btn;
+    width: 9rem;
+    padding: .4em 0 .4em 0;
+    justify-self: end;
+    margin: .7em 0 2em 0;
+}
+
+.discussion-group {
+    width: 90%;
+}
+
+.comments {
+    list-style: none; 
+}
+
+.comment {
+    display: grid;
+    grid-template: "avatar detail" 2fr
+                    ".      footer" 2.4rem 
+                    ".      reply" auto/
+                      70px 1fr;
+    position: relative;
+}
+
+.comment::before {
+    position: absolute;
+    content: '';
+    width: 2px;
+    height: 55%;
+    background: rgb(205, 205, 255);
+    top: 60px;
+}
+
+.comment__detail {
+    grid-area: detail;
+}
+
+    .comment__detail a,
+    .comment__detail i {
+        font-size: 1.1rem;
+        margin-bottom: 1em;
+        margin-top: 1em;
+    }
+
+    .comment__detail a {
+        font-weight: bold;
+        margin-right: .5em;
+        color: rgb(52, 52, 255);
+    }
+
+    .comment__detail i {
+        color: gray;
+    }
+
+    .comment__detail p {
+        margin: auto;
+        background: rgb(223, 223, 223);
+        border-radius: 20px;
+        padding: .5em 1em;
+    }
+
+.comment__footer {
+    grid-area: footer;
+    margin: .3em 1em;
+}
+
+.comment__likes {
+    color: gray;
+    margin-right: .5em;
+    font-size: .9rem;
+}
+
+    .comment__likes span {
+        font-weight: 800;
+    }
+
+.replies {
+    grid-area: reply;
+    margin-left: 1em;
+    list-style: none;
+}
+
+    .replies > .discussion__input {
+        margin: 0 !important;
+    }

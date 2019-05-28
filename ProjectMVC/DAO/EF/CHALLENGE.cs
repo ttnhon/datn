@@ -18,6 +18,7 @@ namespace DAO.EF
             CHALLENGE_EDITOR = new HashSet<CHALLENGE_EDITOR>();
             COMMENTs = new HashSet<COMMENT>();
             TESTCASEs = new HashSet<TESTCASE>();
+            COMMENTs = new HashSet<COMMENT>();
         }
 
         public int ID { get; set; }
@@ -121,5 +122,8 @@ namespace DAO.EF
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TESTCASE> TESTCASEs { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<COMMENT> COMMENTs { get; set; }
     }
 }

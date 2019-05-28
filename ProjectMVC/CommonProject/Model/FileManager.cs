@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WebAPI.Models
+namespace CommonProject
 {
-    public class File
+    public class FileManager
     {
         public string FileName { get; set; }
         public string Content { get; set; }
