@@ -13,8 +13,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>Admin page</title>
+    @if (ViewBag.Title != null)
+    {
+        <title>@ViewBag.Title</title>
+    }
+    else
+    {
+        <title>Admin page</title>
+    }
 
     <!-- Bootstrap Core CSS -->
     <!-- Bootstrap Core CSS -->
@@ -251,35 +257,35 @@
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     @{
-        var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
+                        var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN]; 
                     }
                     @if (session == null)
-    {
-                    <h5>
-                        @Html.ActionLink("LogIn", "../../User/Login", null, htmlAttributes: new { @class = "font-weight-bold" })
-                    </h5>
-                
+                    {
+                        <h5>
+                            @Html.ActionLink("Log In", "../../User/Login", null, htmlAttributes: new { @class = "font-weight-bold" })
+                        </h5>
 
-}
-else
-{
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-user fa-fw"></i>
-                    <i>@session.Name</i>
-                    <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li>
-                        <a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>@Html.ActionLink("Thoát", "Logout", "User")</li>
-                </ul>
 
-}
+                    }
+                    else
+                    {
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-user fa-fw"></i>
+                            <i>@session.Name</i>
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Thoát", "Logout", "User")</li>
+                        </ul>
+
+                    }
 
                     <!-- /.dropdown-user -->
                 </li>
@@ -396,6 +402,12 @@ else
         </nav>
 
         <div id="page-wrapper">
+            @if (TempData["AlertMessage"] != null)
+            {
+                <div id="AlertBox" class="alert @TempData["AlertType"] hide">
+                    @TempData["AlertMessage"]
+                </div>
+            }
             @RenderBody()
             <!-- /.row -->
         </div>
@@ -419,6 +431,9 @@ else
     @*<script src="~/Assets/Page/vendor/raphael/raphael.min.js"></script>
         <script src="~/Assets/Page/vendor/morrisjs/morris.min.js"></script>
         <script src="~/Assets/Page/data/morris-data.js"></script>*@
+    <script src="~/Assets/Page/vendor/raphael/raphael.min.js"></script>
+    <script src="~/Assets/Page/vendor/morrisjs/morris.min.js"></script>
+    <script src="~/Assets/Page/data/morris-data.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="~/Assets/Page/dist/js/sb-admin-2.js"></script>

@@ -35,5 +35,9 @@ namespace CommonProject
 
         public const string DIR_CODE = "/Assets/File_Resource/Code_File/";
         public const string DIR_TESTCASE = "/Assets/File_Resource/Test_Case/";
+
+        public const string ALERT_SUCCESS = "success";
+        public const string ALERT_ERROR = "error";
+        public const string ALERT_WARNING = "warning";
     }
 }

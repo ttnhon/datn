@@ -11,6 +11,7 @@ namespace COURSE_CODING.Areas.Admin.Controllers
         // GET: Admin/Home
         public ActionResult Index()
         {
+            ViewBag.Title = "Dash board";
             return View();
         }
 
