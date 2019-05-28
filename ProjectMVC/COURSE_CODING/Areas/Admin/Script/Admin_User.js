@@ -1,5 +1,8 @@
 ﻿jQuery(document).ready(function () {
-
+   
+        $('#AlertBox').removeClass('hide');
+        $('#AlertBox').delay(4000).slideUp(500);
+    
     //update status user
     $('.updateStatus').off('click').on('click', function (e) {
         e.preventDefault();

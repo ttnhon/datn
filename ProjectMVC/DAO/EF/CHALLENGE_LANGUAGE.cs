@@ -21,6 +21,9 @@ namespace DAO.EF
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int LanguageID { get; set; }
 
+        [Column(TypeName = "ntext")]
+        public string CodeStub { get; set; }
+
         public virtual CHALLENGE CHALLENGE { get; set; }
 
         public virtual LANGUAGE LANGUAGE { get; set; }

@@ -70,9 +70,27 @@ namespace COURSE_CODING.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            return View();
+            var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
+            if (session != null)
+            {
+                if (session.Role.Equals(CommonConstant.ROLE_ADMIN))
+                {
+                    Redirect("/Admin/User/index");
+                }
+                else
+                {
+                    if (session.Role.Equals(CommonConstant.ROLE_MEMBER))
+                    {
+                        Redirect("/User/Dashboard");
+                    }
+                }
+                if (session.Role.Equals(CommonConstant.ROLE_TEACHER))
+                {
+                    Redirect("/dashboardTeacher");
+                }
+            }
+             return View();
         }
-
 
         [HttpPost]
         public ActionResult Login(LoginModel model)

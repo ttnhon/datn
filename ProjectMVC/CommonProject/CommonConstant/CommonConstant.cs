@@ -28,8 +28,6 @@ namespace CommonProject
         public const string ROUTER_CPLUS_COMPILER_API = "/api/CPlusCompiler/Compiler";
         public const string ROUTER_JAVA_COMPILER_API = "/api/JavaCompiler/Compiler";
         public const string ROUTE_TESTCASE_API = "/api/TestCaseFileManager/GetTestCase";
-        public const string ROUTE_UPLOAD_TESTCASE_API = "/api/TestCaseFileManager/Upload";
-        public const string ROUTE_UPDATE_TESTCASE_API = "/api/TestCaseFileManager/UpdateFile";
 
         public const string TYPE_CSHARP_COMPILER = "CSHARP";
         public const string TYPE_CPLUS_COMPILER = "C++";
@@ -38,7 +36,8 @@ namespace CommonProject
         public const string DIR_CODE = "/Assets/File_Resource/Code_File/";
         public const string DIR_TESTCASE = "/Assets/File_Resource/Test_Case/";
 
-        public const string TYPE_UPLOAD_FILE_API = "UPLOAD";
-        public const string TYPE_UPDATE_FILE_API = "UPDATE";
+        public const string ALERT_SUCCESS = "success";
+        public const string ALERT_ERROR = "error";
+        public const string ALERT_WARNING = "warning";
     }
 }

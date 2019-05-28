@@ -16,6 +16,7 @@ namespace DAO.EF
             CHALLENGE_LANGUAGE = new HashSet<CHALLENGE_LANGUAGE>();
             CHALLENGE_COMPETE = new HashSet<CHALLENGE_COMPETE>();
             CHALLENGE_EDITOR = new HashSet<CHALLENGE_EDITOR>();
+            COMMENTs = new HashSet<COMMENT>();
             TESTCASEs = new HashSet<TESTCASE>();
             COMMENTs = new HashSet<COMMENT>();
         }
@@ -35,6 +36,9 @@ namespace DAO.EF
         [Column(TypeName = "text")]
         [Required]
         public string Description { get; set; }
+
+        [StringLength(256)]
+        public string ProblemStatement { get; set; }
 
         [Column(TypeName = "text")]
         public string InputFormat { get; set; }
@@ -57,6 +61,48 @@ namespace DAO.EF
         [StringLength(256)]
         public string Tags { get; set; }
 
+        public bool? LanguageCSharp { get; set; }
+
+        public bool? LanguageCpp { get; set; }
+
+        public bool? LanguageJava { get; set; }
+
+        public bool? DisCompileTest { get; set; }
+
+        public bool? DisCustomTestcase { get; set; }
+
+        public bool? DisSubmissions { get; set; }
+
+        public bool? PublicTestcase { get; set; }
+
+        public bool? PublicSolutions { get; set; }
+
+        [StringLength(256)]
+        public string RequiredKnowledge { get; set; }
+
+        [StringLength(256)]
+        public string TimeComplexity { get; set; }
+
+        [StringLength(256)]
+        public string Editorialist { get; set; }
+
+        public bool? PartialEditorial { get; set; }
+
+        [StringLength(256)]
+        public string Approach { get; set; }
+
+        [StringLength(256)]
+        public string ProblemSetter { get; set; }
+
+        [StringLength(256)]
+        public string SetterCode { get; set; }
+
+        [StringLength(256)]
+        public string ProblemTester { get; set; }
+
+        [StringLength(256)]
+        public string TesterCode { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANSWER> ANSWERs { get; set; }
 
@@ -70,6 +116,9 @@ namespace DAO.EF
         public virtual ICollection<CHALLENGE_EDITOR> CHALLENGE_EDITOR { get; set; }
 
         public virtual USER_INFO USER_INFO { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<COMMENT> COMMENTs { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TESTCASE> TESTCASEs { get; set; }

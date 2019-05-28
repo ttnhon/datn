@@ -11,9 +11,11 @@ using DAO.EF;
 
 namespace COURSE_CODING.Areas.Admin.Controllers
 {
-    public class UserController : BaseController
+    public class UserController : Controller
+
     {
         private UserDAO UDAO;
+        
         public UserController()
         {
             UDAO = new UserDAO();
@@ -21,6 +23,7 @@ namespace COURSE_CODING.Areas.Admin.Controllers
         public ActionResult Index(string searchString, int? page, int pageSize = 5)
         {
             var dao = new UserDAO();
+            ViewBag.Title = "User acount";
             var model = dao.ListAllPaging(searchString, page ?? 1, pageSize);
             ViewBag.ChuoiTimKiem = searchString;
             return View(model);
@@ -89,13 +92,9 @@ namespace COURSE_CODING.Areas.Admin.Controllers
                         Boolean result = DAO.Insert(u);
                         if (result)
                         {
-                            var sessionLogin = new InfoLogIn();
-                            sessionLogin.ID = u.ID;
-                            sessionLogin.Name = u.UserName;
-                            Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
-                            ViewBag.Success = "Create sussesfull";
-                            model = new UserModel();
-                            return Redirect("/User/Dashboard");
+                        SetAlert("Add new account success", CommonConstant.ALERT_SUCCESS);
+                        model = new UserModel();
+                        return Redirect("/Admin/User/Index");
                         }
                         else
                         {
@@ -123,8 +122,6 @@ namespace COURSE_CODING.Areas.Admin.Controllers
             model.PasswordUser = user.PasswordUser;
             model.Country = user.Country;
             model.YearGraduation = user.YearGraduation;
-            //model.RoleUser = user.RoleUser;
-            //model.StatusUser = user.StatusUser;
             AddDataCombobox(user.StatusUser, user.RoleUser);
             model.About = user.About;
             model.ComfirmPasswordUser = user.PasswordUser;
@@ -154,7 +151,7 @@ namespace COURSE_CODING.Areas.Admin.Controllers
                     user.LastName = model.LastName;
                     user.FirstName = model.FirstName;
                     user.Email = model.Email;
-                    user.PasswordUser = model.PasswordUser;
+                    user.PasswordUser = HashMD5.HashStringMD5(model.PasswordUser);
                     user.Country = model.Country;
                     user.YearGraduation = model.YearGraduation;
                     user.RoleUser = model.RoleUser;
@@ -163,13 +160,9 @@ namespace COURSE_CODING.Areas.Admin.Controllers
                     Boolean result = UDAO.Update(user);
                     if (result)
                     {
-                        var sessionLogin = new InfoLogIn();
-                        sessionLogin.ID = user.ID;
-                        sessionLogin.Name = user.UserName;
-                        Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
-                        ViewBag.Success = "Edit sussesfull";
+                        SetAlert("Update account success", CommonConstant.ALERT_SUCCESS);
                         model = new UserModel();
-                        return Redirect("/User/Dashboard");
+                        return Redirect("/Admin/User/Index");
                     }
                     else
                     {
@@ -216,6 +209,22 @@ namespace COURSE_CODING.Areas.Admin.Controllers
                 {
                     status = ""
                 });
+            }
+        }
+        protected void SetAlert(string message, string type)
+        {
+            TempData["AlertMessage"] = message;
+            if (type == "success")
+            {
+                TempData["AlertType"] = "alert-success";
+            }
+            else if (type == "warning")
+            {
+                TempData["AlertType"] = "alert-warning";
+            }
+            else if (type == "error")
+            {
+                TempData["AlertType"] = "alert-danger";
             }
         }
     }

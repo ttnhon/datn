@@ -83,12 +83,12 @@ namespace DAO.EF
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<CHALLENGE>()
-                .HasMany(e => e.TESTCASEs)
+                .HasMany(e => e.COMMENTs)
                 .WithRequired(e => e.CHALLENGE)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<CHALLENGE>()
-                .HasMany(e => e.COMMENTs)
+                .HasMany(e => e.TESTCASEs)
                 .WithRequired(e => e.CHALLENGE)
                 .WillCascadeOnDelete(false);
 
