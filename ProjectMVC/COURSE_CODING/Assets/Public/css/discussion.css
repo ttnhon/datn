@@ -1,7 +1,7 @@
 ﻿.discussion {
     background: #ffff;
     box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.2);
-    min-width: auto;
+    width: 100%;
     padding: 10px 30px;
     margin-bottom: 10em;
 }
@@ -65,22 +65,25 @@
 }
 
 .comments {
-    list-style: none;
-    position: relative;
+    list-style: none; 
 }
-
-    .comments::before {
-        position: absolute;
-        content: '';
-        width: 2px;
-        height: 55%;
-        background: rgb(205, 205, 255);
-        top: 60px;
-    }
 
 .comment {
     display: grid;
-    grid-template: "avatar detail" 2fr ".      footer" 2.4rem ".      reply" auto/ 70px 1fr;
+    grid-template: "avatar detail" 2fr
+                    ".      footer" 2.4rem 
+                    ".      reply" auto/
+                      70px 1fr;
+    position: relative;
+}
+
+.comment::before {
+    position: absolute;
+    content: '';
+    width: 2px;
+    height: 55%;
+    background: rgb(205, 205, 255);
+    top: 60px;
 }
 
 .comment__detail {
@@ -129,6 +132,7 @@
 .replies {
     grid-area: reply;
     margin-left: 1em;
+    list-style: none;
 }
 
     .replies > .discussion__input {

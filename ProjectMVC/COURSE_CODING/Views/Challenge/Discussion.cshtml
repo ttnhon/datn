@@ -7,9 +7,8 @@
 
 @section CustomCSS
 {
-    <link rel="stylesheet" href="~/Assets/Public/css/challenge.css" type="text/css">
-
-    <link rel="stylesheet" href="~/Assets/Public/css/discussion.css" type="text/css">
+    @Styles.Render("~/Assets/Public/css/challenge.css")
+    @Styles.Render("~/Assets/Public/css/discussion.css")
 
     <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
 
@@ -117,20 +116,13 @@
                         </select>
                     </div>
                     <hr>
-                    <div class="discussion__input">
-                        <img class="discussion__avatar"
-                             src="~/Assets/Public/images/profile_photos/@Model.Info.PhotoURL" alt="Profile Picture">
-                        @using (Html.BeginForm("AddReply","Challenge",FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(true)
-                            @Html.HiddenFor(model=>model.Info.ID)
-                            @Html.HiddenFor(model=>model.challenge.ID)
-                            @Html.TextArea("input", new { @class = "discussion__text", @id = "comment_input", @rows = "6"})
-                            <button class="btn btn-primary" type="submit">Post Comment</button>
-                        }
-                    </div>
-
+                        <div class="discussion__input">
+                            <img class="discussion__avatar" id="current_avatar"
+                                 src="~/Assets/Public/images/profile_photos/@Model.Info.PhotoURL" alt="Profile Picture">
+                            <textarea class="discussion__text" name="comment_input" id="comment_input"
+                                      rows="6"></textarea>
+                            <button class="btn btn-primary" id="submit_comment" onclick="addComment()">Post Comment</button>
+                        </div>
                     <div class="discussion-group">
                         <ul class="comments">
                             @if (Model.comments.Count > 0)
@@ -184,19 +176,20 @@
                                                 }
                                             }
                                             <li>
-                                                <div class="discussion__input">
-                                                    <img class="discussion__avatar"
-                                                         src="~/Assets/Public/images/profile_photos/@Model.Info.PhotoURL" alt="Profile Picture">
-                                                    @using (Html.BeginForm("AddReply", "Challenge", FormMethod.Post))
-                                                    {
+                                                @using (Html.BeginForm())
+                                                {
+                                                    <div class="discussion__input">
+                                                        <img class="discussion__avatar"
+                                                                src="~/Assets/Public/images/profile_photos/@Model.Info.PhotoURL" alt="Profile Picture">
                                                         @Html.AntiForgeryToken()
                                                         @Html.ValidationSummary(true)
                                                         @Html.HiddenFor(model => model.Info.ID)
                                                         @Html.HiddenFor(model => comment.comment.ID)
-                                                        @Html.TextArea("comment_input", new { @class = "discussion__text", @id = "comment_input", @rows = "2" })
-                                                        <button class="btn btn-primary" type="submit">Post Comment</button>
-                                                    }
-                                                </div>
+                                                        @Html.TextArea("comment_input", new { @class = "discussion__text", @id = "reply_input", @rows = "2" })
+                                                        <button class="btn btn-primary" id="submit_reply">Post Comment</button>
+                                                                
+                                                    </div>
+                                                }
                                             </li>
                                         </ul>
                                     </li>
@@ -259,4 +252,67 @@
         </div>
     </div>
 </div>
+
+@section scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.js"></script>
+
+    <script type="x-tmpl-mustache" id="template">
+        <li class="comment">
+            <img class="discussion__avatar"
+                 src={{Photo}}
+                 alt="Profile Picture">
+            <div class="comment__detail">
+                <a href="#">{{UserName}}</a>
+                <i class="far fa-clock">
+                    <span>{{CreateDate}} years ago</span>
+                </i>
+                <p>{{Text}}</p>
+            </div>
+            <div class="comment__footer">
+                <i class="fas fa-thumbs-up comment__likes">
+                    <span>{{Likes}}</span>
+                </i>
+                <a href="#">Like</a>
+                <span>-</span>
+                <a href="#">Reply</a>
+            </div>
+            <ul class="replies">
+            </ul>
+        </li>
+    </script>
+
+    <script>
+        function addComment() {
+            var comment = $('#comment_input').val();
+            var userId = @Model.Info.ID;
+            var challengeId = @Model.challenge.ID;
+            var userName = "@Model.Info.UserName";
+            $.ajax({
+                method: 'POST',
+                url: "/Challenge/AddComment",
+                data: {
+                    userID: userId,
+                    challengeID: challengeId,
+                    commentInput: comment,
+                },
+            })
+                .done(function (response) {
+                    alert(response);
+                    var template = $("#template").html();
+                    var photo = $("#current_avatar").attr('src');
+                    var html = Mustache.render(template, {
+                        Photo: photo,
+                        UserName: userName,
+                        CreateDate: @DateTime.Now.Hour,
+                        Text: comment,
+                        Likes: 0
+                    });
+                    $(".comments").before(html);
+                    $('#comment_input').html("");
+                });
+        }
+    </script>
+
+}
 

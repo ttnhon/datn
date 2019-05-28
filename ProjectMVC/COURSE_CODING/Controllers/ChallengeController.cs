@@ -34,7 +34,7 @@ namespace COURSE_CODING.Controllers
             var models = new CommentListModel();
 
             //Lay user login info
-            models.Info = (new UserDAO().GetUserById(2));
+            models.Info = (new UserDAO().GetUserById(1));
             models.challenge = (new ChallengeDAO().GetOne(id));
 
             var commentList = (new CommentDAO().GetAllByChallenge(id));
@@ -52,7 +52,7 @@ namespace COURSE_CODING.Controllers
                         for (int j = 0; j < replyList.Count; j++)
                         {
                             var reply = new ReplyModel();
-                            reply.reply = replyList[i];
+                            reply.reply = replyList[j];
                             reply.owner = (new UserDAO().GetUserById(reply.reply.OwnerID));
 
                             model.replies.Add(reply);
@@ -67,13 +67,13 @@ namespace COURSE_CODING.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddComment(int userID,int challengeID,string input)
+        public ActionResult AddComment(int userID,int challengeID,string commentInput)
         {
             if(ModelState.IsValid)
             {
                 var commentDAO = new CommentDAO();
                 COMMENT c = new COMMENT();
-                c.Text = input;
+                c.Text = commentInput;
                 c.Likes = 0;
                 c.OwnerID = userID;
                 c.ChallengeID = challengeID;
@@ -81,7 +81,7 @@ namespace COURSE_CODING.Controllers
                 Boolean result = commentDAO.Insert(c);
                 if(result)
                 {
-                    return Redirect(String.Format("/Problem/{0}/Discussion", challengeID));
+                    return Json(result);
                 }
                 else
                 {
