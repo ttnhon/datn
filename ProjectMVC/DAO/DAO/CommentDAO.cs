@@ -24,22 +24,27 @@ namespace DAO.DAO
             return db.COMMENTS.Find(id);
         }
 
+        public COMMENT GetNewest()
+        {
+            return db.COMMENTS.OrderByDescending(table => table.ID).First();
+        }
+
         public List<COMMENT> GetAll(int id)
         {
             return db.COMMENTS.Where(table => table.ID == id).ToList();
         }
 
-        public List<COMMENT> GetAllSortBy(int id,int sort)
+        public List<COMMENT> GetAllByChallenge(int id,int sort)
         {
-            var comments = db.COMMENTS.Where(table => table.ID == id);
+            var comments = db.COMMENTS.Where(table => table.ChallengeID == id).Distinct();
 
             switch (sort)
             {
                 case 1:
-                    comments.OrderByDescending(table => table.CreateDate);
+                    comments = comments.OrderByDescending(table => table.ID);
                     break;
                 case 2:
-                    comments.OrderByDescending(table => table.Likes);
+                    comments = comments.OrderByDescending(table => table.Likes);
                     break;
             }
             return comments.ToList();
@@ -65,6 +70,23 @@ namespace DAO.DAO
                 return true;
             }
             catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public Boolean UpdateLikes(COMMENT entity)
+        {
+            try
+            {
+                var u = db.COMMENTS.Find(entity.ID);
+                if (u.ID > 0)
+                {
+                    u.Likes = entity.Likes;
+                }
+                db.SaveChanges();
+                return true;
+            } catch (Exception e)
             {
                 return false;
             }

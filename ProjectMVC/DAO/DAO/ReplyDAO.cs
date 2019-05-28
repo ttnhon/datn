@@ -20,6 +20,11 @@ namespace DAO.DAO
             return db.REPLIES.Find(id);
         }
 
+        public REPLY GetNewest()
+        {
+            return db.REPLIES.OrderByDescending(table => table.ID).First();
+        }
+
         public List<REPLY> GetAll(int id)
         {
             return db.REPLIES.Where(table => table.ID == id).ToList();
@@ -36,6 +41,24 @@ namespace DAO.DAO
             try
             {
                 db.REPLIES.Add(entity);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public Boolean UpdateLikes(REPLY entity)
+        {
+            try
+            {
+                var u = db.REPLIES.Find(entity.ID);
+                if (u.ID > 0)
+                {
+                    u.Likes = entity.Likes;
+                }
                 db.SaveChanges();
                 return true;
             }

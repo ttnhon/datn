@@ -116,13 +116,13 @@
                         </select>
                     </div>
                     <hr>
-                        <div class="discussion__input">
-                            <img class="discussion__avatar" id="current_avatar"
-                                 src="~/Assets/Public/images/profile_photos/@Model.Info.PhotoURL" alt="Profile Picture">
-                            <textarea class="discussion__text" name="comment_input" id="comment_input"
-                                      rows="6"></textarea>
-                            <button class="btn btn-primary" id="submit_comment" onclick="addComment()">Post Comment</button>
-                        </div>
+                    <div class="discussion__input">
+                        <img class="discussion__avatar" id="current_avatar"
+                             src="~/Assets/Public/images/profile_photos/@Model.Info.PhotoURL" alt="Profile Picture">
+                        <textarea class="discussion__text" name="comment_input" id="comment_input"
+                                  rows="6"></textarea>
+                        <button class="btn btn-primary" id="submit_comment" onclick="addComment()">Post Comment</button>
+                    </div>
                     <div class="discussion-group">
                         <ul class="comments">
                             @if (Model.comments.Count > 0)
@@ -134,21 +134,27 @@
                                              src="~/Assets/Public/images/profile_photos/@comment.owner.PhotoURL"
                                              alt="Profile Picture">
                                         <div class="comment__detail">
-                                            <a href="#">@comment.owner.UserName</a>
-                                            <i class="far fa-clock">
-                                                <span>@comment.comment.CreateDate years ago</span>
-                                            </i>
+                                            <div class="comment__user-info">
+                                                <a href="/User/Profile/@comment.owner.ID">@comment.owner.UserName</a>
+                                                <i class="far fa-clock">
+                                                    <span>@comment.comment.CreateDate</span>
+                                                </i>
+                                            </div>
                                             <p>@comment.comment.Text</p>
                                         </div>
                                         <div class="comment__footer">
                                             <i class="fas fa-thumbs-up comment__likes">
                                                 <span>@comment.comment.Likes</span>
                                             </i>
-                                            <a href="#">Like</a>
+                                            <input class="like__chk" data-type="comment" data-id="@comment.comment.ID"
+                                                   type="checkbox" id="cm-@comment.comment.ID" onchange="Like(this)">
+                                            <label for="cm-@comment.comment.ID" class="like__label">
+                                                <span>Like</span>
+                                            </label>
                                             <span>-</span>
-                                            <a href="#">Reply</a>
+                                            <button class="reply__btn" data-id="@comment.comment.ID" onclick="ShowReplyInput(this)">Reply</button>
                                         </div>
-                                        <ul class="replies">
+                                        <ul class="replies" id="replies-@comment.comment.ID">
                                             @if (comment.replies.Count > 0)
                                             {
                                                 foreach (var reply in comment.replies)
@@ -158,39 +164,29 @@
                                                              src="~/Assets/Public/images/profile_photos/@reply.owner.PhotoURL"
                                                              alt="Profile Picture">
                                                         <div class="comment__detail">
-                                                            <a href="#">@reply.owner.UserName</a>
-                                                            <i class="far fa-clock">
-                                                                <span>@reply.reply.CreateDate years ago</span>
-                                                            </i>
+                                                            <div>
+                                                                <a href="/User/Profile/@reply.owner.ID">@reply.owner.UserName</a>
+                                                                <i class="far fa-clock">
+                                                                    <span>@reply.reply.CreateDate</span>
+                                                                </i>
+                                                            </div>
                                                             <p>@reply.reply.Text</p>
                                                         </div>
                                                         <div class="comment__footer">
                                                             <i class="fas fa-thumbs-up comment__likes">
                                                                 <span>@reply.reply.Likes</span>
                                                             </i>
-                                                            <a href="#">Like</a>
+                                                            <input class="like__chk" data-type="reply" data-id="@reply.reply.ID"
+                                                                   type="checkbox" id="rpl-@reply.reply.ID" onchange="Like(this)">
+                                                            <label for="rpl-@reply.reply.ID" class="like__label">
+                                                                <span>Like</span>
+                                                            </label>
                                                             <span>-</span>
-                                                            <a href="#">Reply</a>
+                                                            <button class="reply__btn" data-id="@comment.comment.ID" onclick="ShowReplyInput(this)">Reply</button>
                                                         </div>
                                                     </li>
                                                 }
                                             }
-                                            <li>
-                                                @using (Html.BeginForm())
-                                                {
-                                                    <div class="discussion__input">
-                                                        <img class="discussion__avatar"
-                                                                src="~/Assets/Public/images/profile_photos/@Model.Info.PhotoURL" alt="Profile Picture">
-                                                        @Html.AntiForgeryToken()
-                                                        @Html.ValidationSummary(true)
-                                                        @Html.HiddenFor(model => model.Info.ID)
-                                                        @Html.HiddenFor(model => comment.comment.ID)
-                                                        @Html.TextArea("comment_input", new { @class = "discussion__text", @id = "reply_input", @rows = "2" })
-                                                        <button class="btn btn-primary" id="submit_reply">Post Comment</button>
-                                                                
-                                                    </div>
-                                                }
-                                            </li>
                                         </ul>
                                     </li>
                                 }
@@ -256,62 +252,73 @@
 @section scripts
 {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.js"></script>
+    <script src="~/Assets/Public/js/discussion.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 
-    <script type="x-tmpl-mustache" id="template">
+    <script type="x-tmpl-mustache" id="comment_template">
         <li class="comment">
             <img class="discussion__avatar"
                  src={{Photo}}
                  alt="Profile Picture">
             <div class="comment__detail">
-                <a href="#">{{UserName}}</a>
-                <i class="far fa-clock">
-                    <span>{{CreateDate}} years ago</span>
-                </i>
+                <div>
+                    <a href="#">{{UserName}}</a>
+                    <i class="far fa-clock">
+                        <span>{{CreateDate}}</span>
+                    </i>
+                </div>
                 <p>{{Text}}</p>
             </div>
             <div class="comment__footer">
                 <i class="fas fa-thumbs-up comment__likes">
                     <span>{{Likes}}</span>
                 </i>
-                <a href="#">Like</a>
+                <input class="like__chk" data-type="comment" data-id="{{commentID}}"
+                       type="checkbox" id="cm-{{commentID}}" onchange="Like(this)">
+                <label for="cm-{{commentID}}" class="like__label">
+                    <span>Like</span>
+                </label>
                 <span>-</span>
-                <a href="#">Reply</a>
+                <button class="reply__btn" data-id="{{commentID}}" id="cm-{{commentID}}" onclick="ShowReplyInput(this)">Reply</button>
             </div>
-            <ul class="replies">
-            </ul>
+            <ul class="replies"></ul>
         </li>
     </script>
 
-    <script>
-        function addComment() {
-            var comment = $('#comment_input').val();
-            var userId = @Model.Info.ID;
-            var challengeId = @Model.challenge.ID;
-            var userName = "@Model.Info.UserName";
-            $.ajax({
-                method: 'POST',
-                url: "/Challenge/AddComment",
-                data: {
-                    userID: userId,
-                    challengeID: challengeId,
-                    commentInput: comment,
-                },
-            })
-                .done(function (response) {
-                    alert(response);
-                    var template = $("#template").html();
-                    var photo = $("#current_avatar").attr('src');
-                    var html = Mustache.render(template, {
-                        Photo: photo,
-                        UserName: userName,
-                        CreateDate: @DateTime.Now.Hour,
-                        Text: comment,
-                        Likes: 0
-                    });
-                    $(".comments").before(html);
-                    $('#comment_input').html("");
-                });
-        }
+    <script type="x-tmpl-mustache" id="reply_template">
+        <li class="comment">
+            <img class="discussion__avatar"
+                 src={{Photo}}
+                 alt="Profile Picture">
+            <div class="comment__detail">
+                <div>
+                    <a href="#">{{UserName}}</a>
+                    <i class="far fa-clock">
+                        <span>{{CreateDate}}</span>
+                    </i>
+                </div>
+                <p>{{Text}}</p>
+            </div>
+            <div class="comment__footer">
+                <i class="fas fa-thumbs-up comment__likes">
+                    <span>{{Likes}}</span>
+                </i>
+                <input class="like__chk" data-type="reply" data-id="{{replyID}}"
+                       type="checkbox" id="rpl-{{replyID}}" onchange="Like(this)">
+                <label for="rpl-{{replyID}}" class="like__label">
+                    <span>Like</span>
+                </label>
+                <span>-</span>
+                <button class="reply__btn" data-id="{{commentID}}" id="rpl-{{replyID}}" onclick="ShowReplyInput(this)">Reply</button>
+            </div>
+        </li>
+    </script>
+
+    <script id="global_variables" type="text/javascript">
+        var userPhoto = '@Model.Info.PhotoURL';
+        var userId = '@Model.Info.ID';
+        var challengeId = '@Model.challenge.ID';
+        var userName = '@Model.Info.UserName';
     </script>
 
 }

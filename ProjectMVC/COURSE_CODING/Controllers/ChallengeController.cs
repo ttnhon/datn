@@ -37,7 +37,7 @@ namespace COURSE_CODING.Controllers
             models.Info = (new UserDAO().GetUserById(1));
             models.challenge = (new ChallengeDAO().GetOne(id));
 
-            var commentList = (new CommentDAO().GetAllByChallenge(id));
+            var commentList = (new CommentDAO().GetAllByChallenge(id,1));
             if(commentList.Count > 0)
             {
                 for (int i = 0; i < commentList.Count; i++)
@@ -81,7 +81,8 @@ namespace COURSE_CODING.Controllers
                 Boolean result = commentDAO.Insert(c);
                 if(result)
                 {
-                    return Json(result);
+                    c = commentDAO.GetNewest();
+                    return Json(c.ID);
                 }
                 else
                 {
@@ -92,13 +93,13 @@ namespace COURSE_CODING.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddReply(int userID, int commentID, string input)
+        public ActionResult AddReply(int userID, int commentID, string commentInput)
         {
             if (ModelState.IsValid)
             {
                 var replyDAO = new ReplyDAO();
                 REPLY c = new REPLY();
-                c.Text = input;
+                c.Text = commentInput;
                 c.Likes = 0;
                 c.OwnerID = userID;
                 c.CommentID = commentID;
@@ -106,7 +107,8 @@ namespace COURSE_CODING.Controllers
                 Boolean result = replyDAO.Insert(c);
                 if (result)
                 {
-                    return Redirect(String.Format("/Problem/{0}/Discussion", c.COMMENT.ChallengeID));
+                    c = replyDAO.GetNewest();
+                    return Json(c.ID);
                 }
                 else
                 {
@@ -114,6 +116,45 @@ namespace COURSE_CODING.Controllers
                 }
             }
             return View("Discussion");
+        }
+
+        [HttpPost]
+        public ActionResult UpdateLikes(int likes,int id,string type)
+        {
+            if(ModelState.IsValid)
+            {
+                if(type.Equals("comment"))
+                {
+                    var commentDAO = new CommentDAO();
+                    COMMENT c = commentDAO.GetOne(id);
+                    c.Likes = likes;
+                    var result = commentDAO.UpdateLikes(c);
+                    if(result)
+                    {
+                        return Json(result);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(String.Empty, "Fail to update likes");
+                    }
+                }
+                else
+                {
+                    var replyDAO = new ReplyDAO();
+                    REPLY c = replyDAO.GetOne(id);
+                    c.Likes = likes;
+                    var result = replyDAO.UpdateLikes(c);
+                    if (result)
+                    {
+                        return Json(result);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(String.Empty, "Fail to update likes");
+                    }
+                }
+            }
+            return View();
         }
 
         // GET: Challenge/edit/:id

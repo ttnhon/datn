@@ -341,6 +341,7 @@
     <Content Include="Assets\Public\images\fox.png" />
     <Content Include="Assets\Public\images\profile_photos\12794737_842123109243955_6568604772712850558_o.jpg" />
     <Content Include="Assets\Public\images\profile_photos\13151438_1694488630768857_5430165903041365933_n.png" />
+    <Content Include="Assets\Public\js\discussion.js" />
     <Content Include="Assets\Public\js\EditChallenge.js" />
     <Content Include="Assets\Public\images\problem-solving-ecaf59a612.svg" />
     <Content Include="Assets\Public\js\profile.js" />

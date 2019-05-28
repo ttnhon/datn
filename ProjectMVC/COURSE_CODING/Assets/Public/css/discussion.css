@@ -65,7 +65,8 @@
 }
 
 .comments {
-    list-style: none; 
+    list-style: none;
+    margin-left: 3em;
 }
 
 .comment {
@@ -74,22 +75,17 @@
                     ".      footer" 2.4rem 
                     ".      reply" auto/
                       70px 1fr;
-    position: relative;
-}
-
-.comment::before {
-    position: absolute;
-    content: '';
-    width: 2px;
-    height: 55%;
-    background: rgb(205, 205, 255);
-    top: 60px;
+    margin-bottom: 2em;
 }
 
 .comment__detail {
     grid-area: detail;
 }
 
+    .comment__user-info{
+        display: flex;
+        align-items: center;
+    }
     .comment__detail a,
     .comment__detail i {
         font-size: 1.1rem;
@@ -108,7 +104,8 @@
     }
 
     .comment__detail p {
-        margin: auto;
+        position: relative;
+        display: inline-block;
         background: rgb(223, 223, 223);
         border-radius: 20px;
         padding: .5em 1em;
@@ -137,4 +134,40 @@
 
     .replies > .discussion__input {
         margin: 0 !important;
+    }
+
+    .replies > .comment{
+        margin: 0 !important;
+    }
+
+.reply__btn,
+.like__label {
+    background: transparent;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+}
+
+    .reply__btn:hover,
+    .like__label:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+
+    .reply__btn:focus {
+        outline: none;
+        
+    }
+
+.reply__input {
+    margin: 0 !important;
+}
+
+.like__chk {
+    display: none;
+}
+
+    .like__chk:checked ~ .like__label {
+        font-weight: 600;
+        color: #004c9c;
     }
