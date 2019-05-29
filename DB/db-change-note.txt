@@ -35,3 +35,8 @@
 	string TesterCode
 
 - Thêm thuộc tính CodeStub vào bảng CHALLENGE_LANGUAGE
+
+28/05/2019
+- đổi thuộc tính của bảng CHALLENGE
+	bit PartialEditorial
+- fill data test
