@@ -74,6 +74,10 @@ p.challenge-detail {
     background-color: white;
 }
 
+    .one-challenge-box button.btn:hover {
+        color: #28a745;
+    }
+
 a.challenge-link {
     color: black;
 }
