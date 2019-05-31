@@ -85,9 +85,9 @@ namespace WebAPI.Controllers
                 /*write code to file.txt*/
                 if (!System.IO.File.Exists(full_path + ".txt"))
                 {
-                    using (StreamWriter w = new StreamWriter(full_path + ".txt", true))
+                    using (StreamWriter w = new StreamWriter(full_path + ".txt", false))
                     {
-                        w.WriteLine(content); // Write the text
+                        w.Write(content); // Write the text
                     }
 
                     return Ok(res);
@@ -122,12 +122,12 @@ namespace WebAPI.Controllers
                 string filename_code = file.FileName;
                 string full_path = directory_file + filename_code;
                 /*write code to file.txt*/
-                if (System.IO.File.Exists(full_path + ".txt"))
+                if (System.IO.File.Exists(full_path))
                 {
-                    System.IO.File.Delete(full_path + ".txt");
-                    using (StreamWriter w = new StreamWriter(full_path + ".txt", true))
+                    System.IO.File.Delete(full_path);
+                    using (StreamWriter w = new StreamWriter(full_path, false))
                     {
-                        w.WriteLine(content); // Write the text
+                        w.Write(content); // Write the text
                     }
                 }
                 else
@@ -154,16 +154,16 @@ namespace WebAPI.Controllers
             {
                 //return result
                 string res = "success";
-                string content = file.Content;
+                //string content = file.Content;
                 string app_path = AppDomain.CurrentDomain.BaseDirectory;
                 string directory_file = app_path + Constant.TESTCASE_DIR;
                 //challenge_{id_challenge}_input/output_{id_testcase}
                 string filename_code = file.FileName;
                 string full_path = directory_file + filename_code;
                 /*write code to file.txt*/
-                if (System.IO.File.Exists(full_path + ".txt"))
+                if (System.IO.File.Exists(full_path))
                 {
-                    System.IO.File.Delete(full_path + ".txt");
+                    System.IO.File.Delete(full_path);
                 }
                 else
                 {

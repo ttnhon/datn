@@ -44,6 +44,7 @@ namespace COURSE_CODING.Models
         public List<USER_INFO> Moderators = new List<USER_INFO>();
         //test cases
         public List<TESTCASE> TestCases = new List<TESTCASE>();
+        public List<TestCaseResultModel> TestCaseContent = new List<TestCaseResultModel>();
         //code stubs
         public string CodeStubs_CSharp { get; set; }
         public string CodeStubs_Cpp { get; set; }

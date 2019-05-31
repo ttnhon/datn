@@ -21,7 +21,7 @@
 
 <section class="content-page edit-challenge">
     <div class="container">
-        <h1 class="title">Challenge Name</h1>
+        <h1 class="title">@Model.Name</h1>
         <nav class="navbar navbar-light bg-light">
             <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
                 <li class="nav-item">
@@ -48,7 +48,7 @@
             @using (Ajax.BeginForm("UpdateDetails", "Challenge", new AjaxOptions()
             {
                 HttpMethod = "POST",
-                OnSuccess = "OnSuccess",
+                OnSuccess = "OnSuccessDetail",
                 OnFailure = "OnFailure"
             }, new { @class = "form-horizontal" }))
             {
@@ -96,42 +96,42 @@
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="description_Input">Description</label>
                     <div class="col-sm-8">
-                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @id = "description_Input", @rows = "2" })
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @id = "description_Input", @rows = "4" })
                         @*<textarea class="form-control" rows="2" id="description_Input"></textarea>*@
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="problem_Input">Problem Statement</label>
                     <div class="col-sm-8">
-                        @Html.TextAreaFor(model => model.ProblemStatement, new { @class = "form-control", @id = "problem_Input", @rows = "2" })
+                        @Html.TextAreaFor(model => model.ProblemStatement, new { @class = "form-control", @id = "problem_Input", @rows = "4" })
                         @*<textarea class="form-control" rows="2" id="problem_Input"></textarea>*@
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="inputFormat_Input">Input Format</label>
                     <div class="col-sm-8">
-                        @Html.TextAreaFor(model => model.InputFormat, new { @class = "form-control", @id = "inputFormat_Input", @rows = "2" })
+                        @Html.TextAreaFor(model => model.InputFormat, new { @class = "form-control", @id = "inputFormat_Input", @rows = "4" })
                         @*<textarea class="form-control" rows="2" id="inputFormat_Input"></textarea>*@
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="constraints_Input">Constraints</label>
                     <div class="col-sm-8">
-                        @Html.TextAreaFor(model => model.Constraints, new { @class = "form-control", @id = "constraints_Input", @rows = "2" })
+                        @Html.TextAreaFor(model => model.Constraints, new { @class = "form-control", @id = "constraints_Input", @rows = "4" })
                         @*<textarea class="form-control" rows="2" id="constraints_Input"></textarea>*@
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="outputFormat_Input">Output Format</label>
                     <div class="col-sm-8">
-                        @Html.TextAreaFor(model => model.OutputFormat, new { @class = "form-control", @id = "outputFormat_Input", @rows = "2" })
+                        @Html.TextAreaFor(model => model.OutputFormat, new { @class = "form-control", @id = "outputFormat_Input", @rows = "4" })
                         @*<textarea class="form-control" rows="2" id="outputFormat_Input"></textarea>*@
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="tags_Input">Tags</label>
                     <div class="col-sm-8">
-                        @Html.TextAreaFor(model => model.Tags, new { @class = "form-control", @id = "tags_Input", @rows = "2" })
+                        @Html.TextAreaFor(model => model.Tags, new { @class = "form-control", @id = "tags_Input", @rows = "4" })
                         @*<textarea class="form-control" rows="2" id="tags_Input"></textarea>*@
                     </div>
                 </div>
@@ -250,13 +250,57 @@
                         {
                             for (int i = 0; i < Model.TestCases.Count; i++)
                             {
-                                <tr>
+                                <tr id="test_case_@Model.TestCases[i].ID">
                                     <td>@i</td>
-                                    <td><a href="javascript:;">@Model.TestCases[i].Input</a></td>
-                                    <td><a href="javascript:;">@Model.TestCases[i].Output</a></td>
-                                    <td><input type="checkbox" id="test_case_0" value=""></td>
-                                    <td><a href="javascript:EditTestCase(@Model.TestCases[i].ID, @Model.ID);"><i class="far fa-edit"></i></a>   <a href="javascript:DeleteTestCase(@Model.TestCases[i].ID, @Model.ID);"><i class="far fa-trash-alt"></i></a></td>
+                                    <td><a href="javascript:;" data-toggle="modal" data-target="#test-case-@Model.TestCases[i].ID-modal">@Model.TestCases[i].Input</a></td>
+                                    <td><a href="javascript:;" data-toggle="modal" data-target="#test-case-@Model.TestCases[i].ID-modal">@Model.TestCases[i].Output</a></td>
+                                    <td><input type="checkbox" value=""></td>
+                                    <td><a href="javascript:;" data-toggle="modal" data-target="#test-case-@Model.TestCases[i].ID-modal"><i class="far fa-edit"></i></a>   <a href="javascript:DeleteTestCase(@Model.TestCases[i].ID);"><i class="far fa-trash-alt"></i></a></td>
                                 </tr>
+
+                                <div id="test-case-@Model.TestCases[i].ID-modal" class="modal fade" role="dialog">
+                                    <div class="modal-dialog test-case-popup">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            @using (Ajax.BeginForm("UpdateTestCase", "Challenge", new AjaxOptions()
+                                            {
+                                                HttpMethod = "POST",
+                                                OnSuccess = "OnSuccessUpdateTestCase",
+                                                OnFailure = "OnFailureTestCase"
+                                            }, new { @class = "form-horizontal" }))
+                                            {
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Add Test Case</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    @Html.Hidden("testcaseId", Model.TestCases[i].ID)
+                                                    <div class="test-case-input-field">
+                                                        <label class="control-label" for="test_input_Input">Input</label>
+                                                        <div class="">
+                                                            @Html.TextArea("input", Model.TestCaseContent[i].Input, new { @class = "form-control", @id = "test_input_Input", @rows = "2" })
+                                                            @*<textarea class="form-control" rows="2" id="test_input_Input"></textarea>*@
+                                                        </div>
+                                                    </div>
+                                                    <div class="test-case-input-field">
+                                                        <label class="control-label" for="test_output_Input">Output</label>
+                                                        <div class="">
+                                                            @Html.TextArea("output", Model.TestCaseContent[i].Output, new { @class = "form-control", @id = "test_output_Input", @rows = "2" })
+                                                            @*<textarea class="form-control" rows="2" id="test_output_Input"></textarea>*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-default btn-success"
+                                                            id="js-save-test-case-btn">
+                                                        Save
+                                                    </button>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
                             }
                         }
                     </tbody>
@@ -292,8 +336,8 @@
                     <div class="form-group col-md-4 offset-md-8 language-option">
                         @*<label for="inputState">State</label>*@
                         <select id="inputLanguage" class="form-control">
-                            <option value="1">C#</option>
-                            <option value="2">C++</option>
+                            <option value="1">C++</option>
+                            <option value="2">C#</option>
                             <option value="3">Java</option>
                         </select>
                     </div>
@@ -313,7 +357,9 @@
             </div>
             @using (Ajax.BeginForm("UpdateLanguages", "Challenge", new AjaxOptions()
             {
-                HttpMethod = "POST"
+                HttpMethod = "POST",
+                OnSuccess = "OnSuccess",
+                OnFailure = "OnFailure"
             }, new { @class = "form-horizontal" }))
             {
                 @Html.Hidden("ID", Model.ID)
@@ -350,7 +396,9 @@
             </div>
             @using (Ajax.BeginForm("UpdateSettings", "Challenge", new AjaxOptions()
             {
-                HttpMethod = "POST"
+                HttpMethod = "POST",
+                OnSuccess = "OnSuccess",
+                OnFailure = "OnFailure"
             }, new { @class = "form-horizontal" }))
             {
                 @Html.Hidden("ID", Model.ID)
@@ -405,7 +453,9 @@
     </div> -->
             @using (Ajax.BeginForm("UpdateEditorial", "Challenge", new AjaxOptions()
             {
-                HttpMethod = "POST"
+                HttpMethod = "POST",
+                OnSuccess = "OnSuccess",
+                OnFailure = "OnFailure"
             }, new { @class = "form-horizontal" }))
             {
                 @Html.Hidden("ID", Model.ID)
@@ -432,11 +482,11 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="editorial_4">Partial Editorial (Only Hints)</label>
-                    <div class="col-sm-8">
-                        @Html.TextBoxFor(model => model.PartialEditorial, new { @class = "form-control", @id = "editorial_4" })
+                    <div class="col-sm-2">
+                        @Html.CheckBoxFor(model => model.PartialEditorial, new { @class = "form-control", @id = "editorial_4" })
                         @*<input type="checkbox" id="editorial_4" value="">*@
                     </div>
-                    <p class="setting-des">Doesn't contain the complete code.</p>
+                    <p class="setting-des col-sm-12">Doesn't contain the complete code.</p>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="editorial_5">Approach</label>
@@ -470,7 +520,7 @@
                     <label class="col-sm-2 control-label" for="editorial_9">Tester's Code</label>
                     <div class="col-sm-8">
                         @Html.TextAreaFor(model => model.TesterCode, new { @class = "form-control", @id = "editorial_9", @rows = "4" })
-                        <textarea class="form-control" rows="4" id="editorial_9"></textarea>
+                        @*<textarea class="form-control" rows="4" id="editorial_9"></textarea>*@
                     </div>
                 </div>
                 <div class="save-change-btn-group">
@@ -496,24 +546,23 @@
     </script>
     <script type="text/javascript">
         //code
-        var code_CSharp = "@(Model.CodeStubs_CSharp)";
-        var code_Cpp = "@(Model.CodeStubs_Cpp)";
-        var code_Java = "@(Model.CodeStubs_Java)";
+        var code_CSharp = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_CSharp))`;
+        var code_Cpp = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_Cpp))`;
+        var code_Java = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_Java))`;
 
         $("#inputLanguage").change(function () {
             var selectedVal = Number.parseInt(this.value);
-
             if (selectedVal === 1) {
-                editor.setValue(code_CSharp);
-                setModeEditor("C#")
+                editor.setValue(code_Cpp);
+                setModeEditor("C++");
             }
             else if (selectedVal === 2) {
-                editor.setValue(code_Cpp);
-                setModeEditor("C++")
+                editor.setValue(code_CSharp);
+                setModeEditor("C#");
             }
             else if (selectedVal === 3) {
                 editor.setValue(code_Java);
-                setModeEditor("Java")
+                setModeEditor("Java");
             }
         });
 
@@ -537,10 +586,10 @@
             res.close();
             var select = Number.parseInt($('#inputLanguage').val());
             if (select === 1) {
-                code_CSharp = editor.getValue();
+                code_Cpp = editor.getValue();
             }
             else if (select === 2) {
-                code_Cpp = editor.getValue();
+                code_CSharp = editor.getValue();
             }
             else if (select === 3) {
                 code_Java = editor.getValue();
@@ -560,6 +609,19 @@
                 enableSnippets: true,
                 enableLiveAutocompletion: false
             });
+            var select = Number.parseInt($('#inputLanguage').val());
+            if (select === 1) {
+                editor.setValue(code_Cpp);
+                setModeEditor("C++");
+            }
+            else if (select === 2) {
+                editor.setValue(code_CSharp);
+                setModeEditor("C#");
+            }
+            else if (select === 3) {
+                editor.setValue(code_Java);
+                setModeEditor("Java");
+            }
             editor.getSession().on('change', function () {
                 update("result");
             });
@@ -569,6 +631,10 @@
         update("result");
 
         function OnSuccess(data) {
+            alert('Save changes succeed');
+        }
+
+        function OnSuccessDetail(data) {
             alert('Save changes succeed');
             document.getElementById("slug_Input").innerHTML = 'https://www.khtnfitk15.somee.com/.../' + data.data.Slug;
         }
@@ -591,45 +657,106 @@
 
         function OnSuccessTestCase(data) {
             //alert('Add succeed');
-            console.log(data);
             if (data.result) {
                 document.getElementById("testCaseList").innerHTML +=
-                    '<tr>' +
-                    '<td>' + data.count + '</td>' +
-                    '<td><a href="#">' + data.data.Input + '</a></td>' +
-                    '<td><a href="#">' + data.data.Output + '</a></td>' +
-                    '<td><input type="checkbox" id="test_case_0" value=""></td>' +
-                    '<td><a href="javascript:EditTestCase(' + data.data.ID + ', @Model.ID);"><i class="far fa-edit"></i></a>   <a href="javascript:DeleteTestCase(' + data.data.ID + ', @Model.ID);"><i class="far fa-trash-alt"></i></a></td>' +
-                    '</tr>';
+                                `<tr id="test_case_` + data.data.ID + `">
+                                    <td>` + data.count + `</td>
+                                    <td><a href="javascript:;" data-toggle="modal" data-target="#test-case-` + data.data.ID + `-modal">` + data.data.Input + `</a></td>
+                                    <td><a href="javascript:;" data-toggle="modal" data-target="#test-case-` + data.data.ID + `-modal">` + data.data.Output + `</a></td>
+                                    <td><input type="checkbox" value=""></td>
+                                    <td><a href="javascript:;" data-toggle="modal" data-target="#test-case-` + data.data.ID + `-modal"><i class="far fa-edit"></i></a>   <a href="javascript:DeleteTestCase(` + data.data.ID + `);"><i class="far fa-trash-alt"></i></a></td>
+                                </tr>
+    
+                <div id="test-case-` + data.data.ID + `-modal" class="modal fade" role="dialog" style="display: none;" aria-hidden="true">
+                                    <div class="modal-dialog test-case-popup">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+<form action="/Challenge/UpdateTestCase?Length=9" class="form-horizontal" data-ajax="true" data-ajax-failure="OnFailureTestCase" data-ajax-method="POST" data-ajax-success="OnSuccessUpdateTestCase" id="form3" method="post"></form>                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Add Test Case</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input data-val="true" data-val-number="The field ID must be a number." data-val-required="The ID field is required." id="id" name="id" type="hidden" value="`+ data.data.ID +`">
+                                                    <div class="test-case-input-field">
+                                                        <label class="control-label" for="test_input_Input">Input</label>
+                                                        <div class="">
+                                                            <textarea class="form-control" cols="20" id="test_input_Input" name="input" rows="2">`+ data.content.input +`</textarea>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div class="test-case-input-field">
+                                                        <label class="control-label" for="test_output_Input">Output</label>
+                                                        <div class="">
+                                                            <textarea class="form-control" cols="20" id="test_output_Input" name="output" rows="2">`+ data.content.output +`</textarea>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-default btn-success" id="js-save-test-case-btn">
+                                                        Save
+                                                    </button>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>`
             } else {
-                alert('Fail to add test case');
+                alert('Error: ' + data.msg);
             }
         }
+
+        function OnSuccessUpdateTestCase(data) {
+            if (data.result) {
+                alert('Save changes succeed');
+            } else {
+                alert('Error: ' + data.msg);
+            }
+        }
+
         function OnFailureTestCase(data) {
             alert('POST: Fail');
         }
         function EditTestCase(testcaseID, challengeID) {
 
         }
-        function DeleteTestCase(testcaseID, challengeID) {
-
+        function DeleteTestCase(testcaseID) {
+            $.ajax({
+                method: "POST",
+                url: "/Challenge/DeleteTestCase",
+                data: {
+                    id: testcaseID
+                }
+             })
+             .done(function (msg) {
+                if (msg) {
+                     //console.log(msg);
+                    //alert(msg);
+                    if (msg.result) {
+                        $('#test_case_' + msg.data).remove();
+                    } else {
+                        alert("Fail to delete test case.");
+                    }
+                    }
+                });
         }
 
             function CodeStubSave() {
-                code = editor.getValue();
-                language = $('#inputLanguage').val();
+                //var code = editor.getValue();
+                var language = Number.parseInt($('#inputLanguage').val());
                 $.ajax({
                     method: "POST",
                     url: "/Challenge/UpdateCodeStubs",
                     data: {
                         challengeID: @(Model.ID),
-                        Code: { CSharp: code_CSharp, Cpp: code_Cpp, Java: code_Java }
+                        language: language,
+                        Code: language === 1 ? code_Cpp : language === 2 ? code_CSharp : language === 3 ? code_Java : null
                     }
                 })
                     .done(function (msg) {
                         if (msg) {
-                            //console.log(msg);
-                            //alert(msg);
+                            console.log(msg);
+                            alert(msg.result);
                         }
 
                     });
