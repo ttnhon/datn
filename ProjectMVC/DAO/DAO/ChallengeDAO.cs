@@ -37,6 +37,16 @@ namespace DAO.DAO
         }
 
         /// <summary>
+        /// check if is owner
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool IsOwner(int challengeId, int ownerId)
+        {
+            return db.CHALLENGES.Where(table => table.ID == challengeId && table.OwnerID == ownerId).Count() > 0;
+        }
+
+        /// <summary>
         /// Update info challenge
         /// </summary>
         /// <param name="entity"></param>

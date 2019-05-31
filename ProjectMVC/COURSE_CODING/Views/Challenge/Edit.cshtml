@@ -725,7 +725,8 @@
                 method: "POST",
                 url: "/Challenge/DeleteTestCase",
                 data: {
-                    id: testcaseID
+                    id: testcaseID,
+                    challengeID: @Model.ID
                 }
              })
              .done(function (msg) {

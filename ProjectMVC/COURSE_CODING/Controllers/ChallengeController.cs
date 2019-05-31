@@ -160,7 +160,18 @@ namespace COURSE_CODING.Controllers
         // GET: Challenge/edit/:id
         public ActionResult Edit(int id)
         {
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            if(ses == null)
+            {
+                return Redirect("Authen/Login");
+            }
             ChallengeDAO DAO = new ChallengeDAO();
+            bool isOwner = DAO.IsOwner(id, ses.ID);
+            if (!isOwner)
+            {
+                return Redirect("User/Dashboard");
+            }
             CHALLENGE c = DAO.GetOne(id);
             if(c != null)
             {
@@ -256,6 +267,15 @@ namespace COURSE_CODING.Controllers
         [HttpPost]
         public JsonResult UpdateDetails(EditChallengeModel model)
         {
+            ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(model.ID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
+            
             CHALLENGE c = new CHALLENGE()
             {
                 ID = model.ID,
@@ -269,8 +289,6 @@ namespace COURSE_CODING.Controllers
                 Constraints = model.Constraints,
                 Tags = model.Tags
             };
-            ChallengeDAO DAO = new ChallengeDAO();
-
             bool res = DAO.Update(c);
             if (res)
             {
@@ -283,6 +301,13 @@ namespace COURSE_CODING.Controllers
         public JsonResult AddModerator(string moderator, int challengeID)
         {
             ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(challengeID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
             USER_INFO person = DAO.GetUserByName(moderator);
             if(person != null)
             {
@@ -311,6 +336,14 @@ namespace COURSE_CODING.Controllers
         public JsonResult AddTestCase(string input, string output, int challengeID)
         {
             ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(challengeID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
+
             int testcaseID = DAO.GetTestCaseNextID(challengeID);
             TESTCASE t = new TESTCASE();
             FileManager fileInput = new FileManager();
@@ -350,9 +383,16 @@ namespace COURSE_CODING.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeleteTestCase(int id)
+        public JsonResult DeleteTestCase(int id, int challengeID)
         {
             ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(challengeID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
 
             var testcase = DAO.GetOneTestCase(id);
             if (testcase != null)
@@ -387,9 +427,16 @@ namespace COURSE_CODING.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdateTestCase(int testcaseId, string input, string output)
+        public JsonResult UpdateTestCase(int testcaseId, string input, string output, int id)
         {
             ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(id, ses.ID))
+            {
+                return Json(new { result = false });
+            }
 
             var testcase = DAO.GetOneTestCase(testcaseId);
             if (testcase != null)
@@ -425,6 +472,13 @@ namespace COURSE_CODING.Controllers
         public JsonResult UpdateCodeStubs(int challengeID, int language, string Code)
         {
             ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(challengeID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
             bool result = false;
             result = DAO.UpdateCodestub(challengeID, language, Code);
             return Json(new { result });
@@ -433,15 +487,21 @@ namespace COURSE_CODING.Controllers
         [HttpPost]
         public JsonResult UpdateLanguages(EditChallengeModel model)
         {
+            ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(model.ID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
             CHALLENGE c = new CHALLENGE()
             {
                 ID = model.ID,
                 LanguageCSharp = model.LanguageCSharp,
                 LanguageCpp = model.LanguageCpp,
                 LanguageJava = model.LanguageJava
-        };
-            ChallengeDAO DAO = new ChallengeDAO();
-
+            };
             bool res = DAO.UpdateLanguage(c);
             if (res)
             {
@@ -453,6 +513,14 @@ namespace COURSE_CODING.Controllers
         [HttpPost]
         public JsonResult UpdateSettings(EditChallengeModel model)
         {
+            ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(model.ID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
             CHALLENGE c = new CHALLENGE()
             {
                 ID = model.ID,
@@ -462,8 +530,6 @@ namespace COURSE_CODING.Controllers
                 PublicTestcase = model.PublicTestcase,
                 PublicSolutions = model.PublicSolutions
             };
-            ChallengeDAO DAO = new ChallengeDAO();
-
             bool res = DAO.UpdateSetting(c);
             if (res)
             {
@@ -475,6 +541,14 @@ namespace COURSE_CODING.Controllers
         [HttpPost]
         public JsonResult UpdateEditorial(EditChallengeModel model)
         {
+            ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(model.ID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
             CHALLENGE c = new CHALLENGE()
             {
                 ID = model.ID,
@@ -487,9 +561,7 @@ namespace COURSE_CODING.Controllers
                 SetterCode = model.SetterCode,
                 ProblemTester = model.ProblemTester,
                 TesterCode = model.SetterCode
-        };
-            ChallengeDAO DAO = new ChallengeDAO();
-
+            };
             bool res = DAO.UpdateEditorial(c);
             if (res)
             {
