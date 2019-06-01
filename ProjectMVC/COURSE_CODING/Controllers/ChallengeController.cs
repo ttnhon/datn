@@ -299,6 +299,7 @@ namespace COURSE_CODING.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public JsonResult UpdateDetails(EditChallengeModel model)
         {
             ChallengeDAO DAO = new ChallengeDAO();
@@ -503,6 +504,7 @@ namespace COURSE_CODING.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public JsonResult UpdateCodeStubs(int challengeID, int language, string Code)
         {
             ChallengeDAO DAO = new ChallengeDAO();
