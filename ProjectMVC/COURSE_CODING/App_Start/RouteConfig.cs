@@ -35,6 +35,9 @@ namespace COURSE_CODING
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
                  namespaces: new[] { "COURSE_CODING.Controllers" }
             );
+
+            routes.MapMvcAttributeRoutes();
+
         }
     }
 }

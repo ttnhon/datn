@@ -66,14 +66,14 @@
                                         }
                                 </a>
                                 <div class="dropdown-menu base-box" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Profile</a>
+                                    <a class="dropdown-item" href="/User/Profile/@session.ID">Profile</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Another action</a>
-                                    @*@if (session.Role == 2)
+                                    @if (session.Role == CommonProject.CommonConstant.ROLE_TEACHER)
                                     {
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Admintrator</a>
-                                    }*@
+                                        <a class="dropdown-item" href="/Moderator/ManageChallenge">Admintrator</a>
+                                    }
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Logout</a>
                                 </div>

@@ -34,7 +34,7 @@ namespace DAO.DAO
             return db.COMMENTS.Where(table => table.ID == id).ToList();
         }
 
-        public List<COMMENT> GetAllByChallenge(int id,int sort)
+        public List<COMMENT> GetAllByChallenge(int id, int? sort)
         {
             var comments = db.COMMENTS.Where(table => table.ChallengeID == id).Distinct();
 

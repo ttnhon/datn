@@ -162,11 +162,23 @@ namespace COURSE_CODING.Controllers
             {
                 UserProfileModel model = new UserProfileModel();
                 model.Info = (new UserDAO().GetUserById(id));
-                model.Challenges = (new ChallengeDAO().GetAll(id));
-                model.Competes = (new CompeteDAO().GetAll(id));
+                model.FirstName = model.Info.FirstName;
+                model.LastName = model.Info.LastName;
+                model.Country = model.Info.Country;  
+                model.Competes = (new CompeteDAO().GetTen(id));
                 model.School = (new SchoolDAO().GetSchoolByID(model.Info.SchoolID));
                 SetSchoolViewBag(model.Info.SchoolID);
                 SetYearViewBag(model.Info.YearGraduation);
+
+                var ChallengeDones = (new AnswerDAO().GetChallengesDone(id));
+                for(int i = 0; i < ChallengeDones.Count; i++)
+                {
+                    var ChallengeDone = new DoneChallenge();
+                    ChallengeDone.challenge = ChallengeDones[i];
+                    ChallengeDone.timeDone = (new AnswerDAO().GetTimeDoneByChallenge(ChallengeDones[i].ID));
+
+                    model.Challenges.Add(ChallengeDone);
+                }
                 return View(model);
             }
             return View();
@@ -178,6 +190,9 @@ namespace COURSE_CODING.Controllers
             if (ModelState.IsValid)
             {
                 var userDAO = new UserDAO();
+                user.Info.FirstName = user.FirstName;
+                user.Info.LastName = user.LastName;
+                user.Info.Country = user.Country;
                 var result = userDAO.UpdateIntro(user.Info);
                 if (result)
                 {
@@ -188,7 +203,7 @@ namespace COURSE_CODING.Controllers
                     ModelState.AddModelError("", "Update Success!");
                 }
             }
-            return View();
+            return View("Profile",user);
         }
 
         [HttpPost]
@@ -207,7 +222,7 @@ namespace COURSE_CODING.Controllers
                     ModelState.AddModelError("", "Update Success!");
                 }
             }
-            return View();
+            return View("Profile",user.Info.ID);
         }
 
         [HttpPost]
