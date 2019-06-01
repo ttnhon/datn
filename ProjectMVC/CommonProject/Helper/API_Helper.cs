@@ -104,6 +104,10 @@ namespace CommonProject
             {
                 client.BaseAddress = new Uri(CommonConstant.URL_HOST_API + CommonConstant.ROUTE_UPDATE_TESTCASE_API);
             }
+            else if (CommonConstant.TYPE_DELETE_FILE_API.Equals(typeAPI))
+            {
+                client.BaseAddress = new Uri(CommonConstant.URL_HOST_API + CommonConstant.ROUTE_DELETE_TESTCASE_API);
+            }
 
             client.DefaultRequestHeaders.Accept.Clear();
 

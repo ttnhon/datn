@@ -107,9 +107,9 @@
                 <section class="problem-statement">
                     <div class="challenge-body">
                         <div class="problem-statement-body">
-                            <p>
-                                @Model.challenge.Description
-                            </p>
+                            <div>
+                                @Html.Raw(HttpUtility.HtmlDecode(Model.challenge.Description))
+                            </div>
                         </div>
                         @if (Model.challenge.Constraints != "")
                         {
@@ -118,9 +118,9 @@
                                     <p><strong>Constraints</strong></p>
                                 </div>
                                 <div class="challenge-constraint-body">
-                                    <p>
-                                        @Model.challenge.Constraints
-                                    </p>
+                                    <div>
+                                        @Html.Raw(HttpUtility.HtmlDecode(Model.challenge.Constraints))
+                                    </div>
                                 </div>
                             </div>
                         }
@@ -129,9 +129,9 @@
                                 <p><strong>Input Format</strong></p>
                             </div>
                             <div class="challenge-input-format-body">
-                                <p>
-                                    @Model.challenge.InputFormat
-                                </p>
+                                <div>
+                                    @Html.Raw(HttpUtility.HtmlDecode(Model.challenge.InputFormat))
+                                </div>
                             </div>
                         </div>
 
@@ -140,9 +140,9 @@
                                 <p><strong>Output Format</strong></p>
                             </div>
                             <div class="challenge-output-format-body">
-                                <p>
-                                    @Model.challenge.OutputFormat
-                                </p>
+                                <div>
+                                    @Html.Raw(HttpUtility.HtmlDecode(Model.challenge.OutputFormat))
+                                </div>
                             </div>
                         </div>
 

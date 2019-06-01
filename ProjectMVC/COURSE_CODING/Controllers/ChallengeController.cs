@@ -160,7 +160,18 @@ namespace COURSE_CODING.Controllers
         // GET: Challenge/edit/:id
         public ActionResult Edit(int id)
         {
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            if(ses == null)
+            {
+                return Redirect("Authen/Login");
+            }
             ChallengeDAO DAO = new ChallengeDAO();
+            bool isOwner = DAO.IsOwner(id, ses.ID);
+            if (!isOwner)
+            {
+                return Redirect("User/Dashboard");
+            }
             CHALLENGE c = DAO.GetOne(id);
             if(c != null)
             {
@@ -171,20 +182,80 @@ namespace COURSE_CODING.Controllers
                     Name = c.Title,
                     Difficulty = (Difficulty)c.ChallengeDifficulty,
                     Description = c.Description,
-                    ProblemStatement = "",
+                    ProblemStatement = c.ProblemStatement,
                     InputFormat = c.InputFormat,
                     Constraints = c.Constraints,
                     OutputFormat = c.OutputFormat,
                     Tags = c.Tags,
                     Moderators = DAO.GetModeratorByChallengeID(id),
                     TestCases = DAO.GetTestCaseByID(id),
-                    CodeStubs_CSharp = "CSharp",
-                    CodeStubs_Cpp = "Cpp",
-                    CodeStubs_Java = "Java"
+                    LanguageCSharp =(bool)c.LanguageCSharp,
+                    LanguageCpp = (bool)c.LanguageCpp,
+                    LanguageJava = (bool)c.LanguageJava,
+                    DisCompileTest = (bool)c.DisCompileTest,
+                    DisCustomTestcase = (bool)c.DisCustomTestcase,
+                    DisSubmissions = (bool)c.DisSubmissions,
+                    PublicTestcase = (bool)c.PublicTestcase,
+                    PublicSolutions = (bool)c.PublicSolutions,
+                    RequiredKnowledge = c.RequiredKnowledge,
+                    TimeComplexity = c.TimeComplexity,
+                    Editorialist = c.Editorialist,
+                    PartialEditorial = (bool)c.PartialEditorial,
+                    Approach = c.Approach,
+                    ProblemSetter = c.ProblemSetter,
+                    SetterCode = c.SetterCode,
+                    ProblemTester = c.ProblemTester,
+                    TesterCode = c.TesterCode
                 };
+                //get code stubs
+                var cs = DAO.GetCodeStubs(id);
+                foreach(var item in cs)
+                {
+                    if(item.LanguageID == 1)
+                    {
+                        model.CodeStubs_Cpp = item.CodeStub;
+                    }else if(item.LanguageID == 2)
+                    {
+                        model.CodeStubs_CSharp = item.CodeStub;
+                    }
+                    else if (item.LanguageID == 3)
+                    {
+                        model.CodeStubs_Java = item.CodeStub;
+                    }
+                }
+                //get test case content
+                int pos_test_case = 0;
+                Dictionary<int, Dictionary<string, string>> test_case_contents = this.ReadTestCaseContent(model.TestCases);
+                foreach (var one_test_case in model.TestCases)
+                {
+                    //get test case content
+                    Dictionary<string, string> one_test_case_content = test_case_contents[pos_test_case++];
+                    TestCaseResultModel temp = new TestCaseResultModel();
+                    temp.Input = one_test_case_content["Input"];
+                    temp.Output = one_test_case_content["Output"];
+                    model.TestCaseContent.Add(temp);
+                }
                 return View(model);
             }
             return View("Edit");
+        }
+
+        public Dictionary<int, Dictionary<string, string>> ReadTestCaseContent(List<TESTCASE> testCase)
+        {
+            int pos = 0;
+            Dictionary<int, Dictionary<string, string>> test_case_files = new Dictionary<int, Dictionary<string, string>>();
+            foreach (TESTCASE item in testCase)
+            {
+                Dictionary<string, string> temp = new Dictionary<string, string>();
+                temp.Add("inputFile", item.Input);
+                temp.Add("outputFile", item.Output);
+                test_case_files.Add(pos++, temp);
+            }
+
+            API_Helper apiHelper = new API_Helper();
+            Dictionary<int, Dictionary<string, string>> result = apiHelper.ReadTestCase(test_case_files);
+
+            return result;
         }
 
         [HttpPost]
@@ -196,20 +267,28 @@ namespace COURSE_CODING.Controllers
         [HttpPost]
         public JsonResult UpdateDetails(EditChallengeModel model)
         {
+            ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(model.ID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
+            
             CHALLENGE c = new CHALLENGE()
             {
                 ID = model.ID,
                 Title = model.Name,
                 Slug = CommonProject.Helper.SlugGenerator.GenerateSlug(model.Name),
                 Description = model.Description,
+                ProblemStatement = model.ProblemStatement,
                 InputFormat = model.InputFormat,
                 OutputFormat = model.OutputFormat,
                 ChallengeDifficulty = (short)model.Difficulty,
                 Constraints = model.Constraints,
                 Tags = model.Tags
             };
-            ChallengeDAO DAO = new ChallengeDAO();
-
             bool res = DAO.Update(c);
             if (res)
             {
@@ -222,6 +301,13 @@ namespace COURSE_CODING.Controllers
         public JsonResult AddModerator(string moderator, int challengeID)
         {
             ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(challengeID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
             USER_INFO person = DAO.GetUserByName(moderator);
             if(person != null)
             {
@@ -246,9 +332,18 @@ namespace COURSE_CODING.Controllers
             }
         }
 
+        [HttpPost]
         public JsonResult AddTestCase(string input, string output, int challengeID)
         {
             ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(challengeID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
+
             int testcaseID = DAO.GetTestCaseNextID(challengeID);
             TESTCASE t = new TESTCASE();
             FileManager fileInput = new FileManager();
@@ -267,14 +362,14 @@ namespace COURSE_CODING.Controllers
             var resInput = apiHelperInput.RequestUploadAPI(fileInput, CommonConstant.TYPE_UPLOAD_FILE_API);
             if (!resInput.Equals("success"))
             {
-                return Json(new { result = false });
+                return Json(new { result = false, msg = resInput });
             }
             t.Input = fileInput.FileName + ".txt";
             API_Helper apiHelperOutput = new API_Helper();
             var resOutput = apiHelperOutput.RequestUploadAPI(fileOutput, CommonConstant.TYPE_UPLOAD_FILE_API);
             if (!resOutput.Equals("success"))
             {
-                return Json(new { result = false });
+                return Json(new { result = false, msg = resOutput });
             }
             t.Output = fileOutput.FileName + ".txt";
             
@@ -282,29 +377,197 @@ namespace COURSE_CODING.Controllers
             bool res = DAO.AddTestCase(t);
             if (res)
             {
-                return Json(new { result = true, data = t, count = testcaseID });
+                return Json(new { result = true, data = t, count = testcaseID, content = new { input, output } });
             }
             return Json(new { result = false });
         }
 
-        public JsonResult UpdateCodeStubs(int challengeID, CodeStubs Code)
+        [HttpPost]
+        public JsonResult DeleteTestCase(int id, int challengeID)
         {
-            return Json(new { Code });
+            ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(challengeID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
+
+            var testcase = DAO.GetOneTestCase(id);
+            if (testcase != null)
+            {
+                FileManager fileInput = new FileManager();
+                fileInput.FileName = testcase.Input;
+                FileManager fileOutput = new FileManager();
+                fileOutput.FileName = testcase.Output;
+
+                //call api delete file
+                API_Helper apiHelperInput = new API_Helper();
+                var resInput = apiHelperInput.RequestUploadAPI(fileInput, CommonConstant.TYPE_DELETE_FILE_API);
+                if (!resInput.Equals("success"))
+                {
+                    return Json(new { result = false, msg = resInput });
+                }
+
+                API_Helper apiHelperOutput = new API_Helper();
+                var resOutput = apiHelperOutput.RequestUploadAPI(fileOutput, CommonConstant.TYPE_DELETE_FILE_API);
+                if (!resOutput.Equals("success"))
+                {
+                    return Json(new { result = false, msg = resOutput });
+                }
+
+                bool res = DAO.DeleteTestCase(id);
+                if (res)
+                {
+                    return Json(new { result = true, data = id });
+                }
+            }
+            return Json(new { result = false });
         }
 
+        [HttpPost]
+        public JsonResult UpdateTestCase(int testcaseId, string input, string output, int id)
+        {
+            ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(id, ses.ID))
+            {
+                return Json(new { result = false });
+            }
+
+            var testcase = DAO.GetOneTestCase(testcaseId);
+            if (testcase != null)
+            {
+                FileManager fileInput = new FileManager();
+                fileInput.FileName = testcase.Input;
+                fileInput.Content = input;
+                FileManager fileOutput = new FileManager();
+                fileOutput.FileName = testcase.Output;
+                fileOutput.Content = output;
+
+                //call api delete file
+                API_Helper apiHelperInput = new API_Helper();
+                var resInput = apiHelperInput.RequestUploadAPI(fileInput, CommonConstant.TYPE_UPDATE_FILE_API);
+                if (!resInput.Equals("success"))
+                {
+                    return Json(new { result = false, msg = resInput });
+                }
+
+                API_Helper apiHelperOutput = new API_Helper();
+                var resOutput = apiHelperOutput.RequestUploadAPI(fileOutput, CommonConstant.TYPE_UPDATE_FILE_API);
+                if (!resOutput.Equals("success"))
+                {
+                    return Json(new { result = false, msg = resOutput });
+                }
+
+                return Json(new { result = true });
+            }
+            return Json(new { result = false });
+        }
+
+        [HttpPost]
+        public JsonResult UpdateCodeStubs(int challengeID, int language, string Code)
+        {
+            ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(challengeID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
+            bool result = false;
+            result = DAO.UpdateCodestub(challengeID, language, Code);
+            return Json(new { result });
+        }
+
+        [HttpPost]
         public JsonResult UpdateLanguages(EditChallengeModel model)
         {
-            return Json(new { model });
+            ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(model.ID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
+            CHALLENGE c = new CHALLENGE()
+            {
+                ID = model.ID,
+                LanguageCSharp = model.LanguageCSharp,
+                LanguageCpp = model.LanguageCpp,
+                LanguageJava = model.LanguageJava
+            };
+            bool res = DAO.UpdateLanguage(c);
+            if (res)
+            {
+                return Json(new { result = true, data = c });
+            }
+            return Json(new { result = false });
         }
 
+        [HttpPost]
         public JsonResult UpdateSettings(EditChallengeModel model)
         {
-            return Json(new { model });
+            ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(model.ID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
+            CHALLENGE c = new CHALLENGE()
+            {
+                ID = model.ID,
+                DisCompileTest = model.DisCompileTest,
+                DisCustomTestcase = model.DisCustomTestcase,
+                DisSubmissions = model.DisSubmissions,
+                PublicTestcase = model.PublicTestcase,
+                PublicSolutions = model.PublicSolutions
+            };
+            bool res = DAO.UpdateSetting(c);
+            if (res)
+            {
+                return Json(new { result = true, data = c });
+            }
+            return Json(new { result = false });
         }
 
+        [HttpPost]
         public JsonResult UpdateEditorial(EditChallengeModel model)
         {
-            return Json(new { model });
+            ChallengeDAO DAO = new ChallengeDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is owner
+            if (ses == null || !DAO.IsOwner(model.ID, ses.ID))
+            {
+                return Json(new { result = false });
+            }
+            CHALLENGE c = new CHALLENGE()
+            {
+                ID = model.ID,
+                RequiredKnowledge = model.RequiredKnowledge,
+                TimeComplexity = model.TimeComplexity,
+                Editorialist = model.Editorialist,
+                PartialEditorial = model.PartialEditorial,
+                Approach = model.Approach,
+                ProblemSetter = model.ProblemSetter,
+                SetterCode = model.SetterCode,
+                ProblemTester = model.ProblemTester,
+                TesterCode = model.SetterCode
+            };
+            bool res = DAO.UpdateEditorial(c);
+            if (res)
+            {
+                return Json(new { result = true, data = c });
+            }
+            return Json(new { result = false });
         }
     }
 }
