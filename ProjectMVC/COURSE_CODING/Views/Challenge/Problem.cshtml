@@ -9,7 +9,7 @@
     @Styles.Render("~/Assets/Public/css/challenge.css")
 
 
-    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
+    @*<link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">*@
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
 }
@@ -430,41 +430,57 @@
     <script>
 
         @* Code Editor Script *@
-        function update() {
-            var res = document.getElementById('result').contentWindow.document;
-            res.open();
-            res.write(editor.getValue());
-            res.close();
+        //function update() {
+        //    var res = document.getElementById('result').contentWindow.document;
+        //    res.open();
+        //    res.write(editor.getValue());
+        //    res.close();
+        //}
+
+        //function setupEditor() {
+        //    window.editor = ace.edit("editor");
+        //    editor.setTheme("ace/theme/light");
+        //    editor.session.setMode("ace/mode/php");
+        //    // enable autocompletion and snippets
+        //    editor.setOptions({
+        //        enableBasicAutocompletion: true,
+        //        enableSnippets: true,
+        //        enableLiveAutocompletion: true
+        //    });
+        //    editor.getSession().on('change', function () {
+        //        update();
+        //    });
+        //}
+        //setupEditor();
+        //update();
+
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        //editor.session.setMode("ace/mode/javascript");
+        editor.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: true
+        });
+
+        function loadPage() {
+            console.log("load page roi nha")
+            let language = $('#inputLanguage').val();
+            setModeEditor(language);
         }
 
-        function setupEditor() {
-            window.editor = ace.edit("editor");
-            editor.setTheme("ace/theme/light");
-            editor.session.setMode("ace/mode/php");
-            // enable autocompletion and snippets
-            editor.setOptions({
-                enableBasicAutocompletion: true,
-                enableSnippets: true,
-                enableLiveAutocompletion: true
-            });
-            editor.getSession().on('change', function () {
-                update();
-            });
-        }
-        setupEditor();
-        update();
+        loadPage();
 
         //Onclick Change Language
         $('#inputLanguage').on('change', function () {
             let language = this.value;
             setModeEditor(language);
-
         });
 
         function setModeEditor(language) {
-            if (language == "C++") {
+            if (language == "Cpp") {
                 language = "c_cpp";
-            } else if (language == "C#") {
+            } else if (language == "CSharp") {
                 language = "csharp";
             } else if (language == "Java") {
                 language = "java";
