@@ -43,6 +43,26 @@ namespace DAO.DAO
         }
 
         /// <summary>
+        /// check if is owner
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool IsOwner(int challengeId, int ownerId)
+        {
+            return db.CHALLENGES.Where(table => table.ID == challengeId && table.OwnerID == ownerId).Count() > 0;
+        }
+
+        /// <summary>
+        /// check if is editor
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool IsEditor(int challengeId, int ownerId)
+        {
+            return db.CHALLENGE_EDITORS.Where(table => table.ChallegenID == challengeId && table.EditorID == ownerId).Count() > 0;
+        }
+
+        /// <summary>
         /// Update info challenge
         /// </summary>
         /// <param name="entity"></param>
@@ -84,7 +104,87 @@ namespace DAO.DAO
                 var c = db.CHALLENGES.Find(entity.ID);
                 if (c.ID > 0)
                 {
-                    
+                    c.DisCompileTest = entity.DisCompileTest;
+                    c.DisCustomTestcase = entity.DisCustomTestcase;
+                    c.DisSubmissions = entity.DisSubmissions;
+                    c.PublicTestcase = entity.PublicTestcase;
+                    c.PublicSolutions = entity.PublicSolutions;
+                }
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Update language list challenge
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool UpdateLanguage(CHALLENGE entity)
+        {
+            try
+            {
+                List<int> addList = new List<int>();
+                if ((bool)entity.LanguageCpp)
+                {
+                    addList.Add(1);
+                }
+                if ((bool)entity.LanguageCSharp)
+                {
+                    addList.Add(2);
+                }
+                if ((bool)entity.LanguageJava)
+                {
+                    addList.Add(3);
+                }
+                foreach(var id in addList)
+                {
+                    bool res = db.CHALLENGE_LANGUAGES.Where(table => table.ChallengeID == entity.ID && table.LanguageID == id).Count() > 0;
+                    if (!res)
+                    {
+                        CHALLENGE_LANGUAGE temp = new CHALLENGE_LANGUAGE()
+                        {
+                            ChallengeID = entity.ID,
+                            LanguageID = id,
+                            CodeStub = null
+                        };
+                        db.CHALLENGE_LANGUAGES.Add(temp);
+                        db.SaveChanges();
+                    }
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Update editorial challenge
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool UpdateEditorial(CHALLENGE entity)
+        {
+            try
+            {
+                var c = db.CHALLENGES.Find(entity.ID);
+                if (c.ID > 0)
+                {
+                    c.RequiredKnowledge = entity.RequiredKnowledge;
+                    c.TimeComplexity = entity.TimeComplexity;
+                    c.Editorialist = entity.Editorialist;
+                    c.PartialEditorial = entity.PartialEditorial;
+                    c.Approach = entity.Approach;
+                    c.ProblemSetter = entity.ProblemSetter;
+                    c.SetterCode = entity.SetterCode;
+                    c.ProblemTester = entity.ProblemTester;
+                    c.TesterCode = entity.SetterCode;
                 }
                 db.SaveChanges();
                 return true;
@@ -117,6 +217,16 @@ namespace DAO.DAO
         }
 
         /// <summary>
+        /// Get code stubs
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<CHALLENGE_LANGUAGE> GetCodeStubs(int id)
+        {
+            return db.CHALLENGE_LANGUAGES.Where(table => table.ChallengeID == id).ToList();
+        }
+
+        /// <summary>
         /// Add moderator (insert challenge_editor)
         /// </summary>
         /// <param name="entity"></param>
@@ -146,6 +256,16 @@ namespace DAO.DAO
         }
 
         /// <summary>
+        /// Get one test case of challenge by test case id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TESTCASE GetOneTestCase(int id)
+        {
+            return db.TESTCASES.Find(id);
+        }
+
+        /// <summary>
         /// Add test case of challenge
         /// </summary>
         /// <param name="testcase"></param>
@@ -166,13 +286,92 @@ namespace DAO.DAO
         }
 
         /// <summary>
+        /// Delete test case of challenge by test case id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool DeleteTestCase(int id)
+        {
+            try
+            {
+                var t = db.TESTCASES.Find(id);
+                db.TESTCASES.Remove(t);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Get next test case id of the challenge by challenge id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         public int GetTestCaseNextID(int id)
         {
-            return db.TESTCASES.Where(table => table.ChallengeID == id).Count();
+            var list = db.TESTCASES.Where(table => table.ChallengeID == id).ToList();
+            int res = 0;
+            List<int> exist = new List<int>();
+            for(int i = 0; i < list.Count; i++)
+            {
+                string[] s = list[i].Output.Split('_');
+                string[] n = s[3].Split('.');
+                int number = Int32.Parse(n[0]);
+                exist.Add(number);
+            }
+            if(exist.Count > 0)
+            {
+                exist.Sort();
+                foreach (var item in exist)
+                {
+                    if (res == item)
+                    {
+                        res++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// Update codestub by challenge id and language id
+        /// </summary>
+        /// <param name="challengeId"></param>
+        /// <returns></returns>
+        public bool UpdateCodestub(int challengeId, int languageId, string codestub)
+        {
+            try
+            {
+                var t = db.CHALLENGE_LANGUAGES.SingleOrDefault(table => table.ChallengeID == challengeId && table.LanguageID == languageId);
+                if (t != null)
+                {
+                    t.CodeStub = codestub;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    CHALLENGE_LANGUAGE temp = new CHALLENGE_LANGUAGE()
+                    {
+                        ChallengeID = challengeId,
+                        LanguageID = languageId,
+                        CodeStub = codestub
+                    };
+                    db.CHALLENGE_LANGUAGES.Add(temp);
+                    db.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }

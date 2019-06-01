@@ -46,8 +46,18 @@
                                         <h3 class="card-title" title="Regex">@Html.DisplayFor(modelItem => item.Title)</h3>
                                         <div class="card-detail">
                                             <p class="challenge-detail">
-                                                <span class="challenge-difficult">@Html.DisplayFor(modelItem => item.ChallengeDifficulty) </span>
-                                                <span>&nbsp;</span>
+                                                @if (item.ChallengeDifficulty == 0)
+                                                {
+                                                    <span class="challenge-difficult difficulty-easy">Easy </span>
+                                                }
+                                                else if (item.ChallengeDifficulty == 1)
+                                                {
+                                                    <span class="challenge-difficult difficulty-medium">Medium </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="challenge-difficult difficulty-hard">Hard </span>
+                                                }<span>&nbsp;</span>
                                                 <span>Max score: @Html.DisplayFor(modelItem => item.Score)</span>
                                             </p>
                                         </div>

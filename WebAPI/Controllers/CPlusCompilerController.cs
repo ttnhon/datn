@@ -96,18 +96,35 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IHttpActionResult Compiler(Source source)
         {
-            string directory_file = "D:\\";
-            string filename_code = "MyClass";
+            string code = source.stringSource;
+            string app_path = AppDomain.CurrentDomain.BaseDirectory;        //get app_path
+            string directory_file = app_path + Constant.FOLDER_CODE_DIR;    //get directory execute
+            string filename_code = "MyClass" + source.userKey;              //file to execute
+            string class_name = filename_code;                              //class name in file execute   ( = filename)
+            string input_file = "";
+            if (source.Data.Count > 0)
+            {
+                input_file = source.Data["inputFile"] ?? "";                   //input file name to read when execute
+            }
+            
+            //Change code
+            code = this.ChangeCode(code, class_name, input_file);
             string full_path = directory_file + "\\" + filename_code;
+            //make sure this file not exist
+            if (System.IO.File.Exists(full_path + ".cpp"))
+            {
+                System.IO.File.Delete(full_path + ".cpp");
+            }
+            
             /*write code to file.cpp*/
             using (StreamWriter w = new StreamWriter(full_path + ".cpp", true))
             {
                 w.WriteLine(source.stringSource); // Write the text
             }
 
-            /*run g++ D:\\MyClass.cpp*/
+            /*run g++ dir\\MyClass{userKey}.cpp*/
             Dictionary<string, string> result_gpp = this.ExecuteGPP(directory_file, filename_code + ".exe " + filename_code + ".cpp");
-            if (result_gpp["status"] == "fail")            //return if run javac fail
+            if (result_gpp["status"] == "fail")            //return if run g++ fail
             {
                 //delete MyClass.cpp
                 if (System.IO.File.Exists(full_path + ".cpp"))
@@ -120,7 +137,7 @@ namespace WebAPI.Controllers
             /*run D:\\MyClass*/
             Dictionary<string, string> result_cpp = this.ExecuteCMD(directory_file, filename_code);
 
-            if (System.IO.File.Exists(full_path + ".exe"))           //delete file MyClass.exe and MyClass.cpp
+            if (System.IO.File.Exists(full_path + ".exe"))           //delete file MyClass{userKey}.exe and MyClass{userKey}.cpp
             {
                 System.IO.File.Delete(full_path + ".exe");
             }
@@ -129,11 +146,27 @@ namespace WebAPI.Controllers
                 System.IO.File.Delete(full_path + ".cpp");
             }
 
-            //return java execute
-            if (result_gpp["status"] == "fail")
-                return BadRequest(result_cpp["message"]);
-            return Ok(result_cpp["message"]);
+            //return g++ execute
+            //if (result_gpp["status"] == "fail")
+            //    return BadRequest(result_cpp["message"]);
+            return Ok(result_cpp);
 
+        }
+
+        //Change file input name to full path
+        protected string ChangeCode(string Code, string className, string inputFileName)
+        {
+            string app_path = AppDomain.CurrentDomain.BaseDirectory;
+            string input_file_path = app_path + Constant.TESTCASE_DIR + inputFileName;
+            input_file_path = input_file_path.Replace("\\", "/");
+            //Replace class name
+            //Code = Code.Replace("class MyClass", "class " + className);
+            //Code = Regex.Replace(Code, @"(?<=class )(.*?)(?={)", className);       // class Abcdfegh   => class Classname
+
+            //Replace Input and Output file name
+            Code = Code.Replace("INPUT_FILE_NAME", input_file_path);
+
+            return Code;
         }
     }
 }
