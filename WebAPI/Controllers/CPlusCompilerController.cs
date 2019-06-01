@@ -147,9 +147,9 @@ namespace WebAPI.Controllers
             }
 
             //return g++ execute
-            if (result_gpp["status"] == "fail")
-                return BadRequest(result_cpp["message"]);
-            return Ok(result_cpp["message"]);
+            //if (result_gpp["status"] == "fail")
+            //    return BadRequest(result_cpp["message"]);
+            return Ok(result_cpp);
 
         }
 

@@ -89,14 +89,18 @@ namespace COURSE_CODING.Controllers
             //get test case
             TESTCASE one_test_case = (new TestCaseDAO()).GetOneByChallengeID(challengeID);
             List<TESTCASE> list_test_case = new List<TESTCASE>();
-            list_test_case.Add(one_test_case);
-
+            if (one_test_case != null)
+            {
+                list_test_case.Add(one_test_case);
+            }
             //read test case content
-            Dictionary<string, string> test_case_content = this.ReadTestCaseContent(list_test_case)[0];
-            string input_expect = test_case_content["Input"];
-            string output_expect = test_case_content["Output"];
+            var readTestCase = this.ReadTestCaseContent(list_test_case);
+            Dictionary<string, string> test_case_content = readTestCase.Count > 0 ? readTestCase[0] : null;
+            
+            string input_expect = test_case_content != null ? test_case_content["Input"] : "NO INPUT";
+            string output_expect = test_case_content != null ? test_case_content["Output"] : "NO INPUT";
 
-            TestCaseResultModel one_test_case_result =  RunOneTestCase(code, Language, input_expect, output_expect, userID, one_test_case.Input);
+            TestCaseResultModel one_test_case_result =  RunOneTestCase(code, Language, input_expect, output_expect, userID, one_test_case != null ? one_test_case.Input : null);
             result.Add(one_test_case_result);
 
             return Json(result);
@@ -219,13 +223,9 @@ namespace COURSE_CODING.Controllers
             src.versionFramework = "2.3";
             src.userKey = userID.ToString();
             src.Data.Add("inputFile", input_file_name_change_in_code);
-            //language = language.ToUpper();
-            //if (language.Equals(CommonConstant.TYPE_JAVA_COMPILER))
-            //{
-            //    var result = apiHelper.RequestAPI(CommonConstant.TYPE_JAVA_COMPILER, src);
-            //}
-
-            var result = apiHelper.RequestAPI(CommonConstant.TYPE_JAVA_COMPILER, src);
+            language = language.ToUpper();
+            
+            var result = apiHelper.RequestAPI(language, src);
             return result;
         }
 
