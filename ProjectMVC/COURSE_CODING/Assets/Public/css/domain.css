@@ -66,6 +66,14 @@ p.challenge-detail {
     color: #1ba94c;
 }
 
+.difficulty-medium {
+    color: orange;
+}
+
+.difficulty-hard {
+    color: red;
+}
+
 .one-challenge-box.base-box {
     margin-bottom: 0px;
 }
