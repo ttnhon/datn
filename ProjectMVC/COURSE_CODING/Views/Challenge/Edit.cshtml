@@ -2,7 +2,7 @@
 @model COURSE_CODING.Models.EditChallengeModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit Challenge";
     Layout = "~/Views/Shared/_User_Layout.cshtml";
 }
 
@@ -658,8 +658,9 @@
         function OnSuccessTestCase(data) {
             //alert('Add succeed');
             if (data.result) {
+                $('#test-case-modal').modal('toggle');
                 document.getElementById("testCaseList").innerHTML +=
-                                `<tr id="test_case_` + data.data.ID + `">
+                    `<tr id="test_case_` + data.data.ID + `">
                                     <td>` + data.count + `</td>
                                     <td><a href="javascript:;" data-toggle="modal" data-target="#test-case-` + data.data.ID + `-modal">` + data.data.Input + `</a></td>
                                     <td><a href="javascript:;" data-toggle="modal" data-target="#test-case-` + data.data.ID + `-modal">` + data.data.Output + `</a></td>
@@ -677,18 +678,18 @@
                                                     <button type="button" class="close" data-dismiss="modal">×</button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <input data-val="true" data-val-number="The field ID must be a number." data-val-required="The ID field is required." id="id" name="id" type="hidden" value="`+ data.data.ID +`">
+                                                    <input data-val="true" data-val-number="The field ID must be a number." data-val-required="The ID field is required." id="id" name="id" type="hidden" value="`+ data.data.ID + `">
                                                     <div class="test-case-input-field">
                                                         <label class="control-label" for="test_input_Input">Input</label>
                                                         <div class="">
-                                                            <textarea class="form-control" cols="20" id="test_input_Input" name="input" rows="2">`+ data.content.input +`</textarea>
+                                                            <textarea class="form-control" cols="20" id="test_input_Input" name="input" rows="2">`+ data.content.input + `</textarea>
                                                             
                                                         </div>
                                                     </div>
                                                     <div class="test-case-input-field">
                                                         <label class="control-label" for="test_output_Input">Output</label>
                                                         <div class="">
-                                                            <textarea class="form-control" cols="20" id="test_output_Input" name="output" rows="2">`+ data.content.output +`</textarea>
+                                                            <textarea class="form-control" cols="20" id="test_output_Input" name="output" rows="2">`+ data.content.output + `</textarea>
                                                             
                                                         </div>
                                                     </div>
@@ -700,7 +701,7 @@
                                                 </div>
                                         </div>
                                     </div>
-                                </div>`
+                                </div>`;
             } else {
                 alert('Error: ' + data.msg);
             }

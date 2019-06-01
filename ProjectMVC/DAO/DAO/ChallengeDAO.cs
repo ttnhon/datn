@@ -47,6 +47,16 @@ namespace DAO.DAO
         }
 
         /// <summary>
+        /// check if is editor
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool IsEditor(int challengeId, int ownerId)
+        {
+            return db.CHALLENGE_EDITORS.Where(table => table.ChallegenID == challengeId && table.EditorID == ownerId).Count() > 0;
+        }
+
+        /// <summary>
         /// Update info challenge
         /// </summary>
         /// <param name="entity"></param>
@@ -112,14 +122,34 @@ namespace DAO.DAO
         {
             try
             {
-                var c = db.CHALLENGES.Find(entity.ID);
-                if (c.ID > 0)
+                List<int> addList = new List<int>();
+                if ((bool)entity.LanguageCpp)
                 {
-                    c.LanguageCSharp = entity.LanguageCSharp;
-                    c.LanguageCpp = entity.LanguageCpp;
-                    c.LanguageJava = entity.LanguageJava;
+                    addList.Add(1);
                 }
-                db.SaveChanges();
+                if ((bool)entity.LanguageCSharp)
+                {
+                    addList.Add(2);
+                }
+                if ((bool)entity.LanguageJava)
+                {
+                    addList.Add(3);
+                }
+                foreach(var id in addList)
+                {
+                    bool res = db.CHALLENGE_LANGUAGES.Where(table => table.ChallengeID == entity.ID && table.LanguageID == id).Count() > 0;
+                    if (!res)
+                    {
+                        CHALLENGE_LANGUAGE temp = new CHALLENGE_LANGUAGE()
+                        {
+                            ChallengeID = entity.ID,
+                            LanguageID = id,
+                            CodeStub = null
+                        };
+                        db.CHALLENGE_LANGUAGES.Add(temp);
+                        db.SaveChanges();
+                    }
+                }
                 return true;
             }
             catch (Exception e)

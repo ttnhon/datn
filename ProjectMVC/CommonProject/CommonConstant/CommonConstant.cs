@@ -33,7 +33,7 @@ namespace CommonProject
         public const string ROUTE_DELETE_TESTCASE_API = "/api/TestCaseFileManager/DeleteFile";
 
         public const string TYPE_CSHARP_COMPILER = "CSHARP";
-        public const string TYPE_CPLUS_COMPILER = "C++";
+        public const string TYPE_CPLUS_COMPILER = "CPP";
         public const string TYPE_JAVA_COMPILER = "JAVA";
 
         public const string DIR_CODE = "/Assets/File_Resource/Code_File/";
