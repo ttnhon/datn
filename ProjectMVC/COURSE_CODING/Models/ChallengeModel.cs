@@ -25,5 +25,8 @@ namespace COURSE_CODING.Models
         public CHALLENGE challenge {get; set; }
         public string OwnerName { get; set; }
         public List<LANGUAGE> languages = new List<LANGUAGE>();
+        public string CodeStubs_CSharp { get; set; }
+        public string CodeStubs_Cpp { get; set; }
+        public string CodeStubs_Java { get; set; }
     }
 }

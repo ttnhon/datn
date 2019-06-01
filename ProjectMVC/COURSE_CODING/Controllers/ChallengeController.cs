@@ -26,6 +26,23 @@ namespace COURSE_CODING.Controllers
             model.OwnerName = (new UserDAO()).GetNameByID(model.challenge.OwnerID);
             model.languages = (new LanguageDAO()).GetByChallengeID(id);
 
+            var cs = (new ChallengeDAO()).GetCodeStubs(id);
+
+            foreach (var item in cs)
+            {
+                if (item.LanguageID == 1)
+                {
+                    model.CodeStubs_Cpp = item.CodeStub;
+                }
+                else if (item.LanguageID == 2)
+                {
+                    model.CodeStubs_CSharp = item.CodeStub;
+                }
+                else if (item.LanguageID == 3)
+                {
+                    model.CodeStubs_Java = item.CodeStub;
+                }
+            }
             return View(model);
         }
 
