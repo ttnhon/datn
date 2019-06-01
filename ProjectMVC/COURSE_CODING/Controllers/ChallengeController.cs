@@ -29,15 +29,30 @@ namespace COURSE_CODING.Controllers
             return View(model);
         }
 
-        public ActionResult Discussion(int id)
+        public int GetLoginID()
+        {
+            var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
+            if (session != null)
+            {
+                return session.ID;
+            }
+            else
+            {
+                return -1; 
+            }
+        }
+
+        [Route("Challenge/Discussion/{id}/{sort}")]
+        public ActionResult Discussion(int id, int sort)
         {
             var models = new CommentListModel();
 
-            //Lay user login info
-            models.Info = (new UserDAO().GetUserById(1));
+
+            models.Info = (new UserDAO().GetUserById(GetLoginID()));
+
             models.challenge = (new ChallengeDAO().GetOne(id));
 
-            var commentList = (new CommentDAO().GetAllByChallenge(id,1));
+            var commentList = (new CommentDAO().GetAllByChallenge(id, sort));
             if(commentList.Count > 0)
             {
                 for (int i = 0; i < commentList.Count; i++)
@@ -64,6 +79,11 @@ namespace COURSE_CODING.Controllers
             }
 
             return View(models);
+        }
+        [HttpPost]
+        public ActionResult SortComment(int id,int sort)
+        {
+            return Redirect(String.Format("/Challenge/Discussion/{0}/{1}", id, sort));
         }
 
         [HttpPost]

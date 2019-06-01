@@ -95,7 +95,7 @@
             <div class="tab-wrap">
                 <nav class="navbar navbar-light">
                     <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
-                        <li class="nav-item"><a id="js-problem" class="nav-link" href="#">Problem</a></li>
+                        <li class="nav-item"><a id="js-problem" class="nav-link" href="/Challenge/Problem/@Model.challenge.ID">Problem</a></li>
                         <li class="nav-item"><a id="js-submission" class="nav-link" href="#">Submissions</a></li>
                         <li class="nav-item"><a id="js-ldboard" class="nav-link" href="#">Leaderboard</a></li>
                         <li class="nav-item active">
@@ -112,8 +112,8 @@
                         <p>Sort @Model.comments.Count discussions, By:</p>
                         <select name="discussion_sort" id="discussion_sort">
                             <option value="1">recency</option>
-                            <option value="2">votes</option>
-                        </select>
+                            <option value="2" selected>votes</option>
+                        </select> 
                     </div>
                     <hr>
                     <div class="discussion__input">
@@ -190,35 +190,7 @@
                                         </ul>
                                     </li>
                                 }
-                            }
-
-                            <li class="comment">
-                                <img class="discussion__avatar"
-                                     src="/res/13151438_1694488630768857_5430165903041365933_n.png"
-                                     alt="Profile Picture">
-                                <div class="comment__detail">
-                                    <a href="#">AAAAAAAAA</a>
-                                    <i class="far fa-clock">
-                                        <span>3 years ago</span>
-                                    </i>
-                                    <p>bai nay de vcl</p>
-                                </div>
-                                <div class="comment__footer">
-                                    <i class="fas fa-thumbs-up comment__likes">
-                                        <span>100</span>
-                                    </i>
-                                    <a href="#">Like</a>
-                                    <span>-</span>
-                                    <a href="#">Reply</a>
-                                </div>
-                                <ul class="replies">
-                                    <li>
-                                        <a href="#">
-                                            <i class="fas fa-angle-double-down">Show 6 replies</i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                            }          
                         </ul>
                     </div>
                 </div>
@@ -281,7 +253,7 @@
                 <span>-</span>
                 <button class="reply__btn" data-id="{{commentID}}" id="cm-{{commentID}}" onclick="ShowReplyInput(this)">Reply</button>
             </div>
-            <ul class="replies"></ul>
+            <ul class="replies-{{commentID}}"></ul>
         </li>
     </script>
 

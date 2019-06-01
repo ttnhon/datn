@@ -196,6 +196,7 @@
     <Compile Include="Models\CompeteModel.cs" />
     <Compile Include="Models\DataAchieve.cs" />
     <Compile Include="Models\DomainModel.cs" />
+    <Compile Include="Models\DoneChallenge.cs" />
     <Compile Include="Models\EditChallengeModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ManageChallengesModel.cs" />

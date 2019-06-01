@@ -261,6 +261,7 @@ ul {
     text-transform: capitalize;
     font-size: 1.3rem;
     font-weight: 700;
+    width:20%;
 }
 
 .badge-progress {
@@ -282,10 +283,6 @@ ul {
 .progress {
     grid-area: progress;
     height: 10px !important;
-}
-
-.progress-bar {
-    width: 51%;
 }
 
 .section-card {
@@ -311,12 +308,15 @@ ul {
 }
 
 
+
 .submision-list {
+    display: flex;
     margin-bottom: 15px;
 }
 
 .history-item {
     font-size: 18px;
+    width: 32%;
 }
 
     .history-item:hover {
@@ -328,16 +328,17 @@ ul {
     font-size: 19px;
 }
 
-.contest-list > div {
-    display: flex;
-}
-
 .contest-month {
     font-weight: 700;
     font-size: 22px;
 }
 
 .contest-item {
+    margin-bottom: 1.5em;
+    display: flex;
+}
+
+.contest-item a {
     font-size: 18px;
     width: 32%;
 }
@@ -376,12 +377,16 @@ ul {
     background: white;
     border-radius: 4px;
     padding: 0 30px;
-    position: relative;
+    overflow-y: auto;
 }
 
 .img-popup {
     width: 700px;
     height: 260px;
+}
+
+.content-header {
+    position: relative;
 }
 
 .content-header h1 {
@@ -411,18 +416,13 @@ ul {
     margin-top: 25px;
 }
 
-    .content-body span {
-        font-size: 20px;
-        margin: 10px 20px;
-    }
-
     .content-body p {
         margin-top: 10px;
     }
 
 .intro-popup {
     width: 600px;
-    height: 600px;
+    height: 620px;
 }
 
 .input {
@@ -458,7 +458,7 @@ ul {
 .footer-btn {
     display: flex;
     justify-content: flex-end;
-    margin-top: 60px;
+    margin-top: 40px;
 }
 
     .footer-btn button {
@@ -470,7 +470,7 @@ ul {
 
 .about-popup {
     width: 600px;
-    height: 640px;
+    height: 600px;
 }
 
 .year-list {
@@ -483,16 +483,6 @@ ul {
     width: 100%;
 }
 
-.dropdown-toggle::after {
-    position: absolute;
-    right: 15px;
-    top: 15px;
-}
-
 .school-dropdown {
     margin-bottom:1em;
-}
-
-.invalid-feedback {
-    display: none;
 }
