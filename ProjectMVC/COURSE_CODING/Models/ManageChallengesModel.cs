@@ -8,6 +8,7 @@ namespace COURSE_CODING.Models
 {
     public class ManageChallengesModel
     {
+        public int userId { get; set; }
         public List<CHALLENGE> lsChallenges { get; set; }
     }
 }
