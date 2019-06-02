@@ -18,14 +18,14 @@ namespace COURSE_CODING
             routes.MapRoute(
             name: "Register member",
             url: "register",
-            defaults: new { controller = "User", action = "Register", id = UrlParameter.Optional },
+            defaults: new { controller = "Authen", action = "Register", id = UrlParameter.Optional },
             namespaces: new[] { "COURSE_CODING.Controllers" }
            );
 
             routes.MapRoute(
                name: "LogIn",
                url: "login",
-               defaults: new { controller = "User", action = "Login", id = UrlParameter.Optional },
+               defaults: new { controller = "Authen", action = "Login", id = UrlParameter.Optional },
                namespaces: new[] { "COURSE_CODING.Controllers" }
                   );
 

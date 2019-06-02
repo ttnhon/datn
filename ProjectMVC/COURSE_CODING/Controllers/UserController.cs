@@ -33,15 +33,15 @@ namespace COURSE_CODING.Controllers
         public ActionResult Dashboard()
         {
             //1.GET DATA 
-                //get data archieve
+            //get data archieve
 
-                //get data skill
+            //get data skill
 
-                //get data challenge list
+            //get data challenge list
 
-                //get language
+            //get language
 
-                //get add data(*)
+            //get add data(*)
             //2.PREPARE DATA TO VIEW
 
             //3.LOAD VIEW
@@ -55,10 +55,10 @@ namespace COURSE_CODING.Controllers
                 model.Languages = DAO.GetList();
                 model.Data.UserCompetes = DAO.GetCompeteCount();
                 model.Data.AvailableLanguages = model.Languages.Count;
-                if(ses != null)
+                if (ses != null)
                 {
                     model.Data.SuccessChellenges = DAO.GetNumberSuccessChallengeByID(ses.ID);
-                    
+
                     foreach (var item in model.Languages)
                     {
                         //get skill list
@@ -77,7 +77,7 @@ namespace COURSE_CODING.Controllers
                         }
                         //get next challenge list
                         CHALLENGE c = DAO.GetNextChallengeByID(ses.ID, item.Name);
-                        if(c != null)
+                        if (c != null)
                         {
                             model.Challenges.Add(c);
                         }
@@ -88,7 +88,7 @@ namespace COURSE_CODING.Controllers
             return View("Dashboard");
         }
 
-        
+
         // GET: User/Details/5
         public ActionResult Details(int id)
         {
@@ -152,26 +152,25 @@ namespace COURSE_CODING.Controllers
             }
         }
 
-       
+
 
         // GET: User/Profile/5
         [HttpGet]
         public new ActionResult Profile(int id)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 UserProfileModel model = new UserProfileModel();
                 model.Info = (new UserDAO().GetUserById(id));
                 model.FirstName = model.Info.FirstName;
                 model.LastName = model.Info.LastName;
-                model.Country = model.Info.Country;  
+                model.Country = model.Info.Country;
                 model.Competes = (new CompeteDAO().GetTen(id));
                 model.School = (new SchoolDAO().GetSchoolByID(model.Info.SchoolID));
                 SetSchoolViewBag(model.Info.SchoolID);
                 SetYearViewBag(model.Info.YearGraduation);
-
                 var ChallengeDones = (new AnswerDAO().GetChallengesDone(id));
-                for(int i = 0; i < ChallengeDones.Count; i++)
+                for (int i = 0; i < ChallengeDones.Count; i++)
                 {
                     var ChallengeDone = new DoneChallenge();
                     ChallengeDone.challenge = ChallengeDones[i];
@@ -203,7 +202,7 @@ namespace COURSE_CODING.Controllers
                     ModelState.AddModelError("", "Update Success!");
                 }
             }
-            return View("Profile",user);
+            return View();
         }
 
         [HttpPost]
@@ -222,7 +221,7 @@ namespace COURSE_CODING.Controllers
                     ModelState.AddModelError("", "Update Success!");
                 }
             }
-            return View("Profile",user.Info.ID);
+            return View("Profile", user.Info.ID);
         }
 
         [HttpPost]
@@ -266,7 +265,7 @@ namespace COURSE_CODING.Controllers
                 };
                 yearList.Add(year);
             }
-            yearList.Add(new SelectListItem { Value="0",Text="I am still in HighSchool"});
+            yearList.Add(new SelectListItem { Value = "0", Text = "I am still in HighSchool" });
 
             ViewBag.Year = new SelectList(yearList, "Value", "Text", selectedID);
         }
