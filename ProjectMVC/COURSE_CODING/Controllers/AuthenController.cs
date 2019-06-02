@@ -81,15 +81,22 @@ namespace COURSE_CODING.Controllers
                 {
                     if (session.Role.Equals(CommonConstant.ROLE_MEMBER))
                     {
-                       return Redirect("/User/Dashboard");
+                        return Redirect("/User/Dashboard");
                     }
                 }
                 if (session.Role.Equals(CommonConstant.ROLE_TEACHER))
                 {
                     return Redirect("/Moderator/ManageChallenge");
                 }
+
             }
-             return View();
+            return View();
+        }
+
+        public ActionResult Logout()
+        {
+            Session[CommonConstant.SESSION_INFO_LOGIN] = null;
+            return Redirect("/");
         }
 
         [HttpPost]

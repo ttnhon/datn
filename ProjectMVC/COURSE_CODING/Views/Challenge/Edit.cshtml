@@ -313,10 +313,7 @@
         <div class="code-stubs-modal main-modal" id="div-code-stubs-modal" hidden>
             <div class="clearfix">
                 <p>
-                    You must use our Domain Specific Language (DSL) to generate code stubs that read test case data
-                    from standard input. <a target="_blank" rel="noopener noreferrer"
-                                            href="https://help.hackerrank.com/hc/en-us/articles/360008561014">Click here</a> to learn
-                    how to write DSL.
+                    Để nhập địa chỉ file đọc test case input thì thay thế địa chỉ bằng string <strong>"INPUT_FILE_NAME"</strong>
                 </p>
             </div>
             @*<div class="form-group row dsl-input">
@@ -449,8 +446,8 @@
         </div>
         <div class="editorial-modal main-modal" id="div-editorial-modal" hidden>
             <!-- <div class="clearfix">
-        <p>There's nothing here!!</p>
-    </div> -->
+                <p>There's nothing here!!</p>
+            </div> -->
             @using (Ajax.BeginForm("UpdateEditorial", "Challenge", new AjaxOptions()
             {
                 HttpMethod = "POST",
@@ -544,11 +541,56 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" type="text/javascript" charset="utf-8">
         //<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ext-language_tools.js" type="text/javascript" charset="utf-8">
     </script>
+    <script src="~/Assets/Public/vendor/ckeditor5-build-classic/ckeditor.js"></script>
     <script type="text/javascript">
         //code
         var code_CSharp = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_CSharp))`;
         var code_Cpp = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_Cpp))`;
         var code_Java = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_Java))`;
+
+        function SetClassicEditor() {
+            ClassicEditor
+                .create(document.querySelector('#description_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#problem_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#inputFormat_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#constraints_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#outputFormat_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#editorial_5'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#editorial_7'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#editorial_9'))
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+        SetClassicEditor();
 
         $("#inputLanguage").change(function () {
             var selectedVal = Number.parseInt(this.value);
@@ -626,7 +668,7 @@
                 update("result");
             });
         }
-
+        
         setupEditor("editor");
         update("result");
 
@@ -667,7 +709,7 @@
                                     <td><input type="checkbox" value=""></td>
                                     <td><a href="javascript:;" data-toggle="modal" data-target="#test-case-` + data.data.ID + `-modal"><i class="far fa-edit"></i></a>   <a href="javascript:DeleteTestCase(` + data.data.ID + `);"><i class="far fa-trash-alt"></i></a></td>
                                 </tr>
-    
+
                 <div id="test-case-` + data.data.ID + `-modal" class="modal fade" role="dialog" style="display: none;" aria-hidden="true">
                                     <div class="modal-dialog test-case-popup">
 
@@ -683,14 +725,14 @@
                                                         <label class="control-label" for="test_input_Input">Input</label>
                                                         <div class="">
                                                             <textarea class="form-control" cols="20" id="test_input_Input" name="input" rows="2">`+ data.content.input + `</textarea>
-                                                            
+
                                                         </div>
                                                     </div>
                                                     <div class="test-case-input-field">
                                                         <label class="control-label" for="test_output_Input">Output</label>
                                                         <div class="">
                                                             <textarea class="form-control" cols="20" id="test_output_Input" name="output" rows="2">`+ data.content.output + `</textarea>
-                                                            
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -746,6 +788,10 @@
             function CodeStubSave() {
                 //var code = editor.getValue();
                 var language = Number.parseInt($('#inputLanguage').val());
+                console.log(language);
+                console.log(code_Cpp);
+                console.log(code_CSharp);
+                console.log(code_Java);
                 $.ajax({
                     method: "POST",
                     url: "/Challenge/UpdateCodeStubs",
