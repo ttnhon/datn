@@ -75,18 +75,18 @@ namespace COURSE_CODING.Controllers
             {
                 if (session.Role.Equals(CommonConstant.ROLE_ADMIN))
                 {
-                    Redirect("/Admin/User/index");
+                    return Redirect("/Admin/User/index");
                 }
                 else
                 {
                     if (session.Role.Equals(CommonConstant.ROLE_MEMBER))
                     {
-                        Redirect("/User/Dashboard");
+                       return Redirect("/User/Dashboard");
                     }
                 }
                 if (session.Role.Equals(CommonConstant.ROLE_TEACHER))
                 {
-                    Redirect("/dashboardTeacher");
+                    return Redirect("/Moderator/ManageChallenge");
                 }
             }
              return View();
@@ -117,7 +117,7 @@ namespace COURSE_CODING.Controllers
                     }
                     else if (user.RoleUser.Equals(CommonConstant.ROLE_TEACHER))
                     {
-                        // return Redirect("databoardTeacher");
+                        return Redirect("/Moderator/ManageChallenge");
                     }
                     return Redirect("/");
                 }
