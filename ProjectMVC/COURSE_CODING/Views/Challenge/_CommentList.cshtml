@@ -1,0 +1,70 @@
+﻿@model IEnumerable<COURSE_CODING.Models.CommentModel>
+
+    <ul class="comments">
+        @if (Model.Count() > 0)
+        {
+            foreach (var comment in Model)
+            {
+                <li class="comment">
+                    <img class="discussion__avatar"
+                         src="~/Assets/Public/images/profile_photos/@comment.owner.PhotoURL"
+                         alt="Profile Picture">
+                    <div class="comment__detail">
+                        <div class="comment__user-info">
+                            <a href="/User/Profile/@comment.owner.ID">@comment.owner.UserName</a>
+                            <i class="far fa-clock">
+                                <span>@comment.comment.CreateDate</span>
+                            </i>
+                        </div>
+                        <p>@comment.comment.Text</p>
+                    </div>
+                    <div class="comment__footer">
+                        <i class="fas fa-thumbs-up comment__likes">
+                            <span>@comment.comment.Likes</span>
+                        </i>
+                        <input class="like__checkbox" data-type="comment" data-id="@comment.comment.ID"
+                               type="checkbox" id="cm-@comment.comment.ID" onchange="Like(this)">
+                        <label for="cm-@comment.comment.ID" class="like__label">
+                            <span>Like</span>
+                        </label>
+                        <span>-</span>
+                        <button class="reply__btn" data-id="@comment.comment.ID" onclick="ShowReplyInput(this)">Reply</button>
+                    </div>
+                    <ul class="replies" id="replies-@comment.comment.ID">
+                        @if (comment.replies.Count > 0)
+                        {
+                            foreach (var reply in comment.replies)
+                            {
+                                <li class="comment">
+                                    <img class="discussion__avatar"
+                                         src="~/Assets/Public/images/profile_photos/@reply.owner.PhotoURL"
+                                         alt="Profile Picture">
+                                    <div class="comment__detail">
+                                        <div>
+                                            <a href="/User/Profile/@reply.owner.ID">@reply.owner.UserName</a>
+                                            <i class="far fa-clock">
+                                                <span>@reply.reply.CreateDate</span>
+                                            </i>
+                                        </div>
+                                        <p>@reply.reply.Text</p>
+                                    </div>
+                                    <div class="comment__footer">
+                                        <i class="fas fa-thumbs-up comment__likes">
+                                            <span>@reply.reply.Likes</span>
+                                        </i>
+                                        <input class="like__checkbox" data-type="reply" data-id="@reply.reply.ID"
+                                               type="checkbox" id="rpl-@reply.reply.ID" onchange="Like(this)">
+                                        <label for="rpl-@reply.reply.ID" class="like__label">
+                                            <span>Like</span>
+                                        </label>
+                                        <span>-</span>
+                                        <button class="reply__btn" data-id="@comment.comment.ID" onclick="ShowReplyInput(this)">Reply</button>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
+            }
+        }
+    </ul>

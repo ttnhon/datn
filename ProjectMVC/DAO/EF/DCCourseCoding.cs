@@ -21,6 +21,7 @@ namespace DAO.EF
         public virtual DbSet<COMMENT> COMMENTS { get; set; }
         public virtual DbSet<COMPETE> COMPETES { get; set; }
         public virtual DbSet<LANGUAGE> LANGUAGES { get; set; }
+        public virtual DbSet<LIKE_STATUS> LIKE_STATUS { get; set; }
         public virtual DbSet<REPLY> REPLIES { get; set; }
         public virtual DbSet<SCHOOL> SCHOOLS { get; set; }
         public virtual DbSet<TESTCASE> TESTCASES { get; set; }
@@ -194,6 +195,12 @@ namespace DAO.EF
 
             modelBuilder.Entity<USER_INFO>()
                 .HasMany(e => e.COMPETEs)
+                .WithRequired(e => e.USER_INFO)
+                .HasForeignKey(e => e.OwnerID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<USER_INFO>()
+                .HasMany(e => e.LIKE_STATUS)
                 .WithRequired(e => e.USER_INFO)
                 .HasForeignKey(e => e.OwnerID)
                 .WillCascadeOnDelete(false);

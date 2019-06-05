@@ -60,6 +60,7 @@
     <Compile Include="DAO\CommentDAO.cs" />
     <Compile Include="DAO\CompeteDAO.cs" />
     <Compile Include="DAO\LanguageDAO.cs" />
+    <Compile Include="DAO\LikeStatusDAO.cs" />
     <Compile Include="DAO\ReplyDAO.cs" />
     <Compile Include="DAO\SchoolDAO.cs" />
     <Compile Include="DAO\TestCaseDAO.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="EF\COMPETE.cs" />
     <Compile Include="EF\DCCourseCoding.cs" />
     <Compile Include="EF\LANGUAGE.cs" />
+    <Compile Include="EF\LIKE_STATUS.cs" />
     <Compile Include="EF\REPLY.cs" />
     <Compile Include="EF\SCHOOL.cs" />
     <Compile Include="EF\TESTCASE.cs" />

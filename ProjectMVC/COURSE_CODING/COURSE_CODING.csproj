@@ -530,6 +530,7 @@
     <Content Include="Views\Challenge\Discussion.cshtml" />
     <Content Include="Views\LiveCode\Index.cshtml" />
     <Content Include="Views\Moderator\ManageChallenge.cshtml" />
+    <Content Include="Views\Challenge\_CommentList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

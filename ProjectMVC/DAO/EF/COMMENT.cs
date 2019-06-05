@@ -12,6 +12,7 @@ namespace DAO.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public COMMENT()
         {
+            LIKE_STATUS = new HashSet<LIKE_STATUS>();
             REPLies = new HashSet<REPLY>();
         }
 
@@ -32,6 +33,9 @@ namespace DAO.EF
         public virtual CHALLENGE CHALLENGE { get; set; }
 
         public virtual USER_INFO USER_INFO { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LIKE_STATUS> LIKE_STATUS { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<REPLY> REPLies { get; set; }

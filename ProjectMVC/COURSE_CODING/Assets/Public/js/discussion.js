@@ -1,5 +1,43 @@
 ﻿
+window.addEventListener('load', () => {
+    let likeCheckboxs = document.querySelectorAll(".like__checkbox");
+    likeCheckboxs.forEach((checkbox, index) => {
+        if (checkbox.dataset.type === "comment") {
+            for (var i = 0; i < commentStatus.length; i++) {
+                if (checkbox.dataset.id === commentStatus[i])
+                    checkbox.checked = true;
+            }
+        }
+        if (checkbox.dataset.type === "reply") {
+            for (var i = 0; i < replyStatus.length; i++) {
+                if (checkbox.dataset.id === replyStatus[i])
+                    checkbox.checked = true;
+            }
+        }
+    });
 
+    let sortBox = document.querySelector("#discussion_sort");
+    sortBox.addEventListener('change', () => {
+        let selectedOption = sortBox.options[sortBox.selectedIndex].value;
+        let loading = document.querySelector(".lds-roller");
+        loading.setAttribute("display", "flex");
+        $.ajax({
+            method: 'GET',
+            url: '/Challenge/GetSortComment',
+            data: {
+                challengeID: challengeId,
+                sort: selectedOption
+            },
+            success: function (response) {
+                loading.setAttribute("display", "none");
+                document.querySelector('.discussion-group').innerHTML = response;
+            },
+            error: function (response) {
+                alert(response);
+            }
+        })
+    });
+});
 
 
 function ShowReplyInput(btn) {
@@ -12,7 +50,7 @@ function ShowReplyInput(btn) {
                           rows="1"></textarea>
                 <button class="btn btn-primary" onclick="addReply()">Post Comment</button>
             </div>`;
-
+    console.log(liNode);
     let inputCheck = document.querySelector(".reply__input");
     if (document.body.contains(inputCheck)) {
         inputCheck.remove();
@@ -22,14 +60,12 @@ function ShowReplyInput(btn) {
     $('html,body').animate({
         scrollTop: liNode.offsetTop
     }, 1000, 'easeOutCubic');
-    liNode.click();
 }
 
 function Like(btn) {
     let commentID = btn.dataset.id;
     let commentType = btn.dataset.type;
     let likeElement = btn.previousElementSibling.firstElementChild;
-    console.log(typeof (likeElement.innerHTML));
     let likes = parseInt(likeElement.innerHTML, 10);
     if (btn.checked == true) {
         likes++;
@@ -42,7 +78,8 @@ function Like(btn) {
         url: '/Challenge/UpdateLikes',
         data: {
             likes: likes,
-            id: commentID,
+            commentId: commentID,
+            userId: userId,
             type: commentType,
         },
         success: function (response) {
@@ -63,7 +100,6 @@ function addComment() {
         },
     })
         .done(function (response) {
-            alert(response);
             var template = $("#comment_template").html();
             var photo = $("#current_avatar").attr('src');
             var html = Mustache.render(template, {
@@ -93,7 +129,6 @@ function addReply() {
         },
     })
         .done(function (response) {
-            alert(response);
             var template = $("#reply_template").html();
             var photo = $("#current_avatar").attr('src');
             var html = Mustache.render(template, {
