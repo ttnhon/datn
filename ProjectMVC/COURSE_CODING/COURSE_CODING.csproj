@@ -532,11 +532,8 @@
     <Content Include="Views\Challenge\Discussion.cshtml" />
     <Content Include="Views\LiveCode\Index.cshtml" />
     <Content Include="Views\Moderator\ManageChallenge.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Moderator\CreateChallenge.cshtml" />
-=======
     <Content Include="Views\Challenge\_CommentList.cshtml" />
->>>>>>> 6b6cdb1ca7c0fa0ac9f01a61a79cd7bd36dc9662
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
