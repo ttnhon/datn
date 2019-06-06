@@ -167,6 +167,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaseAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
@@ -177,6 +178,8 @@
     <Compile Include="Common\StatusDefinition.cs" />
     <Compile Include="Controllers\AuthenController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BaseModeratorController.cs" />
+    <Compile Include="Controllers\BaseStudentController.cs" />
     <Compile Include="Controllers\ChallengeController.cs" />
     <Compile Include="Controllers\CodeController.cs" />
     <Compile Include="Controllers\CompeteController.cs" />
@@ -198,7 +201,9 @@
     <Compile Include="Models\CreateChallengeModel.cs" />
     <Compile Include="Models\DataAchieve.cs" />
     <Compile Include="Models\DomainModel.cs" />
+    <Compile Include="Models\DoneChallenge.cs" />
     <Compile Include="Models\EditChallengeModel.cs" />
+    <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ManageChallengesModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
@@ -211,6 +216,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Script\Admin_User.js" />
+    <Content Include="Areas\Admin\Script\Alert.js" />
     <Content Include="Assets\File_Resource\Test_Case\challenge111_output.txt" />
     <Content Include="Assets\File_Resource\Test_Case\challenge11_output.txt" />
     <Content Include="Assets\File_Resource\Test_Case\challenge1_output.txt" />
@@ -226,6 +232,7 @@
     <Content Include="Assets\Page\js\sb-admin-2.js" />
     <Content Include="Assets\Page\pages\blank.html" />
     <Content Include="Assets\Page\pages\buttons.html" />
+    <Content Include="Assets\Page\pages\ContentMail.html" />
     <Content Include="Assets\Page\pages\flot.html" />
     <Content Include="Assets\Page\pages\forgot-password.html" />
     <Content Include="Assets\Page\pages\forms.html" />
@@ -484,6 +491,7 @@
     <Content Include="Assets\Public\vendor\ckeditor5-build-classic\ckeditor.js.map" />
     <Content Include="Assets\Public\vendor\ckeditor5-build-classic\LICENSE.md" />
     <Content Include="Assets\Public\vendor\ckeditor5-build-classic\README.md" />
+    <Content Include="Areas\Admin\Views\User\Mail.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -524,13 +532,20 @@
     <Content Include="Views\Challenge\Discussion.cshtml" />
     <Content Include="Views\LiveCode\Index.cshtml" />
     <Content Include="Views\Moderator\ManageChallenge.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Moderator\CreateChallenge.cshtml" />
+=======
+    <Content Include="Views\Challenge\_CommentList.cshtml" />
+>>>>>>> 6b6cdb1ca7c0fa0ac9f01a61a79cd7bd36dc9662
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Views\BaseAdmin\" />
     <Folder Include="Areas\Admin\Views\Base\" />
     <Folder Include="Areas\Admin\Views\Home\" />
     <Folder Include="Assets\File_Resource\Code_File\" />
+    <Folder Include="Views\BaseModerator\" />
+    <Folder Include="Views\BaseStudent\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Code\" />
   </ItemGroup>

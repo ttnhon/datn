@@ -175,6 +175,17 @@ CREATE TABLE REPLY(
 	FOREIGN KEY (CommentID)		REFERENCES COMMENT(ID)
 );
 
+CREATE TABLE LIKE_STATUS(
+	ID				int NOT NULL IDENTITY PRIMARY KEY,
+	OwnerID			int NOT NULL,
+	CommentID		int,
+	ReplyID			int,
+
+	foreign key(OwnerID) references USER_INFO(ID),
+	foreign key(CommentID) references COMMENT(ID),
+	foreign key(ReplyID) references REPLY(ID),
+);
+
 --Create data
 --SCHOOL
 INSERT INTO SCHOOL VALUES (N'Khác', N'Mô tả trường thôi')

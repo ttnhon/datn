@@ -8,8 +8,9 @@ using System.Web.Mvc;
 
 namespace COURSE_CODING.Controllers
 {
-    public class ModeratorController : Controller
+    public class ModeratorController : BaseModeratorController
     {
+        [HttpGet]
         // GET: Moderator
         public ActionResult ManageChallenge()
         {

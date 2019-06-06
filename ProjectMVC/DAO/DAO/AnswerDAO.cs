@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using DAO.EF;
 
+
 namespace DAO.DAO
 {
     public class AnswerDAO
@@ -31,6 +32,23 @@ namespace DAO.DAO
             {
                 return false;
             }
+        }
+
+        public List<CHALLENGE> GetChallengesDone(int userID)
+        {
+            try
+            {
+                return db.CHALLENGES.Join(db.ANSWERS, t => t.ID, p => p.ChallengeID, (t, p) => new { t, p })
+                    .Where(table => table.p.UserId == userID).Select(table => table.t).ToList();
+            } catch(Exception e)
+            {
+                return null;
+            }
+        }
+
+        public DateTime GetTimeDoneByChallenge(int id)
+        {
+            return db.ANSWERS.Where(table=>table.ChallengeID==id).Select(u => u.TimeDone).SingleOrDefault();
         }
     }
 }

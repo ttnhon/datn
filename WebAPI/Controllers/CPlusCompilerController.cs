@@ -96,61 +96,67 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IHttpActionResult Compiler(Source source)
         {
-            string code = source.stringSource;
-            string app_path = AppDomain.CurrentDomain.BaseDirectory;        //get app_path
-            string directory_file = app_path + Constant.FOLDER_CODE_DIR;    //get directory execute
-            string filename_code = "MyClass" + source.userKey;              //file to execute
-            string class_name = filename_code;                              //class name in file execute   ( = filename)
-            string input_file = "";
-            if (source.Data.Count > 0)
+            try
             {
-                input_file = source.Data["inputFile"] ?? "";                   //input file name to read when execute
-            }
-            
-            //Change code
-            code = this.ChangeCode(code, class_name, input_file);
-            string full_path = directory_file + "\\" + filename_code;
-            //make sure this file not exist
-            if (System.IO.File.Exists(full_path + ".cpp"))
-            {
-                System.IO.File.Delete(full_path + ".cpp");
-            }
-            
-            /*write code to file.cpp*/
-            using (StreamWriter w = new StreamWriter(full_path + ".cpp", true))
-            {
-                w.WriteLine(source.stringSource); // Write the text
-            }
+                string code = source.stringSource;
+                string app_path = AppDomain.CurrentDomain.BaseDirectory;        //get app_path
+                string directory_file = app_path + Constant.FOLDER_CODE_DIR;    //get directory execute
+                string filename_code = "MyClass" + source.userKey;              //file to execute
+                string class_name = filename_code;                              //class name in file execute   ( = filename)
+                string input_file = "";
+                if (source.Data.Count > 0)
+                {
+                    input_file = source.Data["inputFile"] ?? "";                   //input file name to read when execute
+                }
 
-            /*run g++ dir\\MyClass{userKey}.cpp*/
-            Dictionary<string, string> result_gpp = this.ExecuteGPP(directory_file, filename_code + ".exe " + filename_code + ".cpp");
-            if (result_gpp["status"] == "fail")            //return if run g++ fail
-            {
-                //delete MyClass.cpp
+                //Change code
+                code = this.ChangeCode(code, class_name, input_file);
+                string full_path = directory_file + "\\" + filename_code;
+                //make sure this file not exist
                 if (System.IO.File.Exists(full_path + ".cpp"))
                 {
                     System.IO.File.Delete(full_path + ".cpp");
                 }
-                return BadRequest(result_gpp["message"]);
+
+                /*write code to file.cpp*/
+                using (StreamWriter w = new StreamWriter(full_path + ".cpp", true))
+                {
+                    w.WriteLine(source.stringSource); // Write the text
+                }
+
+                /*run g++ dir\\MyClass{userKey}.cpp*/
+                Dictionary<string, string> result_gpp = this.ExecuteGPP(directory_file, filename_code + ".exe " + filename_code + ".cpp");
+                if (result_gpp["status"] == "fail")            //return if run g++ fail
+                {
+                    //delete MyClass.cpp
+                    if (System.IO.File.Exists(full_path + ".cpp"))
+                    {
+                        System.IO.File.Delete(full_path + ".cpp");
+                    }
+                    return Ok(result_gpp);
+                }
+
+                /*run D:\\MyClass*/
+                Dictionary<string, string> result_cpp = this.ExecuteCMD(directory_file, filename_code);
+
+                if (System.IO.File.Exists(full_path + ".exe"))           //delete file MyClass{userKey}.exe and MyClass{userKey}.cpp
+                {
+                    System.IO.File.Delete(full_path + ".exe");
+                }
+                if (System.IO.File.Exists(full_path + ".cpp"))
+                {
+                    System.IO.File.Delete(full_path + ".cpp");
+                }
+
+                //return g++ execute
+                //if (result_gpp["status"] == "fail")
+                //    return BadRequest(result_cpp["message"]);
+                return Ok(result_cpp);
             }
-
-            /*run D:\\MyClass*/
-            Dictionary<string, string> result_cpp = this.ExecuteCMD(directory_file, filename_code);
-
-            if (System.IO.File.Exists(full_path + ".exe"))           //delete file MyClass{userKey}.exe and MyClass{userKey}.cpp
+            catch (Exception e)
             {
-                System.IO.File.Delete(full_path + ".exe");
+                return BadRequest(e.ToString());
             }
-            if (System.IO.File.Exists(full_path + ".cpp"))
-            {
-                System.IO.File.Delete(full_path + ".cpp");
-            }
-
-            //return g++ execute
-            //if (result_gpp["status"] == "fail")
-            //    return BadRequest(result_cpp["message"]);
-            return Ok(result_cpp);
-
         }
 
         //Change file input name to full path

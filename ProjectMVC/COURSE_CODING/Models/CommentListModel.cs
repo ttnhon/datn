@@ -13,6 +13,8 @@ namespace COURSE_CODING.Models
         public USER_INFO Info { get; set; }
         public CHALLENGE challenge { get; set; }
 
+        public List<LIKE_STATUS> like_status { get; set; }
+
         public CommentListModel()
         {
             comments = new List<CommentModel>();

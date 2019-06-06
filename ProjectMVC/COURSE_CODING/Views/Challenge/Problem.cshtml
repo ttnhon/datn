@@ -97,7 +97,7 @@
                         <li class="nav-item active"><a id="js-problem" class="nav-link" href="#">Problem</a></li>
                         <li class="nav-item"><a id="js-submission" class="nav-link" href="#">Submissions</a></li>
                         <li class="nav-item"><a id="js-ldboard" class="nav-link" href="#">Leaderboard</a></li>
-                        <li class="nav-item"><a id="js-discussion" class="nav-link" href="#">Discussions</a></li>
+                        <li class="nav-item"><a id="js-discussion" class="nav-link" href="/Challenge/@Model.challenge.ID/forum">Discussions</a></li>
                     </ul>
                 </nav>
             </div>
@@ -111,7 +111,7 @@
                                 @Html.Raw(HttpUtility.HtmlDecode(Model.challenge.Description))
                             </div>
                         </div>
-                        @if (Model.challenge.Constraints != "")
+                        @if (Model.challenge.Constraints != null && Model.challenge.Constraints != "")
                         {
                             <div class="challenge-constraint">
                                 <div class="challenge-constraint-title">
@@ -124,58 +124,60 @@
                                 </div>
                             </div>
                         }
-                        <div class="challenge-input-format">
-                            <div class="challenge-input-format-title">
-                                <p><strong>Input Format</strong></p>
-                            </div>
-                            <div class="challenge-input-format-body">
-                                <div>
-                                    @Html.Raw(HttpUtility.HtmlDecode(Model.challenge.InputFormat))
+                        @if (Model.challenge.InputFormat != null && Model.challenge.InputFormat != "")
+                        {
+                            <div class="challenge-input-format">
+                                <div class="challenge-input-format-title">
+                                    <p><strong>Input Format</strong></p>
+                                </div>
+                                <div class="challenge-input-format-body">
+                                    <div>
+                                        @Html.Raw(HttpUtility.HtmlDecode(Model.challenge.InputFormat))
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="challenge-output-format">
-                            <div class="challenge-output-format-title">
-                                <p><strong>Output Format</strong></p>
-                            </div>
-                            <div class="challenge-output-format-body">
-                                <div>
-                                    @Html.Raw(HttpUtility.HtmlDecode(Model.challenge.OutputFormat))
+                        }
+                        @if (Model.challenge.OutputFormat != null && Model.challenge.OutputFormat != "")
+                        {
+                            <div class="challenge-output-format">
+                                <div class="challenge-output-format-title">
+                                    <p><strong>Output Format</strong></p>
+                                </div>
+                                <div class="challenge-output-format-body">
+                                    <div>
+                                        @Html.Raw(HttpUtility.HtmlDecode(Model.challenge.OutputFormat))
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
+                        @*<div class="challenge-sample-input">
+            <div class="challenge-sample-input-title">
+                <p><strong>Sample Input</strong></p>
+            </div>
+            <div class="challenge-sample-input-body">
+                <pre><code>1 2 7</code></pre>
+            </div>
+        </div>
 
-                        <div class="challenge-sample-input">
-                            <div class="challenge-sample-input-title">
-                                <p><strong>Sample Input</strong></p>
-                            </div>
-                            <div class="challenge-sample-input-body">
-                                <pre><code>1 2 7</code></pre>
-                            </div>
-                        </div>
+        <div class="challenge-sample-output">
+            <div class="challenge-sample-output-title">
+                <p><strong>Sample Output</strong></p>
+            </div>
+            <div class="challenge-sample-input-body">
+                <pre><code>10</code></pre>
+            </div>
+        </div>
 
-                        <div class="challenge-sample-output">
-                            <div class="challenge-sample-output-title">
-                                <p><strong>Sample Output</strong></p>
-                            </div>
-                            <div class="challenge-sample-input-body">
-                                <pre><code>10</code></pre>
-                            </div>
-                        </div>
+        <div class="challenge-explanation">
+            <div class="challenge-explanation-title">
+                <p><strong>Explanation</strong></p>
+            </div>
+            <div class="challenge-explanation-body">
+                <p>
 
-                        <div class="challenge-explanation">
-                            <div class="challenge-explanation-title">
-                                <p><strong>Explanation</strong></p>
-                            </div>
-                            <div class="challenge-explanation-body">
-                                <p>
-                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam, voluptatibus
-                                    numquam modi, ipsa consectetur at non velit enim sapiente mollitia quis beatae
-                                    nesciunt recusandae, perferendis expedita blanditiis ut sunt? Magni.
-                                </p>
-                            </div>
-                        </div>
+                </p>
+            </div>
+        </div>*@
 
                     </div>
                 </section>
@@ -428,7 +430,10 @@
 
     </script>
     <script>
-
+        //code
+        var code_CSharp = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_CSharp))`;
+        var code_Cpp = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_Cpp))`;
+        var code_Java = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_Java))`;
         @* Code Editor Script *@
         //function update() {
         //    var res = document.getElementById('result').contentWindow.document;
@@ -454,6 +459,17 @@
         //setupEditor();
         //update();
 
+        function update() {
+            var language = $('#inputLanguage').val();
+            if (language == "Cpp") {
+                code_Cpp = editor.getValue();
+            } else if (language == "CSharp") {
+                code_CSharp = editor.getValue();
+            } else if (language == "Java") {
+                code_Java = editor.getValue();
+            }
+        }
+
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/monokai");
         //editor.session.setMode("ace/mode/javascript");
@@ -467,6 +483,9 @@
             console.log("load page roi nha")
             let language = $('#inputLanguage').val();
             setModeEditor(language);
+            editor.getSession().on('change', function () {
+                update();
+            });
         }
 
         loadPage();
@@ -480,9 +499,12 @@
         function setModeEditor(language) {
             if (language == "Cpp") {
                 language = "c_cpp";
+                editor.setValue(code_Cpp);
             } else if (language == "CSharp") {
                 language = "csharp";
+                editor.setValue(code_CSharp);
             } else if (language == "Java") {
+                editor.setValue(code_Java);
                 language = "java";
             }
 
