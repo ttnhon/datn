@@ -85,7 +85,7 @@
             <div style="float: left;">
                 Challenges you can edit are below.
             </div>
-            <a class="btn btn-success" href="#" style="float: right;">Create Challenges</a>
+            <a class="btn btn-success" href="/Moderator/CreateChallenge" style="float: right;">Create Challenges</a>
         </div>
 
         <div id="" class="table-adjustable">
@@ -110,7 +110,7 @@
                                 <div class="row table-row no-margin table-cs">
                                     <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">@Challenge.Title</div>
                                     <div class="col-xs-1 vd-col-xs-30 text-center">@Challenge.Slug</div>
-                                    <div class="col-xs-1 vd-col-xs-30 text-center">@Challenge.OwnerID</div>
+                                    <div class="col-xs-1 vd-col-xs-30 text-center">@Challenge.USER_INFO.UserName</div>
                                 </div>
                             </a>
                         }

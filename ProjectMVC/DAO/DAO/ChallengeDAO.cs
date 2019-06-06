@@ -32,7 +32,9 @@ namespace DAO.DAO
         public List<CHALLENGE> GetAllByEditorId(int editorId)
         {
             return db.CHALLENGES.Join(db.CHALLENGE_EDITORS, t => t.ID, p => p.ChallegenID, (t, p) => new { t, p })
-                .Where(table => table.p.EditorID == editorId).Select(table => table.t).ToList();
+                .Where(table => table.p.EditorID == editorId)
+               // .Join(db.USER_INFOS, t => t.p.EditorID, p => p.ID, (t, p) => new { t, p })
+                .Select(table => table.t).ToList();
         }
 
         public List<CHALLENGE> GetAllByCompeteID(int id)
