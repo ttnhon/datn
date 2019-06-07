@@ -15,6 +15,10 @@ namespace COURSE_CODING.Controllers
         public ActionResult ManageChallenge()
         {
             var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
+            if (session == null)
+            {
+                return Redirect("Authen/Login");
+            }
             int userId = session.ID;
             //Prepare model
             ManageChallengesModel model = new ManageChallengesModel();
@@ -24,5 +28,11 @@ namespace COURSE_CODING.Controllers
 
             return View(model);
         }
+
+        public ActionResult CreateChallenge()
+        {
+            CreateChallengeModel model = new CreateChallengeModel();
+            return View(model);
+        } 
     }
 }

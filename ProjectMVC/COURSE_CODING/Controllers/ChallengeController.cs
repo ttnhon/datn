@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using CommonProject;
 using COURSE_CODING.Common;
 using COURSE_CODING.Models;
@@ -15,6 +16,7 @@ namespace COURSE_CODING.Controllers
     public class ChallengeController : BaseController
     {
         // GET: Challenge
+        [Route("Challenge/{id}/problem")]
         public ActionResult Problem( int id)
         {
             
@@ -59,8 +61,8 @@ namespace COURSE_CODING.Controllers
             }
         }
 
-        [Route("Challenge/Discussion/{id}/{sort}")]
-        public ActionResult Discussion(int id, int sort)
+        [Route("Challenge/{id}/forum")]
+        public ActionResult Discussion(int id)
         {
             var models = new CommentListModel();
 
@@ -69,7 +71,9 @@ namespace COURSE_CODING.Controllers
 
             models.challenge = (new ChallengeDAO().GetOne(id));
 
-            var commentList = (new CommentDAO().GetAllByChallenge(id, sort));
+            models.like_status = (new LikeStatusDAO().GetAllByUser(GetLoginID()));
+
+            var commentList = (new CommentDAO().GetAllByChallenge(id,2));
             if(commentList.Count > 0)
             {
                 for (int i = 0; i < commentList.Count; i++)
@@ -156,14 +160,30 @@ namespace COURSE_CODING.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateLikes(int likes,int id,string type)
+        public ActionResult UpdateLikes(int likes,int commentId, int userId, string type)
         {
             if(ModelState.IsValid)
             {
                 if(type.Equals("comment"))
                 {
                     var commentDAO = new CommentDAO();
-                    COMMENT c = commentDAO.GetOne(id);
+                    var statusDAO = new LikeStatusDAO();
+                    COMMENT c = commentDAO.GetOne(commentId);
+
+                    LIKE_STATUS s = new LIKE_STATUS();
+                    s.OwnerID = userId;
+                    s.CommentID = c.ID;
+                    if (c.Likes < likes)
+                    {
+                        if(statusDAO.CheckLikeStatus(s) == false)
+                        {
+                            statusDAO.Insert(s);
+                        }
+                    }
+                    else
+                    {
+                        statusDAO.Delete(s);
+                    }
                     c.Likes = likes;
                     var result = commentDAO.UpdateLikes(c);
                     if(result)
@@ -178,7 +198,22 @@ namespace COURSE_CODING.Controllers
                 else
                 {
                     var replyDAO = new ReplyDAO();
-                    REPLY c = replyDAO.GetOne(id);
+                    var statusDAO = new LikeStatusDAO();
+                    REPLY c = replyDAO.GetOne(commentId);
+                    LIKE_STATUS s = new LIKE_STATUS();
+                    s.OwnerID = userId;
+                    s.ReplyID = c.ID;
+                    if (c.Likes < likes)
+                    {
+                        if (statusDAO.CheckLikeStatus(s) == false)
+                        {
+                            statusDAO.Insert(s);
+                        }
+                    }
+                    else
+                    {
+                        statusDAO.Delete(s);
+                    }
                     c.Likes = likes;
                     var result = replyDAO.UpdateLikes(c);
                     if (result)
@@ -192,6 +227,40 @@ namespace COURSE_CODING.Controllers
                 }
             }
             return View();
+        }
+
+        public ActionResult GetSortComment(int challengeID, int sort)
+        {
+            
+            List<CommentModel> models = new List<CommentModel>();
+
+            var commentList = (new CommentDAO().GetAllByChallenge(challengeID, sort));
+            if (commentList.Count > 0)
+            {
+                for (int i = 0; i < commentList.Count; i++)
+                {
+                    var model = new CommentModel();
+                    model.comment = commentList[i];
+                    model.owner = (new UserDAO().GetUserById(model.comment.OwnerID));
+
+                    var replyList = (new ReplyDAO().GetAllByComment(model.comment.ID));
+                    if (replyList.Count > 0)
+                    {
+                        for (int j = 0; j < replyList.Count; j++)
+                        {
+                            var reply = new ReplyModel();
+                            reply.reply = replyList[j];
+                            reply.owner = (new UserDAO().GetUserById(reply.reply.OwnerID));
+
+                            model.replies.Add(reply);
+                        }
+                    }
+
+                    models.Add(model);
+                }
+            }
+
+            return PartialView("_CommentList", models);
         }
 
         // GET: Challenge/edit/:id

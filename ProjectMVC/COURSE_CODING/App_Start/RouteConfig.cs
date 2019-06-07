@@ -15,6 +15,8 @@ namespace COURSE_CODING
             routes.IgnoreRoute("{*botdetect}",
       new { botdetect = @"(.*)BotDetectCaptcha\.ashx" });
 
+            routes.MapMvcAttributeRoutes();
+
             routes.MapRoute(
             name: "Register member",
             url: "register",
@@ -36,7 +38,6 @@ namespace COURSE_CODING
                  namespaces: new[] { "COURSE_CODING.Controllers" }
             );
 
-            routes.MapMvcAttributeRoutes();
 
         }
     }
