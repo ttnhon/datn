@@ -12,7 +12,7 @@ namespace COURSE_CODING.Models
         public int ID { get; set; }
         public int Score { get; set; }
         public string Description { get; set; }
-        public string Type { get; set; }
+        public short? Type { get; set; }
         public Answer[] List { get; set; }
     }
 }

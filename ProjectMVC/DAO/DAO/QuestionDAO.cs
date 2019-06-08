@@ -40,7 +40,7 @@ namespace DAO.DAO
         /// </summary>
         /// <param name=""></param>
         /// <returns></returns>
-        public List<QUESTION> GetAllByChallengeID(int id)
+        public List<QUESTION> GetAllByCompeteID(int id)
         {
             return db.QUESTIONS.Where(table => table.CompeteID == id).ToList();
         }

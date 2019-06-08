@@ -50,10 +50,19 @@ namespace COURSE_CODING.Controllers
                 model.Description = c.Description;
                 model.TimeEnd = c.TimeEnd;
                 model.isPublic = c.IsPublic;
+                model.Questions = (new QuestionDAO().GetAllByCompeteID(id));
                 return View(model);
             }
             return View();
+        }
 
+        public ActionResult RenderQuestionView(int id)
+        {
+            var questionDAO = new QuestionDAO();
+            List<QUESTION> questionList = new List<QUESTION>();
+            questionList = questionDAO.GetAllByCompeteID(id);
+
+            return PartialView("_QuestionList", questionList);
         }
 
         public ActionResult CreateCompete()

@@ -27,6 +27,11 @@ namespace COURSE_CODING.Models
         [Display(Name = "This compete is public")]
         public Boolean isPublic { get; set; }
 
-        public List<Question> Questions { get; set; }
+        public List<QUESTION> Questions { get; set; }
+
+        public CompeteDetailModel()
+        {
+            Questions = new List<QUESTION>();
+        }
     }
 }
