@@ -1,17 +1,18 @@
-﻿@model IEnumerable<COURSE_CODING.Models.Question>
+﻿
+@model IEnumerable<DAO.EF.QUESTION>
 
 
 <div id="" class="table-adjustable">
     <div class="table">
         <div class="row table-title no-margin">
             <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">
-                Challenge Name
+                Question Name
             </div>
             <div class="col-xs-1 vd-col-xs-30 text-center">
-                Challenge Slug
+                Question Score
             </div>
             <div class="col-xs-1 vd-col-xs-30 text-center">
-                Challenge Owner
+                Question Type
             </div>
         </div>
         <div class="table-border table-cs table-body">
@@ -19,11 +20,19 @@
             {
                 foreach (var Question in Model)
                 {
-                    <a href="/Challenge/Edit/@Question.">
+                    <a href="/Moderator/EditQuestion/@Question.ID">
                         <div class="row table-row no-margin table-cs">
-                            <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">@Challenge.Title</div>
-                            <div class="col-xs-1 vd-col-xs-30 text-center">@Challenge.Slug</div>
-                            <div class="col-xs-1 vd-col-xs-30 text-center">@Challenge.USER_INFO.UserName</div>
+                            <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">@Question.Title</div>
+                            <div class="col-xs-1 vd-col-xs-30 text-center">@Question.Score</div>
+                            @if (Question.Type == 0)
+                            {
+                                <div class="col-xs-1 vd-col-xs-30 text-center">Single</div>
+                            }
+                            else
+                            {
+                                <div class="col-xs-1 vd-col-xs-30 text-center">Mutiple</div>
+                            }
+
                         </div>
                     </a>
                 }
@@ -32,7 +41,7 @@
             {
                 <div id="no-content" class="row table-row no-margin table-cs">
                     <div class="col-sm-12 text-center">
-                        You have not created any challenges.
+                        You have not created any questions.
                     </div>
                 </div>
             }

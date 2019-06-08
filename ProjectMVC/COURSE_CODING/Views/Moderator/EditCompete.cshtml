@@ -32,9 +32,9 @@
     <nav class="navbar navbar-light bg-light">
         <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
             <li class="nav-item">
-                <a id="js-details" class="nav-link active" href="javascript:;">Details</a>
+                <a id="js-details" class="nav-link active" href="/Moderator/EditCompete/@Model.ID">Details</a>
             </li>
-            <li class="nav-item"><a id="js-moderators" class="nav-link" href="javascript:;">Manage Questions</a></li>
+            <li class="nav-item"><a id="js-question" class="nav-link" href="javascript:;">Manage Questions</a></li>
         </ul>
     </nav>
 
@@ -52,48 +52,30 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Assets/Public/vendor/ckeditor5-build-classic/ckeditor.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.js"></script>
     <script>
-        window.onload = function SetClassicEditor() {
-            ClassicEditor
-                .create(document.querySelector('#description_Input'))
-                .catch(error => {
-                    console.error(error);
-                });
-            ClassicEditor
-                .create(document.querySelector('#problem_Input'))
-                .catch(error => {
-                    console.error(error);
-                });
-            ClassicEditor
-                .create(document.querySelector('#inputFormat_Input'))
-                .catch(error => {
-                    console.error(error);
-                });
-            ClassicEditor
-                .create(document.querySelector('#constraints_Input'))
-                .catch(error => {
-                    console.error(error);
-                });
-            ClassicEditor
-                .create(document.querySelector('#outputFormat_Input'))
-                .catch(error => {
-                    console.error(error);
-                });
-        }
-        function OnSuccess(data) {
-            console.log(data)
-            if (data.result) {
-                alert('Save changes succeed');
-            } else {
-                alert('operation fail');
-            }
-        }
-        function OnFailure(data) {
-            console.log(data)
-            alert('POST: Save changes fail');
-        }
+        
         $(function () {
             $('.date-picker').datetimepicker({ dateFormat: 'yy-mm-dd', timeFormat: 'hh:mm', changeMonth: true, changeYear: true, showAnim: 'slideDown' });
         })
+
+        $('#js-question').click(function () {
+            $(this).addClass('active');
+            $('#js-details').removeClass('active');
+
+            $.ajax({
+                method: 'GET',
+                url: '/Moderator/RenderQuestionView',
+                data: {
+                    id: @Model.ID
+                },
+                success: function (response) {
+                    $('.tab-section').html(response);
+                }
+            })
+
+            
+        });
+
     </script>
 }

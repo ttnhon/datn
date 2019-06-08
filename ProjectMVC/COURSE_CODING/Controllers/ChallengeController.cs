@@ -57,7 +57,7 @@ namespace COURSE_CODING.Controllers
             QuestionModel model = new QuestionModel();
 
             //Fill data
-            model.questions = (new QuestionDAO()).GetAllByChallengeID(id);
+            model.questions = (new QuestionDAO()).GetAllByCompeteID(id);
             string a = (model.questions)[0].Choise;
             dynamic b = JsonConvert.DeserializeObject(a);
             string c = b[3];
