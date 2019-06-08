@@ -199,12 +199,14 @@
     <Compile Include="Models\CommentListModel.cs" />
     <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\CompeteChallengesModel.cs" />
+    <Compile Include="Models\CompeteDetailModel.cs" />
     <Compile Include="Models\CompeteModel.cs" />
     <Compile Include="Models\CreateChallengeModel.cs" />
     <Compile Include="Models\DataAchieve.cs" />
     <Compile Include="Models\DomainModel.cs" />
     <Compile Include="Models\DoneChallenge.cs" />
     <Compile Include="Models\EditChallengeModel.cs" />
+    <Compile Include="Models\EditQuestionModel.cs" />
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ManageChallengesModel.cs" />
@@ -346,6 +348,7 @@
     <Content Include="Assets\Public\css\discussion.css" />
     <Content Include="Assets\Public\css\domain.css" />
     <Content Include="Assets\Public\css\EditChallenge.css" />
+    <Content Include="Assets\Public\css\EditQuestion.css" />
     <Content Include="Assets\Public\css\live_code.css" />
     <Content Include="Assets\Public\css\navbar.css" />
     <Content Include="Assets\Public\css\profile.css" />
@@ -359,6 +362,7 @@
     <Content Include="Assets\Public\js\discussion.js" />
     <Content Include="Assets\Public\js\EditChallenge.js" />
     <Content Include="Assets\Public\images\problem-solving-ecaf59a612.svg" />
+    <Content Include="Assets\Public\js\EditQuestion.js" />
     <Content Include="Assets\Public\js\profile.js" />
     <Content Include="Assets\Public\vendor\ace-editor\ace.js" />
     <Content Include="Assets\Public\vendor\bootstrap\css\4.0.0.min.css" />
@@ -542,6 +546,9 @@
     <Content Include="Views\Moderator\CreateQuestion.cshtml" />
     <Content Include="Views\Challenge\Question.cshtml" />
     <Content Include="Views\Error\PageNotFound.cshtml" />
+    <Content Include="Views\Moderator\EditQuestion.cshtml" />
+    <Content Include="Views\Moderator\CreateCompete.cshtml" />
+    <Content Include="Views\Moderator\EditCompete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

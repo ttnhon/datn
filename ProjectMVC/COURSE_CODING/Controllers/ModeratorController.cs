@@ -38,6 +38,30 @@ namespace COURSE_CODING.Controllers
             return View(model);
         }
 
+        public ActionResult EditCompete(int id)
+        {
+            if(ModelState.IsValid)
+            {
+                CompeteDetailModel model = new CompeteDetailModel();
+                var c = (new CompeteDAO().GetOne(id));
+                model.ID = c.ID;
+                model.OwnerID = c.OwnerID;
+                model.Title = c.Title;
+                model.Description = c.Description;
+                model.TimeEnd = c.TimeEnd;
+                model.isPublic = c.IsPublic;
+                return View(model);
+            }
+            return View();
+
+        }
+
+        public ActionResult CreateCompete()
+        {
+            CompeteDetailModel model = new CompeteDetailModel();
+            return View(model);
+        }
+
         [HttpGet]
         public ActionResult CreateQuestion()
         {
@@ -45,8 +69,25 @@ namespace COURSE_CODING.Controllers
             return View("CreateQuestion");
         }
 
+        //GET: /Moderator/EditQuestion/{id}
+        [HttpGet]
+        public ActionResult EditQuestion(int id)
+        {
+            EditQuestionModel model = new EditQuestionModel()
+            {
+                ID = id
+            };
+            return View(model);
+        }
+
         [HttpPost]
         public ActionResult CreateQuestion(Question[] question)
+        {
+            return Json(new { result = false });
+        }
+
+        [HttpPost]
+        public ActionResult EditQuestion(Question[] question, int competeID)
         {
             return Json(new { result = false });
         }
@@ -90,6 +131,52 @@ namespace COURSE_CODING.Controllers
                 return Json(new { result = true });
             }
             return Json(new { result = false });
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult CreateCompete(CompeteDetailModel model)
+        {
+            CompeteDAO DAO = new CompeteDAO();
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is login and is editor
+            if (ses == null)
+            {
+                return Json(new { result = false });
+            }
+
+            COMPETE c = new COMPETE()
+            {
+                OwnerID = model.OwnerID,
+                Title = model.Title,
+                Description = model.Description,
+                TimeEnd = model.TimeEnd,
+                IsPublic = model.isPublic
+            };
+            //add to table CHALLENGE
+            bool res = DAO.Insert(c);
+            //add to table CHALLENGE_EDITOR
+            return Json(new { result = false });
+        }
+
+        [HttpPost]
+        public ActionResult EditCompete(CompeteDetailModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                COMPETE c = new COMPETE();
+                c.ID = model.ID;
+                c.OwnerID = model.OwnerID;
+                c.Title = model.Title;
+                c.Description = model.Description;
+                c.TimeEnd = model.TimeEnd;
+                c.IsPublic = model.isPublic;
+                var DAO = new CompeteDAO();
+                var result = DAO.Update(c);
+            }
+            return View();
+
         }
     }
 }
