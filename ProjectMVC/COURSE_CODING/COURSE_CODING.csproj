@@ -209,6 +209,7 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ManageChallengesModel.cs" />
     <Compile Include="Models\Question.cs" />
+    <Compile Include="Models\QuestionModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\ReplyModel.cs" />
     <Compile Include="Models\Skill.cs" />
