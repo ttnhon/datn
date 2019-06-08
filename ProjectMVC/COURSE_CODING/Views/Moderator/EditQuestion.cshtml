@@ -31,8 +31,8 @@
                             <label class="col-sm-2 control-label" for="choice-@(i+1)">Type</label>
                             <div class="col-sm-4">
                                 <select class="form-control" id="choice-@(i+1)" onchange="onChoiceChange(@(i+1), this)">
-                                    <option value="single">single</option>
-                                    <option value="multiple">multiple</option>
+                                    <option value="single" selected=@(Model.Questions[i].Type == 0 ? "selected" : null)>single</option>
+                                    <option value="multiple" selected=@(Model.Questions[i].Type == 1 ? "selected" : null)>multiple</option>
                                 </select>
                             </div>
                         </div>
@@ -45,19 +45,36 @@
                         <div class="form-group row">
                             <label class="col-sm-2 control-label" for="description_Input-@(i+1)">Description</label>
                             <div class="col-sm-8">
-                                <textarea class="form-control" rows="8" id="description_Input-@(i+1)">@Model.Questions[i].Description</textarea>
+                                <textarea class="form-control" rows="4" id="description_Input-@(i+1)">@Model.Questions[i].Description</textarea>
                             </div>
                         </div>
                         <div class="answer">
                             <h6>Add answer for question (choose the the right answer on the left)</h6>
                             <div class="list" id="answer-list-@(i+1)">
-                                @{ for (int j = 0; j < Model.Questions[i].List.Length; j++)
+                                @if (Model.Questions[i].Type == 0)
+                                {
+                                    for (int j = 0; j < Model.Questions[i].List.Length; j++)
                                     {
-                                        @(answer++)
+                                        answer++;
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="@(i+1)-answer-@answer" name="answer-@(i+1)" checked>
+                                            <input type="radio" class="custom-control-input" id="@(i+1)-answer-@answer" name="answer-@(i+1)" checked=@(Model.Questions[i].List[j].Result ? "checked" : null)>
                                             <label class="custom-control-label" for="@(i+1)-answer-@answer">
-                                                <input class="form-control" id="@(i+1)-ques-@answer" type="text">
+                                                <input class="form-control" id="@(i+1)-ques-@answer" type="text" value="@Model.Questions[i].List[j].Value">
+                                            </label>
+                                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                                               class="remove-option"><i class="fas fa-times"></i></a>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    for (int j = 0; j < Model.Questions[i].List.Length; j++)
+                                    {
+                                        answer++;
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="@(i+1)-answer-@answer" name="answer-@(i+1)" checked=@(Model.Questions[i].List[j].Result ? "checked" : null)>
+                                            <label class="custom-control-label" for="@(i+1)-answer-@answer">
+                                                <input class="form-control" id="@(i+1)-ques-@answer" type="text" value="@Model.Questions[i].List[j].Value">
                                             </label>
                                             <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
                                                class="remove-option"><i class="fas fa-times"></i></a>
@@ -82,9 +99,7 @@
 
 @section scripts
     {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" type="text/javascript" charset="utf-8">
-        //<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ext-language_tools.js" type="text/javascript" charset="utf-8">
-    </script>
+    <script src="~/Assets/Public/vendor/ckeditor5-build-classic/ckeditor.js"></script>
     <script type="text/javascript">
         var count = @Model.Questions.Count;
         var answer = @answer;
@@ -231,7 +246,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="description_Input-` + count + `">Description</label>
                     <div class="col-sm-8">
-                        <textarea class="form-control" rows="2" id="description_Input-` + count + `"></textarea>
+                        <textarea class="form-control" rows="4" id="description_Input-` + count + `"></textarea>
                     </div>
                 </div>
                 <div class="answer">
@@ -275,10 +290,11 @@
                 var obj = {
                     ID: $('#question-ID-' + i).val(),
                     Score: $('#score_Input-' + i).val(),
-                    Description: editor[i - 1].getData()(),
-                    Type: e.options[e.selectedIndex].value,
+                    Description: editor[i - 1].getData(),
+                    Type: e.options[e.selectedIndex].value === "single" ? 0 : 1,
                     List: list
                 };
+                console.log(obj);
                 arr.push(obj);
             }
 

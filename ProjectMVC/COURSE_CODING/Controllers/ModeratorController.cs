@@ -3,6 +3,7 @@ using COURSE_CODING.Common;
 using COURSE_CODING.Models;
 using DAO.DAO;
 using DAO.EF;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,6 +89,36 @@ namespace COURSE_CODING.Controllers
             {
                 ID = id
             };
+            var list = DAO.GetAllByCompeteID(id);
+            for(int i = 0; i < list.Count; i++)
+            {
+                Question ques = new Question();
+                ques.ID = list[i].ID;
+                ques.Description = list[i].Title;
+                ques.Score = (int)list[i].Score;
+                ques.Type = list[i].Type;
+
+                //ques.list
+                string[] val = JsonConvert.DeserializeObject<string[]>(list[i].Choise);
+                int[] res = JsonConvert.DeserializeObject<int[]>(list[i].Result);
+                List<Answer> answers = new List<Answer>();
+                for (int index = 0; index < val.Length; index++)
+                {
+                    Answer temp = new Answer();
+                    temp.Value = val[index];
+                    if (res.Contains(index))
+                    {
+                        temp.Result = true;
+                    }
+                    else
+                    {
+                        temp.Result = false;
+                    }
+                    answers.Add(temp);
+                }
+                ques.List = answers.ToArray();
+                model.Questions.Add(ques);
+            }
             return View(model);
         }
 
@@ -102,7 +133,7 @@ namespace COURSE_CODING.Controllers
                 ques.CompeteID = competeID;
                 ques.Title = question[i].Description;
                 ques.Score = question[i].Score;
-                ques.Type = question[i].Type.Equals("single") ? (short)0 : (short)1;
+                ques.Type = question[i].Type;
                 List<string> value = new List<string>();
                 List<int> result = new List<int>();
                 for (int j = 0; j < question[i].List.Length; j++)
@@ -125,13 +156,55 @@ namespace COURSE_CODING.Controllers
                     return Json(new { result = false, msg = "Fail to create question " + i });
                 }
             }
-            return Json(new { result = true, msg = "Create Question succeed." });
+            return Json(new { result = true, msg = "Create question succeed." });
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult EditQuestion(Question[] question, int competeID)
         {
-            return Json(new { result = false });
+            QuestionDAO DAO = new QuestionDAO();
+            for (int i = 0; i < question.Length; i++)
+            {
+                QUESTION ques = new QUESTION();
+                ques.ID = question[i].ID;
+                ques.Title = question[i].Description;
+                ques.Score = question[i].Score;
+                ques.Type = question[i].Type;
+                List<string> value = new List<string>();
+                List<int> result = new List<int>();
+                for (int j = 0; j < question[i].List.Length; j++)
+                {
+                    value.Add('"' + question[i].List[j].Value + '"');
+                    if (question[i].List[j].Result)
+                    {
+                        result.Add(j);
+                    }
+                }
+
+                //question choise and result
+                ques.Choise = "[" + string.Join(", ", value) + "]";
+                ques.Result = "[" + string.Join(", ", result) + "]";
+
+                //update ques to table QUESTION by id
+                bool res = false;
+                if(ques.ID == 0)
+                {
+                    //if question not exist insert to table QUESTION
+                    ques.CompeteID = competeID;
+                    res = DAO.Insert(ques);
+                }
+                else
+                {
+                    //update
+                    res = DAO.Update(ques);
+                }
+                if (!res)
+                {
+                    return Json(new { result = false, msg = "Fail to update question " + i });
+                }
+            }
+            return Json(new { result = true, msg = "Update questions succeed." });
         }
 
         [HttpPost]

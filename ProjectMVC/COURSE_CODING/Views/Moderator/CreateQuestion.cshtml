@@ -31,7 +31,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="description_Input-1">Description</label>
                     <div class="col-sm-8">
-                        <textarea class="form-control" rows="2" id="description_Input-1"></textarea>
+                        <textarea class="form-control" rows="4" id="description_Input-1"></textarea>
                     </div>
                 </div>
                 <div class="answer">
@@ -165,7 +165,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="description_Input-` + count +`">Description</label>
                     <div class="col-sm-8">
-                        <textarea class="form-control" rows="2" id="description_Input-` + count +`"></textarea>
+                        <textarea class="form-control" rows="4" id="description_Input-` + count +`"></textarea>
                     </div>
                 </div>
                 <div class="answer">
@@ -209,7 +209,7 @@
                 var obj = {
                     Score: $('#score_Input-' + i).val(),
                     Description: editor[i - 1].getData(),
-                    Type: e.options[e.selectedIndex].value,
+                    Type: e.options[e.selectedIndex].value === "single" ? 0 : 1,
                     List: list
                 };
                 arr.push(obj);
