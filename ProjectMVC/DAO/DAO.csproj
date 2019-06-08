@@ -73,9 +73,11 @@
     <Compile Include="EF\CHALLENGE_LANGUAGE.cs" />
     <Compile Include="EF\COMMENT.cs" />
     <Compile Include="EF\COMPETE.cs" />
-    <Compile Include="EF\DCCourseCoding.cs" />
     <Compile Include="EF\LANGUAGE.cs" />
     <Compile Include="EF\LIKE_STATUS.cs" />
+    <Compile Include="EF\DCCourseCoding.cs" />
+    <Compile Include="EF\QUESTION.cs" />
+    <Compile Include="EF\QUESTION_ANSWER.cs" />
     <Compile Include="EF\REPLY.cs" />
     <Compile Include="EF\SCHOOL.cs" />
     <Compile Include="EF\TESTCASE.cs" />

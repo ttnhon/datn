@@ -13,6 +13,8 @@ namespace DAO.EF
         public COMPETE()
         {
             CHALLENGE_COMPETE = new HashSet<CHALLENGE_COMPETE>();
+            QUESTIONs = new HashSet<QUESTION>();
+            USER_INFO1 = new HashSet<USER_INFO>();
         }
 
         public int ID { get; set; }
@@ -27,7 +29,7 @@ namespace DAO.EF
         [StringLength(256)]
         public string Slug { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "ntext")]
         public string Description { get; set; }
 
         [StringLength(256)]
@@ -37,11 +39,17 @@ namespace DAO.EF
 
         public DateTime? TimeEnd { get; set; }
 
-        public int ParticipantCount { get; set; }
+        public bool IsPublic { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CHALLENGE_COMPETE> CHALLENGE_COMPETE { get; set; }
 
         public virtual USER_INFO USER_INFO { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QUESTION> QUESTIONs { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<USER_INFO> USER_INFO1 { get; set; }
     }
 }

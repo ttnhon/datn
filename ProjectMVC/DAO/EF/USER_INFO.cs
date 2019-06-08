@@ -18,6 +18,8 @@ namespace DAO.EF
             COMPETEs = new HashSet<COMPETE>();
             LIKE_STATUS = new HashSet<LIKE_STATUS>();
             REPLies = new HashSet<REPLY>();
+            QUESTION_ANSWER = new HashSet<QUESTION_ANSWER>();
+            COMPETEs1 = new HashSet<COMPETE>();
         }
 
         public int ID { get; set; }
@@ -52,7 +54,7 @@ namespace DAO.EF
         [StringLength(50)]
         public string Country { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "ntext")]
         public string About { get; set; }
 
         public int SchoolID { get; set; }
@@ -91,5 +93,11 @@ namespace DAO.EF
         public virtual SCHOOL SCHOOL { get; set; }
 
         public virtual USER_DATA USER_DATA { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QUESTION_ANSWER> QUESTION_ANSWER { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<COMPETE> COMPETEs1 { get; set; }
     }
 }

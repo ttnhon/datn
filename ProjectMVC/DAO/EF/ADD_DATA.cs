@@ -14,7 +14,7 @@ namespace DAO.EF
         [StringLength(256)]
         public string Title { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "ntext")]
         [Required]
         public string Data { get; set; }
     }
