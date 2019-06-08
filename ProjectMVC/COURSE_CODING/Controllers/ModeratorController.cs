@@ -74,6 +74,7 @@ namespace COURSE_CODING.Controllers
         [HttpGet]
         public ActionResult EditQuestion(int id)
         {
+            QuestionDAO DAO = new QuestionDAO();
             EditQuestionModel model = new EditQuestionModel()
             {
                 ID = id
@@ -85,6 +86,7 @@ namespace COURSE_CODING.Controllers
         [ValidateInput(false)]
         public ActionResult CreateQuestion(Question[] question, int competeID)
         {
+            QuestionDAO DAO = new QuestionDAO();
             for(int i = 0; i < question.Length; i++)
             {
                 QUESTION ques = new QUESTION();
@@ -107,8 +109,14 @@ namespace COURSE_CODING.Controllers
                 ques.Choise = "[" + string.Join(", ", value) + "]";
                 ques.Result = "[" + string.Join(", ", result) + "]";
 
+                //insert ques to table QUESTION
+                bool res = DAO.Insert(ques);
+                if (!res)
+                {
+                    return Json(new { result = false, msg = "Fail to create question " + i });
+                }
             }
-            return Json(new { result = false });
+            return Json(new { result = true, msg = "Create Question succeed." });
         }
 
         [HttpPost]

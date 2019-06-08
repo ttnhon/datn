@@ -16,6 +16,26 @@ namespace DAO.DAO
         }
 
         /// <summary>
+        /// Insert to table QUESTION
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool Insert(QUESTION entity)
+        {
+            try
+            {
+                db.QUESTIONS.Add(entity);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Get one challenge
         /// </summary>
         /// <param name=""></param>
