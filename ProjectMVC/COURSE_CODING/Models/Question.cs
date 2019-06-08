@@ -11,9 +11,9 @@ namespace COURSE_CODING.Models
         [Key]
         public int ID { get; set; }
         public string Name { get; set; }
-        public int Score { get; set; }
+        public int? Score { get; set; }
         public string Description { get; set; }
-        public string Type { get; set; }
+        public short? Type { get; set; }
         public Answer[] List { get; set; }
     }
 

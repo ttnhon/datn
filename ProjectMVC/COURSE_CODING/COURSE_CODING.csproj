@@ -549,6 +549,8 @@
     <Content Include="Views\Moderator\EditQuestion.cshtml" />
     <Content Include="Views\Moderator\CreateCompete.cshtml" />
     <Content Include="Views\Moderator\EditCompete.cshtml" />
+    <Content Include="Views\Moderator\_CompeteDetail.cshtml" />
+    <Content Include="Views\Moderator\_QuestionList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

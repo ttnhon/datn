@@ -1,0 +1,53 @@
+﻿@model COURSE_CODING.Models.CompeteDetailModel
+
+@using (Ajax.BeginForm("EditCompete", "Moderator", new AjaxOptions()
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess",
+    OnFailure = "OnFailure"
+}, new { @class = "form-horizontal" }))
+{
+    @Html.HiddenFor(model => model.ID)
+    @Html.HiddenFor(model => model.OwnerID)
+    <div class="form-group row">
+        <label class="col-sm-2 control-label" for="name_Input">Compete Name</label>
+        <div class="col-sm-8">
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @id = "name_Input" })
+            @*<input class="form-control" id="name_Input" type="text">*@
+        </div>
+    </div>
+
+    <br />
+
+    <div class="form-group row">
+        <label class="col-sm-2 control-label" for="name_Input">Description</label>
+        <div class="col-sm-8">
+            @Html.TextBoxFor(model => model.Description, new { @class = "form-control", @id = "name_Input" })
+            @*<input class="form-control" id="name_Input" type="text">*@
+        </div>
+    </div>
+
+    <br />
+
+    <div class="form-group row">
+        <label class="col-sm-2 control-label" for="name_Input">Time End</label>
+        <div class="col-sm-8">
+            @Html.TextBoxFor(model => model.TimeEnd, new { @class = "form-control date-picker", @id = "name_Input", @type = "datetime-local" })
+            @*<input class="form-control" id="name_Input" type="text">*@
+        </div>
+    </div>
+
+    <br />
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.isPublic, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-8">
+            @Html.CheckBoxFor(model => model.isPublic, new { @class = "form-control" })
+        </div>
+    </div>
+
+
+    <div class="save-change-btn-group">
+        <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
+    </div>
+}
