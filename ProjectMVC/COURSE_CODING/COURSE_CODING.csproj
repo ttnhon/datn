@@ -199,6 +199,7 @@
     <Compile Include="Models\CommentListModel.cs" />
     <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\CompeteChallengesModel.cs" />
+    <Compile Include="Models\CompeteDetailModel.cs" />
     <Compile Include="Models\CompeteModel.cs" />
     <Compile Include="Models\CreateChallengeModel.cs" />
     <Compile Include="Models\DataAchieve.cs" />
@@ -545,6 +546,8 @@
     <Content Include="Views\Challenge\Question.cshtml" />
     <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Views\Moderator\EditQuestion.cshtml" />
+    <Content Include="Views\Moderator\CreateCompete.cshtml" />
+    <Content Include="Views\Moderator\EditCompete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
