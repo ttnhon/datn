@@ -1,0 +1,41 @@
+﻿@model IEnumerable<COURSE_CODING.Models.Question>
+
+
+<div id="" class="table-adjustable">
+    <div class="table">
+        <div class="row table-title no-margin">
+            <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">
+                Challenge Name
+            </div>
+            <div class="col-xs-1 vd-col-xs-30 text-center">
+                Challenge Slug
+            </div>
+            <div class="col-xs-1 vd-col-xs-30 text-center">
+                Challenge Owner
+            </div>
+        </div>
+        <div class="table-border table-cs table-body">
+            @if (Model.Count() > 0)
+            {
+                foreach (var Question in Model)
+                {
+                    <a href="/Challenge/Edit/@Question.">
+                        <div class="row table-row no-margin table-cs">
+                            <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">@Challenge.Title</div>
+                            <div class="col-xs-1 vd-col-xs-30 text-center">@Challenge.Slug</div>
+                            <div class="col-xs-1 vd-col-xs-30 text-center">@Challenge.USER_INFO.UserName</div>
+                        </div>
+                    </a>
+                }
+            }
+            else
+            {
+                <div id="no-content" class="row table-row no-margin table-cs">
+                    <div class="col-sm-12 text-center">
+                        You have not created any challenges.
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

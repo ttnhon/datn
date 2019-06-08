@@ -211,6 +211,7 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ManageChallengesModel.cs" />
     <Compile Include="Models\Question.cs" />
+    <Compile Include="Models\QuestionModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\ReplyModel.cs" />
     <Compile Include="Models\Skill.cs" />
@@ -547,7 +548,9 @@
     <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Views\Moderator\EditQuestion.cshtml" />
     <Content Include="Views\Moderator\CreateCompete.cshtml" />
-    <Content Include="Views\Moderator\EditCompete.cshtml" />
+    <Content Include="Views\Moderator\EditCompete\EditCompete.cshtml" />
+    <Content Include="Views\Moderator\EditCompete\_CompeteDetail.cshtml" />
+    <Content Include="Views\Moderator\EditCompete\_QuestionList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
