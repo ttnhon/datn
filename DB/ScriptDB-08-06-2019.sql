@@ -5,7 +5,7 @@ USE CODING_CHALLENGE
 CREATE TABLE SCHOOL(
 	ID				int					NOT NULL IDENTITY primary key,
 	Name			nvarchar(100)		NOT NULL UNIQUE,
-    Description		text				
+    Description		ntext				
 );
 
 CREATE TABLE USER_INFO(
@@ -19,7 +19,7 @@ CREATE TABLE USER_INFO(
 	 PhotoURL		varchar(256)	,          --Đường link đến ảnh đại diện
 	 StatusUser		int				,          --Trạng thái (tạm)
      Country		nvarchar(50)	,
-	 About 			text			,
+	 About 			ntext			,
 	 SchoolID		int				NOT NULL,
      YearGraduation	int				,
      FacebookLink 	varchar(256)	,
@@ -32,7 +32,7 @@ CREATE TABLE USER_INFO(
 CREATE TABLE LANGUAGE(               --Lưu trữ các ngôn ngữ mà trang web hỗ trợ (C++, Java, CSharp)
 	ID				int				    NOT NULL IDENTITY primary key,
 	Name			nvarchar(100)		NOT NULL UNIQUE,
-	Description		text
+	Description		ntext
 );
 
 CREATE TABLE COMPETE(				
@@ -40,11 +40,11 @@ CREATE TABLE COMPETE(
 	OwnerID			   int				    NOT NULL,		--Chủ sở hữu
 	Title			   nvarchar(256)		NOT NULL,		--Tiêu đề
 	Slug			   varchar(256)			NOT NULL,		--tieu-de   (dùng để tạo link thân thiện)
-	Description		   text,								--Mô tả
+	Description		   ntext,								--Mô tả
 	Rules			   nvarchar(256),						--Chưa rõ
 	TotalScore		   int				    NOT NULL,		--Tổng điểm của compete
 	TimeEnd			   datetime,							--Thời gian kết thúc compete
-	ParticipantCount   int					NOT NULL		--Số người tham gia vào compete
+	IsPublic		   bit					NOT NULL,		--
 
 	foreign key (OwnerID) references  USER_INFO(ID)
 );
@@ -54,16 +54,17 @@ CREATE TABLE CHALLENGE(
 	OwnerID			        int				    NOT NULL,		--Người chủ sở hữu
 	Title				    nvarchar(256)		NOT NULL,		--tiêu đề
 	Slug				    varchar(256)		NOT NULL,		--tieu-de
-	Description			    text			    NOT NULL,		--mô tả challenge
+	Description			    ntext			    NOT NULL,		--mô tả challenge
 	ProblemStatement		nvarchar(256),						--
-	InputFormat			    text			,				    --input test case
-	OutputFormat		    text			,				    --output test case
+	InputFormat			    ntext			,				    --input test case
+	OutputFormat		    ntext			,				    --output test case
 	ChallengeDifficulty		smallint			NOT NULL,		--độ khó
 	Constraints			    nvarchar(256)	,					--chưa biết làm gì (đẻ tạm)
 	TimeDo				    int				,				    --thời gian làm bài, optional
 	Score				    int				    NOT NULL,		--điểm đạt được nếu hoàn thành
 	Solution			    text			,				    --giải pháp làm bài nếu "bí"
 	Tags				    nvarchar(256)	,					--Các thẻ (phụ vụ cho việc tìm kiếm (nếu có))
+	IsPublic				bit					NOT NULL,		--
 	LanguageCSharp bit,
 	LanguageCpp bit,
 	LanguageJava bit,
@@ -140,13 +141,13 @@ CREATE TABLE ANSWER(    --Lưu trữ câu trả lời của user với từng ch
 CREATE TABLE ADD_DATA(	--Dùng để lưu trữ những dữ liệu nhỏ, lẻ tẻ
 	ID				    int				NOT NULL IDENTITY primary key,
 	Title				varchar(256)	NOT NULL,
-	Data			    text			NOT NULL        --dạng json (mảng dữ liệu)
+	Data			    ntext			NOT NULL        --dạng json (mảng dữ liệu)
 );
 
 CREATE TABLE USER_DATA(	--Dùng để lưu trữ dữ liệu của người dùng: process status, event status, ....
 	UserID				int             NOT NULL primary key,
 	Title				varchar(256)	NOT NULL,
-	Data			    text			NOT NULL      --dạng json (mảng dữ liệu)
+	Data			    ntext			NOT NULL      --dạng json (mảng dữ liệu)
 
 	foreign key (UserId)		references USER_INFO(ID)
 );
@@ -201,13 +202,22 @@ CREATE TABLE QUESTION(
 CREATE TABLE QUESTION_ANSWER(    --Lưu trữ câu trả lời của user với từng question
 	QuestionID			int				NOT NULL,
 	UserId				int				NOT NULL,
-	Content				text			NOT NULL,		--lời giải
+	Content				ntext			NOT NULL,		--lời giải
 	Result				int				NOT NULL,		--kết quả câu trả lời
 	TimeDone			datetime		NOT NULL,		--thời gian nộp bài
 
 	foreign key (QuestionID)	references QUESTION(ID),
 	foreign key (UserId)		references USER_INFO(ID)
 );
+
+CREATE TABLE COMPETE_PARTICIPANTS(
+	CompeteID			int				NOT NULL,
+	UserID				int				NOT NULL
+
+	PRIMARY KEY (CompeteID, UserID),
+	foreign key (CompeteID)	references COMPETE(ID),
+	foreign key (UserId)	references USER_INFO(ID)
+)
 
 
 
@@ -256,26 +266,26 @@ INSERT INTO LANGUAGE VALUES (N'Java', N'Create data migrate')
 go
 
 --COMPETE
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 1', 'project-code-challenge-1', N'Chỉ là mô tả thôi 1', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 2', 'project-code-challenge-2', N'Chỉ là mô tả thôi 2', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 3', 'project-code-challenge-3', N'Chỉ là mô tả thôi 3', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 4', 'project-code-challenge-4', N'Chỉ là mô tả thôi 4', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 5', 'project-code-challenge-5', N'Chỉ là mô tả thôi 5', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 6', 'project-code-challenge-6', N'Chỉ là mô tả thôi 6', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 7', 'project-code-challenge-7', N'Chỉ là mô tả thôi 7', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 8', 'project-code-challenge-8', N'Chỉ là mô tả thôi 8', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 9', 'project-code-challenge-9', N'Chỉ là mô tả thôi 9', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 10', 'project-code-challenge-10', N'Chỉ là mô tả thôi 10', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 11', 'project-code-challenge-11', N'Chỉ là mô tả thôi 11', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 12', 'project-code-challenge-12', N'Chỉ là mô tả thôi 12', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 13', 'project-code-challenge-13', N'Chỉ là mô tả thôi 13', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 14', 'project-code-challenge-14', N'Chỉ là mô tả thôi 14', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 15', 'project-code-challenge-15', N'Chỉ là mô tả thôi 15', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 16', 'project-code-challenge-16', N'Chỉ là mô tả thôi 16', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 17', 'project-code-challenge-17', N'Chỉ là mô tả thôi 17', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 18', 'project-code-challenge-18', N'Chỉ là mô tả thôi 18', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 19', 'project-code-challenge-19', N'Chỉ là mô tả thôi 19', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
-INSERT INTO COMPETE VALUES(1,N'Project code challenge 20', 'project-code-challenge-20', N'Chỉ là mô tả thôi 20', N'Đây là phần rule của compete', 10000, GETDATE(), 10000)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 1', 'project-code-challenge-1', N'Chỉ là mô tả thôi 1', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 2', 'project-code-challenge-2', N'Chỉ là mô tả thôi 2', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 3', 'project-code-challenge-3', N'Chỉ là mô tả thôi 3', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 4', 'project-code-challenge-4', N'Chỉ là mô tả thôi 4', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 5', 'project-code-challenge-5', N'Chỉ là mô tả thôi 5', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 6', 'project-code-challenge-6', N'Chỉ là mô tả thôi 6', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 7', 'project-code-challenge-7', N'Chỉ là mô tả thôi 7', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 8', 'project-code-challenge-8', N'Chỉ là mô tả thôi 8', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 9', 'project-code-challenge-9', N'Chỉ là mô tả thôi 9', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 10', 'project-code-challenge-10', N'Chỉ là mô tả thôi 10', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 11', 'project-code-challenge-11', N'Chỉ là mô tả thôi 11', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 12', 'project-code-challenge-12', N'Chỉ là mô tả thôi 12', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 13', 'project-code-challenge-13', N'Chỉ là mô tả thôi 13', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 14', 'project-code-challenge-14', N'Chỉ là mô tả thôi 14', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 15', 'project-code-challenge-15', N'Chỉ là mô tả thôi 15', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 16', 'project-code-challenge-16', N'Chỉ là mô tả thôi 16', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 17', 'project-code-challenge-17', N'Chỉ là mô tả thôi 17', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 18', 'project-code-challenge-18', N'Chỉ là mô tả thôi 18', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 19', 'project-code-challenge-19', N'Chỉ là mô tả thôi 19', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
+INSERT INTO COMPETE VALUES(1,N'Project code challenge 20', 'project-code-challenge-20', N'Chỉ là mô tả thôi 20', N'Đây là phần rule của compete', 10000, GETDATE(), 1)
 go
 
 --CHALLENGE
@@ -286,7 +296,7 @@ INSERT INTO CHALLENGE VALUES (1, N'Simple Array Sum', N'simple-array-sum', N'<p>
 <p>simpleArraySum has the following parameter(s):</p>
 <ul>
 <li><em>ar</em>: an array of integers</li>
-</ul>', N'problem statement', N'<p>The first line contains an integer, <strong>n</strong>, denoting the size of the array. <br />The second line contains <strong>n</strong> space-separated integers representing the array''s elements.</p>', N'Print the sum of the array''s elements as a single integer.', 1, N'<p><strong>0 &lt; n, ar[i] &lt;= 1000</strong></p>', 60, 100, N'<p>We print the sum of the array''s elements: <strong>1 + 2 + 3 + 4 + 10 + 11 = 31</strong>.</p>', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+</ul>', N'problem statement', N'<p>The first line contains an integer, <strong>n</strong>, denoting the size of the array. <br />The second line contains <strong>n</strong> space-separated integers representing the array''s elements.</p>', N'Print the sum of the array''s elements as a single integer.', 1, N'<p><strong>0 &lt; n, ar[i] &lt;= 1000</strong></p>', 60, 100, N'<p>We print the sum of the array''s elements: <strong>1 + 2 + 3 + 4 + 10 + 11 = 31</strong>.</p>', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
 INSERT INTO CHALLENGE VALUES (1, N'Plus Minus', N'plus-minus', N'<p>Given an array of integers, calculate the fractions of its elements that are&nbsp;<em>positive</em>,&nbsp;<em>negative</em>, and are&nbsp;<em>zeros</em>. Print the decimal value of each fraction on a new line.</p>
 <p><strong>Note:</strong>&nbsp;This challenge introduces precision problems. The test cases are scaled to six decimal places, though answers with absolute error of up to <strong>10<sup>-4</sup></strong>&nbsp;are acceptable.</p>
 <p>For example, given the array <strong>arr = [1,1,0,-1,-1]</strong> there are <strong>5</strong> elements, two positive, two negative and one zero. Their ratios would be <strong>2/5 = 0.400000</strong>,&nbsp;<strong>2/5 = 0.400000</strong>&nbsp;and <strong>1/5 = 0.200000</strong>. It should be printed as</p>
@@ -306,27 +316,27 @@ N'<p>You must print the following <strong>3</strong> lines:</p>
 <li>A decimal representing of the fraction of&nbsp;<em>negative</em>&nbsp;numbers in the array compared to its size.</li>
 <li>A decimal representing of the fraction of&nbsp;<em>zeros</em>&nbsp;in the array compared to its size.</li>
 </ol>',1, N'<p><strong>0 &lt;= n &lt;= 100</strong></p>
-<p><strong>-100 &lt;= arr[i] &lt;= 100</strong></p>', 60, 100, N'<p>There are <strong>3</strong> positive numbers, <strong>2</strong> negative numbers, and <strong>1</strong> zero in the array. <br />The proportions of occurrence are positive: <strong>3/6 = 0.500000</strong>, negative: <strong>2/6 = 0.333333</strong> and zeros: <strong>1/6 = 0.166667</strong>.</p>', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+<p><strong>-100 &lt;= arr[i] &lt;= 100</strong></p>', 60, 100, N'<p>There are <strong>3</strong> positive numbers, <strong>2</strong> negative numbers, and <strong>1</strong> zero in the array. <br />The proportions of occurrence are positive: <strong>3/6 = 0.500000</strong>, negative: <strong>2/6 = 0.333333</strong> and zeros: <strong>1/6 = 0.166667</strong>.</p>', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
 INSERT INTO CHALLENGE VALUES (1, N'Say "Hello, World!" With C++', N'cpp-hello-world', N'<p>This is a simple challenge to help you practice printing to&nbsp;<a href="https://en.wikipedia.org/wiki/Standard_streams#Standard_output_.28stdout.29">stdout</a>. You may also want to complete&nbsp;<a href="https://www.hackerrank.com/challenges/solve-me-first">Solve Me First</a>&nbsp;in C++ before attempting this challenge.</p>
 <hr />
-<p>We''re starting out by printing the most famous computing phrase of all time! In the editor below, use either&nbsp;<a href="http://www.cplusplus.com/printf">printf</a>&nbsp;or&nbsp;<a href="http://www.cplusplus.com/cout">cout</a>&nbsp;to print the string <strong>Hello, World!</strong> to&nbsp;<a href="https://en.wikipedia.org/wiki/Standard_streams#Standard_output_.28stdout.29">stdout</a>.</p>', N'problem statement', N'You do not need to read any input in this challenge.', N'<p>Print <strong>Hello, World!</strong>&nbsp;to stdout.</p>', 1, null, 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Input and Output', N'cpp-input-and-output', N'test 4', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Basic Data Types', N'c-tutorial-basic-data-types', N'test 5', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Conditional Statements', N'c-tutorial-conditional-if-else', N'test 6', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'For Loop', N'c-tutorial-for-loop', N'test 7', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Functions', N'c-tutorial-functions', N'test 8', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Pointer', N'c-tutorial-pointer', N'test 9', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Arrays Introduction', N'arrays-introduction', N'test 10', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Variable Sized Arrays', N'variable-sized-arrays', N'test 11', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Attribute Parser', N'attribute-parser', N'test 12', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'StringStream', N'c-tutorial-stringstream', N'test 13', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Strings', N'c-tutorial-strings', N'test 14', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Structs', N'c-tutorial-struct', N'test 15', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Class', N'c-tutorial-class', N'test 16', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Classes and Objects', N'classes-objects', N'test 17', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Box It!', N'box-it', N'test 18', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Inherited Code', N'inherited-code', N'test 19', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Exceptional Server', N'exceptional-server', N'test 20', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+<p>We''re starting out by printing the most famous computing phrase of all time! In the editor below, use either&nbsp;<a href="http://www.cplusplus.com/printf">printf</a>&nbsp;or&nbsp;<a href="http://www.cplusplus.com/cout">cout</a>&nbsp;to print the string <strong>Hello, World!</strong> to&nbsp;<a href="https://en.wikipedia.org/wiki/Standard_streams#Standard_output_.28stdout.29">stdout</a>.</p>', N'problem statement', N'You do not need to read any input in this challenge.', N'<p>Print <strong>Hello, World!</strong>&nbsp;to stdout.</p>', 1, null, 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Input and Output', N'cpp-input-and-output', N'test 4', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Basic Data Types', N'c-tutorial-basic-data-types', N'test 5', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Conditional Statements', N'c-tutorial-conditional-if-else', N'test 6', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'For Loop', N'c-tutorial-for-loop', N'test 7', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Functions', N'c-tutorial-functions', N'test 8', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Pointer', N'c-tutorial-pointer', N'test 9', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Arrays Introduction', N'arrays-introduction', N'test 10', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Variable Sized Arrays', N'variable-sized-arrays', N'test 11', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Attribute Parser', N'attribute-parser', N'test 12', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'StringStream', N'c-tutorial-stringstream', N'test 13', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Strings', N'c-tutorial-strings', N'test 14', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Structs', N'c-tutorial-struct', N'test 15', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Class', N'c-tutorial-class', N'test 16', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Classes and Objects', N'classes-objects', N'test 17', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Box It!', N'box-it', N'test 18', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Inherited Code', N'inherited-code', N'test 19', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Exceptional Server', N'exceptional-server', N'test 20', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
 INSERT INTO CHALLENGE VALUES (1, N'Staircase', N'staircase', N'<p>Consider a staircase of size <strong>n = 4</strong>:</p>
 <p>&nbsp; &nbsp; &nbsp; &nbsp;#<br />&nbsp; &nbsp; &nbsp;##<br />&nbsp; ###<br />####<br />Observe that its base and height are both equal to <strong>n</strong>, and the image is drawn using # symbols and spaces. The last line is not preceded by any spaces.</p>
 <p>Write a program that prints a staircase of size <strong>n</strong>.</p>
@@ -336,7 +346,7 @@ INSERT INTO CHALLENGE VALUES (1, N'Staircase', N'staircase', N'<p>Consider a sta
 <ul style="list-style-type: circle;">
 <li>n: an integer</li>
 </ul>', N'problem statement', N'<p>A single integer, <strong>n</strong>, denoting the size of the staircase.</p>', N'<p>Print a staircase of size <strong>n</strong> using # symbols and spaces.</p>
-<p><strong>Note:</strong> The last line must have <strong>0</strong> spaces in it.</p>', 1, N'<p><strong>0 &lt; n &lt;= 100</strong></p>', 60, 100, N'The staircase is right-aligned, composed of # symbols and spaces, and has a height and width of n = 6.', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+<p><strong>Note:</strong> The last line must have <strong>0</strong> spaces in it.</p>', 1, N'<p><strong>0 &lt; n &lt;= 100</strong></p>', 60, 100, N'The staircase is right-aligned, composed of # symbols and spaces, and has a height and width of n = 6.', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
 INSERT INTO CHALLENGE VALUES (1, N'Time Conversion', N'time-conversion', N'<p>Given a time in <strong>12</strong>-hour AM/PM format, convert it to military (24-hour) time.</p>
 <p>Note: Midnight is 12:00:00AM on a 12-hour clock, and 00:00:00 on a 24-hour clock. Noon is 12:00:00PM on a 12-hour clock, and 12:00:00 on a 24-hour clock.</p>
 <p><strong>Function Description</strong></p>
@@ -344,7 +354,7 @@ INSERT INTO CHALLENGE VALUES (1, N'Time Conversion', N'time-conversion', N'<p>Gi
 <p>timeConversion has the following parameter(s):</p>
 <ul style="list-style-type: circle;">
 <li>s: a string representing time in <strong>12</strong> hour format</li>
-</ul>', N'problem statement', N'<p>A single string <strong>s</strong> containing a time in <strong>12</strong>-hour clock format (i.e.: <strong>hh:mm:ssAM</strong> or <strong>hh:mm:ssPM</strong>), where <strong>01 &lt;= hh &lt;= 12</strong> and <strong>00 &lt;= mm, ss &lt;= 59</strong>.</p>', N'<p>Convert and print the given time in <strong>24</strong>-hour format, where <strong>00 &lt;= hh &lt;= 23</strong>.</p>', 1, N'All input times are valid', 60, 100, null, N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+</ul>', N'problem statement', N'<p>A single string <strong>s</strong> containing a time in <strong>12</strong>-hour clock format (i.e.: <strong>hh:mm:ssAM</strong> or <strong>hh:mm:ssPM</strong>), where <strong>01 &lt;= hh &lt;= 12</strong> and <strong>00 &lt;= mm, ss &lt;= 59</strong>.</p>', N'<p>Convert and print the given time in <strong>24</strong>-hour format, where <strong>00 &lt;= hh &lt;= 23</strong>.</p>', 1, N'All input times are valid', 60, 100, null, N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
 INSERT INTO CHALLENGE VALUES (1, N'A Very Big Sum', N'a-very-big-sum', N'<p>Calculate and print the sum of the elements in an array, keeping in mind that some of those integers may be quite large.</p>
 <p><strong>Function Description</strong></p>
 <p>Complete the&nbsp;<em>aVeryBigSum</em>&nbsp;function in the editor below. It must return the sum of all array elements.</p>
@@ -354,24 +364,24 @@ INSERT INTO CHALLENGE VALUES (1, N'A Very Big Sum', N'a-very-big-sum', N'<p>Calc
 </ul>', N'problem statement', N'<p>The first line of the input consists of an integer <strong>n</strong>.&nbsp;<br />The next line contains <strong>n</strong>&nbsp;space-separated integers contained in the array.</p>', N'Print the integer sum of the elements in the array.', 1, N'<p>1 &lt;= n &lt;=10</p>
 <p>0 &lt;= ar[i] &lt;= 10<sup>10</sup></p>', 60, 100, N'<p><strong>Note:</strong></p>
 <p>The range of the 32-bit integer is (<span style="font-size: 11.6667px;">-2<sup>31</sup>) to&nbsp;(2<sup>31</sup>&nbsp;- 1) or [-2147483648, 2147483648].</span></p>
-<p>When we add several integer values, the resulting sum might exceed the above range. You might need to use long long int in C/C++ or long data type in Java to store such sums.</p>', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Compare the Triplets', N'compare-the-triplets', N'test 24', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Diagonal Difference', N'diagonal-difference', N'test 25', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Mini-Max Sum', N'mini-max-sum', N'test 26', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Birthday Cake Candles', N'birthday-cake-candles', N'test 27', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Grading Students', N'grading', N'test 28', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Apple and Orange', N'apple-and-orange', N'test 29', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Kangaroo', N'kangaroo', N'test 30', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Between Two Sets', N'between-two-sets', N'test 31', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Breaking the Records', N'breaking-best-and-worst-records', N'test 32', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Birthday Chocolate', N'the-birthday-bar', N'test 33', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Divisible Sum Pairs', N'divisible-sum-pairs', N'test 34', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Migratory Birds', N'migratory-birds', N'test 35', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Day of the Programmer', N'day-of-the-programmer', N'test 36', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Sock Merchant', N'sock-merchant', N'test 37', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Drawing Book', N'drawing-book', N'test 38', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Counting Valleys', N'counting-valleys', N'test 39', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Electronics Shop', N'electronics-shop', N'test 40', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+<p>When we add several integer values, the resulting sum might exceed the above range. You might need to use long long int in C/C++ or long data type in Java to store such sums.</p>', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Compare the Triplets', N'compare-the-triplets', N'test 24', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Diagonal Difference', N'diagonal-difference', N'test 25', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Mini-Max Sum', N'mini-max-sum', N'test 26', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Birthday Cake Candles', N'birthday-cake-candles', N'test 27', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Grading Students', N'grading', N'test 28', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Apple and Orange', N'apple-and-orange', N'test 29', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Kangaroo', N'kangaroo', N'test 30', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Between Two Sets', N'between-two-sets', N'test 31', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Breaking the Records', N'breaking-best-and-worst-records', N'test 32', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Birthday Chocolate', N'the-birthday-bar', N'test 33', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Divisible Sum Pairs', N'divisible-sum-pairs', N'test 34', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Migratory Birds', N'migratory-birds', N'test 35', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Day of the Programmer', N'day-of-the-programmer', N'test 36', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Sock Merchant', N'sock-merchant', N'test 37', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Drawing Book', N'drawing-book', N'test 38', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Counting Valleys', N'counting-valleys', N'test 39', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Electronics Shop', N'electronics-shop', N'test 40', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
 INSERT INTO CHALLENGE VALUES (1, N'Welcome to Java!', N'welcome-to-java', N'p>Welcome to the world of Java! In this challenge, we practice printing to stdout.</p>
 <p>The code stubs in your editor declare a&nbsp;<em>Solution</em>&nbsp;class and a&nbsp;<em>main</em>&nbsp;method. Complete the&nbsp;<em>main</em>&nbsp;method by copying the two lines of code below and pasting them inside the body of your&nbsp;<em>main</em>&nbsp;method.</p>
 <div>
@@ -381,7 +391,7 @@ System.out.println("Hello, Java.");</pre>
 <ol>
 <li>Print&nbsp;<code>Hello, World.</code>&nbsp;on the first line.</li>
 <li>Print&nbsp;<code>Hello, Java.</code>&nbsp;on the second line.</li>
-</ol>', 1, null, 60, 100, null, N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+</ol>', 1, null, 60, 100, null, N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
 INSERT INTO CHALLENGE VALUES (1, N'Java Stdin and Stdout I', N'java-stdin-and-stdout-1', N'<p>Most HackerRank challenges require you to read input from&nbsp;<a href="https://en.wikipedia.org/wiki/Standard_streams#Standard_input_.28stdin.29">stdin</a>&nbsp;(standard input) and write output to&nbsp;<a href="https://en.wikipedia.org/wiki/Standard_streams#Standard_output_.28stdout.29">stdout</a>&nbsp;(standard output).</p>
 <p>One popular way to read input from stdin is by using the&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Scanner.html">Scanner class</a>&nbsp;and specifying the&nbsp;<em>Input Stream</em>&nbsp;as&nbsp;<em>System.in</em>. For example:</p>
 <div>
@@ -403,27 +413,27 @@ myInt is: 5
 <p>Alternatively, you can use the&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html">BufferedReader class</a>.</p>
 <p><strong>Task</strong>&nbsp;<br />In this challenge, you must read <strong>3</strong> integers from stdin and then print them to stdout. Each integer must be printed on a new line. To make the problem a little easier, a portion of the code is provided for you in the editor below.</p>
 <p>As a final note, you can play around with this <a href="https://www.ovulation-calculators.com/">online ovulation calculator</a> and see your most fertile days if you''re trying to conceive a baby.</p>'
-, N'problem statement', N'There are 3 lines of input, and each line contains a single integer.', null, 1, null, 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+, N'problem statement', N'There are 3 lines of input, and each line contains a single integer.', null, 1, null, 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
 INSERT INTO CHALLENGE VALUES (1, N'Java Loops I', N'java-loops-i', N'<p><strong>Objective</strong>&nbsp;<br />In this challenge, we''re going to use loops to help us do some simple math.</p>
 <p><strong>Task</strong>&nbsp;<br />Given an integer, <strong>N</strong>, print its first <strong>10</strong> multiples. Each multiple <strong>N x i</strong> (where <strong>1 &lt;= i &lt;= 10</strong>) should be printed on a new line in the form:&nbsp;<code>N x i = result</code>.</p>', 
-N'problem statement', N'<p>A single integer, <strong>N</strong>.</p>', N'<p>Print <strong>10</strong> lines of output; each line <strong>i</strong> (where <strong>1 &lt;= i &lt;= 10</strong>) contains the <strong>result</strong> of <strong>N x i</strong> in the form:&nbsp;<br /><code>N x i = result</code>.</p>', 1, null, 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java If-Else', N'java-if-else', N'test 44', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java Stdin and Stdout II', N'java-stdin-stdout', N'test 45', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java Output Formatting', N'java-output-formatting', N'test 46', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java Loops II', N'java-loops', N'test 47', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java Datatypes', N'java-datatypes', N'test 48', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java End-of-file', N'java-end-of-file', N'test 49', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java Static Initializer Block', N'java-static-initializer-block', N'test 50', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java Int to String', N'java-int-to-string', N'test 51', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java Date and Time', N'java-date-and-time', N'test 52', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java Currency Formatter', N'java-currency-formatter', N'test 53', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java Strings Introduction', N'java-strings-introduction', N'test 54', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java Substring', N'java-substring', N'test 55', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java Substring Comparisons', N'java-string-compare', N'test 56', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java String Reverse', N'java-string-reverse', N'test 57', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java Anagrams', N'java-anagrams', N'test 58', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Java String Tokens', N'java-string-tokens', N'test 59', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
-INSERT INTO CHALLENGE VALUES (1, N'Pattern Syntax Checker', N'pattern-syntax-checker', N'test 60', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+N'problem statement', N'<p>A single integer, <strong>N</strong>.</p>', N'<p>Print <strong>10</strong> lines of output; each line <strong>i</strong> (where <strong>1 &lt;= i &lt;= 10</strong>) contains the <strong>result</strong> of <strong>N x i</strong> in the form:&nbsp;<br /><code>N x i = result</code>.</p>', 1, null, 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java If-Else', N'java-if-else', N'test 44', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java Stdin and Stdout II', N'java-stdin-stdout', N'test 45', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java Output Formatting', N'java-output-formatting', N'test 46', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java Loops II', N'java-loops', N'test 47', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java Datatypes', N'java-datatypes', N'test 48', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java End-of-file', N'java-end-of-file', N'test 49', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java Static Initializer Block', N'java-static-initializer-block', N'test 50', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java Int to String', N'java-int-to-string', N'test 51', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java Date and Time', N'java-date-and-time', N'test 52', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java Currency Formatter', N'java-currency-formatter', N'test 53', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java Strings Introduction', N'java-strings-introduction', N'test 54', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java Substring', N'java-substring', N'test 55', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java Substring Comparisons', N'java-string-compare', N'test 56', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java String Reverse', N'java-string-reverse', N'test 57', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java Anagrams', N'java-anagrams', N'test 58', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Java String Tokens', N'java-string-tokens', N'test 59', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
+INSERT INTO CHALLENGE VALUES (1, N'Pattern Syntax Checker', N'pattern-syntax-checker', N'test 60', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Java', 1, 1, 1, 1, 0, 0, 0, 0, 0, null, null, null, 0, null , null, null, null, null)
 go
 
 --ANSWER
