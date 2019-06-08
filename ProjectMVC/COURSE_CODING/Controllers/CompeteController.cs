@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using COURSE_CODING.Models;
 using DAO.DAO;
 
-
 namespace COURSE_CODING.Controllers
 {
     public class CompeteController : BaseController
@@ -47,5 +46,21 @@ namespace COURSE_CODING.Controllers
             }
             return View();
         }
+
+        //public ActionResult VerifyEmail(string crypt)
+        //{
+        //    string emailDecrypt = CommonProject.Helper.Encrypt.DecryptString(crypt, "123456");
+        //    string[] ID = emailDecrypt.Split('_');
+
+        //    var CompeteParticipantDAO = new CompeteParticipantDAO();
+
+        //    var result = CompeteParticipantDAO.Insert(ID[1], ID[2]);
+        //    if(result)
+        //    {
+        //        return Redirect(String.Format("/Compete/{0}", ID[2]));
+        //    }
+        //    return View();
+
+        //}
     }
 }

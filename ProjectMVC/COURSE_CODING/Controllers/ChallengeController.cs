@@ -133,11 +133,6 @@ namespace COURSE_CODING.Controllers
 
             return View(models);
         }
-        [HttpPost]
-        public ActionResult SortComment(int id,int sort)
-        {
-            return Redirect(String.Format("/Challenge/Discussion/{0}/{1}", id, sort));
-        }
 
         [HttpPost]
         public ActionResult AddComment(int userID,int challengeID,string commentInput)

@@ -39,5 +39,39 @@ namespace DAO.DAO
         {
             return db.COMPETES.Find(id);
         }
+
+        public Boolean Insert(COMPETE c)
+        {
+            try
+            {
+                db.COMPETES.Add(c);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public Boolean Update(COMPETE c)
+        {
+            var u = db.COMPETES.Find(c.ID);
+            try
+            {
+                u.ID = c.ID;
+                u.OwnerID = c.OwnerID;
+                u.Title = c.Title;
+                u.Description = c.Description;
+                u.TimeEnd = c.TimeEnd;
+                u.IsPublic = c.IsPublic;
+                db.SaveChanges();
+                return true;
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+        }
     }
 }
