@@ -23,6 +23,9 @@ namespace COURSE_CODING.Models
 
         public string Slug { get; set; }
 
+        [Display(Name = "Score")]
+        public int Score { get; set; }
+
         [Display(Name = "Description")]
         public string Description { get; set; }
 

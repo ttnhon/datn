@@ -31,66 +31,135 @@
     <h1 class="title">Create Challenge</h1>
 
     <p class="subtitle"><i>Get started by providing the initial details needed to create a challenge.</i></p>
-
-    <form class="form-input">
-        <div class="form-group row form-margin">
-            <label for="inputName" class="col-sm-2 col-form-label"><b>Challenge Name</b></label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control span12" id="inputName">
+    @using (Ajax.BeginForm("CreateChallenge", "Moderator", new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnSuccess = "OnSuccess",
+        OnFailure = "OnFailure"
+    }, new { @class = "form-horizontal" }))
+    {
+        <div class="form-group row">
+            <label class="col-sm-2 control-label" for="name_Input">Challenge Name</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "name_Input" })
+                @*<input class="form-control" id="name_Input" type="text">*@
             </div>
         </div>
-
-        <div class="form-group row form-margin">
-            <label for="inputDesc" class="col-sm-2 col-form-label"><b>Description</b></label>
-            <div class="col-sm-10">
-                <textarea id="inputDesc" rows="2" placeholder="Write a short sumary about the challenge"
-                            class="span16"></textarea>
-                <small></small>
+        <div class="form-group row">
+            <label class="col-sm-2 control-label" for="difficulty_Input">Challenge Difficulty</label>
+            <div class="col-sm-3">
+                @Html.DropDownListFor(model => model.Difficulty,
+                                    new SelectList(Enum.GetValues(typeof(COURSE_CODING.Models.Difficulty))),
+                                    new { @class = "form-control", @id = "difficulty_Input" })
+                @*<select class="form-control" id="difficulty_Input">
+                        <option>Easy</option>
+                        <option>Medium</option>
+                        <option>Hard</option>
+                        <option>Advanced</option>
+                        <option>Expert</option>
+                    </select>*@
             </div>
         </div>
-
-        <div class="form-group row form-margin">
-            <label for="inputProblem" class="col-sm-2 col-form-label"><b>Problem Statement</b></label>
-            <div class="col-sm-10">
-                <textarea id="inputProblem" rows="5" class="span16"></textarea>
+        <div class="form-group row">
+            <label class="col-sm-2 control-label" for="description_Input">Score</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(model => model.Score, new { @class = "form-control", @id = "score_Input", style = "width: 250px", type = "number" })
+                @*<textarea class="form-control" rows="2" id="description_Input"></textarea>*@
             </div>
         </div>
-
-        <div class="form-group row form-margin">
-            <label for="inputInput" class="col-sm-2 col-form-label"><b>Input Format</b></label>
-            <div class="col-sm-10">
-                <textarea id="inputInput" rows="5" class="span16"></textarea>
+        <div class="form-group row">
+            <label class="col-sm-2 control-label" for="description_Input">Description</label>
+            <div class="col-sm-8">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @id = "description_Input", @rows = "4" })
+                @*<textarea class="form-control" rows="2" id="description_Input"></textarea>*@
             </div>
         </div>
-
-        <div class="form-group row form-margin">
-            <label for="inputConst" class="col-sm-2 col-form-label"><b>Constraints</b></label>
-            <div class="col-sm-10">
-                <textarea id="inputConst" rows="5" class="span16"></textarea>
+        <div class="form-group row">
+            <label class="col-sm-2 control-label" for="problem_Input">Problem Statement</label>
+            <div class="col-sm-8">
+                @Html.TextAreaFor(model => model.ProblemStatement, new { @class = "form-control", @id = "problem_Input", @rows = "4" })
+                @*<textarea class="form-control" rows="2" id="problem_Input"></textarea>*@
             </div>
         </div>
-
-        <div class="form-group row form-margin">
-            <label for="inputOutput" class="col-sm-2 col-form-label"><b>Output Format</b></label>
-            <div class="col-sm-10">
-                <textarea id="inputOutput" rows="5" class="span16"></textarea>
+        <div class="form-group row">
+            <label class="col-sm-2 control-label" for="inputFormat_Input">Input Format</label>
+            <div class="col-sm-8">
+                @Html.TextAreaFor(model => model.InputFormat, new { @class = "form-control", @id = "inputFormat_Input", @rows = "4" })
+                @*<textarea class="form-control" rows="2" id="inputFormat_Input"></textarea>*@
             </div>
         </div>
-
-        <div class="form-group row form-margin" style="padding-bottom: 10%; ">
-            <label for="inputTag" class="col-sm-2 col-form-label"><b>Tags</b></label>
-            <div class="col-sm-10">
-                <textarea id="inputTag" rows="3" class="span16" placeholder="Add a tag"></textarea>
+        <div class="form-group row">
+            <label class="col-sm-2 control-label" for="constraints_Input">Constraints</label>
+            <div class="col-sm-8">
+                @Html.TextAreaFor(model => model.Constraints, new { @class = "form-control", @id = "constraints_Input", @rows = "4" })
+                @*<textarea class="form-control" rows="2" id="constraints_Input"></textarea>*@
             </div>
         </div>
-    </form>
+        <div class="form-group row">
+            <label class="col-sm-2 control-label" for="outputFormat_Input">Output Format</label>
+            <div class="col-sm-8">
+                @Html.TextAreaFor(model => model.OutputFormat, new { @class = "form-control", @id = "outputFormat_Input", @rows = "4" })
+                @*<textarea class="form-control" rows="2" id="outputFormat_Input"></textarea>*@
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 control-label" for="tags_Input">Tags</label>
+            <div class="col-sm-8">
+                @Html.TextAreaFor(model => model.Tags, new { @class = "form-control", @id = "tags_Input", @rows = "4" })
+                @*<textarea class="form-control" rows="2" id="tags_Input"></textarea>*@
+            </div>
+        </div>
+        <div class="save-change-btn-group">
+            <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
+        </div>
+    }
+</div>
+<div style="height: 100px;">
 </div>
 
-
-<div>
-    <div class="bottom-bar-wrapper">
-        <div class="btn-pull-right">
-            <button type="button" class="btn btn-primary">Save Changes</button>
-        </div>
-    </div>
-</div>
+@section scripts{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Assets/Public/vendor/ckeditor5-build-classic/ckeditor.js"></script>
+    <script>
+        window.onload = function SetClassicEditor() {
+            ClassicEditor
+                .create(document.querySelector('#description_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#problem_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#inputFormat_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#constraints_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#outputFormat_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+        function OnSuccess(data) {
+            console.log(data)
+            if (data.result) {
+                alert('Save changes succeed');
+            } else {
+                alert('operation fail');
+            }
+        }
+        function OnFailure(data) {
+            console.log(data)
+            alert('POST: Save changes fail');
+        }
+    </script>
+}

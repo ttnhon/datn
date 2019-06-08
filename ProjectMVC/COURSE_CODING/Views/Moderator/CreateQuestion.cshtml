@@ -1,0 +1,214 @@
+﻿
+@{
+    ViewBag.Title = "Create Question";
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
+}
+@section CustomCSS
+{
+    @Styles.Render("~/Assets/Public/css/create-question.css")
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+}
+    <div class="container">
+        <h1 class="title">Create Question</h1>
+        <div class="question" id="question">
+            <div class="ques-item">
+                <h3>Question 1</h3>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="name_Input-1">Question Name</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" id="name_Input-1" type="text">
+                    </div>
+
+                    <label class="col-sm-1 control-label" for="choice-1">Type</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="choice-1" onchange="onChoiceChange(1, this)">
+                            <option value="single">Single choice</option>
+                            <option value="multiple">Multiple choice</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="description_Input-1">Description</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" rows="2" id="description_Input-1"></textarea>
+                    </div>
+                </div>
+                <div class="answer">
+                    <h6>Add answer for question (choose the the right answer on the left)</h6>
+                    <div class="list" id="answer-list-1">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input"id="1-answer-1" name="answer-1" checked>
+                            <label class="custom-control-label" for="1-answer-1">
+                                <input class="form-control" id="1-ques-1" type="text">
+                            </label>
+                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                               class="remove-option"><i class="fas fa-times"></i></a>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success" onclick="AddNewAnswer(1)">Add</button>
+                </div>
+            </div>
+        </div>
+        <div class="save-change-btn-group">
+            <button class="btn btn-success" id="js-save-changes-btn" onclick="Submit()">Save Changes</button>
+            <button type="button" class="btn btn-success" onclick="AddNewQuestion()">New question</button>
+        </div>
+        <div style="height: 100px;">
+
+        </div>
+    </div>
+
+@section scripts{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Assets/Public/vendor/ckeditor5-build-classic/ckeditor.js"></script>
+    <script>
+        var count = 1;
+        var answer = 1;
+        function AddNewAnswer(num) {
+            answer++;
+            var e = $('#choice-' + num)[0];
+            var eList = $('#answer-list-' + num);
+            if (e.options[e.selectedIndex].value === 'single') {
+                eList.append(`<div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="`+ num + `-answer-` + answer + `" name="answer-` + num + `">
+                            <label class="custom-control-label" for="`+ num + `-answer-` + answer + `">
+                                <input class="form-control"  id="`+ num + `-ques-` + answer + `" type="text">
+                            </label>
+                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                               class="remove-option"><i class="fas fa-times"></i></a>
+                        </div>`);
+            } else {
+                eList.append(`<div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="`+ num + `-answer-` + answer + `" name="answer-` + num + `">
+                            <label class="custom-control-label" for="`+ num + `-answer-` + answer + `">
+                                <input class="form-control"  id="`+ num + `-ques-` + answer + `" type="text">
+                            </label>
+                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                               class="remove-option"><i class="fas fa-times"></i></a>
+                        </div>`);
+            }
+        }
+        $(document).on('click', ".remove-option", function (e) {
+            element = $(this);
+            element.parent().remove();
+            //answer--;
+        });
+        function onChoiceChange(num, e) {
+            var val = e.options[e.selectedIndex].value;
+            var eList = $('#answer-list-' + num);
+            var list = [];
+            for (var i = 1; i <= answer; i++) {
+                var temp = $('#' + num + '-ques-' + i)[0];
+                if (temp !== undefined) {
+                    list.push({ value: temp.value, index: i });
+                }
+            }
+            eList.empty();
+            //console.log(list);
+            if (val === 'single') {
+
+                for (var item in list) {
+                    eList.append(`<div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="`+ num + `-answer-` + list[item].index + `" name="answer-` + num + `">
+                            <label class="custom-control-label" for="`+ num + `-answer-` + list[item].index + `">
+                                <input class="form-control"  id="`+ num + `-ques-` + list[item].index + `" type="text" value="` + list[item].value + `">
+                            </label>
+                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                               class="remove-option"><i class="fas fa-times"></i></a>
+                        </div>`);
+                }
+            } else {
+                for (var item in list) {
+                    eList.append(`<div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="`+ num + `-answer-` + list[item].index + `" name="answer-` + num + `">
+                            <label class="custom-control-label" for="`+ num + `-answer-` + list[item].index + `">
+                                <input class="form-control"  id="`+ num + `-ques-` + list[item].index + `" type="text" value="` + list[item].value + `">
+                            </label>
+                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                               class="remove-option"><i class="fas fa-times"></i></a>
+                        </div>`);
+                }
+            }
+        }
+        function AddNewQuestion() {
+            count++;
+            answer++;
+            $('#question').append(`<div class="ques-item">
+                <h3>Question `+ count +`</h3>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="name_Input-` + count +`">Question Name</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" id="name_Input-` + count +`" type="text">
+                    </div>
+
+                    <label class="col-sm-1 control-label" for="choice-` + count +`">Type</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="choice-` + count + `"  onchange="onChoiceChange(` + count + `, this)">
+                            <option value="single">Single choice</option>
+                            <option value="multiple">Multiple choice</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="description_Input-` + count +`">Description</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" rows="2" id="description_Input-` + count +`"></textarea>
+                    </div>
+                </div>
+                <div class="answer">
+                    <h6>Add answer for question (choose the the right answer on the left)</h6>
+                    <div class="list" id="answer-list-`+ count +`">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input"id="` + count +`-answer-`+ answer + `" name="answer-` + count +`" checked>
+                            <label class="custom-control-label" for="` + count +`-answer-`+ answer +`">
+                                <input class="form-control" id="`+ count + `-ques-` + answer + `" type="text">
+                            </label>
+                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                               class="remove-option"><i class="fas fa-times"></i></a>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success" onclick="AddNewAnswer(`+ count +`)">Add</button>
+                </div>
+            </div>`);
+        }
+
+        function Submit() {
+            var arr = [];
+            for (var i = 1; i <= count; i++) {
+                var e = $('#choice-' + i)[0];
+                var list = [];
+                for (var j = 1; j <= answer; j++) {
+                    var temp = $('#' + i + '-ques-' + j)[0];
+                    if (temp !== undefined) {
+                        list.push({ Value: temp.value, Result: $('#' + i + '-answer-' + j).prop('checked') });
+                    }
+                }
+                var obj = {
+                    Name: $('#name_Input-' + i).val(),
+                    Description: $('#description_Input-' + i).val(),
+                    Type: e.options[e.selectedIndex].value,
+                    List: list
+                };
+                arr.push(obj);
+            }
+
+            //call ajax
+            $.ajax({
+                    method: "POST",
+                    url: "/Moderator/CreateQuestion",
+                    data: {
+                        question: arr
+                    }
+                })
+                    .done(function (msg) {
+                        if (msg) {
+                            console.log(msg);
+                            //alert(msg.result);
+                        }
+
+                    });
+        }
+    </script>
+    }

@@ -69,6 +69,34 @@ namespace DAO.DAO
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
+        public bool Insert(CHALLENGE entity)
+        {
+            try
+            {
+                entity.LanguageCSharp = true;
+                entity.LanguageCpp = true;
+                entity.LanguageJava = true;
+                entity.DisCompileTest = false;
+                entity.DisCustomTestcase = false;
+                entity.DisSubmissions = false;
+                entity.PublicTestcase = false;
+                entity.PublicSolutions = false;
+                entity.PartialEditorial = false;
+                db.CHALLENGES.Add(entity);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Update info challenge
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         public bool Update(CHALLENGE entity)
         {
             try
