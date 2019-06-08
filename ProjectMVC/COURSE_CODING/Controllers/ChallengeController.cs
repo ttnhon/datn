@@ -10,6 +10,7 @@ using COURSE_CODING.Common;
 using COURSE_CODING.Models;
 using DAO.DAO;
 using DAO.EF;
+using Newtonsoft.Json;
 
 namespace COURSE_CODING.Controllers
 {
@@ -48,35 +49,22 @@ namespace COURSE_CODING.Controllers
             return View(model);
         }
 
-        [Route("Challenge/{id}/Question")]
+        [Route("Compete/{id}/Question")]
         public ActionResult Question(int id)
         {
 
-            ////Prepare model
-            //ChallengeModel model = new ChallengeModel();
+            //Prepare model
+            QuestionModel model = new QuestionModel();
 
-            ////Fill data
-            //model.challenge = (new ChallengeDAO()).GetOne(id);
-            //model.OwnerName = (new UserDAO()).GetNameByID(model.challenge.OwnerID);
-            //model.languages = (new LanguageDAO()).GetByChallengeID(id);
+            //Fill data
+            model.questions = (new QuestionDAO()).GetAllByChallengeID(id);
+            string a = (model.questions)[0].Choise;
+            dynamic b = JsonConvert.DeserializeObject(a);
+            string c = b[3];
+            //dynamic stuff = JsonConvert.DeserializeObject("{ 'Name': 'Jon Smith', 'Address': { 'City': 'New York', 'State': 'NY' }, 'Age': 42 }");
 
-            //var cs = (new ChallengeDAO()).GetCodeStubs(id);
-
-            //foreach (var item in cs)
-            //{
-            //    if (item.LanguageID == 1)
-            //    {
-            //        model.CodeStubs_Cpp = item.CodeStub;
-            //    }
-            //    else if (item.LanguageID == 2)
-            //    {
-            //        model.CodeStubs_CSharp = item.CodeStub;
-            //    }
-            //    else if (item.LanguageID == 3)
-            //    {
-            //        model.CodeStubs_Java = item.CodeStub;
-            //    }
-            //}
+            //string name = stuff.Name;
+            //string address = stuff.Address.City;
             return View("Question");
         }
 
