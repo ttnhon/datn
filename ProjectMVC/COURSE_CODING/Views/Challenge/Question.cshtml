@@ -8,6 +8,9 @@
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 }
+@{
+    int count_question = Model.Count;
+}
 <style>
     .page-link:focus {
         box-shadow: none;
@@ -37,113 +40,73 @@
             <!--Contest list-->
             <div class="col-9">
                 <div class="tabs">
+                    @if (count_question > 0)
+                    {
                     <div class="row">
                         <div class="col-xl-3">
                             <ul class="nav nav-pills pagination">
                                 <li class="active page-item"><a class="page-link" href="#question_1" data-toggle="pill">Câu 1</a></li>
-                                <li class="page-item"><a class="page-link" href="#question_2" data-toggle="pill">Câu 2</a></li>
-                                <li class="page-item"><a class="page-link" href="#question_3" data-toggle="pill">Câu 3</a></li>
-                                <li class="page-item"><a class="page-link" href="#question_4" data-toggle="pill">Câu 4</a></li>
+                                @for (int i = 1; i < count_question; i++)
+                                {
+                                    <li class="page-item"><a class="page-link" href="#question_@(i + 1)" data-toggle="pill">Câu @(i + 1)</a></li>
+                                }
                             </ul>
                             <button id="btn_submit_answers" class="btn btn-success">Submit</button>
                         </div>
                         <div class="col-xl-9">
                             <div id="list_question" class=" tab-content">
-
-                                <!--one question-->
-                                <div class="tab-pane active" id="question_1">
-                                    <h4 class="title"><span><span class="no-number">1. </span>Đây là cái title 1 </span></h4>
-                                    <h5 class="description">Đây là phần description 1</h5>
-                                    <div class="answers" data-type="multiple">
-                                        <div class="checkbox">
-                                            <label><input type="checkbox" value="hehe1"><span>Option 1</span></label>
+                                @{
+                                    int step = 1;
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    if (item.type == 0)
+                                    {
+                                        <!--one question-->
+                                        <div class="tab-pane @(step == 1 ? "active" : "")" id="question_@(step)">
+                                            <h4 class="title"><span><span class="no-number">@(step). </span>@item.title</span></h4>
+                                            @*<h5 class="description">Đây là phần description 2</h5>*@
+                                            <div class="answers" data-type="single">
+                                                <!-- Default unchecked -->
+                                                @{ int step_answer = 1;}
+                                                @foreach (var answer in item.answers)
+                                                {
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" class="custom-control-input" id="radio_@(step)_@(step_answer)" name="radio_@(step)" value="@(step_answer)">
+                                                        <label class="custom-control-label" for="radio_@(step)_@(step_answer++)">@(answer)</label>
+                                                    </div>
+                                                }
+                                            </div>
                                         </div>
-                                        <div class="checkbox">
-                                            <label><input type="checkbox" value="hehe2"><span>Option 2</span></label>
+                                                    }
+                                                    else
+                                                    {
+                                        <!--one question-->
+                                        <div class="tab-pane @(step == 1 ? "active" : "")" id="question_@(step)">
+                                            <h4 class="title"><span><span class="no-number">@(step). </span>@item.title</span></h4>
+                                            @*<h5 class="description">Đây là phần description 1</h5>*@
+                                            <div class="answers" data-type="multiple">
+                                                @{ int step_answer = 1;}
+                                                @foreach (var answer in item.answers)
+                                                {
+                                                    <div class="checkbox">
+                                                        <label><input type="checkbox" value="@(step_answer++)"><span>@(answer)</span></label>
+                                                    </div>
+                                                }
+                                            </div>
                                         </div>
-                                        <div class="checkbox">
-                                            <label><input type="checkbox" value="hehe3"><span>Option 3</span></label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!--one question-->
-                                <div class="tab-pane" id="question_2">
-                                    <h4 class="title"><span><span class="no-number">2. </span>Đây là cái title 2 </span></h4>
-                                    <h5 class="description">Đây là phần description 2</h5>
-                                    <div class="answers" data-type="single">
-                                        <!-- Default unchecked -->
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="radio_1_1" name="radio_1" value="1">
-                                            <label class="custom-control-label" for="radio_1_1">Default unchecked</label>
-                                        </div>
-                                        <!-- Default checked -->
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="radio_1_2" name="radio_1" value="2" checked>
-                                            <label class="custom-control-label" for="radio_1_2">Default checked</label>
-                                        </div>
-                                        <!-- Default checked -->
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="radio_1_3" value="3" name="radio_1">
-                                            <label class="custom-control-label" for="radio_1_3">Default checked</label>
-                                        </div>
-                                        <!-- Default checked -->
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="radio_1_4" value="4" name="radio_1">
-                                            <label class="custom-control-label" for="radio_1_4">Default checked</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!--one question-->
-                                <div class="tab-pane" id="question_3">
-                                    <h4 class="title"><span><span class="no-number">3. </span>Đây là cái title 3 </span></h4>
-                                    <h5 class="description">Đây là phần description 3</h5>
-                                    <div class="answers" data-type="multiple">
-                                        <div class="checkbox">
-                                            <label><input type="checkbox" value="hehe31"><span>Option 1</span></label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label><input type="checkbox" value="hehe32"><span>Option 2</span></label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label><input type="checkbox" value="hehe33"><span>Option 3</span></label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!--one question-->
-                                <div class="tab-pane" id="question_4">
-                                    <h4 class="title"><span><span class="no-number">2. </span>Đây là cái title 4 </span></h4>
-                                    <h5 class="description">Đây là phần description 4</h5>
-                                    <div class="answers" data-type="single">
-                                        <!-- Default unchecked -->
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="radio_4_1" name="radio_4" value="41">
-                                            <label class="custom-control-label" for="radio_1_1">Default unchecked</label>
-                                        </div>
-                                        <!-- Default checked -->
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="radio_4_2" name="radio_4" value="42" checked>
-                                            <label class="custom-control-label" for="radio_4_2">Default checked</label>
-                                        </div>
-                                        <!-- Default checked -->
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="radio_4_3" value="43" name="radio_4">
-                                            <label class="custom-control-label" for="radio_4_3">Default checked</label>
-                                        </div>
-                                        <!-- Default checked -->
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="radio_4_4" value="44" name="radio_4">
-                                            <label class="custom-control-label" for="radio_4_4">Default checked</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!--end tab-->
+                                                        }
+                                                        step++;
+                                                    }
+                                }
                             </div>
                         </div>
                     </div>
+                    }
+                    else {
+                        <h3>No Question in this Compete</h3>
+                    }
+
                 </div>
             </div>
 
@@ -206,7 +169,7 @@
 
             </div>
         </div>
-        </div>
+    </div>
     </div>
 </section>
 
@@ -214,42 +177,42 @@
 @section scripts
 {
     <script type="text/javascript">
-    $(function () {
-        var $a = $(".tabs li");
-        $a.click(function () {
-            $a.removeClass("active");
-            $(this).addClass("active");
+        $(function () {
+            var $a = $(".tabs li");
+            $a.click(function () {
+                $a.removeClass("active");
+                $(this).addClass("active");
+            });
         });
-    });
 
 
-    $("#btn_submit_answers").click(function () {
-        var answers_result = [];
-        $('#list_question').children('div').each(function () {
-            let answers = $(this).children('.answers');
-            let type = answers.data('type');
-            let answer = [];
-            if (type == "multiple") {
-                answers.children('.checkbox').each(function () {
-                    let key = $(this).children('label').children('input');
-                    if (key.is(":checked")) {
-                        answer.push(key.val());
-                    }
-                });
-            }
-            if (type == "single") {
-                answers.children('.custom-radio').each(function () {
-                    let key = $(this).children('input');
-                    if (key.is(":checked")) {
-                        answer.push(key.val());
-                    }
-                });
-            }
-            answers_result.push(answer);
-            //console.log(type); // "this" is the current element in the loop
+        $("#btn_submit_answers").click(function () {
+            var answers_result = [];
+            $('#list_question').children('div').each(function () {
+                let answers = $(this).children('.answers');
+                let type = answers.data('type');
+                let answer = [];
+                if (type == "multiple") {
+                    answers.children('.checkbox').each(function () {
+                        let key = $(this).children('label').children('input');
+                        if (key.is(":checked")) {
+                            answer.push(key.val());
+                        }
+                    });
+                }
+                if (type == "single") {
+                    answers.children('.custom-radio').each(function () {
+                        let key = $(this).children('input');
+                        if (key.is(":checked")) {
+                            answer.push(key.val());
+                        }
+                    });
+                }
+                answers_result.push(answer);
+                //console.log(type); // "this" is the current element in the loop
+            });
+            console.log(JSON.stringify(answers_result));
         });
-        console.log(JSON.stringify(answers_result));
-    });
 
 
     </script>

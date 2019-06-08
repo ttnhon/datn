@@ -54,18 +54,20 @@ namespace COURSE_CODING.Controllers
         {
 
             //Prepare model
-            QuestionModel model = new QuestionModel();
+            List<QuestionModel> model = new List<QuestionModel>();
 
             //Fill data
-            model.questions = (new QuestionDAO()).GetAllByChallengeID(id);
-            string a = (model.questions)[0].Choise;
-            dynamic b = JsonConvert.DeserializeObject(a);
-            string c = b[3];
-            //dynamic stuff = JsonConvert.DeserializeObject("{ 'Name': 'Jon Smith', 'Address': { 'City': 'New York', 'State': 'NY' }, 'Age': 42 }");
+            var questions = (new QuestionDAO()).GetAllByChallengeID(id);
+            foreach (var question in questions)
+            {
+                QuestionModel one = new QuestionModel();
+                one.title = question.Title;
+                one.type = question.Type;
+                one.answers = JsonConvert.DeserializeObject(question.Choise);
+                model.Add(one);
+            }
 
-            //string name = stuff.Name;
-            //string address = stuff.Address.City;
-            return View("Question");
+            return View("Question", model);
         }
 
         public int GetLoginID()
