@@ -1,0 +1,308 @@
+﻿@model COURSE_CODING.Models.EditQuestionModel
+@{
+    ViewBag.Title = "Edit Question";
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
+}
+@section CustomCSS
+{
+    @Styles.Render("~/Assets/Public/css/EditQuestion.css")
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+}
+
+@{
+    int answer = 0;
+}
+
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>*@
+
+    <div class="container">
+        <h1 class="title">Create Question</h1>
+        @Html.Hidden("competeID", Model.ID)
+        @if (Model.Questions.Count > 0)
+        {
+            for (int i = 0; i < Model.Questions.Count; i++)
+            {
+                @Html.Hidden("question-ID-" + (i + 1), Model.Questions[i].ID)
+                <div class="question" id="question">
+                    <div class="ques-item">
+                        <h3>Question @(i + 1)</h3>
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label" for="name_Input-@(i+1)">Question Name</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="name_Input-@(i+1)" type="text" value="@Model.Questions[i].Name">
+                            </div>
+
+                            <label class="col-sm-1 control-label" for="choice-@(i+1)">Type</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" id="choice-@(i+1)" onchange="onChoiceChange(@(i+1), this)">
+                                    <option value="single">single</option>
+                                    <option value="multiple">multiple</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label" for="score_Input-@(i+1)">Score</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="score_Input-@(i+1)" type="number" value="@Model.Questions[i].Score">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label" for="description_Input-@(i+1)">Description</label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" rows="8" id="description_Input-@(i+1)">@Model.Questions[i].Description</textarea>
+                            </div>
+                        </div>
+                        <div class="answer">
+                            <h6>Add answer for question (choose the the right answer on the left)</h6>
+                            <div class="list" id="answer-list-@(i+1)">
+                                @{ for (int j = 0; j < Model.Questions[i].List.Length; j++)
+                                    {
+                                        @(answer++)
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" id="@(i+1)-answer-@answer" name="answer-@(i+1)" checked>
+                                            <label class="custom-control-label" for="@(i+1)-answer-@answer">
+                                                <input class="form-control" id="@(i+1)-ques-@answer" type="text">
+                                            </label>
+                                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                                               class="remove-option"><i class="fas fa-times"></i></a>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <button type="button" class="btn btn-success" onclick="AddNewAnswer(@(i+1))">Add</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        <div class="save-change-btn-group">
+            <button class="btn btn-success" id="js-save-changes-btn" onclick="Submit()">Save Changes</button>
+            <button type="button" class="btn btn-success" onclick="AddNewQuestion()">New question</button>
+        </div>
+        <div style="height: 100px;">
+
+        </div>
+    </div>
+
+@section scripts
+    {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" type="text/javascript" charset="utf-8">
+        //<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ext-language_tools.js" type="text/javascript" charset="utf-8">
+    </script>
+    <script type="text/javascript">
+        var count = @Model.Questions.Count;
+        var answer = @answer;
+        window.onload = function SetClassicEditor() {
+            for (var i = 1; i <= count; i++) {
+                ClassicEditor
+                    .create(document.querySelector('#description_Input-' + i))
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+        }
+        //SetClassicEditor();
+
+        function AddNewAnswer(num) {
+            answer++;
+            var e = $('#choice-' + num)[0];
+            var eList = $('#answer-list-' + num);
+            if (e.options[e.selectedIndex].value === 'single') {
+                eList.append(`<div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="`+ num + `-answer-` + answer + `" name="answer-` + num + `">
+                            <label class="custom-control-label" for="`+ num + `-answer-` + answer + `">
+                                <input class="form-control"  id="`+ num + `-ques-` + answer + `" type="text">
+                            </label>
+                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                               class="remove-option"><i class="fas fa-times"></i></a>
+                        </div>`);
+            } else {
+                eList.append(`<div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="`+ num + `-answer-` + answer + `" name="answer-` + num + `">
+                            <label class="custom-control-label" for="`+ num + `-answer-` + answer + `">
+                                <input class="form-control"  id="`+ num + `-ques-` + answer + `" type="text">
+                            </label>
+                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                               class="remove-option"><i class="fas fa-times"></i></a>
+                        </div>`);
+            }
+        }
+        $(document).on('click', ".remove-option", function (e) {
+            element = $(this);
+            element.parent().remove();
+            //answer--;
+        });
+
+        function onChoiceChange(num, e) {
+            var val = e.options[e.selectedIndex].value;
+            var eList = $('#answer-list-' + num);
+            var list = [];
+            for (var i = 1; i <= answer; i++) {
+                var temp = $('#' + num + '-ques-' + i)[0];
+                if (temp !== undefined) {
+                    list.push({ value: temp.value, index: i });
+                }
+            }
+            eList.empty();
+            //console.log(list);
+            if (val === 'single') {
+
+                for (var item in list) {
+                    eList.append(`<div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="`+ num + `-answer-` + list[item].index + `" name="answer-` + num + `">
+                            <label class="custom-control-label" for="`+ num + `-answer-` + list[item].index + `">
+                                <input class="form-control"  id="`+ num + `-ques-` + list[item].index + `" type="text" value="` + list[item].value + `">
+                            </label>
+                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                               class="remove-option"><i class="fas fa-times"></i></a>
+                        </div>`);
+                }
+            } else {
+                for (var item in list) {
+                    eList.append(`<div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="`+ num + `-answer-` + list[item].index + `" name="answer-` + num + `">
+                            <label class="custom-control-label" for="`+ num + `-answer-` + list[item].index + `">
+                                <input class="form-control"  id="`+ num + `-ques-` + list[item].index + `" type="text" value="` + list[item].value + `">
+                            </label>
+                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                               class="remove-option"><i class="fas fa-times"></i></a>
+                        </div>`);
+                }
+            }
+        }
+
+        function onChoiceChange(num, e) {
+            var val = e.options[e.selectedIndex].value;
+            var eList = $('#answer-list-' + num);
+            var list = [];
+            for (var i = 1; i <= answer; i++) {
+                var temp = $('#' + num + '-ques-' + i)[0];
+                if (temp !== undefined) {
+                    list.push({ value: temp.value, index: i });
+                }
+            }
+            eList.empty();
+            //console.log(list);
+            if (val === 'single') {
+
+                for (var item in list) {
+                    eList.append(`<div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="`+ num + `-answer-` + list[item].index + `" name="answer-` + num + `">
+                            <label class="custom-control-label" for="`+ num + `-answer-` + list[item].index + `">
+                                <input class="form-control"  id="`+ num + `-ques-` + list[item].index + `" type="text" value="` + list[item].value + `">
+                            </label>
+                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                               class="remove-option"><i class="fas fa-times"></i></a>
+                        </div>`);
+                }
+            } else {
+                for (var item in list) {
+                    eList.append(`<div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="`+ num + `-answer-` + list[item].index + `" name="answer-` + num + `">
+                            <label class="custom-control-label" for="`+ num + `-answer-` + list[item].index + `">
+                                <input class="form-control"  id="`+ num + `-ques-` + list[item].index + `" type="text" value="` + list[item].value + `">
+                            </label>
+                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                               class="remove-option"><i class="fas fa-times"></i></a>
+                        </div>`);
+                }
+            }
+        }
+        function AddNewQuestion() {
+            count++;
+            answer++;
+            $('#question').append(`<div class="ques-item">
+                <h3>Question `+ count + `</h3>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="name_Input-` + count + `">Question Name</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" id="name_Input-` + count + `" type="text">
+                    </div>
+
+                    <label class="col-sm-1 control-label" for="choice-` + count + `">Type</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="choice-` + count + `"  onchange="onChoiceChange(` + count + `, this)">
+                            <option value="single">Single choice</option>
+                            <option value="multiple">Multiple choice</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="score_Input-` + count + `">Score</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" id="score_Input-` + count + `" type="number">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="description_Input-` + count + `">Description</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" rows="2" id="description_Input-` + count + `"></textarea>
+                    </div>
+                </div>
+                <div class="answer">
+                    <h6>Add answer for question (choose the the right answer on the left)</h6>
+                    <div class="list" id="answer-list-`+ count + `">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input"id="` + count + `-answer-` + answer + `" name="answer-` + count + `" checked>
+                            <label class="custom-control-label" for="` + count + `-answer-` + answer + `">
+                                <input class="form-control" id="`+ count + `-ques-` + answer + `" type="text">
+                            </label>
+                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                               class="remove-option"><i class="fas fa-times"></i></a>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success" onclick="AddNewAnswer(`+ count + `)">Add</button>
+                </div>
+            </div>`);
+
+            //add editor
+            ClassicEditor
+                .create(document.querySelector('#description_Input-' + count))
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+
+        function Submit() {
+            var arr = [];
+            for (var i = 1; i <= count; i++) {
+                var e = $('#choice-' + i)[0];
+                var list = [];
+                for (var j = 1; j <= answer; j++) {
+                    var temp = $('#' + i + '-ques-' + j)[0];
+                    if (temp !== undefined) {
+                        list.push({ Value: temp.value, Result: $('#' + i + '-answer-' + j).prop('checked') });
+                    }
+                }
+                var obj = {
+                    ID: $('#question-ID-' + i).val(),
+                    Name: $('#name_Input-' + i).val(),
+                    Score: $('#score_Input-' + i).val(),
+                    Description: $('#description_Input-' + i).val(),
+                    Type: e.options[e.selectedIndex].value,
+                    List: list
+                };
+                arr.push(obj);
+            }
+
+            //call ajax
+            $.ajax({
+                method: "POST",
+                url: "/Moderator/EditQuestion",
+                data: {
+                    question: arr,
+                    competeID: $('#competeID').val()
+                }
+            })
+                .done(function (msg) {
+                    if (msg) {
+                        console.log(msg);
+                        //alert(msg.result);
+                    }
+
+                });
+        }
+    </script>
+}
+

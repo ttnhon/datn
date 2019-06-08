@@ -45,8 +45,25 @@ namespace COURSE_CODING.Controllers
             return View("CreateQuestion");
         }
 
+        //GET: /Moderator/EditQuestion/{id}
+        [HttpGet]
+        public ActionResult EditQuestion(int id)
+        {
+            EditQuestionModel model = new EditQuestionModel()
+            {
+                ID = id
+            };
+            return View(model);
+        }
+
         [HttpPost]
         public ActionResult CreateQuestion(Question[] question)
+        {
+            return Json(new { result = false });
+        }
+
+        [HttpPost]
+        public ActionResult EditQuestion(Question[] question, int competeID)
         {
             return Json(new { result = false });
         }
