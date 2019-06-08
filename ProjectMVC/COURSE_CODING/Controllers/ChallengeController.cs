@@ -16,7 +16,7 @@ namespace COURSE_CODING.Controllers
     public class ChallengeController : BaseController
     {
         // GET: Challenge
-        [Route("Challenge/{id}/problem")]
+        [Route("Challenge/{id}/Problem")]
         public ActionResult Problem( int id)
         {
             
@@ -46,6 +46,38 @@ namespace COURSE_CODING.Controllers
                 }
             }
             return View(model);
+        }
+
+        [Route("Challenge/{id}/Question")]
+        public ActionResult Question(int id)
+        {
+
+            ////Prepare model
+            //ChallengeModel model = new ChallengeModel();
+
+            ////Fill data
+            //model.challenge = (new ChallengeDAO()).GetOne(id);
+            //model.OwnerName = (new UserDAO()).GetNameByID(model.challenge.OwnerID);
+            //model.languages = (new LanguageDAO()).GetByChallengeID(id);
+
+            //var cs = (new ChallengeDAO()).GetCodeStubs(id);
+
+            //foreach (var item in cs)
+            //{
+            //    if (item.LanguageID == 1)
+            //    {
+            //        model.CodeStubs_Cpp = item.CodeStub;
+            //    }
+            //    else if (item.LanguageID == 2)
+            //    {
+            //        model.CodeStubs_CSharp = item.CodeStub;
+            //    }
+            //    else if (item.LanguageID == 3)
+            //    {
+            //        model.CodeStubs_Java = item.CodeStub;
+            //    }
+            //}
+            return View("Question");
         }
 
         public int GetLoginID()
