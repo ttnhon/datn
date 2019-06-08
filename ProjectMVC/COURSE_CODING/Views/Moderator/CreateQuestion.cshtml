@@ -14,13 +14,8 @@
             <div class="ques-item">
                 <h3>Question 1</h3>
                 <div class="form-group row">
-                    <label class="col-sm-2 control-label" for="name_Input-1">Question Name</label>
+                    <label class="col-sm-2 control-label" for="choice-1">Type</label>
                     <div class="col-sm-4">
-                        <input class="form-control" id="name_Input-1" type="text">
-                    </div>
-
-                    <label class="col-sm-1 control-label" for="choice-1">Type</label>
-                    <div class="col-sm-3">
                         <select class="form-control" id="choice-1" onchange="onChoiceChange(1, this)">
                             <option value="single">single</option>
                             <option value="multiple">multiple</option>
@@ -65,15 +60,17 @@
     </div>
 
 @section scripts{
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Assets/Public/vendor/ckeditor5-build-classic/ckeditor.js"></script>
     <script>
         var count = 1;
         var answer = 1;
+        var editor = [];
         window.onload = function SetClassicEditor() {
             ClassicEditor
                 .create(document.querySelector('#description_Input-1'))
+                .then(newEditor => {
+                    editor.push(newEditor);
+                })
                 .catch(error => {
                     console.error(error);
                 });
@@ -151,13 +148,8 @@
             $('#question').append(`<div class="ques-item">
                 <h3>Question `+ count +`</h3>
                 <div class="form-group row">
-                    <label class="col-sm-2 control-label" for="name_Input-` + count +`">Question Name</label>
+                    <label class="col-sm-2 control-label" for="choice-` + count +`">Type</label>
                     <div class="col-sm-4">
-                        <input class="form-control" id="name_Input-` + count +`" type="text">
-                    </div>
-
-                    <label class="col-sm-1 control-label" for="choice-` + count +`">Type</label>
-                    <div class="col-sm-3">
                         <select class="form-control" id="choice-` + count + `"  onchange="onChoiceChange(` + count + `, this)">
                             <option value="single">Single choice</option>
                             <option value="multiple">Multiple choice</option>
@@ -195,6 +187,9 @@
             //add editor
             ClassicEditor
                 .create(document.querySelector('#description_Input-' + count))
+                .then(newEditor => {
+                    editor.push(newEditor);
+                })
                 .catch(error => {
                     console.error(error);
                 });
@@ -212,9 +207,8 @@
                     }
                 }
                 var obj = {
-                    Name: $('#name_Input-' + i).val(),
                     Score: $('#score_Input-' + i).val(),
-                    Description: $('#description_Input-' + i).val(),
+                    Description: editor[i - 1].getData(),
                     Type: e.options[e.selectedIndex].value,
                     List: list
                 };
@@ -226,7 +220,8 @@
                     method: "POST",
                     url: "/Moderator/CreateQuestion",
                     data: {
-                        question: arr
+                        question: arr,
+                        competeID: @Model
                     }
                 })
                     .done(function (msg) {

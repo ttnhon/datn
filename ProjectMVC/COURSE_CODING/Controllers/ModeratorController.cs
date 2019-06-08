@@ -62,11 +62,12 @@ namespace COURSE_CODING.Controllers
             return View(model);
         }
 
+        //GET: /Moderator/CreateQuestion/{id}
         [HttpGet]
-        public ActionResult CreateQuestion()
+        public ActionResult CreateQuestion(int id)
         {
             //CreateChallengeModel model = new CreateChallengeModel();
-            return View("CreateQuestion");
+            return View(id);
         }
 
         //GET: /Moderator/EditQuestion/{id}
@@ -81,8 +82,32 @@ namespace COURSE_CODING.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateQuestion(Question[] question)
+        [ValidateInput(false)]
+        public ActionResult CreateQuestion(Question[] question, int competeID)
         {
+            for(int i = 0; i < question.Length; i++)
+            {
+                QUESTION ques = new QUESTION();
+                ques.CompeteID = competeID;
+                ques.Title = question[i].Description;
+                ques.Score = question[i].Score;
+                ques.Type = question[i].Type.Equals("single") ? (short)0 : (short)1;
+                List<string> value = new List<string>();
+                List<int> result = new List<int>();
+                for (int j = 0; j < question[i].List.Length; j++)
+                {
+                    value.Add('"' + question[i].List[j].Value + '"');
+                    if (question[i].List[j].Result)
+                    {
+                        result.Add(j);
+                    }
+                }
+
+                //question choise and result
+                ques.Choise = "[" + string.Join(", ", value) + "]";
+                ques.Result = "[" + string.Join(", ", result) + "]";
+
+            }
             return Json(new { result = false });
         }
 
