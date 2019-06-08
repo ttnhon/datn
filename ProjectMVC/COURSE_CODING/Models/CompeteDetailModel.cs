@@ -26,5 +26,7 @@ namespace COURSE_CODING.Models
         [Required]
         [Display(Name = "This compete is public")]
         public Boolean isPublic { get; set; }
+
+        public List<Question> Questions { get; set; }
     }
 }

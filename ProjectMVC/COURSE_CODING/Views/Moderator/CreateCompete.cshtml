@@ -16,11 +16,11 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="/Moderator/ManageChallenge"><b>Manage Challenges</b></a>
+                    <a href="/Moderator/ManageCompete"><b>Manage Compete</b></a>
                 </li>
 
                 <li class="breadcrumb-item active">
-                    <a href="#"><b>Create Challenge</b></a>
+                    <a href="#"><b>Create Compete</b></a>
                 </li>
             </ol>
         </nav>
@@ -28,7 +28,7 @@
 </div>
 
 <div class="container">
-    <h1 class="title">Create Challenge</h1>
+    <h1 class="title">Create Compete</h1>
 
     <p class="subtitle"><i>Get started by providing the initial details needed to create a challenge.</i></p>
     @using (Ajax.BeginForm("CreateCompete", "Moderator", new AjaxOptions()
@@ -48,6 +48,8 @@
             </div>
         </div>
 
+        <br />
+
         <div class="form-group row">
             <label class="col-sm-2 control-label" for="name_Input">Description</label>
             <div class="col-sm-8">
@@ -56,17 +58,22 @@
             </div>
         </div>
 
+        <br />
+
         <div class="form-group row">
             <label class="col-sm-2 control-label" for="name_Input">Time End</label>
             <div class="col-sm-8">
-                @Html.TextBoxFor(model => model.TimeEnd, new { @class = "form-control date-picker", @id = "name_Input" })
+                @Html.TextBoxFor(model => model.TimeEnd, new { @class = "form-control date-picker", @id = "name_Input", @type = "datetime-local" })
                 @*<input class="form-control" id="name_Input" type="text">*@
             </div>
         </div>
 
+        <br />
+
         <div class="form-group row">
+            @Html.LabelFor(model => model.isPublic, new { @class = "col-sm-2 control-label" })
             <div class="col-sm-8">
-                @Html.CheckBoxFor(model=>model.isPublic, new { @class="form-control"})
+                @Html.CheckBoxFor(model => model.isPublic, new { @class = "form-control" })
             </div>
         </div>
 
@@ -83,6 +90,7 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Assets/Public/vendor/ckeditor5-build-classic/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css"></script>
     <script>
         window.onload = function SetClassicEditor() {
             ClassicEditor
@@ -123,5 +131,9 @@
             console.log(data)
             alert('POST: Save changes fail');
         }
+
+        $(function () {
+            $('.date-picker').datetimepicker({ dateFormat: 'yy-mm-dd', timeFormat: 'hh:mm', changeMonth: true, changeYear: true, showAnim: 'slideDown' });
+        })
     </script>
 }
