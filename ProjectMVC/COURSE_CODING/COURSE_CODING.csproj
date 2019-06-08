@@ -200,6 +200,7 @@
     <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\CompeteChallengesModel.cs" />
     <Compile Include="Models\CompeteModel.cs" />
+    <Compile Include="Models\CreateChallengeModel.cs" />
     <Compile Include="Models\DataAchieve.cs" />
     <Compile Include="Models\DomainModel.cs" />
     <Compile Include="Models\DoneChallenge.cs" />
