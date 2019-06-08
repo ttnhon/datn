@@ -176,14 +176,14 @@ CREATE TABLE REPLY(
 );
 
 CREATE TABLE LIKE_STATUS(
-	ID				int NOT NULL IDENTITY PRIMARY KEY,
-	OwnerID			int NOT NULL,
+	OwnerID			int,
 	CommentID		int,
 	ReplyID			int,
 
 	foreign key(OwnerID) references USER_INFO(ID),
 	foreign key(CommentID) references COMMENT(ID),
 	foreign key(ReplyID) references REPLY(ID),
+
 );
 
 --Create data

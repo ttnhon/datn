@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using BotDetect.Web.Mvc;
 using CommonProject;
 using COURSE_CODING.Common;
@@ -184,13 +185,19 @@ namespace COURSE_CODING.Controllers
                 dynamic me = fa.Get("me?fields=first_name,middle_name,last_name,id,email");
                 string email = me.email;
                 string userName = me.email;
-                string firstname = me.first_name;
-                string middlename = me.middle_name;
-                string lastname = me.last_name;
+                string firstName = me.first_name;
+                string middleName = me.middle_name;
+                string lastName = me.last_name;
                 var user = new USER_INFO();
+                user.FirstName = firstName;
+                user.LastName = lastName;
+                if (email == null) email = string.Empty;
                 user.Email = email;
+                user.RoleUser = CommonConstant.ROLE_MEMBER;
                 user.StatusUser = CommonConstant.STATUS_RIGHT_ACCOUNT;
-                user.UserName = firstname + " " + middlename + " " + lastname;
+                user.UserName = firstName + " " + middleName + " " + lastName;
+                user.PasswordUser = "123456";
+               
                 // user.CreateDate= DateTime.Now;
                 Boolean canLogin = new UserDAO().Insert(user);
                 if (canLogin.Equals(true))
@@ -198,7 +205,11 @@ namespace COURSE_CODING.Controllers
                     var userSession = new InfoLogIn();
                     userSession.Name = user.UserName;
                     userSession.ID = user.ID;
+                    userSession.Role = CommonConstant.ROLE_MEMBER;
                     Session.Add(CommonConstant.SESSION_INFO_LOGIN, userSession);
+                    // Set the auth cookie
+                    FormsAuthentication.SetAuthCookie(email, false);
+                    return Redirect("/User/Dashboard");
                 }
             }
             return Redirect("/");
