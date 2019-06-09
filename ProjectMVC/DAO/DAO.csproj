@@ -61,6 +61,7 @@
     <Compile Include="DAO\CompeteDAO.cs" />
     <Compile Include="DAO\LanguageDAO.cs" />
     <Compile Include="DAO\LikeStatusDAO.cs" />
+    <Compile Include="DAO\QuestionAnswerDAO.cs" />
     <Compile Include="DAO\QuestionDAO.cs" />
     <Compile Include="DAO\ReplyDAO.cs" />
     <Compile Include="DAO\SchoolDAO.cs" />
