@@ -23,7 +23,14 @@ namespace DAO.DAO
 
         public List<LIKE_STATUS> GetAllByUser(int id)
         {
-            return db.LIKE_STATUS.Where(table => table.OwnerID == id).ToList();
+            try
+            {
+                return db.LIKE_STATUS.Where(table => table.OwnerID == id).ToList();
+            } catch
+            {
+                return null;
+            }
+            
         }
 
         public LIKE_STATUS GetOneByComment(int userID, int? commentID)

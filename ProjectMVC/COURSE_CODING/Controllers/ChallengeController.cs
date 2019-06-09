@@ -10,13 +10,14 @@ using COURSE_CODING.Common;
 using COURSE_CODING.Models;
 using DAO.DAO;
 using DAO.EF;
+using Newtonsoft.Json;
 
 namespace COURSE_CODING.Controllers
 {
     public class ChallengeController : BaseController
     {
         // GET: Challenge
-        [Route("Challenge/{id}/problem")]
+        [Route("Challenge/{id}/Problem")]
         public ActionResult Problem( int id)
         {
             
@@ -46,6 +47,27 @@ namespace COURSE_CODING.Controllers
                 }
             }
             return View(model);
+        }
+
+        [Route("Compete/{id}/Question")]
+        public ActionResult Question(int id)
+        {
+
+            //Prepare model
+            List<QuestionModel> model = new List<QuestionModel>();
+
+            //Fill data
+            var questions = (new QuestionDAO()).GetAllByChallengeID(id);
+            foreach (var question in questions)
+            {
+                QuestionModel one = new QuestionModel();
+                one.title = question.Title;
+                one.type = question.Type;
+                one.answers = JsonConvert.DeserializeObject(question.Choise);
+                model.Add(one);
+            }
+
+            return View("Question", model);
         }
 
         public int GetLoginID()
@@ -100,11 +122,6 @@ namespace COURSE_CODING.Controllers
             }
 
             return View(models);
-        }
-        [HttpPost]
-        public ActionResult SortComment(int id,int sort)
-        {
-            return Redirect(String.Format("/Challenge/Discussion/{0}/{1}", id, sort));
         }
 
         [HttpPost]
@@ -306,6 +323,7 @@ namespace COURSE_CODING.Controllers
                     Name = c.Title,
                     Difficulty = (Difficulty)c.ChallengeDifficulty,
                     Description = c.Description,
+                    Score = c.Score,
                     ProblemStatement = c.ProblemStatement,
                     InputFormat = c.InputFormat,
                     Constraints = c.Constraints,
@@ -405,6 +423,7 @@ namespace COURSE_CODING.Controllers
                 ID = model.ID,
                 Title = model.Name,
                 Slug = CommonProject.Helper.SlugGenerator.GenerateSlug(model.Name),
+                Score = model.Score,
                 Description = model.Description,
                 ProblemStatement = model.ProblemStatement,
                 InputFormat = model.InputFormat,
@@ -416,7 +435,7 @@ namespace COURSE_CODING.Controllers
             bool res = DAO.Update(c);
             if (res)
             {
-                return Json(new { result = true, data = c });
+                return Json(new { result = true });
             }
             return Json(new { result = false });
         }
@@ -605,8 +624,11 @@ namespace COURSE_CODING.Controllers
                 return Json(new { result = false });
             }
             bool result = false;
+            //string encrypted = CommonProject.Helper.Encrypt.EncryptString(Code, "testpass");
             result = DAO.UpdateCodestub(challengeID, language, Code);
-            return Json(new { result });
+            //string decrypted = CommonProject.Helper.Encrypt.DecryptString(encrypted, "testpass");
+            //result = true;
+            return Json(new { result, msg = "Update Code stub succeed." });
         }
 
         [HttpPost]
@@ -664,6 +686,7 @@ namespace COURSE_CODING.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public JsonResult UpdateEditorial(EditChallengeModel model)
         {
             ChallengeDAO DAO = new ChallengeDAO();

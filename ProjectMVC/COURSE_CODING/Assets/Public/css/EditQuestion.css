@@ -1,0 +1,28 @@
+﻿.answer .custom-control {
+    padding-bottom: 5px;
+}
+
+    .answer .custom-control label {
+        width: 70%;
+        min-width: 600px;
+    }
+
+.save-change-btn-group {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid grey;
+    padding: 20px;
+    background-color: white;
+    z-index: 100;
+}
+
+    .save-change-btn-group button {
+        float: right;
+        margin-left: 5px;
+    }
+
+.ques-item {
+    padding-top: 10px;
+}

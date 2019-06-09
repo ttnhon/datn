@@ -32,17 +32,17 @@ namespace DAO.EF
         [StringLength(256)]
         public string Slug { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "ntext")]
         [Required]
         public string Description { get; set; }
 
         [StringLength(256)]
         public string ProblemStatement { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "ntext")]
         public string InputFormat { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "ntext")]
         public string OutputFormat { get; set; }
 
         public short ChallengeDifficulty { get; set; }
@@ -59,6 +59,8 @@ namespace DAO.EF
 
         [StringLength(256)]
         public string Tags { get; set; }
+
+        public bool IsPublic { get; set; }
 
         public bool? LanguageCSharp { get; set; }
 

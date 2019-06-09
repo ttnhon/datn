@@ -1,0 +1,81 @@
+﻿@model COURSE_CODING.Models.CompeteDetailModel
+
+@{
+    ViewBag.Title = "Edit Compete";
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
+}
+@section CustomCSS
+{
+    @Styles.Render("~/Assets/Public/css/create-challenge.css")
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+}
+
+<div style="border-bottom: 1px solid #C2C7D0;">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/Moderator/ManageCompete"><b>Manage Compete</b></a>
+                </li>
+
+                <li class="breadcrumb-item active">
+                    <a href="#"><b>@Model.Title</b></a>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container">
+    <h1 class="title">@Model.Title</h1>
+    <nav class="navbar navbar-light bg-light">
+        <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
+            <li class="nav-item">
+                <a id="js-details" class="nav-link active" href="/Moderator/EditCompete/@Model.ID">Details</a>
+            </li>
+            <li class="nav-item"><a id="js-question" class="nav-link" href="javascript:;">Manage Questions</a></li>
+        </ul>
+    </nav>
+
+    <br />
+
+    <section class="tab-section">
+        @Html.Partial("_CompeteDetail",Model)
+    </section>
+</div>
+<div style="height: 100px;">
+</div>
+
+@section scripts{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Assets/Public/vendor/ckeditor5-build-classic/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.js"></script>
+    <script>
+        
+        $(function () {
+            $('.date-picker').datetimepicker({ dateFormat: 'yy-mm-dd', timeFormat: 'hh:mm', changeMonth: true, changeYear: true, showAnim: 'slideDown' });
+        })
+
+        $('#js-question').click(function () {
+            $(this).addClass('active');
+            $('#js-details').removeClass('active');
+
+            $.ajax({
+                method: 'GET',
+                url: '/Moderator/RenderQuestionView',
+                data: {
+                    id: @Model.ID
+                },
+                success: function (response) {
+                    $('.tab-section').html(response);
+                }
+            })
+
+            
+        });
+
+    </script>
+}

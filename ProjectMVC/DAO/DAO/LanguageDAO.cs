@@ -88,7 +88,7 @@ namespace DAO.DAO
         /// <returns></returns>
         public int GetNumberSuccessChallengeByID(int id)
         {
-            return db.ANSWERS.Count(item => item.ID == id);
+            return db.ANSWERS.Count(item => item.UserId == id);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace DAO.DAO
         /// <returns></returns>
         public int GetAnswerCountByID(int id, string language)
         {
-            return db.ANSWERS.Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t,p) => new { t, p})
+            return db.ANSWERS.Where(table => table.UserId == id).Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t,p) => new { t, p})
                 .Join(db.CHALLENGE_LANGUAGES, t => t.p.ID, p => p.ChallengeID, (t, p) => new { t, p })
                 .Join(db.LANGUAGES, t => t.p.LanguageID, p => p.ID, (t, p) => new { t, p })
                 .Count(table => table.p.Name.Contains(language));

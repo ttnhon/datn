@@ -1,0 +1,139 @@
+﻿@model COURSE_CODING.Models.CompeteDetailModel
+
+@{
+    ViewBag.Title = "Create Compete";
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
+}
+@section CustomCSS
+{
+    @Styles.Render("~/Assets/Public/css/create-challenge.css")
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+}
+
+<div style="border-bottom: 1px solid #C2C7D0;">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/Moderator/ManageCompete"><b>Manage Compete</b></a>
+                </li>
+
+                <li class="breadcrumb-item active">
+                    <a href="#"><b>Create Compete</b></a>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container">
+    <h1 class="title">Create Compete</h1>
+
+    <p class="subtitle"><i>Get started by providing the initial details needed to create a challenge.</i></p>
+    @using (Ajax.BeginForm("CreateCompete", "Moderator", new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnSuccess = "OnSuccess",
+        OnFailure = "OnFailure"
+    }, new { @class = "form-horizontal" }))
+    {
+
+        @Html.HiddenFor(model => model.OwnerID)
+        <div class="form-group row">
+            <label class="col-sm-2 control-label" for="name_Input">Compete Name</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @id = "name_Input" })
+                @*<input class="form-control" id="name_Input" type="text">*@
+            </div>
+        </div>
+
+        <br />
+
+        <div class="form-group row">
+            <label class="col-sm-2 control-label" for="name_Input">Description</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(model => model.Description, new { @class = "form-control", @id = "name_Input" })
+                @*<input class="form-control" id="name_Input" type="text">*@
+            </div>
+        </div>
+
+        <br />
+
+        <div class="form-group row">
+            <label class="col-sm-2 control-label" for="name_Input">Time End</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(model => model.TimeEnd, new { @class = "form-control date-picker", @id = "name_Input", @type = "datetime-local" })
+                @*<input class="form-control" id="name_Input" type="text">*@
+            </div>
+        </div>
+
+        <br />
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.isPublic, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-8">
+                @Html.CheckBoxFor(model => model.isPublic, new { @class = "form-control" })
+            </div>
+        </div>
+
+
+        <div class="save-change-btn-group">
+            <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
+        </div>
+    }
+</div>
+<div style="height: 100px;">
+</div>
+
+@section scripts{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Assets/Public/vendor/ckeditor5-build-classic/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css"></script>
+    <script>
+        window.onload = function SetClassicEditor() {
+            ClassicEditor
+                .create(document.querySelector('#description_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#problem_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#inputFormat_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#constraints_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#outputFormat_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+        function OnSuccess(data) {
+            console.log(data)
+            if (data.result) {
+                alert('Save changes succeed');
+            } else {
+                alert('operation fail');
+            }
+        }
+        function OnFailure(data) {
+            console.log(data)
+            alert('POST: Save changes fail');
+        }
+
+        $(function () {
+            $('.date-picker').datetimepicker({ dateFormat: 'yy-mm-dd', timeFormat: 'hh:mm', changeMonth: true, changeYear: true, showAnim: 'slideDown' });
+        })
+    </script>
+}

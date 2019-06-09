@@ -9,10 +9,6 @@
 @section CustomCSS
 {
     @Styles.Render("~/Assets/Public/css/EditChallenge.css")
-
-
-    <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet">
-
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
 }
 
@@ -60,9 +56,9 @@
                                             new SelectList(Enum.GetValues(typeof(Language))),
                                             new { @class = "form-control", @id = "language_Input" })
                         @*<select class="form-control" id="language_Input">
-                                <option>English</option>
-                                <option>Vietnamese</option>
-                            </select>*@
+                        <option>English</option>
+                        <option>Vietnamese</option>
+                    </select>*@
                     </div>
                 </div>
                 <div class="form-group row">
@@ -72,12 +68,12 @@
                                             new SelectList(Enum.GetValues(typeof(Difficulty))),
                                             new { @class = "form-control", @id = "difficulty_Input" })
                         @*<select class="form-control" id="difficulty_Input">
-                                <option>Easy</option>
-                                <option>Medium</option>
-                                <option>Hard</option>
-                                <option>Advanced</option>
-                                <option>Expert</option>
-                            </select>*@
+                        <option>Easy</option>
+                        <option>Medium</option>
+                        <option>Hard</option>
+                        <option>Advanced</option>
+                        <option>Expert</option>
+                    </select>*@
                     </div>
                 </div>
                 <div class="form-group row">
@@ -91,6 +87,13 @@
                     <label class="col-sm-2 control-label" for="slug_Input">Challenge Slug</label>
                     <div class="col-sm-8">
                         <p class="form-control-static" id="slug_Input">https://www.khtnfitk15.somee.com/.../@Html.DisplayFor(model => model.Slug)</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="description_Input">Score</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Score, new { @class = "form-control", @id = "score_Input", style = "width: 250px", type = "number" })
+                        @*<textarea class="form-control" rows="2" id="description_Input"></textarea>*@
                     </div>
                 </div>
                 <div class="form-group row">
@@ -141,7 +144,7 @@
             }
             @*<form class="form-horizontal" method="post">
 
-                </form>*@
+        </form>*@
         </div>
 
         <div class="moderators-modal main-modal" id="div-moderators-modal" hidden>
@@ -548,7 +551,7 @@
         var code_Cpp = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_Cpp))`;
         var code_Java = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_Java))`;
 
-        function SetClassicEditor() {
+        window.onload = function SetClassicEditor() {
             ClassicEditor
                 .create(document.querySelector('#description_Input'))
                 .catch(error => {
@@ -590,7 +593,7 @@
                     console.error(error);
                 });
         }
-        SetClassicEditor();
+        //SetClassicEditor();
 
         $("#inputLanguage").change(function () {
             var selectedVal = Number.parseInt(this.value);
@@ -804,7 +807,7 @@
                     .done(function (msg) {
                         if (msg) {
                             console.log(msg);
-                            alert(msg.result);
+                            alert(msg.msg);
                         }
 
                     });

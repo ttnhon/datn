@@ -1,0 +1,221 @@
+﻿@{
+    ViewBag.Title = "Questions";
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
+}
+@section CustomCSS
+{
+    @Styles.Render("~/Assets/Public/css/user-contest.css")
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+}
+@{
+    int count_question = Model.Count;
+}
+<style>
+    .page-link:focus {
+        box-shadow: none;
+    }
+
+    #btn_submit_answers {
+        margin-top: 1rem;
+    }
+</style>
+<section class="header-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-6 domain-header">
+                <p class="sub-contest-title">All Contests</p>
+                <h3 class="contest-title">Contests</h3>
+            </div>
+
+            <div class="col-6">
+
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content-page">
+    <div class="container">
+        <div class="row">
+            <!--Contest list-->
+            <div class="col-9">
+                <div class="tabs">
+                    @if (count_question > 0)
+                    {
+                    <div class="row">
+                        <div class="col-xl-3">
+                            <ul class="nav nav-pills pagination">
+                                <li class="active page-item"><a class="page-link" href="#question_1" data-toggle="pill">Câu 1</a></li>
+                                @for (int i = 1; i < count_question; i++)
+                                {
+                                    <li class="page-item"><a class="page-link" href="#question_@(i + 1)" data-toggle="pill">Câu @(i + 1)</a></li>
+                                }
+                            </ul>
+                            <button id="btn_submit_answers" class="btn btn-success">Submit</button>
+                        </div>
+                        <div class="col-xl-9">
+                            <div id="list_question" class=" tab-content">
+                                @{
+                                    int step = 1;
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    if (item.type == 0)
+                                    {
+                                        <!--one question-->
+                                        <div class="tab-pane @(step == 1 ? "active" : "")" id="question_@(step)">
+                                            <h4 class="title"><span><span class="no-number">@(step). </span>@item.title</span></h4>
+                                            @*<h5 class="description">Đây là phần description 2</h5>*@
+                                            <div class="answers" data-type="single">
+                                                <!-- Default unchecked -->
+                                                @{ int step_answer = 1;}
+                                                @foreach (var answer in item.answers)
+                                                {
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" class="custom-control-input" id="radio_@(step)_@(step_answer)" name="radio_@(step)" value="@(step_answer)">
+                                                        <label class="custom-control-label" for="radio_@(step)_@(step_answer++)">@(answer)</label>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                        <!--one question-->
+                                        <div class="tab-pane @(step == 1 ? "active" : "")" id="question_@(step)">
+                                            <h4 class="title"><span><span class="no-number">@(step). </span>@item.title</span></h4>
+                                            @*<h5 class="description">Đây là phần description 1</h5>*@
+                                            <div class="answers" data-type="multiple">
+                                                @{ int step_answer = 1;}
+                                                @foreach (var answer in item.answers)
+                                                {
+                                                    <div class="checkbox">
+                                                        <label><input type="checkbox" value="@(step_answer++)"><span>@(answer)</span></label>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                                        }
+                                                        step++;
+                                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    else {
+                        <h3>No Question in this Compete</h3>
+                    }
+
+                </div>
+            </div>
+
+
+            <!--filter-->
+            <div class="col-3 contest-filter">
+                <div class="one-filter">
+                    <h6 class="label">STATUS</h6>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="status_easy" checked>
+                        <label class="custom-control-label" for="status_easy">Unjoined</label>
+                    </div>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="status_normal">
+                        <label class="custom-control-label" for="status_normal">Joined</label>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="one-filter">
+                    <h6 class="label">DIFFICULTY</h6>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="difficult_easy" checked>
+                        <label class="custom-control-label" for="difficult_easy">Easy</label>
+                    </div>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="difficult_normal">
+                        <label class="custom-control-label" for="difficult_normal">Normal</label>
+                    </div>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="difficult_hard">
+                        <label class="custom-control-label" for="difficult_hard">hard</label>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="one-filter">
+                    <h6 class="label">LANGUAGE</h6>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" checked>
+                        <label class="custom-control-label" for="difficult_easy">C++</label>
+                    </div>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input">
+                        <label class="custom-control-label" for="difficult_normal">CSharp</label>
+                    </div>
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input">
+                        <label class="custom-control-label" for="difficult_hard">Java</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+@*Custome JS*@
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            var $a = $(".tabs li");
+            $a.click(function () {
+                $a.removeClass("active");
+                $(this).addClass("active");
+            });
+        });
+
+
+        $("#btn_submit_answers").click(function () {
+            var answers_result = [];
+            $('#list_question').children('div').each(function () {
+                let answers = $(this).children('.answers');
+                let type = answers.data('type');
+                let answer = [];
+                if (type == "multiple") {
+                    answers.children('.checkbox').each(function () {
+                        let key = $(this).children('label').children('input');
+                        if (key.is(":checked")) {
+                            answer.push(key.val());
+                        }
+                    });
+                }
+                if (type == "single") {
+                    answers.children('.custom-radio').each(function () {
+                        let key = $(this).children('input');
+                        if (key.is(":checked")) {
+                            answer.push(key.val());
+                        }
+                    });
+                }
+                answers_result.push(answer);
+                //console.log(type); // "this" is the current element in the loop
+            });
+            console.log(JSON.stringify(answers_result));
+        });
+
+
+    </script>
+
+}
+
