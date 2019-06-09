@@ -206,6 +206,7 @@ CREATE TABLE QUESTION_ANSWER(    --Lưu trữ câu trả lời của user với 
 	Result				int				NOT NULL,		--kết quả câu trả lời
 	TimeDone			datetime		NOT NULL,		--thời gian nộp bài
 
+	PRIMARY KEY (QuestionID, UserId),
 	foreign key (QuestionID)	references QUESTION(ID),
 	foreign key (UserId)		references USER_INFO(ID)
 );

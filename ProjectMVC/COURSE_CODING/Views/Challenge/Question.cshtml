@@ -68,7 +68,7 @@
                                             @*<h5 class="description">Đây là phần description 2</h5>*@
                                             <div class="answers" data-type="single">
                                                 <!-- Default unchecked -->
-                                                @{ int step_answer = 1;}
+                                                @{ int step_answer = 0;}
                                                 @foreach (var answer in item.answers)
                                                 {
                                                     <div class="custom-control custom-radio">
@@ -86,7 +86,7 @@
                                             <h4 class="title"><span><span class="no-number">@(step). </span>@item.title</span></h4>
                                             @*<h5 class="description">Đây là phần description 1</h5>*@
                                             <div class="answers" data-type="multiple">
-                                                @{ int step_answer = 1;}
+                                                @{ int step_answer = 0;}
                                                 @foreach (var answer in item.answers)
                                                 {
                                                     <div class="checkbox">
@@ -98,7 +98,6 @@
                                                         }
                                                         step++;
                                                     }
-                                }
                             </div>
                         </div>
                     </div>
@@ -209,8 +208,20 @@
                     });
                 }
                 answers_result.push(answer);
-                //console.log(type); // "this" is the current element in the loop
+                
             });
+
+            //send to server
+            $.ajax({
+                method: "POST",
+                url: "/Compete/@(ViewBag.competeID)/Question/Submit",
+                data: {
+                    answer: JSON.stringify(answers_result)
+                }
+            })
+                .done(function (msg) {
+                    console.log(msg);
+                });
             console.log(JSON.stringify(answers_result));
         });
 

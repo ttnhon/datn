@@ -65,7 +65,7 @@ namespace DAO.DAO
         }
 
         /// <summary>
-        /// Get one challenge
+        /// Get all question in compete
         /// </summary>
         /// <param name=""></param>
         /// <returns></returns>

@@ -57,7 +57,7 @@ namespace COURSE_CODING.Controllers
             List<QuestionModel> model = new List<QuestionModel>();
 
             //Fill data
-            var questions = (new QuestionDAO()).GetAllByChallengeID(id);
+            var questions = (new QuestionDAO()).GetAllByCompeteID(id);
             foreach (var question in questions)
             {
                 QuestionModel one = new QuestionModel();
@@ -66,8 +66,61 @@ namespace COURSE_CODING.Controllers
                 one.answers = JsonConvert.DeserializeObject(question.Choise);
                 model.Add(one);
             }
-
+            ViewBag.competeID = id;
             return View("Question", model);
+        }
+
+        //Helper Match 2 array
+        protected bool isMatchArray(dynamic a, dynamic b)
+        {
+            if (a.Count != b.Count)
+            {
+                return false;
+            }
+            for (int i = 0; i < a.Count; i++)
+            {
+                if (a[i] != b[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        [HttpPost]
+        [Route("Compete/{id}/Question/Submit")]
+        public ActionResult SubmitQuestion(int id)
+        {
+            string data = Request.Form["answer"];
+            dynamic arr_answer = JsonConvert.DeserializeObject(data);
+            List<QUESTION> arr_result = (new QuestionDAO()).GetAllByCompeteID(id);
+
+            if (arr_answer.Count != arr_result.Count)
+            {
+                return Json(new { status = "fail", message = "Questions not match result" });
+            }
+
+            int UserID = this.GetLoginID();
+            QuestionAnswerDAO DAO = new QuestionAnswerDAO();
+            int entity_result = 0;
+            for (int i = 0; i < arr_result.Count; i++)
+            {
+                dynamic one_result = JsonConvert.DeserializeObject(arr_result[i].Result);
+                dynamic one_answer = arr_answer[i];
+                if (this.isMatchArray(one_result, one_answer))
+                {
+                    entity_result = 1;
+                }
+
+                QUESTION_ANSWER entity = new QUESTION_ANSWER();
+                entity.UserId = UserID;
+                entity.TimeDone = DateTime.Now;
+                entity.QuestionID = arr_result[i].ID;
+                entity.Content = JsonConvert.SerializeObject(arr_answer[i]);
+                entity.Result = entity_result;
+                DAO.Insert(entity);
+            }
+            return Json(data);
         }
 
         public int GetLoginID()
