@@ -73,5 +73,25 @@ namespace DAO.DAO
                 return false;
             }
         }
+
+        public Boolean CanAccess(int competeID, int userID)
+        {
+            var compete = db.COMPETES.Where(table => table.ID == competeID).FirstOrDefault();
+
+            if (compete.IsPublic)
+            {
+                return true;
+            }
+
+            foreach (var participant in compete.COMPETE_PARTICIPANTS)
+            {
+                if (userID == participant.UserID)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

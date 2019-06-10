@@ -16,10 +16,10 @@ namespace DAO.EF
             CHALLENGE_EDITOR = new HashSet<CHALLENGE_EDITOR>();
             COMMENTs = new HashSet<COMMENT>();
             COMPETEs = new HashSet<COMPETE>();
+            COMPETE_PARTICIPANTS = new HashSet<COMPETE_PARTICIPANTS>();
             LIKE_STATUS = new HashSet<LIKE_STATUS>();
-            REPLies = new HashSet<REPLY>();
             QUESTION_ANSWER = new HashSet<QUESTION_ANSWER>();
-            COMPETEs1 = new HashSet<COMPETE>();
+            REPLies = new HashSet<REPLY>();
         }
 
         public int ID { get; set; }
@@ -85,7 +85,13 @@ namespace DAO.EF
         public virtual ICollection<COMPETE> COMPETEs { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<COMPETE_PARTICIPANTS> COMPETE_PARTICIPANTS { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LIKE_STATUS> LIKE_STATUS { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QUESTION_ANSWER> QUESTION_ANSWER { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<REPLY> REPLies { get; set; }
@@ -93,11 +99,5 @@ namespace DAO.EF
         public virtual SCHOOL SCHOOL { get; set; }
 
         public virtual USER_DATA USER_DATA { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QUESTION_ANSWER> QUESTION_ANSWER { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<COMPETE> COMPETEs1 { get; set; }
     }
 }
