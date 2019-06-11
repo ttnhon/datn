@@ -85,3 +85,19 @@ section.header-page {
     background-color: #fff;
     box-shadow: 0.1px 1px 4px 0 #e7eeef;
 }
+
+.tab-pane .no-number {
+    font-size: 1.4rem;
+}
+
+.tab-pane .score {
+    float: right;
+}
+
+.tab-pane .description {
+    padding-left: 40px;
+}
+
+.tab-pane .answers {
+    padding-left: 40px;
+}

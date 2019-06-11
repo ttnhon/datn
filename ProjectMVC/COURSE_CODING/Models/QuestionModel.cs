@@ -14,6 +14,7 @@ namespace COURSE_CODING.Models
         public string title { get; set; }
         public short? type { get; set; }
         public dynamic answers { get; set; }
+        public int score { get; set; }
         public List<int> last_choised = new List<int>();
     }
 }

@@ -73,6 +73,7 @@ namespace COURSE_CODING.Controllers
                 var chosen   = one_question.GetType().GetProperty("Chosen").GetValue(one_question, null);
                 one.title = question.Title;
                 one.type = question.Type;
+                one.score = question.Score;
                 one.answers = JsonConvert.DeserializeObject(question.Choise);
                 if (chosen != null)
                 {

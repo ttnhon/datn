@@ -70,7 +70,11 @@
                                         {
                                             <!--one question-->
                                             <div class="tab-pane @(step == 1 ? "active" : "")" id="question_@(step)">
-                                                <h4 class="title"><span><span class="no-number">@(step). </span>@Html.Raw(HttpUtility.HtmlDecode(item.title))</span></h4>
+                                                <span class="score"><i class="fas fa-check"></i>Score: @item.score</span>
+                                                <h4 class="title"><span class="no-number badge badge-success">@(step).</span></h4>
+                                                <div class="description">
+                                                    @Html.Raw(HttpUtility.HtmlDecode(item.title))
+                                                </div>
                                                 @*<h5 class="description">Đây là phần description 2</h5>*@
                                                 <div class="answers" data-type="single">
                                                     <!-- Default unchecked -->
