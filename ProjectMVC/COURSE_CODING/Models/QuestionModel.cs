@@ -10,10 +10,10 @@ namespace COURSE_CODING.Models
     {
         //public int userId { get; set; }
         //public List<CHALLENGE> lsChallenges { get; set; }
-
-        public int competeID { get; set; }
+        
         public string title { get; set; }
         public short? type { get; set; }
         public dynamic answers { get; set; }
+        public List<int> last_choised = new List<int>();
     }
 }

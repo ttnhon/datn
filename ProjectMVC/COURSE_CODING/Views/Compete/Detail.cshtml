@@ -1,6 +1,6 @@
 ﻿@model COURSE_CODING.Models.CompeteChallengesModel
 @{
-    ViewBag.Title = "Comptete " + Model.compete.Title;
+    ViewBag.Title = "Comptete " + ViewBag.Title;
     Layout = "~/Views/Shared/_User_Layout.cshtml";
 }
 @section CustomCSS
@@ -10,7 +10,12 @@
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 }
-
+@if (ViewBag.CanAccess == false)
+{
+    <h2>Bạn không được mời tham gia vào Compete này!</h2>
+    <h2>405!</h2>
+    return;
+}
 <section class="header-page">
     <div class="container">
         <div class="row">
@@ -34,8 +39,37 @@
         <div class="row">
             <!--                Challenge list-->
             <div class="col-9 challenge-list">
+                @*Question Here*@
+                <div class="tabs">
+                    @{
+                        int count_question = Model.questions.Count;
+                    }
+                    @if (count_question > 0)
+                    {
+                        <h4 class="compete-section-title">Question</h4>
+                        <div class="row base-box">
+                            <div class="col-xl-12">
+                                <ul class="nav nav-pills pagination">
+                                    @for (int i = 0; i < count_question; i++)
+                                    {
+                                        <li class="page-item @(Model.questions[i] == true ? "answered" : "not-answered")"><a class="page-link" href="#question_@(i + 1)" disabled>Câu @(i + 1)</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="sq-div">
+                            <button class="btn btn-outline-success btn-lg solve-question" tabindex="0">
+                                <span class="ui-text" onclick="doQuestion()">Do Questions</span>
+                            </button>
+                        </div>
+                    }
+
+                </div>
+
+                @*Challenge Here*@
                 @if (Model.challenges.Count > 0)
                 {
+                    <h4 class="compete-section-title">Challenge</h4>
                     foreach (var item in Model.challenges)
                     {
                         <!--1 Challenge-->
@@ -106,3 +140,12 @@
         </div>
     </div>
 </section>
+
+@section scripts
+{
+    <script>
+        function doQuestion() {
+            window.location.href = '/Compete/@(ViewBag.competeID)/Question';
+        }
+    </script>
+}

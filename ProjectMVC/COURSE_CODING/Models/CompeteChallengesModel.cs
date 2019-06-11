@@ -12,5 +12,7 @@ namespace COURSE_CODING.Models
         public List<CHALLENGE> challenges = new List<CHALLENGE>();
         public string status { get; set; }
         public string difficulty { get; set; }
+
+        public List<bool> questions = new List<bool>();
     }
 }

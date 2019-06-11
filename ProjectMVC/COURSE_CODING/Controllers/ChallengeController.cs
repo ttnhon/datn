@@ -52,18 +52,36 @@ namespace COURSE_CODING.Controllers
         [Route("Compete/{id}/Question")]
         public ActionResult Question(int id)
         {
+            //Check User permission access to Compete
+            CompeteDAO competeDao = new CompeteDAO();
+            bool can_access = competeDao.CanAccess(id, this.GetLoginID());
+            if (!can_access)
+            {
+                ViewBag.CanAccess = false;
+                return View("Question");
+            }
 
             //Prepare model
             List<QuestionModel> model = new List<QuestionModel>();
-
+            dynamic questions = (new QuestionDAO()).GetAllWithAnswerByCompeteID(id, this.GetLoginID());
             //Fill data
-            var questions = (new QuestionDAO()).GetAllByCompeteID(id);
-            foreach (var question in questions)
+            //var questions = (new QuestionDAO()).GetAllByCompeteID(id);
+            foreach (var one_question in questions)
             {
                 QuestionModel one = new QuestionModel();
+                var question = one_question.GetType().GetProperty("Question").GetValue(one_question, null);
+                var chosen   = one_question.GetType().GetProperty("Chosen").GetValue(one_question, null);
                 one.title = question.Title;
                 one.type = question.Type;
                 one.answers = JsonConvert.DeserializeObject(question.Choise);
+                if (chosen != null)
+                {
+                    dynamic choised = JsonConvert.DeserializeObject(chosen.Content);
+                    foreach (var choise in choised)
+                    {
+                        one.last_choised.Add(Int32.Parse(choise.Value));
+                    }
+                }
                 model.Add(one);
             }
             ViewBag.competeID = id;
@@ -118,12 +136,12 @@ namespace COURSE_CODING.Controllers
                 entity.QuestionID = arr_result[i].ID;
                 entity.Content = JsonConvert.SerializeObject(arr_answer[i]);
                 entity.Result = entity_result;
-                DAO.Insert(entity);
+                bool insert_result = DAO.InsertOrUpdate(entity);
             }
             return Json(data);
         }
 
-        public int GetLoginID()
+        protected int GetLoginID()
         {
             var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
             if (session != null)

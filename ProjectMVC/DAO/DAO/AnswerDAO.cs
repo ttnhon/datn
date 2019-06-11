@@ -50,5 +50,6 @@ namespace DAO.DAO
         {
             return db.ANSWERS.Where(table=>table.ChallengeID==id).Select(u => u.TimeDone).SingleOrDefault();
         }
+      
     }
 }

@@ -6,27 +6,21 @@ namespace DAO.EF
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class QUESTION_ANSWER
+    public partial class COMPETE_PARTICIPANTS
     {
         [Key]
         [Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int QuestionID { get; set; }
+        public int CompeteID { get; set; }
 
         [Key]
         [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int UserId { get; set; }
+        public int UserID { get; set; }
 
-        [Column(TypeName = "ntext")]
-        [Required]
-        public string Content { get; set; }
+        public DateTime? TimeJoined { get; set; }
 
-        public int Result { get; set; }
-
-        public DateTime TimeDone { get; set; }
-
-        public virtual QUESTION QUESTION { get; set; }
+        public virtual COMPETE COMPETE { get; set; }
 
         public virtual USER_INFO USER_INFO { get; set; }
     }

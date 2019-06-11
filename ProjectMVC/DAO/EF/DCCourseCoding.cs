@@ -12,6 +12,8 @@ namespace DAO.EF
         {
         }
 
+        
+
         public virtual DbSet<ADD_DATA> ADD_DATAS { get; set; }
         public virtual DbSet<ANSWER> ANSWERS { get; set; }
         public virtual DbSet<CHALLENGE> CHALLENGES { get; set; }
@@ -20,6 +22,7 @@ namespace DAO.EF
         public virtual DbSet<CHALLENGE_LANGUAGE> CHALLENGE_LANGUAGES { get; set; }
         public virtual DbSet<COMMENT> COMMENTS { get; set; }
         public virtual DbSet<COMPETE> COMPETES { get; set; }
+        public virtual DbSet<COMPETE_PARTICIPANTS> COMPETE_PARTICIPANTSS { get; set; }
         public virtual DbSet<LANGUAGE> LANGUAGES { get; set; }
         public virtual DbSet<LIKE_STATUS> LIKE_STATUS { get; set; }
         public virtual DbSet<QUESTION> QUESTIONS { get; set; }
@@ -29,6 +32,7 @@ namespace DAO.EF
         public virtual DbSet<USER_DATA> USER_DATAS { get; set; }
         public virtual DbSet<USER_INFO> USER_INFOS { get; set; }
         public virtual DbSet<QUESTION_ANSWER> QUESTION_ANSWERS { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -98,14 +102,14 @@ namespace DAO.EF
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<COMPETE>()
-                .HasMany(e => e.QUESTIONs)
+                .HasMany(e => e.COMPETE_PARTICIPANTS)
                 .WithRequired(e => e.COMPETE)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<COMPETE>()
-                .HasMany(e => e.USER_INFO1)
-                .WithMany(e => e.COMPETEs1)
-                .Map(m => m.ToTable("COMPETE_PARTICIPANTS").MapLeftKey("CompeteID").MapRightKey("UserID"));
+                .HasMany(e => e.QUESTIONs)
+                .WithRequired(e => e.COMPETE)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<LANGUAGE>()
                 .HasMany(e => e.CHALLENGE_LANGUAGE)
@@ -193,9 +197,21 @@ namespace DAO.EF
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<USER_INFO>()
+                .HasMany(e => e.COMPETE_PARTICIPANTS)
+                .WithRequired(e => e.USER_INFO)
+                .HasForeignKey(e => e.UserID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<USER_INFO>()
                 .HasMany(e => e.LIKE_STATUS)
                 .WithRequired(e => e.USER_INFO)
                 .HasForeignKey(e => e.OwnerID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<USER_INFO>()
+                .HasMany(e => e.QUESTION_ANSWER)
+                .WithRequired(e => e.USER_INFO)
+                .HasForeignKey(e => e.UserId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<USER_INFO>()
@@ -207,12 +223,6 @@ namespace DAO.EF
             modelBuilder.Entity<USER_INFO>()
                 .HasOptional(e => e.USER_DATA)
                 .WithRequired(e => e.USER_INFO);
-
-            modelBuilder.Entity<USER_INFO>()
-                .HasMany(e => e.QUESTION_ANSWER)
-                .WithRequired(e => e.USER_INFO)
-                .HasForeignKey(e => e.UserId)
-                .WillCascadeOnDelete(false);
         }
     }
 }
