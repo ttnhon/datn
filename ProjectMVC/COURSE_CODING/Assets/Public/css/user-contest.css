@@ -38,6 +38,12 @@ button.btn.btn-outline-success {
     margin: .5rem;
 }
 
+.contest-status .card-title {
+    font-size: 1.1rem;
+    opacity: .7;
+    margin: .5rem;
+}
+
 .contest-link:hover .one-contest-box {
     border: 1px solid black;
 }

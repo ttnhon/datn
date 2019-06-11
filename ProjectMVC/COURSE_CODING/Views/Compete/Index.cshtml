@@ -32,32 +32,71 @@
             <div class="col-9 challenge-list">
                 @if (Model.competes.Count > 0)
                 {
-                    foreach (var item in Model.competes)
-                    {
-                        <!--1 Contest-->
-                        <div class="one-contest-box">
-                            <div class="row">
-                                <div class="col-5 contest-info">
-                                    <h3 class="card-title" title="Regex">@Html.DisplayFor(modelItem => item.Title)</h3>
+                    <div class="joined-list" id="joined-list">
+                        @foreach (var item in Model.competes)
+                        {
+                            <!--1 Contest-->
+                            <div class="one-contest-box">
+                                <div class="row">
+                                    <div class="col-md-4 contest-info">
+                                        <h3 class="card-title" title="Regex">@Html.DisplayFor(modelItem => item.Title)</h3>
+                                    </div>
+                                    <div class="col-md-2 contest-status">
+                                        <h6 class="card-title" title="Regex"><i class="fas fa-check" style="color: lawngreen;"></i> Joined</h6>
+                                    </div>
+                                    <div class="col-md-6 contest-enter">
+                                        <span><strong class="time-happen">Mar 17th, 12:00 am +07</strong><i class="contest-status">Open</i></span>
+                                        @*<a href="" class="btn btn-outline-success">Enter Contest</a>*@
+                                        <button class="btn btn-outline-success" tabindex="0" onclick="location.href='/Compete/Detail/@item.ID'">
+                                            <span class="ui-text">Enter Contest</span>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="col-7 contest-enter">
-                                    <span><strong class="time-happen">Mar 17th, 12:00 am +07</strong><i class="contest-status">Open</i></span>
-                                    @*<a href="" class="btn btn-outline-success">Enter Contest</a>*@
-                                    <button class="btn btn-outline-success" tabindex="0" onclick="location.href='/Compete/Detail/@item.ID'">
-                                        <span class="ui-text">Enter Contest</span>
-                                    </button>
+                                <div class="contest-description" style="display: none;">
+                                    <hr>
+                                    <h5><strong>Description</strong></h5>
+                                    <p>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </p>
                                 </div>
                             </div>
-                            <div class="contest-description" style="display: none;">
-                                <hr>
-                                <h5><strong>Description</strong></h5>
-                                <p>
-                                    @Html.DisplayFor(modelItem => item.Description)
-                                </p>
-                            </div>
-                        </div>
 
-                    }
+                        }
+                    </div>
+                }
+                @if (Model.PublicCompetes.Count > 0)
+                {
+                    <div class="unjoined-list" id="unjoined-list">
+                        @foreach (var item in Model.PublicCompetes)
+                        {
+                            <!--1 Contest-->
+                            <div class="one-contest-box">
+                                <div class="row">
+                                    <div class="col-md-4 contest-info">
+                                        <h3 class="card-title" title="Regex">@Html.DisplayFor(modelItem => item.Title)</h3>
+                                    </div>
+                                    <div class="col-md-2 contest-status">
+                                        <h6 class="card-title" title="Regex">Unjoined</h6>
+                                    </div>
+                                    <div class="col-md-6 contest-enter">
+                                        <span><strong class="time-happen">Mar 17th, 12:00 am +07</strong><i class="contest-status">Open</i></span>
+                                        @*<a href="" class="btn btn-outline-success">Enter Contest</a>*@
+                                        <button class="btn btn-outline-success" tabindex="0" onclick="location.href='/Compete/Detail/@item.ID'">
+                                            <span class="ui-text">Enter Contest</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="contest-description" style="display: none;">
+                                    <hr>
+                                    <h5><strong>Description</strong></h5>
+                                    <p>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </p>
+                                </div>
+                            </div>
+
+                        }
+                    </div>
                 }
             </div>
 
@@ -67,13 +106,13 @@
                     <h6 class="label">STATUS</h6>
                     <!-- Default indeterminate -->
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="status_easy" checked>
-                        <label class="custom-control-label" for="status_easy">Unjoined</label>
+                        <input type="checkbox" class="custom-control-input" id="status_unjoined" name="status" checked>
+                        <label class="custom-control-label" for="status_unjoined">Unjoined</label>
                     </div>
                     <!-- Default indeterminate -->
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="status_normal">
-                        <label class="custom-control-label" for="status_normal">Joined</label>
+                        <input type="checkbox" class="custom-control-input" id="status_joined" name="status" checked>
+                        <label class="custom-control-label" for="status_joined">Joined</label>
                     </div>
                 </div>
                 <hr>
@@ -127,9 +166,14 @@
             $(".one-contest-box").click(function () {
                 $(this).children(".contest-description").slideToggle("slow");
             });
+
+            $("#status_unjoined").change(function () {
+                $('#unjoined-list').fadeToggle();
+            });
+            $("#status_joined").change(function () {
+                $('#joined-list').fadeToggle();
+            });
         });
-
-
     </script>
 
 }

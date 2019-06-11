@@ -31,8 +31,21 @@ namespace DAO.DAO
 
         public List<COMPETE> GetJoined(int id)
         {
-            //no entity
-            return db.COMPETES.Where(table => table.USER_INFO.ID == id).ToList();
+            return db.COMPETE_PARTICIPANTSS.Where(table => table.UserID == id).Select(table=> table.COMPETE).ToList();
+        }
+
+        public List<COMPETE> GetJoinedAndPublic(int id)
+        {
+            return db.COMPETES.GroupJoin(db.COMPETE_PARTICIPANTSS, t => t.ID, p => p.CompeteID, (t, p) => new { t, p })
+                .Where(table => table.t.IsPublic || table.p.FirstOrDefault(list => list.UserID == id) != null)
+                .Select(table => table.t).ToList();
+        }
+
+        public List<COMPETE> GetPublic(int id)
+        {
+            return db.COMPETES.GroupJoin(db.COMPETE_PARTICIPANTSS, t => t.ID, p => p.CompeteID, (t, p) => new { t, p })
+                .Where(table => table.t.IsPublic && table.p.FirstOrDefault(list => list.UserID == id) == null)
+                .Select(table => table.t).ToList();
         }
 
         public List<COMPETE> GetTen(int id)

@@ -104,7 +104,7 @@
         var count = @Model.Questions.Count;
         var answer = @answer;
         var editor = [];
-        window.onload = function SetClassicEditor() {
+        $(document).ready(function () {
             for (var i = 1; i <= count; i++) {
                 ClassicEditor
                     .create(document.querySelector('#description_Input-' + i))
@@ -116,6 +116,9 @@
                     });
             }
         }
+        //window.onload = function SetClassicEditor() {
+            
+        //}
         //SetClassicEditor();
 
         function AddNewAnswer(num) {

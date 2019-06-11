@@ -32,13 +32,17 @@ namespace COURSE_CODING.Controllers
         {
             if (ModelState.IsValid)
             {
+                int userID = this.GetLoginID();
+                if (userID <= 0) return Redirect("Authen/Login");
                 CompeteModel model = new CompeteModel();    //Model
                 //Prepare data
                 CompeteDAO competeDao = new CompeteDAO();
                 LanguageDAO languageDao = new LanguageDAO();
-
-                //model.languages = languageDao.GetList();
-                model.competes = competeDao.GetAll();
+                
+                model.competes = competeDao.GetJoined(userID);
+                model.PublicCompetes = competeDao.GetPublic(userID);
+                //ViewBag.Joined = true;
+                //ViewBag.Unjoined = true;
                 return View(model);
             }
             return View();
