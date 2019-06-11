@@ -24,7 +24,7 @@ namespace COURSE_CODING.Controllers
                 CompeteDAO competeDao = new CompeteDAO();
                 LanguageDAO languageDao = new LanguageDAO();
 
-                model.languages = languageDao.GetList();
+                //model.languages = languageDao.GetList();
                 model.competes = competeDao.GetAll();
                 return View(model);
             }

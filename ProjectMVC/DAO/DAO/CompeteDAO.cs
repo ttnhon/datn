@@ -29,6 +29,12 @@ namespace DAO.DAO
             return db.COMPETES.Where(table => table.USER_INFO.ID == id).ToList();
         }
 
+        public List<COMPETE> GetJoined(int id)
+        {
+            //no entity
+            return db.COMPETES.Where(table => table.USER_INFO.ID == id).ToList();
+        }
+
         public List<COMPETE> GetTen(int id)
         {
             return db.COMPETES.Where(table => table.USER_INFO.ID == id).Take(10).ToList();
