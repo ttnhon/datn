@@ -83,16 +83,16 @@ namespace COURSE_CODING.Controllers
                 if (!can_access)
                 {
                     ViewBag.CanAccess = false;
-                    return View();
+                    return View("Detail.cshtml");
                 }
 
                 CompeteChallengesModel model = new CompeteChallengesModel();    //Model
 
                 //Prepare data
                 model.compete = competeDao.GetOne(id);
-                model.challenges = new ChallengeDAO().GetAllByCompeteID(id);
 
-                dynamic questions = (new QuestionDAO()).GetAllWithAnswerByCompeteID(id, this.GetLoginID());
+                //Get list Challenge and check user is solved challenge
+                dynamic questions = (new QuestionDAO()).GetAllWithAnswerByCompeteID(id, userID);
                 foreach (var one_question in questions)         //Check question is answered
                 {
                     var chosen = one_question.GetType().GetProperty("Chosen").GetValue(one_question, null);
@@ -105,9 +105,23 @@ namespace COURSE_CODING.Controllers
                         model.questions.Add(true);
                     }
                 }
+                //Get list Challenge and check user is solved challenge
+                dynamic challenges = new ChallengeDAO().GetAllWithAnswerByCompeteID(id, userID);
+                foreach (var challenge in challenges)         //Parse data
+                {
+                    UserChallengeStatus one = new UserChallengeStatus();
+                    one.ID = challenge.GetType().GetProperty("ID").GetValue(challenge, null);
+                    one.Title = challenge.GetType().GetProperty("Title").GetValue(challenge, null);
+                    one.Difficulty = challenge.GetType().GetProperty("Difficulty").GetValue(challenge, null);
+                    one.Score = challenge.GetType().GetProperty("Score").GetValue(challenge, null);
+                    one.isSolved = challenge.GetType().GetProperty("isSolved").GetValue(challenge, null);
+                    model.challenges.Add(one);
+                }
+
                 ViewBag.Title = model.compete.Title;
                 ViewBag.CompeteID = id;
-                return View(model);
+                return View("Detail", model);
+                //return Json(model);
             }
             return View();
         }

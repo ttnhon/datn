@@ -44,6 +44,24 @@ namespace DAO.DAO
                 .Select(item => item.p).ToList();
         }
 
+        public dynamic GetAllWithAnswerByCompeteID(int competeID, int userID)
+        {
+            //return db.QUESTIONS.Where(table => table.CompeteID == id).ToList();
+            var challenges = db.CHALLENGE_COMPETES.Where(table => table.CompeteID == competeID)
+                    .Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t, p) => new { t, p })
+                    .Select(item => item.p)
+                      .GroupJoin(db.ANSWERS.Where(table => table.UserId == userID)
+                            , q => q.ID, qa => qa.ChallengeID, (f, b) => new { f, b })
+                            .SelectMany(z => z.b.DefaultIfEmpty(), (z, g) => new {
+                                ID = z.f.ID,
+                                Title = z.f.Title,
+                                Difficulty = z.f.ChallengeDifficulty,
+                                Score = z.f.Score,
+                                isSolved = g == null ? false: true
+                            }).ToList();
+            return challenges;
+        }
+
         /// <summary>
         /// check if is owner
         /// </summary>

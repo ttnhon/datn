@@ -216,6 +216,7 @@
     <Compile Include="Models\ReplyModel.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\TestCaseResultModel.cs" />
+    <Compile Include="Models\UserChallengeStatus.cs" />
     <Compile Include="Models\UserDashboardModel.cs" />
     <Compile Include="Models\UserProfileModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
