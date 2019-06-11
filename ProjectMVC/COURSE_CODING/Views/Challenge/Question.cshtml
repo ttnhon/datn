@@ -31,7 +31,7 @@
         <div class="row">
             <div class="col-6 domain-header">
                 <p class="sub-contest-title">All Contests</p>
-                <h3 class="contest-title">Contests</h3>
+                <h3 class="contest-title">@ViewBag.ContestTile</h3>
             </div>
 
             <div class="col-6">
@@ -70,7 +70,7 @@
                                         {
                                             <!--one question-->
                                             <div class="tab-pane @(step == 1 ? "active" : "")" id="question_@(step)">
-                                                <h4 class="title"><span><span class="no-number">@(step). </span>@item.title</span></h4>
+                                                <h4 class="title"><span><span class="no-number">@(step). </span>@Html.Raw(HttpUtility.HtmlDecode(item.title))</span></h4>
                                                 @*<h5 class="description">Đây là phần description 2</h5>*@
                                                 <div class="answers" data-type="single">
                                                     <!-- Default unchecked -->

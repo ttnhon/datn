@@ -85,6 +85,7 @@ namespace COURSE_CODING.Controllers
                 model.Add(one);
             }
             ViewBag.competeID = id;
+            ViewBag.ContestTile = competeDao.GetOne(id).Title;
             return View("Question", model);
         }
 
