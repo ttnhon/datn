@@ -48,6 +48,27 @@ namespace COURSE_CODING.Controllers
             return View();
         }
 
+        [HttpPost]
+        public JsonResult EnterPublicContest(int id)
+        {
+            CompeteDAO DAO = new CompeteDAO();
+            bool? isPublic = DAO.IsPublic(id);
+            if(isPublic == null)
+            {
+                return Json(new { result = false, msg = "Contest doesn't exist." });
+            }
+            if ((bool)isPublic)
+            {
+                int userID = this.GetLoginID();
+                bool res = DAO.EnterCompete(userID, id);
+                if (res)
+                {
+                    return Json(new { result = true, msg = "Enter contest succeed." });
+                }
+            }
+            return Json(new { result = false, msg = "fail to enter contest." });
+        }
+
         // GET: Compete/Detail/id
         public ActionResult Detail(int id)
         {

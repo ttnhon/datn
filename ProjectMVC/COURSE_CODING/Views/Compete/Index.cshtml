@@ -45,10 +45,10 @@
                                         <h6 class="card-title" title="Regex"><i class="fas fa-check" style="color: lawngreen;"></i> Joined</h6>
                                     </div>
                                     <div class="col-md-6 contest-enter">
-                                        <span><strong class="time-happen">Mar 17th, 12:00 am +07</strong><i class="contest-status">Open</i></span>
-                                        @*<a href="" class="btn btn-outline-success">Enter Contest</a>*@
+                                        <span><strong class="time-happen">@item.TimeEnd.ToString()</strong><i class="contest-status">@(item.TimeEnd > DateTime.Now ? "Open" : "Close")</i></span>
+                                        @*<a href="" class="btn btn-outline-success">Do Contest</a>*@
                                         <button class="btn btn-outline-success" tabindex="0" onclick="location.href='/Compete/Detail/@item.ID'">
-                                            <span class="ui-text">Enter Contest</span>
+                                            <span class="ui-text">Do Contest</span>
                                         </button>
                                     </div>
                                 </div>
@@ -79,9 +79,9 @@
                                         <h6 class="card-title" title="Regex">Unjoined</h6>
                                     </div>
                                     <div class="col-md-6 contest-enter">
-                                        <span><strong class="time-happen">Mar 17th, 12:00 am +07</strong><i class="contest-status">Open</i></span>
+                                        <span><strong class="time-happen">@item.TimeEnd.ToString()</strong><i class="contest-status">@(item.TimeEnd > DateTime.Now ? "Open" : "Close")</i></span>
                                         @*<a href="" class="btn btn-outline-success">Enter Contest</a>*@
-                                        <button class="btn btn-outline-success" tabindex="0" onclick="location.href='/Compete/Detail/@item.ID'">
+                                        <button class="btn btn-outline-success" tabindex="0" onclick="EnterContestBtn(event, @item.ID)">
                                             <span class="ui-text">Enter Contest</span>
                                         </button>
                                     </div>
@@ -174,6 +174,25 @@
                 $('#joined-list').fadeToggle();
             });
         });
+
+        function EnterContestBtn(e, id) {
+            //e.preventDefault();
+            $.ajax({
+                    method: "POST",
+                    url: "/Compete/EnterPublicContest",
+                    data: {
+                        id: id
+                    }
+                })
+                    .done(function (msg) {
+                        if (msg) {
+                            console.log(msg);
+                            if (msg.result) {
+                                window.location.href = '/Compete/Detail/'+ id;
+                            }
+                        }
+                    });
+        }
     </script>
 
 }

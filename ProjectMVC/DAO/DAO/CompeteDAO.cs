@@ -48,6 +48,36 @@ namespace DAO.DAO
                 .Select(table => table.t).ToList();
         }
 
+        public bool EnterCompete(int userID, int competeID)
+        {
+            try
+            {
+                COMPETE_PARTICIPANTS entity = new COMPETE_PARTICIPANTS()
+                {
+                    UserID = userID,
+                    CompeteID = competeID,
+                    TimeJoined = DateTime.Now
+                };
+                db.COMPETE_PARTICIPANTSS.Add(entity);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public bool? IsPublic(int id)
+        {
+            var item = db.COMPETES.Find(id);
+            if(item != null)
+            {
+                return item.IsPublic;
+            }
+            return null;
+        }
+
         public List<COMPETE> GetTen(int id)
         {
             return db.COMPETES.Where(table => table.USER_INFO.ID == id).Take(10).ToList();
