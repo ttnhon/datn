@@ -79,7 +79,22 @@ namespace DAO.DAO
         /// <returns></returns>
         public bool IsEditor(int challengeId, int ownerId)
         {
-            return db.CHALLENGE_EDITORS.Where(table => table.ChallegenID == challengeId && table.EditorID == ownerId).Count() > 0;
+            return db.CHALLENGE_EDITORS.Where(table => table.ChallegenID == challengeId && (table.EditorID == ownerId || table.CHALLENGE.OwnerID == ownerId)).Count() > 0;
+        }
+
+        /// <summary>
+        /// check if is available for user
+        /// </summary>
+        /// <param name="challengeId"></param>
+        /// <returns></returns>
+        public bool IsAvailable(int challengeId, int userId)
+        {
+            return db.CHALLENGES
+                .Where(table => table.ID == challengeId 
+                && (table.IsPublic 
+                || table.OwnerID == userId 
+                || table.CHALLENGE_COMPETE.FirstOrDefault(item => item.ChallengeID == challengeId).COMPETE.COMPETE_PARTICIPANTS.FirstOrDefault(item => item.UserID == userId) != null))
+                .Count() > 0;
         }
 
         /// <summary>

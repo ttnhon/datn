@@ -93,14 +93,19 @@
                                         {
                                             <!--one question-->
                                             <div class="tab-pane @(step == 1 ? "active" : "")" id="question_@(step)">
-                                                <h4 class="title"><span><span class="no-number">@(step). </span>@item.title</span></h4>
+                                                <span class="score"><i class="fas fa-check"></i>Score: @item.score</span>
+                                                <h4 class="title"><span class="no-number badge badge-success">@(step).</span></h4>
                                                 @*<h5 class="description">Đây là phần description 1</h5>*@
+                                                <div class="description">
+                                                    @Html.Raw(HttpUtility.HtmlDecode(item.title))
+                                                </div>
                                                 <div class="answers" data-type="multiple">
                                                     @{ int step_answer = 0;}
                                                     @foreach (var answer in item.answers)
                                                     {
-                                                        <div class="checkbox">
-                                                            <label><input type="checkbox" value="@(step_answer)" @(item.last_choised.Contains(step_answer) ? "checked" : null)><span>@(answer)</span></label>
+                                                        <div class="checkbox custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="checkbox_@(step)_@(step_answer)" value="@(step_answer)" @(item.last_choised.Contains(step_answer) ? "checked" : null)>
+                                                            <label class="custom-control-label" for="checkbox_@(step)_@(step_answer)"><span>@(answer)</span></label>
                                                         </div>
                                                         step_answer++;
                                                     }

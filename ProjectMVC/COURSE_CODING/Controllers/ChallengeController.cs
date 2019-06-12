@@ -20,12 +20,24 @@ namespace COURSE_CODING.Controllers
         [Route("Challenge/{id}/Problem")]
         public ActionResult Problem( int id)
         {
-            
+            int UserID = this.GetLoginID();
             //Prepare model
             ChallengeModel model = new ChallengeModel();
 
             //Fill data
             model.challenge = (new ChallengeDAO()).GetOne(id);
+            //check exist
+            if(model.challenge == null)
+            {
+                return Redirect("/Error/PageNotFound");
+            }
+            //check is available for user (is public or enter compete
+            bool isAvailable = (new ChallengeDAO()).IsAvailable(id, UserID);
+            ViewBag.isAvailable = isAvailable;
+            if (!isAvailable)
+            {
+                return View("Problem");
+            }
             model.OwnerName = (new UserDAO()).GetNameByID(model.challenge.OwnerID);
             model.languages = (new LanguageDAO()).GetByChallengeID(id);
 
