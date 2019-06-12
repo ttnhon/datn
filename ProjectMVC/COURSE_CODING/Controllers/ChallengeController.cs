@@ -16,32 +16,31 @@ namespace COURSE_CODING.Controllers
 {
     public class ChallengeController : BaseController
     {
+
         // GET: Challenge
-        [Route("Challenge/{id}/Problem")]
-        public ActionResult Problem( int id)
+        [Route("Challenge/{challengeID}/Problem")]
+        [Route("Compete/{competeID}/Challenge/{challengeID}/Problem")]
+        public ActionResult Problem( int challengeID, int? competeID)
         {
             int UserID = this.GetLoginID();
-            //Prepare model
-            ChallengeModel model = new ChallengeModel();
 
-            //Fill data
-            model.challenge = (new ChallengeDAO()).GetOne(id);
-            //check exist
-            if(model.challenge == null)
-            {
-                return Redirect("/Error/PageNotFound");
-            }
+            ChallengeDAO challengeDao = new ChallengeDAO();
             //check is available for user (is public or enter compete
-            bool isAvailable = (new ChallengeDAO()).IsAvailable(id, UserID);
-            ViewBag.isAvailable = isAvailable;
-            if (!isAvailable)
+            bool CanAccess = challengeDao.CanAccess(UserID, challengeID, competeID);
+            if (!CanAccess)
             {
+                ViewBag.CanAccess = CanAccess;
                 return View("Problem");
             }
-            model.OwnerName = (new UserDAO()).GetNameByID(model.challenge.OwnerID);
-            model.languages = (new LanguageDAO()).GetByChallengeID(id);
 
-            var cs = (new ChallengeDAO()).GetCodeStubs(id);
+            //Prepare model
+            ChallengeModel model = new ChallengeModel();
+            //Fill data
+            model.challenge = challengeDao.GetOne(challengeID);
+            model.OwnerName = (new UserDAO()).GetNameByID(model.challenge.OwnerID);
+            model.languages = (new LanguageDAO()).GetByChallengeID(challengeID);
+
+            var cs = (new ChallengeDAO()).GetCodeStubs(challengeID);
 
             foreach (var item in cs)
             {
@@ -58,6 +57,8 @@ namespace COURSE_CODING.Controllers
                     model.CodeStubs_Java = item.CodeStub;
                 }
             }
+
+            ViewBag.competeID = competeID;
             return View(model);
         }
 

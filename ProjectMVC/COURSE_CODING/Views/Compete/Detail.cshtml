@@ -82,7 +82,7 @@
                     foreach (var item in Model.challenges)
                     {
                         <!--1 Challenge-->
-                        <a class="challenge-link" href="/Challenge/@Html.DisplayFor(modelItem => item.ID)/Problem">
+                        <a class="challenge-link" href="/Compete/@(ViewBag.competeID)/Challenge/@Html.DisplayFor(modelItem => item.ID)/Problem">
                             <div class="one-challenge-box base-box @(item.isSolved? "solved": null)">
                                 <div class="row">
                                     <div class="col-8 challenge-info">

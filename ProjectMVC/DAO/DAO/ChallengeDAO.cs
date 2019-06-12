@@ -98,6 +98,57 @@ namespace DAO.DAO
         }
 
         /// <summary>
+        /// check challenge is public
+        /// </summary>
+        /// <param name="challengeID"></param>
+        /// <returns></returns>
+        public bool IsPublic(int? challengeID)
+        {
+            if (challengeID == null)
+            {
+                return false;
+            }
+            bool is_public = db.CHALLENGES
+                .Where(table => table.ID == challengeID)
+                .Select(table => table.IsPublic).FirstOrDefault();
+            return is_public;
+        }
+
+        /// <summary>
+        /// check user joined challenge
+        /// </summary>
+        /// <param name="challengeID"></param>
+        /// <returns></returns>
+        public bool IsJoined(int userID, int challengeID, int? competeID)
+        {
+            var count = db.COMPETE_PARTICIPANTSS.Where(cp => cp.CompeteID == competeID && cp.UserID == userID)
+                  .GroupJoin(db.CHALLENGE_COMPETES.Where(cc => cc.ChallengeID == challengeID)
+                        , q => q.CompeteID, qa => qa.CompeteID, (f, b) => new { f, b }).FirstOrDefault();
+            if (count == null || count.b.Count() < 1 )
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// check challenge is public
+        /// </summary>
+        /// <param name="challengeID"></param>
+        /// <returns></returns>
+        public bool CanAccess(int userID, int challengeID, int? competeID)
+        {
+            if (competeID == null)
+            {
+                return this.IsPublic(challengeID);
+            }
+            else
+            {
+                return this.IsJoined(userID, challengeID, competeID);
+            }
+        }
+
+        /// <summary>
         /// Update info challenge
         /// </summary>
         /// <param name="entity"></param>

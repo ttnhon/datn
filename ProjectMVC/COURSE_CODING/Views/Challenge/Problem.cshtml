@@ -14,10 +14,10 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
 }
 
-@if (ViewBag.isAvailable == false)
+@if (ViewBag.CanAccess == false)
 {
     <div style="text-align: center;margin: 0 auto; padding: 30px;">
-        <h2>Bạn không có quyền hiển thị challenge này!</h2>
+        <h2> Challenge không tồn tại hoặc Bạn không được mời làm challenge này!</h2>
         <h2>405!</h2>
     </div>
     return;
