@@ -48,6 +48,44 @@ namespace DAO.DAO
                 .Select(table => table.t).ToList();
         }
 
+        public List<int> GetParticipantList(int id)
+        {
+            return db.COMPETE_PARTICIPANTSS.Where(table => table.CompeteID == id).Select(s => s.UserID).ToList();
+        }
+
+        public Boolean CheckParticipantExist(int id)
+        {
+            return db.COMPETE_PARTICIPANTSS.Count(u => u.UserID == id) > 0;
+        }
+
+        public Boolean InsertParticipant(COMPETE_PARTICIPANTS model)
+        {
+            try
+            {
+                db.COMPETE_PARTICIPANTSS.Add(model);
+                db.SaveChanges();
+                return true;
+
+            } catch(Exception e)
+            {
+                return false;
+            }
+        }
+
+        public Boolean DeleteParticipant(COMPETE_PARTICIPANTS model)
+        {
+            try
+            {
+                db.COMPETE_PARTICIPANTSS.Remove(model);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public bool EnterCompete(int userID, int competeID)
         {
             try

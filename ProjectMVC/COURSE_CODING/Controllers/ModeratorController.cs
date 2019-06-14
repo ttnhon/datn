@@ -66,6 +66,63 @@ namespace COURSE_CODING.Controllers
             return PartialView("_QuestionList", questionList);
         }
 
+        public ActionResult RenderParticipantView(int id)
+        {
+            var competeDAO = new CompeteDAO();
+            var userDAO = new UserDAO();
+            ParticipantList model = new ParticipantList();
+            model.ContestID = id;
+            var participantList = competeDAO.GetParticipantList(id);
+            for(int i=0;i<participantList.Count;i++)
+            {
+                var info = userDAO.GetUserById(participantList[i]);
+
+                Participant p = new Participant();
+                p.ID = info.ID;
+                p.Name = info.UserName;
+                p.Email = info.Email;
+                model.Participants.Add(p);
+            }
+
+            return PartialView("_ParticipantList", model);
+        }
+
+        [HttpPost]
+        public ActionResult SendInvitation(int contestID,string email)
+        {
+            if(email!=null)
+            {
+                var user = (new UserDAO().GetUserByEmail(email));
+                var contest = (new CompeteDAO().GetOne(contestID));
+                string emailHeader = String.Format("{0} invited you to participate in the {1} contest.", user.UserName, contest.Title);
+                string emailContent = String.Format("@{0} has invited you to participant in the {1}contest. You can accept or deline following the link below:/nhttp://localhost:49512/Compete/{2}Invitation", user.UserName, contest.Title, contest.ID);
+                CommonProject.Helper.Email_Helper emailHelper = new CommonProject.Helper.Email_Helper();
+                emailHelper.SendMail(email, emailHeader, emailContent);
+                COMPETE_PARTICIPANTS model = new COMPETE_PARTICIPANTS();
+                model.CompeteID = contestID;
+                model.UserID = user.ID;
+                model.TimeJoined = DateTime.Now;
+                if(new CompeteDAO().CheckParticipantExist(user.ID))
+                {
+                    return Json("This email is exist in this contest! Please enter another email");
+                }
+                var result = (new CompeteDAO().InsertParticipant(model));
+                if (result)
+                {
+                    Participant p = new Participant();
+                    p.ID = user.ID;
+                    p.Name = user.UserName;
+                    p.Email = user.Email;
+                    return Json(p, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("Failt to send invitation");
+                }
+            }
+            return Json("Fail to send invitation");
+        }
+
         public ActionResult CreateCompete()
         {
             CompeteDetailModel model = new CompeteDetailModel();

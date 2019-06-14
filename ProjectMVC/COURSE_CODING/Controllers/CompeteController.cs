@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using COURSE_CODING.Models;
 using DAO.DAO;
+using DAO.EF;
 using Newtonsoft.Json;
 
 namespace COURSE_CODING.Controllers
@@ -122,6 +123,49 @@ namespace COURSE_CODING.Controllers
                 ViewBag.CompeteID = id;
                 return View("Detail", model);
                 //return Json(model);
+            }
+            return View();
+        }
+
+        public ActionResult Invitation(int id)
+        {
+            var loginID = GetLoginID();
+            var competeDAO = new CompeteDAO();
+            var userDAO = new UserDAO();
+            if (competeDAO.CheckParticipantExist(loginID))
+            {
+                ViewBag.CanAccess = true;
+                InvitationModel model = new InvitationModel();
+                var compete = competeDAO.GetOne(id);
+                model.contestID = id;
+                model.contestName = compete.Title;
+                model.contestOwner = userDAO.GetUserById(compete.OwnerID);
+                ViewBag.Title = model.contestName;
+                return View("Invitation", model);
+            }
+            else
+            {
+                ViewBag.Title = "can't access this Compete!";
+                ViewBag.CanAccess = false;
+                return View("Invitation");
+            }
+        }
+
+        public ActionResult AcceptInvitation(int id)
+        {
+            return Redirect("/Compete/Detail/" + id);
+        }
+
+        public ActionResult DeclineInvitation(int id)
+        {
+            var competeDAO = new CompeteDAO();
+            COMPETE_PARTICIPANTS model = new COMPETE_PARTICIPANTS();
+            model.CompeteID = id;
+            model.UserID = GetLoginID();
+            var result = competeDAO.DeleteParticipant(model);
+            if(result)
+            {
+                return View("Index.cshtml");
             }
             return View();
         }
