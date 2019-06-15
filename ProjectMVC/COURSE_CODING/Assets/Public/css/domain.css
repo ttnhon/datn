@@ -5,7 +5,7 @@
 }
 
 .one-challenge-box.base-box.solved {
-    background-color: #00bfff;
+    background-color: #33AD33;
     margin: 2px 0px;
     color: floralwhite;
 }
@@ -44,7 +44,7 @@ li.page-item {
 }
 
 .answered a {
-    background-color: deepskyblue;
+    background-color: #33AD33;
 }
 
 a.page-link {

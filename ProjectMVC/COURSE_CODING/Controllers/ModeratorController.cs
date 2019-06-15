@@ -45,6 +45,19 @@ namespace COURSE_CODING.Controllers
             {
                 CompeteDetailModel model = new CompeteDetailModel();
                 var c = (new CompeteDAO().GetOne(id));
+                //check compete exist
+                if(c == null)
+                {
+                    return Redirect("/Error/PageNotFound");
+                }
+                //check is owner
+                var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+                if (ses.ID != c.OwnerID)
+                {
+                    ViewBag.CanAccess = false;
+                    return View("EditCompete");
+                }
+                ViewBag.CanAccess = true;
                 model.ID = c.ID;
                 model.OwnerID = c.OwnerID;
                 model.Title = c.Title;
@@ -133,6 +146,20 @@ namespace COURSE_CODING.Controllers
         [HttpGet]
         public ActionResult CreateQuestion(int id)
         {
+            var c = new CompeteDAO().GetOne(id);
+            //check compete exist
+            if (c == null)
+            {
+                return Redirect("/Error/PageNotFound");
+            }
+            //check is owner
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            if (ses.ID != c.OwnerID)
+            {
+                ViewBag.CanAccess = false;
+                return View("CreateQuestion");
+            }
+            ViewBag.CanAccess = true;
             //CreateChallengeModel model = new CreateChallengeModel();
             return View(id);
         }
@@ -141,6 +168,19 @@ namespace COURSE_CODING.Controllers
         [HttpGet]
         public ActionResult EditQuestion(int id)
         {
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            //check is compete exist, owner
+            bool? isOwner = new CompeteDAO().IsOwner(id, ses.ID);
+            if(isOwner == null)
+            {
+                return Redirect("/Error/PageNotFound");
+            }
+            if(isOwner == false)
+            {
+                ViewBag.CanAccess = false;
+                return View("EditQuestion");
+            }
+            ViewBag.CanAccess = true;
             QuestionDAO DAO = new QuestionDAO();
             EditQuestionModel model = new EditQuestionModel()
             {

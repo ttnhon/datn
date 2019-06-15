@@ -27,12 +27,6 @@
                     <li class="breadcrumb-item">
                         <a href="#">Pactice</a>
                     </li>
-                    <li class="breadcrumb-item">
-                        <a href="#">C++</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="#">Introduction</a>
-                    </li>
                     <li class="breadcrumb-item active" aria-current="page">
                         @Model.challenge.Title
                     </li>
@@ -42,14 +36,10 @@
             <!--Title-->
             <h1 class="header-title">
                 @Model.challenge.Title
-                <input type="checkbox" id="star-toggle">
-                <label for="star-toggle">
-                    <i class="far fa-star"></i>
-                </label>
             </h1>
 
             <!--Account Detail-->
-            <div class="header-progress">
+            @*<div class="header-progress">
                 <div class="account">
                     <div class="point-wrap">
                         <span class="point">10 more points</span>
@@ -83,7 +73,7 @@
                         <span class="badge-title">cpp</span>
                     </div>
                 </div>
-            </div>
+            </div>*@
         </div>
     </div>
 
@@ -95,9 +85,7 @@
             <div class="tab-wrap">
                 <nav class="navbar navbar-light">
                     <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
-                        <li class="nav-item"><a id="js-problem" class="nav-link" href="/Challenge/@Model.challenge.ID/problem">Problem</a></li>
-                        <li class="nav-item"><a id="js-submission" class="nav-link" href="#">Submissions</a></li>
-                        <li class="nav-item"><a id="js-ldboard" class="nav-link" href="#">Leaderboard</a></li>
+                        <li class="nav-item"><a id="js-problem" class="nav-link" href=@(ViewBag.competeID == null ? "/Challenge/"+Model.challenge.ID+"/problem" : "/Compete/" + ViewBag.competeID + "/Challenge/"+Model.challenge.ID+"/problem")>Problem</a></li>
                         <li class="nav-item active">
                             <a id="js-discussion" class="nav-link" href="#">Discussions</a>
                         </li>
@@ -133,7 +121,7 @@
             </div>
             <!--Right Panel-->
             <div class="right-panel">
-                <div class="sidebar-difficulty-help">
+                @*<div class="sidebar-difficulty-help">
                     <h2>need help?</h2>
                     <hr>
                     <div style="margin-bottom:20px;">
@@ -151,7 +139,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </div>
         </div>
     </div>

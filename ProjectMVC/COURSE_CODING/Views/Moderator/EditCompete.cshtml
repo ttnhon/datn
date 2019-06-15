@@ -4,6 +4,16 @@
     ViewBag.Title = "Edit Compete";
     Layout = "~/Views/Shared/_User_Layout.cshtml";
 }
+
+@if (ViewBag.CanAccess == false)
+{
+    <div style="text-align: center;margin: 0 auto; padding: 30px;">
+        <h2>You don't have permission to view this page</h2>
+        <h2>405!</h2>
+    </div>
+    return;
+}
+
 @section CustomCSS
 {
     @Styles.Render("~/Assets/Public/css/create-challenge.css")
@@ -46,7 +56,7 @@
     <br />
 
     <section class="tab-section">
-        @Html.Partial("_CompeteDetail",Model)
+        @Html.Partial("_CompeteDetail", Model)
     </section>
 </div>
 <div style="height: 100px;">

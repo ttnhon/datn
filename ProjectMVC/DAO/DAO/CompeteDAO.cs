@@ -116,6 +116,21 @@ namespace DAO.DAO
             return null;
         }
 
+        public bool? IsOwner(int competeID, int userID)
+        {
+            var item = db.COMPETES.Find(competeID);
+            if (item != null)
+            {
+                return item.OwnerID == userID;
+            }
+            return null;
+        }
+
+        public List<USER_INFO> GetParticipants(int id)
+        {
+            return db.COMPETE_PARTICIPANTSS.Where(table => table.CompeteID == id).Select(item => item.USER_INFO).ToList();
+        }
+
         public List<COMPETE> GetTen(int id)
         {
             return db.COMPETES.Where(table => table.USER_INFO.ID == id).Take(10).ToList();

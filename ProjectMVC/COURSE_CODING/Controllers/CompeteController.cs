@@ -127,6 +127,58 @@ namespace COURSE_CODING.Controllers
             return View();
         }
 
+        // GET: Compete/{id}/Score
+        [Route("Compete/{id}/Score")]
+        public ActionResult Score(int id)
+        {
+            int userID = this.GetLoginID();
+            CompeteDAO DAO = new CompeteDAO();
+            //check compete exist
+            var compete = DAO.GetOne(id);
+            if(compete == null)
+            {
+                return Redirect("/Error/PageNotFound");
+            }
+            //check is owner
+            if(compete.OwnerID != userID)
+            {
+                ViewBag.CanAccess = false;
+                return View("Score");
+            }
+            ViewBag.CanAccess = true;
+            List<UserScore> Model = new List<UserScore>();
+            //get list participants
+            var paticipants = DAO.GetParticipants(id);
+            foreach (var item in paticipants)
+            {
+                UserScore temp = new UserScore();
+                temp.Name = item.FirstName + item.LastName;
+                temp.PhotoUrl = item.PhotoURL;
+                //get score question
+                temp.QuestionDone = 0;
+                temp.ScoreQuestion = 0;
+                dynamic questions = (new QuestionDAO()).GetAllWithAnswerByCompeteID(id, this.GetLoginID());
+                
+                foreach (var one_question in questions)
+                {
+                    var question = one_question.GetType().GetProperty("Question").GetValue(one_question, null);
+                    var chosen = one_question.GetType().GetProperty("Chosen").GetValue(one_question, null);
+                    
+                    if (chosen != null)
+                    {
+                        temp.QuestionDone++;
+                        if (chosen.Result)
+                        {
+                            temp.ScoreQuestion += question.Score;
+                        }
+                    }
+                }
+                //get score challenge
+                temp.ScoreChalenge = 0;
+            }
+            return View(Model);
+        }
+
         public ActionResult Invitation(int id)
         {
             var loginID = GetLoginID();

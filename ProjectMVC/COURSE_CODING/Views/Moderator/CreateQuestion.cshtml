@@ -3,61 +3,71 @@
     ViewBag.Title = "Create Question";
     Layout = "~/Views/Shared/_User_Layout.cshtml";
 }
+
+@if (ViewBag.CanAccess == false)
+{
+    <div style="text-align: center;margin: 0 auto; padding: 30px;">
+        <h2>You don't have permission to view this page</h2>
+        <h2>405!</h2>
+    </div>
+    return;
+}
+
 @section CustomCSS
 {
     @Styles.Render("~/Assets/Public/css/create-question.css")
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
 }
-    <div class="container">
-        <h1 class="title">Create Question</h1>
-        <div class="question" id="question">
-            <div class="ques-item">
-                <h3>Question 1</h3>
-                <div class="form-group row">
-                    <label class="col-sm-2 control-label" for="choice-1">Type</label>
-                    <div class="col-sm-4">
-                        <select class="form-control" id="choice-1" onchange="onChoiceChange(1, this)">
-                            <option value="single">single</option>
-                            <option value="multiple">multiple</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 control-label" for="score_Input-1">Score</label>
-                    <div class="col-sm-4">
-                        <input class="form-control" id="score_Input-1" type="number">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 control-label" for="description_Input-1">Description</label>
-                    <div class="col-sm-8">
-                        <textarea class="form-control" rows="4" id="description_Input-1"></textarea>
-                    </div>
-                </div>
-                <div class="answer">
-                    <h6>Add answer for question (choose the the right answer on the left)</h6>
-                    <div class="list" id="answer-list-1">
-                        <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" id="1-answer-1" name="answer-1" checked>
-                            <label class="custom-control-label" for="1-answer-1">
-                                <input class="form-control" id="1-ques-1" type="text">
-                            </label>
-                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
-                               class="remove-option"><i class="fas fa-times"></i></a>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-success" onclick="AddNewAnswer(1)">Add</button>
+<div class="container">
+    <h1 class="title">Create Question</h1>
+    <div class="question" id="question">
+        <div class="ques-item">
+            <h3>Question 1</h3>
+            <div class="form-group row">
+                <label class="col-sm-2 control-label" for="choice-1">Type</label>
+                <div class="col-sm-4">
+                    <select class="form-control" id="choice-1" onchange="onChoiceChange(1, this)">
+                        <option value="single">single</option>
+                        <option value="multiple">multiple</option>
+                    </select>
                 </div>
             </div>
-        </div>
-        <div class="save-change-btn-group">
-            <button class="btn btn-success" id="js-save-changes-btn" onclick="Submit()">Save Changes</button>
-            <button type="button" class="btn btn-success" onclick="AddNewQuestion()">New question</button>
-        </div>
-        <div style="height: 100px;">
-
+            <div class="form-group row">
+                <label class="col-sm-2 control-label" for="score_Input-1">Score</label>
+                <div class="col-sm-4">
+                    <input class="form-control" id="score_Input-1" type="number">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 control-label" for="description_Input-1">Description</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" rows="4" id="description_Input-1"></textarea>
+                </div>
+            </div>
+            <div class="answer">
+                <h6>Add answer for question (choose the the right answer on the left)</h6>
+                <div class="list" id="answer-list-1">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" id="1-answer-1" name="answer-1" checked>
+                        <label class="custom-control-label" for="1-answer-1">
+                            <input class="form-control" id="1-ques-1" type="text">
+                        </label>
+                        <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                           class="remove-option"><i class="fas fa-times"></i></a>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success" onclick="AddNewAnswer(1)">Add</button>
+            </div>
         </div>
     </div>
+    <div class="save-change-btn-group">
+        <button class="btn btn-success" id="js-save-changes-btn" onclick="Submit()">Save Changes</button>
+        <button type="button" class="btn btn-success" onclick="AddNewQuestion()">New question</button>
+    </div>
+    <div style="height: 100px;">
+
+    </div>
+</div>
 
 @section scripts{
     <script src="~/Assets/Public/vendor/ckeditor5-build-classic/ckeditor.js"></script>
@@ -233,4 +243,4 @@
                     });
         }
     </script>
-    }
+}

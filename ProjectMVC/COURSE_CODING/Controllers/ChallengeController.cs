@@ -59,6 +59,8 @@ namespace COURSE_CODING.Controllers
             }
 
             ViewBag.competeID = competeID;
+            ViewBag.Back = challengeDao.GetBackChallenge((int)competeID, challengeID);
+            ViewBag.Next = challengeDao.GetNextChallenge((int)competeID, challengeID);
             return View(model);
         }
 
@@ -170,7 +172,8 @@ namespace COURSE_CODING.Controllers
         }
 
         [Route("Challenge/{id}/forum")]
-        public ActionResult Discussion(int id)
+        [Route("Compete/{competeID}/Challenge/{id}/forum")]
+        public ActionResult Discussion(int id, int? competeID)
         {
             var models = new CommentListModel();
 
@@ -206,7 +209,7 @@ namespace COURSE_CODING.Controllers
                     models.comments.Add(model);
                 }
             }
-
+            ViewBag.competeID = competeID;
             return View(models);
         }
 
@@ -379,8 +382,10 @@ namespace COURSE_CODING.Controllers
             bool IsEditor = DAO.IsEditor(id, ses.ID);
             if (!IsEditor)
             {
-                return Redirect("User/Dashboard");
+                ViewBag.CanAccess = false;
+                return View("Edit");
             }
+            ViewBag.CanAccess = true;
             CHALLENGE c = DAO.GetOne(id);
             if(c != null)
             {
