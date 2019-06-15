@@ -48,6 +48,7 @@ namespace COURSE_CODING.Controllers
                     u.PasswordUser = HashMD5.HashStringMD5(model.PasswordUser);
                     u.RoleUser = CommonConstant.ROLE_MEMBER;
                     u.Email = model.Email;
+                    u.SchoolID = 1;
                     Boolean result = DAO.Insert(u);
                     if (result)
                     {
@@ -171,6 +172,7 @@ namespace COURSE_CODING.Controllers
         public ActionResult FacebookCallback(string code)
         {
             var fa = new FacebookClient();
+            var DAO = new UserDAO();
             dynamic result = fa.Post("oauth/access_token", new
             {
                 client_id = ConfigurationManager.AppSettings["FbAppId"],
@@ -184,22 +186,36 @@ namespace COURSE_CODING.Controllers
                 fa.AccessToken = accessToken;
                 dynamic me = fa.Get("me?fields=first_name,middle_name,last_name,id,email");
                 string email = me.email;
-                string userName = me.email;
+                string id = me.id;
                 string firstName = me.first_name;
                 string middleName = me.middle_name;
                 string lastName = me.last_name;
-                var user = new USER_INFO();
-                user.FirstName = firstName;
-                user.LastName = lastName;
-                if (email == null) email = string.Empty;
-                user.Email = email;
-                user.RoleUser = CommonConstant.ROLE_MEMBER;
-                user.StatusUser = CommonConstant.STATUS_RIGHT_ACCOUNT;
-                user.UserName = firstName + " " + middleName + " " + lastName;
-                user.PasswordUser = "123456";
-               
-                // user.CreateDate= DateTime.Now;
-                Boolean canLogin = new UserDAO().Insert(user);
+                string userName = firstName + " " + middleName + " " + lastName;
+                var user = DAO.GetByName(userName);
+                Boolean canLogin = false;
+                if (user == null)
+                {
+                    user = new USER_INFO();
+                    string ID = Guid.NewGuid().ToString();
+                    user.FirstName = firstName;
+                    user.LastName = lastName;
+                    if (email == null)
+                    {
+                        email = ID + "gmail.com";
+                    }
+                    user.Email = email;
+                    user.RoleUser = CommonConstant.ROLE_MEMBER;
+                    user.StatusUser = CommonConstant.STATUS_RIGHT_ACCOUNT;
+                    user.UserName = firstName + " " + middleName + " " + lastName;
+                    user.PasswordUser = "123456";
+                    user.CreateDate = DateTime.Now;
+                    user.SchoolID = 1;
+                    canLogin = new UserDAO().Insert(user);
+                }
+                else
+                {
+                    canLogin = true;
+                }
                 if (canLogin.Equals(true))
                 {
                     var userSession = new InfoLogIn();
@@ -214,7 +230,6 @@ namespace COURSE_CODING.Controllers
             }
             return Redirect("/");
         }
-
         /// <summary>
         /// object help catch data call back 
         /// </summary>

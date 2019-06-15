@@ -120,8 +120,11 @@ namespace WebAPI.Controllers
         {
             try
             {
+                string code = source.stringSource;
                 StringBuilder resultCompiler = new StringBuilder();
                 String fileName = "Outputcshap"+Guid.NewGuid().ToString();
+                //Change code
+                code = this.ChangeCode(code, "", fileName);
                 String pathFolder = System.AppDomain.CurrentDomain.BaseDirectory + @"App_Data\Code_File\Csharp\";
                 String outputCompiler = pathFolder+fileName;
                 Dictionary<string, string> resultAPI = new Dictionary<string, string>();
@@ -129,7 +132,7 @@ namespace WebAPI.Controllers
                 {
                     w.WriteLine(source.stringSource); 
                 }
-
+                
                 CSharpCodeProvider ccp = new CSharpCodeProvider();
                 CompilerParameters parameters = new CompilerParameters(new[] { Constant.MSCOR_LIB,
                 Constant.CORE_LIB }, outputCompiler, true);
@@ -164,6 +167,15 @@ namespace WebAPI.Controllers
             {
                 return BadRequest(e.ToString());
             }
+        }
+        //Change file input name to full path
+        protected string ChangeCode(string Code, string className, string inputFileName)
+        {
+            string app_path = AppDomain.CurrentDomain.BaseDirectory;
+            string input_file_path = app_path + Constant.TESTCASE_DIR + inputFileName;
+            input_file_path = input_file_path.Replace("\\", "/");
+            Code = Code.Replace("INPUT_FILE_NAME", input_file_path);
+            return Code;
         }
     }
 }
