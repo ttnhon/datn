@@ -185,7 +185,6 @@
     <Compile Include="Controllers\CompeteController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LiveCodeController.cs" />
     <Compile Include="Controllers\ManageChallengeController.cs" />
     <Compile Include="Controllers\ModeratorController.cs" />
@@ -501,6 +500,9 @@
     <Content Include="Assets\Public\vendor\ckeditor5-build-classic\LICENSE.md" />
     <Content Include="Assets\Public\vendor\ckeditor5-build-classic\README.md" />
     <Content Include="Areas\Admin\Views\User\Mail.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\About.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Contact.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -523,10 +525,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Domain\Index.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
     <Content Include="Views\Compete\Index.cshtml" />
@@ -556,7 +554,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Views\BaseAdmin\" />
     <Folder Include="Areas\Admin\Views\Base\" />
-    <Folder Include="Areas\Admin\Views\Home\" />
     <Folder Include="Assets\File_Resource\Code_File\" />
     <Folder Include="Views\BaseModerator\" />
     <Folder Include="Views\BaseStudent\" />

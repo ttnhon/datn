@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CommonProject.Helper;
+using COURSE_CODING.Models;
 
 namespace COURSE_CODING.Areas.Admin.Controllers
 {
@@ -13,6 +16,61 @@ namespace COURSE_CODING.Areas.Admin.Controllers
         {
             ViewBag.Title = "Dash board";
             return View();
+        }
+        public ActionResult Contact()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SendMail(EmailModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    string name = model.Name.ToString();
+                    string phone = model.Mobile.ToString();
+                    string email = model.Email.ToString();
+                    string Text = model.Content.ToString();
+                    string content = System.IO.File.ReadAllText(Server.MapPath("~/Assets/Page/pages/ContentMail.html"));
+                    content = content.Replace("{{CustomerName}}", name);
+                    content = content.Replace("{{Phone}}", phone);
+                    content = content.Replace("{{Email}}", email);
+                    content = content.Replace("{{Content}}", Text);
+                    var toEmail = ConfigurationManager.AppSettings["ToEmailAddress"].ToString();
+                    new Email_Helper().SendMail(email, "Invitation from coursecoding", content);
+                    SetAlert("Send mail successfull", "success");
+                }
+
+            }
+            catch (Exception ex)
+
+            {
+                SetAlert("Send mail fail", "error");
+            }
+            return View("Mail");
+        }
+        public ActionResult About()
+        {
+            ViewBag.title = "About";
+            return View();
+        }
+        protected void SetAlert(string message, string type)
+        {
+            TempData["AlertMessage"] = message;
+            if (type == "success")
+            {
+                TempData["AlertType"] = "alert-success";
+            }
+            else if (type == "warning")
+            {
+                TempData["AlertType"] = "alert-warning";
+            }
+            else if (type == "error")
+            {
+                TempData["AlertType"] = "alert-danger";
+            }
         }
 
         // GET: Admin/Home/Details/5
