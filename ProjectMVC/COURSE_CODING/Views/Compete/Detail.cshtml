@@ -1,6 +1,6 @@
 ﻿@model COURSE_CODING.Models.CompeteChallengesModel
 @{
-    ViewBag.Title = "Comptete " + Model.compete.Title;
+    ViewBag.Title = "Comptete " + ViewBag.Title;
     Layout = "~/Views/Shared/_User_Layout.cshtml";
 }
 @section CustomCSS
@@ -10,7 +10,12 @@
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 }
-
+@if (ViewBag.CanAccess == false)
+{
+    <h2>Bạn không được mời tham gia vào Compete này!</h2>
+    <h2>405!</h2>
+    return;
+}
 <section class="header-page">
     <div class="container">
         <div class="row">
@@ -34,19 +39,69 @@
         <div class="row">
             <!--                Challenge list-->
             <div class="col-9 challenge-list">
+                @*Question Here*@
+                <div class="tabs">
+                    @{
+                        int count_question = Model.questions.Count;
+                        int count_done = 0;
+                        foreach (var item in Model.questions)
+                        {
+                            if (item == true)
+                            {
+                                count_done++;
+                            }
+                        }
+                    }
+                    @if (count_question > 0)
+                    {
+                        <h4 class="compete-section-title">Question</h4>
+                        <div class="row base-box">
+                            <div class="col-xl-12">
+                                <h5><i>Bạn đã hoàn thành @(count_done)/@(count_question) câu hỏi</i></h5>
+                                <ul class="nav nav-pills pagination">
+                                    @for (int i = 0; i < count_question; i++)
+                                    {
+                                        <li class="page-item @(Model.questions[i] == true ? "answered" : "not-answered")"><a class="page-link" href="#question_@(i + 1)" disabled>Câu @(i + 1)</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="sq-div">
+                            <button class="btn btn-outline-success btn-lg solve-question" tabindex="0">
+                                <span class="ui-text" onclick="doQuestion()"> @(count_done > 0 ? "Continue" : null) Do Questions</span>
+                            </button>
+                        </div>
+                    }
+
+                </div>
+
+                @*Challenge Here*@
                 @if (Model.challenges.Count > 0)
                 {
+                    <h4 class="compete-section-title">Challenge</h4>
                     foreach (var item in Model.challenges)
                     {
                         <!--1 Challenge-->
-                        <a class="challenge-link" href="/Challenge/@Html.DisplayFor(modelItem => item.ID)/Problem">
-                            <div class="one-challenge-box base-box">
+                        <a class="challenge-link" href="/Compete/@(ViewBag.competeID)/Challenge/@Html.DisplayFor(modelItem => item.ID)/Problem">
+                            <div class="one-challenge-box base-box @(item.isSolved? "solved": null)">
                                 <div class="row">
                                     <div class="col-8 challenge-info">
                                         <h3 class="card-title" title="Regex">@Html.DisplayFor(modelItem => item.Title)</h3>
                                         <div class="card-detail">
                                             <p class="challenge-detail">
-                                                <span class="challenge-difficult">@Html.DisplayFor(modelItem => item.ChallengeDifficulty) </span>
+                                                <span class="challenge-difficult">
+                                                    @if (item.Difficulty == 0)
+                                                    {
+                                                        <span class="challenge-difficult difficulty-easy">Easy </span>
+                                                    }
+                                                    else if (item.Difficulty == 1)
+                                                    {
+                                                        <span class="challenge-difficult difficulty-medium">Medium </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="challenge-difficult difficulty-hard">Hard </span>
+                                                    }</span>
                                                 <span>&nbsp;</span>
                                                 <span>Max score: @Html.DisplayFor(modelItem => item.Score)</span>
                                             </p>
@@ -106,3 +161,12 @@
         </div>
     </div>
 </section>
+
+@section scripts
+{
+    <script>
+        function doQuestion() {
+            window.location.href = '/Compete/@(ViewBag.competeID)/Question';
+        }
+    </script>
+}

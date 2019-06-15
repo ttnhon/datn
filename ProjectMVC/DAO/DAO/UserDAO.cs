@@ -37,6 +37,10 @@ namespace DAO.DAO
             return db.USER_INFOS.Count(u => u.Email == email) > 0;
         }
 
+        public USER_INFO GetUserByEmail(string email)
+        {
+            return db.USER_INFOS.Where(u => u.Email == email).FirstOrDefault();
+        }
         /// <summary>
         /// insert information of user in database
         /// </summary>

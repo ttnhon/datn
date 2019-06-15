@@ -16,20 +16,31 @@ namespace COURSE_CODING.Controllers
 {
     public class ChallengeController : BaseController
     {
+
         // GET: Challenge
-        [Route("Challenge/{id}/Problem")]
-        public ActionResult Problem( int id)
+        [Route("Challenge/{challengeID}/Problem")]
+        [Route("Compete/{competeID}/Challenge/{challengeID}/Problem")]
+        public ActionResult Problem( int challengeID, int? competeID)
         {
-            
+            int UserID = this.GetLoginID();
+
+            ChallengeDAO challengeDao = new ChallengeDAO();
+            //check is available for user (is public or enter compete
+            bool CanAccess = challengeDao.CanAccess(UserID, challengeID, competeID);
+            if (!CanAccess)
+            {
+                ViewBag.CanAccess = CanAccess;
+                return View("Problem");
+            }
+
             //Prepare model
             ChallengeModel model = new ChallengeModel();
-
             //Fill data
-            model.challenge = (new ChallengeDAO()).GetOne(id);
+            model.challenge = challengeDao.GetOne(challengeID);
             model.OwnerName = (new UserDAO()).GetNameByID(model.challenge.OwnerID);
-            model.languages = (new LanguageDAO()).GetByChallengeID(id);
+            model.languages = (new LanguageDAO()).GetByChallengeID(challengeID);
 
-            var cs = (new ChallengeDAO()).GetCodeStubs(id);
+            var cs = (new ChallengeDAO()).GetCodeStubs(challengeID);
 
             foreach (var item in cs)
             {
@@ -46,27 +57,51 @@ namespace COURSE_CODING.Controllers
                     model.CodeStubs_Java = item.CodeStub;
                 }
             }
+
+            ViewBag.competeID = competeID;
+            ViewBag.Back = challengeDao.GetBackChallenge((int)competeID, challengeID);
+            ViewBag.Next = challengeDao.GetNextChallenge((int)competeID, challengeID);
             return View(model);
         }
 
         [Route("Compete/{id}/Question")]
         public ActionResult Question(int id)
         {
+            //Check User permission access to Compete
+            CompeteDAO competeDao = new CompeteDAO();
+            bool can_access = competeDao.CanAccess(id, this.GetLoginID());
+            if (!can_access)
+            {
+                ViewBag.CanAccess = false;
+                return View("Question");
+            }
 
             //Prepare model
             List<QuestionModel> model = new List<QuestionModel>();
-
+            dynamic questions = (new QuestionDAO()).GetAllWithAnswerByCompeteID(id, this.GetLoginID());
             //Fill data
-            var questions = (new QuestionDAO()).GetAllByCompeteID(id);
-            foreach (var question in questions)
+            //var questions = (new QuestionDAO()).GetAllByCompeteID(id);
+            foreach (var one_question in questions)
             {
                 QuestionModel one = new QuestionModel();
+                var question = one_question.GetType().GetProperty("Question").GetValue(one_question, null);
+                var chosen   = one_question.GetType().GetProperty("Chosen").GetValue(one_question, null);
                 one.title = question.Title;
                 one.type = question.Type;
+                one.score = question.Score;
                 one.answers = JsonConvert.DeserializeObject(question.Choise);
+                if (chosen != null)
+                {
+                    dynamic choised = JsonConvert.DeserializeObject(chosen.Content);
+                    foreach (var choise in choised)
+                    {
+                        one.last_choised.Add(Int32.Parse(choise.Value));
+                    }
+                }
                 model.Add(one);
             }
             ViewBag.competeID = id;
+            ViewBag.ContestTile = competeDao.GetOne(id).Title;
             return View("Question", model);
         }
 
@@ -118,12 +153,12 @@ namespace COURSE_CODING.Controllers
                 entity.QuestionID = arr_result[i].ID;
                 entity.Content = JsonConvert.SerializeObject(arr_answer[i]);
                 entity.Result = entity_result;
-                DAO.Insert(entity);
+                bool insert_result = DAO.InsertOrUpdate(entity);
             }
             return Json(data);
         }
 
-        public int GetLoginID()
+        protected int GetLoginID()
         {
             var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
             if (session != null)
@@ -137,7 +172,8 @@ namespace COURSE_CODING.Controllers
         }
 
         [Route("Challenge/{id}/forum")]
-        public ActionResult Discussion(int id)
+        [Route("Compete/{competeID}/Challenge/{id}/forum")]
+        public ActionResult Discussion(int id, int? competeID)
         {
             var models = new CommentListModel();
 
@@ -173,7 +209,7 @@ namespace COURSE_CODING.Controllers
                     models.comments.Add(model);
                 }
             }
-
+            ViewBag.competeID = competeID;
             return View(models);
         }
 
@@ -346,8 +382,10 @@ namespace COURSE_CODING.Controllers
             bool IsEditor = DAO.IsEditor(id, ses.ID);
             if (!IsEditor)
             {
-                return Redirect("User/Dashboard");
+                ViewBag.CanAccess = false;
+                return View("Edit");
             }
+            ViewBag.CanAccess = true;
             CHALLENGE c = DAO.GetOne(id);
             if(c != null)
             {

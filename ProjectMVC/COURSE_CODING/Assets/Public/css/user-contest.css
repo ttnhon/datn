@@ -38,6 +38,12 @@ button.btn.btn-outline-success {
     margin: .5rem;
 }
 
+.contest-status .card-title {
+    font-size: 1.1rem;
+    opacity: .7;
+    margin: .5rem;
+}
+
 .contest-link:hover .one-contest-box {
     border: 1px solid black;
 }
@@ -78,4 +84,20 @@ section.header-page {
     padding: 1rem 0;
     background-color: #fff;
     box-shadow: 0.1px 1px 4px 0 #e7eeef;
+}
+
+.tab-pane .no-number {
+    font-size: 1.4rem;
+}
+
+.tab-pane .score {
+    float: right;
+}
+
+.tab-pane .description {
+    padding-left: 40px;
+}
+
+.tab-pane .answers {
+    padding-left: 40px;
 }

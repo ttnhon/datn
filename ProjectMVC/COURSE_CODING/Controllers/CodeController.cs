@@ -54,19 +54,19 @@ namespace COURSE_CODING.Controllers
             }
 
             //save submit to DB
-            //if (count_success == test_cases.Count())
-            //{
-            //    ANSWER answer = new ANSWER()
-            //    {
-            //        ChallengeID = challengeID,
-            //        UserId = userID,
-            //        Content = Code,
-            //        Result = true,
-            //       // TimeDone = BitConverter.GetBytes((Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds)       //timestamp now
-            //    };
+            if (count_success == test_cases.Count())
+            {
+                ANSWER answer = new ANSWER()
+                {
+                    ChallengeID = challengeID,
+                    UserId = userID,
+                    Content = Code,
+                    Result = true,
+                    TimeDone = DateTime.Now       //timestamp now
+                };
 
-            //    bool insert_status = (new AnswerDAO()).Insert(answer);
-            //}
+                bool insert_status = (new AnswerDAO()).Insert(answer);
+            }
 
             return Json(result);
         }

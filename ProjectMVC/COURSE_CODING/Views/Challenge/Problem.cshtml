@@ -14,6 +14,14 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
 }
 
+@if (ViewBag.CanAccess == false)
+{
+    <div style="text-align: center;margin: 0 auto; padding: 30px;">
+        <h2> Challenge không tồn tại hoặc Bạn không được mời làm challenge này!</h2>
+        <h2>405!</h2>
+    </div>
+    return;
+}
 
 <div class="content">
     <!--Header Section-->
@@ -23,32 +31,34 @@
             <!--Breadcrumb-->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="#">Pactice</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="#">C++</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="#">Introduction</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        @Model.challenge.Title
-                    </li>
+                    @if (ViewBag.competeID != null)
+                    {
+                        <li class="breadcrumb-item">
+                            <a href="/Compete/Detail/@Model.challenge.ID">Compete</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            @Model.challenge.Title
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="breadcrumb-item">
+                            <a href="/User/Dashboard">Pactice</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            @Model.challenge.Title
+                        </li>
+                    }
                 </ol>
             </nav>
 
             <!--Title-->
             <h1 class="header-title">
                 @Model.challenge.Title
-                <input type="checkbox" id="star-toggle">
-                <label for="star-toggle">
-                    <i class="far fa-star"></i>
-                </label>
             </h1>
 
             <!--Account Detail-->
-            <div class="header-progress">
+            @*<div class="header-progress">
                 <div class="account">
                     <div class="point-wrap">
                         <span class="point">10 more points</span>
@@ -82,7 +92,7 @@
                         <span class="badge-title">cpp</span>
                     </div>
                 </div>
-            </div>
+            </div>*@
         </div>
     </div>
 
@@ -95,9 +105,7 @@
                 <nav class="navbar navbar-light">
                     <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
                         <li class="nav-item active"><a id="js-problem" class="nav-link" href="#">Problem</a></li>
-                        <li class="nav-item"><a id="js-submission" class="nav-link" href="#">Submissions</a></li>
-                        <li class="nav-item"><a id="js-ldboard" class="nav-link" href="#">Leaderboard</a></li>
-                        <li class="nav-item"><a id="js-discussion" class="nav-link" href="/Challenge/@Model.challenge.ID/forum">Discussions</a></li>
+                        <li class="nav-item"><a id="js-discussion" class="nav-link" href=@(ViewBag.competeID == null ? "/Challenge/"+Model.challenge.ID+"/forum" : "/Compete/" + ViewBag.competeID + "/Challenge/"+Model.challenge.ID+"/forum")>Discussions</a></li>
                     </ul>
                 </nav>
             </div>
@@ -151,33 +159,33 @@
                             </div>
                         }
                         @*<div class="challenge-sample-input">
-            <div class="challenge-sample-input-title">
-                <p><strong>Sample Input</strong></p>
-            </div>
-            <div class="challenge-sample-input-body">
-                <pre><code>1 2 7</code></pre>
-            </div>
-        </div>
+                                <div class="challenge-sample-input-title">
+                                    <p><strong>Sample Input</strong></p>
+                                </div>
+                                <div class="challenge-sample-input-body">
+                                    <pre><code>1 2 7</code></pre>
+                                </div>
+                            </div>
 
-        <div class="challenge-sample-output">
-            <div class="challenge-sample-output-title">
-                <p><strong>Sample Output</strong></p>
-            </div>
-            <div class="challenge-sample-input-body">
-                <pre><code>10</code></pre>
-            </div>
-        </div>
+                            <div class="challenge-sample-output">
+                                <div class="challenge-sample-output-title">
+                                    <p><strong>Sample Output</strong></p>
+                                </div>
+                                <div class="challenge-sample-input-body">
+                                    <pre><code>10</code></pre>
+                                </div>
+                            </div>
 
-        <div class="challenge-explanation">
-            <div class="challenge-explanation-title">
-                <p><strong>Explanation</strong></p>
-            </div>
-            <div class="challenge-explanation-body">
-                <p>
+                            <div class="challenge-explanation">
+                                <div class="challenge-explanation-title">
+                                    <p><strong>Explanation</strong></p>
+                                </div>
+                                <div class="challenge-explanation-body">
+                                    <p>
 
-                </p>
-            </div>
-        </div>*@
+                                    </p>
+                                </div>
+                            </div>*@
 
                     </div>
                 </section>
@@ -290,7 +298,7 @@
             </div>
 
             <!--Right Panel-->
-            <div class="right-panel">
+            <div class="right-panel" id="affix-panel" data-toggle="affix">
                 <div class="sidebar-difficulty-detail">
                     <div class="difficulty-block">
                         <p class="difficulty-label">Author</p>
@@ -321,94 +329,101 @@
                         <a href="#">2101241</a>
                     </div>
                 </div>
-
-                <div class="sidebar-difficulty-help">
-                    <h2>need help?</h2>
-                    <hr>
-                    <div style="margin-bottom:20px;">
-                        <div class="help-link">
-                            <a href="#">
-                                <i class="far fa-comments"></i>
-                                <span>View discussions</span>
-                            </a>
-                        </div>
-                        <div class="help-link">
-                            <a href="#">
-                                <i class="far fa-user"></i>
-                                <span>View editorial</span>
-                            </a>
-                        </div>
-                        <div class="help-link">
-                            <a href="#">
-                                <i class="fas fa-trophy"></i>
-                                <span>View discussions</span>
-                            </a>
-                        </div>
+                @if (ViewBag.competeID != null)
+                {
+                    <div class="sidebar-difficulty-move-btn">
+                        <a class="btn @(ViewBag.Back < 0 ? "disabled" : null)" href="/Compete/@ViewBag.competeID/Challenge/@(ViewBag.Back < 0 ? Model.challenge.ID : ViewBag.Back)/Problem"><i class="fas fa-less-than"></i> Back</a>
+                        <a class="btn" href="/Compete/Detail/@ViewBag.competeID">List Challenge</a>
+                        <a class="btn @(ViewBag.Next < 0 ? "disabled" : null)" href="/Compete/@ViewBag.competeID/Challenge/@(ViewBag.Next < 0 ? Model.challenge.ID : ViewBag.Next)/Problem">Next <i class="fas fa-greater-than"></i></a>
                     </div>
+                }
+                @*<div class="sidebar-difficulty-help">
+            <h2>need help?</h2>
+            <hr>
+            <div style="margin-bottom:20px;">
+                <div class="help-link">
+                    <a href="#">
+                        <i class="far fa-comments"></i>
+                        <span>View discussions</span>
+                    </a>
                 </div>
-
-                <div class="sidebar-rating">
-                    <h2>Rate this challenge</h2>
-                    <div class="rating">
-                        <input type="radio" name="rating" id="star5" value="5">
-                        <label for="star5">
-                            <i class="far fa-star"></i>
-                        </label>
-                        <input type="radio" name="rating" id="star4" value="4">
-                        <label for="star4">
-                            <i class="far fa-star"></i>
-                        </label>
-                        <input type="radio" name="rating" id="star3" value="3">
-                        <label for="star3">
-                            <i class="far fa-star"></i>
-                        </label>
-                        <input type="radio" name="rating" id="star2" value="2">
-                        <label for="star2">
-                            <i class="far fa-star"></i>
-                        </label>
-                        <input type="radio" name="rating" id="star1" value="1">
-                        <label for="star1">
-                            <i class="far fa-star"></i>
-                        </label>
-                    </div>
-                    <div class="feedback"></div>
+                <div class="help-link">
+                    <a href="#">
+                        <i class="far fa-user"></i>
+                        <span>View editorial</span>
+                    </a>
                 </div>
-
-                <div class="sidebar-difficulty-help" style="clear:both;">
-                    <h2>More details</h2>
-                    <hr>
-                    <div style="margin-bottom:20px;">
-                        <div class="help-link">
-                            <a href="#">
-                                <i class="far fa-arrow-alt-circle-down"></i>
-                                <span>Download problem statement</span>
-                            </a>
-                        </div>
-                        <div class="help-link">
-                            <a href="#">
-                                <i class="far fa-arrow-alt-circle-down"></i>
-                                <span>Download sample test cases</span>
-                            </a>
-                        </div>
-                        <div class="help-link">
-                            <a href="#">
-                                <i class="fas fa-edit"></i>
-                                <span>Suggest Edits</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="social-link">
-                        <a href="#">
-                            <i class="fab fa-facebook-square"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    </div>
+                <div class="help-link">
+                    <a href="#">
+                        <i class="fas fa-trophy"></i>
+                        <span>View discussions</span>
+                    </a>
                 </div>
+            </div>
+        </div>
+
+        <div class="sidebar-rating">
+            <h2>Rate this challenge</h2>
+            <div class="rating">
+                <input type="radio" name="rating" id="star5" value="5">
+                <label for="star5">
+                    <i class="far fa-star"></i>
+                </label>
+                <input type="radio" name="rating" id="star4" value="4">
+                <label for="star4">
+                    <i class="far fa-star"></i>
+                </label>
+                <input type="radio" name="rating" id="star3" value="3">
+                <label for="star3">
+                    <i class="far fa-star"></i>
+                </label>
+                <input type="radio" name="rating" id="star2" value="2">
+                <label for="star2">
+                    <i class="far fa-star"></i>
+                </label>
+                <input type="radio" name="rating" id="star1" value="1">
+                <label for="star1">
+                    <i class="far fa-star"></i>
+                </label>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="sidebar-difficulty-help" style="clear:both;">
+            <h2>More details</h2>
+            <hr>
+            <div style="margin-bottom:20px;">
+                <div class="help-link">
+                    <a href="#">
+                        <i class="far fa-arrow-alt-circle-down"></i>
+                        <span>Download problem statement</span>
+                    </a>
+                </div>
+                <div class="help-link">
+                    <a href="#">
+                        <i class="far fa-arrow-alt-circle-down"></i>
+                        <span>Download sample test cases</span>
+                    </a>
+                </div>
+                <div class="help-link">
+                    <a href="#">
+                        <i class="fas fa-edit"></i>
+                        <span>Suggest Edits</span>
+                    </a>
+                </div>
+            </div>
+            <div class="social-link">
+                <a href="#">
+                    <i class="fab fa-facebook-square"></i>
+                </a>
+                <a href="#">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+        </div>*@
             </div>
         </div>
     </div>
@@ -430,6 +445,28 @@
 
     </script>
     <script>
+        var target = $('#affix-panel')
+        target.after('<div class="affix" id="affix"></div>')
+
+        var affix = $('.affix')
+        affix.append(target.clone(true))
+
+        // Show affix on scroll.
+        var element = document.getElementById('affix')
+        if (element !== null) {
+            var position = target.position()
+            window.addEventListener('scroll', function () {
+                var height = $(window).scrollTop()
+                if (height > position.top) {
+                    target.css('visibility', 'hidden')
+                    affix.css('display', 'block')
+                } else {
+                    affix.css('display', 'none')
+                    target.css('visibility', 'visible')
+                }
+            })
+        }
+
         //code
         var code_CSharp = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_CSharp))`;
         var code_Cpp = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_Cpp))`;

@@ -6,6 +6,15 @@
     Layout = "~/Views/Shared/_User_Layout.cshtml";
 }
 
+@if (ViewBag.CanAccess == false)
+{
+    <div style="text-align: center;margin: 0 auto; padding: 30px;">
+        <h2>You don't have permission to view this page</h2>
+        <h2>405!</h2>
+    </div>
+    return;
+}
+
 @section CustomCSS
 {
     @Styles.Render("~/Assets/Public/css/EditChallenge.css")
@@ -56,9 +65,9 @@
                                             new SelectList(Enum.GetValues(typeof(Language))),
                                             new { @class = "form-control", @id = "language_Input" })
                         @*<select class="form-control" id="language_Input">
-                        <option>English</option>
-                        <option>Vietnamese</option>
-                    </select>*@
+                                <option>English</option>
+                                <option>Vietnamese</option>
+                            </select>*@
                     </div>
                 </div>
                 <div class="form-group row">
@@ -68,12 +77,12 @@
                                             new SelectList(Enum.GetValues(typeof(Difficulty))),
                                             new { @class = "form-control", @id = "difficulty_Input" })
                         @*<select class="form-control" id="difficulty_Input">
-                        <option>Easy</option>
-                        <option>Medium</option>
-                        <option>Hard</option>
-                        <option>Advanced</option>
-                        <option>Expert</option>
-                    </select>*@
+                                <option>Easy</option>
+                                <option>Medium</option>
+                                <option>Hard</option>
+                                <option>Advanced</option>
+                                <option>Expert</option>
+                            </select>*@
                     </div>
                 </div>
                 <div class="form-group row">
@@ -144,7 +153,7 @@
             }
             @*<form class="form-horizontal" method="post">
 
-        </form>*@
+                </form>*@
         </div>
 
         <div class="moderators-modal main-modal" id="div-moderators-modal" hidden>
@@ -671,7 +680,7 @@
                 update("result");
             });
         }
-        
+
         setupEditor("editor");
         update("result");
 

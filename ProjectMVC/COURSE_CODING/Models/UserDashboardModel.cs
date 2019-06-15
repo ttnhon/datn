@@ -13,6 +13,6 @@ namespace COURSE_CODING.Models
         public List<LANGUAGE> Languages = new List<LANGUAGE>();
         public DataAchieve Data = new DataAchieve();
         public List<Skill> Skills = new List<Skill>();
-        public List<CHALLENGE> Challenges = new List<CHALLENGE>();
+        public List<COMPETE> Competes = new List<COMPETE>();
     }
 }

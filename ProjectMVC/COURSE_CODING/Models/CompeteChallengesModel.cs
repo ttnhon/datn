@@ -9,8 +9,8 @@ namespace COURSE_CODING.Models
     public class CompeteChallengesModel
     {
         public COMPETE compete { get; set; }
-        public List<CHALLENGE> challenges = new List<CHALLENGE>();
-        public string status { get; set; }
-        public string difficulty { get; set; }
+        //public List<CHALLENGE> challenges = new List<CHALLENGE>();
+        public List<bool> questions = new List<bool>();
+        public List<UserChallengeStatus> challenges = new List<UserChallengeStatus>();
     }
 }

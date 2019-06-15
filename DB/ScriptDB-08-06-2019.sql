@@ -213,7 +213,8 @@ CREATE TABLE QUESTION_ANSWER(    --Lưu trữ câu trả lời của user với 
 
 CREATE TABLE COMPETE_PARTICIPANTS(
 	CompeteID			int				NOT NULL,
-	UserID				int				NOT NULL
+	UserID				int				NOT NULL,
+	TimeJoined			datetime
 
 	PRIMARY KEY (CompeteID, UserID),
 	foreign key (CompeteID)	references COMPETE(ID),

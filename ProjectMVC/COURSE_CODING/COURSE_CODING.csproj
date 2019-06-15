@@ -207,16 +207,21 @@
     <Compile Include="Models\EditChallengeModel.cs" />
     <Compile Include="Models\EditQuestionModel.cs" />
     <Compile Include="Models\EmailModel.cs" />
+    <Compile Include="Models\InvitationModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ManageChallengesModel.cs" />
+    <Compile Include="Models\Participant.cs" />
+    <Compile Include="Models\ParticipantList.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\QuestionModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\ReplyModel.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\TestCaseResultModel.cs" />
+    <Compile Include="Models\UserChallengeStatus.cs" />
     <Compile Include="Models\UserDashboardModel.cs" />
     <Compile Include="Models\UserProfileModel.cs" />
+    <Compile Include="Models\UserScore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -361,6 +366,7 @@
     <Content Include="Assets\Public\js\discussion.js" />
     <Content Include="Assets\Public\js\EditChallenge.js" />
     <Content Include="Assets\Public\images\problem-solving-ecaf59a612.svg" />
+    <Content Include="Assets\Public\js\editCompete.js" />
     <Content Include="Assets\Public\js\EditQuestion.js" />
     <Content Include="Assets\Public\js\profile.js" />
     <Content Include="Assets\Public\vendor\ace-editor\ace.js" />
@@ -549,6 +555,9 @@
     <Content Include="Views\Moderator\EditCompete.cshtml" />
     <Content Include="Views\Moderator\_CompeteDetail.cshtml" />
     <Content Include="Views\Moderator\_QuestionList.cshtml" />
+    <Content Include="Views\Moderator\_ParticipantList.cshtml" />
+    <Content Include="Views\Compete\Invitation.cshtml" />
+    <Content Include="Views\Compete\Score.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

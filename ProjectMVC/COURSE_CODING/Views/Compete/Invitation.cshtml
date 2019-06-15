@@ -1,0 +1,62 @@
+﻿@model COURSE_CODING.Models.InvitationModel
+@{
+    ViewBag.Title = "Comptete " + ViewBag.Title;
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
+}
+@section CustomCSS
+{
+    @Styles.Render("~/Assets/Public/css/style.css")
+    @Styles.Render("~/Assets/Public/css/domain.css")
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+}
+@if (ViewBag.CanAccess == false)
+{
+    <h2>Bạn không được mời tham gia vào Compete này!</h2>
+    <h2>405!</h2>
+    return;
+}
+
+<section class="header-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-6 domain-header">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Practice</a></li>
+                    <li class="breadcrumb-item active">@Html.DisplayFor(model => model.contestName)</li>
+                </ol>
+                <h3 class="domain-title">@Html.DisplayFor(model => model.contestName)</h3>
+            </div>
+
+            <div class="col-6">
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content-page">
+    <div class="invitation__box">
+        <div class="container">
+            <img src="~/Assets/Public/images/profile_photos/@Model.contestOwner.PhotoURL" alt="profile picture">
+            <p><a href="/User/Profile/@Model.contestOwner.ID">@Model.contestOwner.UserName</a> invited you to participate in a contest</p>
+            <div class="invitation__button">
+                <button class="btn btn-success" onclick="acceptInvitation()">Accept Invitation</button>
+                <button class="btn btn-secondary" onclick="declineInvitation()">Decline</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+    <script>
+        function acceptInvitation() {
+            window.location.href = '/Compete/AcceptInvitation/@Model.contestID';
+        }
+
+        function declineInvitation() {
+            window.location.href = '/Compete/DeclineInvitation/@Model.contestID';
+        }
+    </script>
+}

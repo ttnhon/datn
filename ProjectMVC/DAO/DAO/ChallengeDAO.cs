@@ -44,6 +44,52 @@ namespace DAO.DAO
                 .Select(item => item.p).ToList();
         }
 
+        public dynamic GetAllWithAnswerByCompeteID(int competeID, int userID)
+        {
+            //return db.QUESTIONS.Where(table => table.CompeteID == id).ToList();
+            var challenges = db.CHALLENGE_COMPETES.Where(table => table.CompeteID == competeID)
+                    .Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t, p) => new { t, p })
+                    .Select(item => item.p)
+                      .GroupJoin(db.ANSWERS.Where(table => table.UserId == userID)
+                            , q => q.ID, qa => qa.ChallengeID, (f, b) => new { f, b })
+                            .SelectMany(z => z.b.DefaultIfEmpty(), (z, g) => new {
+                                ID = z.f.ID,
+                                Title = z.f.Title,
+                                Difficulty = z.f.ChallengeDifficulty,
+                                Score = z.f.Score,
+                                isSolved = g == null ? false: true
+                            }).ToList();
+            return challenges;
+        }
+
+        public int GetBackChallenge(int competeID, int challengeID)
+        {
+            var list = db.CHALLENGE_COMPETES.Where(table => table.CompeteID == competeID)
+                .Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t, p) => new { t, p })
+                .Select(item => item.p.ID).ToList();
+            if (list.Count <= 0) return -2;
+            int index = list.IndexOf(challengeID);
+            if (index == 0)
+            {
+                return -1;
+            }
+            return list[index - 1];
+        }
+
+        public int GetNextChallenge(int competeID, int challengeID)
+        {
+            var list = db.CHALLENGE_COMPETES.Where(table => table.CompeteID == competeID)
+                .Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t, p) => new { t, p })
+                .Select(item => item.p.ID).ToList();
+            if (list.Count <= 0) return -2;
+            int index = list.IndexOf(challengeID);
+            if (index == (list.Count - 1))
+            {
+                return -1;
+            }
+            return list[index + 1];
+        }
+
         /// <summary>
         /// check if is owner
         /// </summary>
@@ -61,7 +107,73 @@ namespace DAO.DAO
         /// <returns></returns>
         public bool IsEditor(int challengeId, int ownerId)
         {
-            return db.CHALLENGE_EDITORS.Where(table => table.ChallegenID == challengeId && table.EditorID == ownerId).Count() > 0;
+            return db.CHALLENGE_EDITORS.Where(table => table.ChallegenID == challengeId && (table.EditorID == ownerId || table.CHALLENGE.OwnerID == ownerId)).Count() > 0;
+        }
+
+        /// <summary>
+        /// check if is available for user
+        /// </summary>
+        /// <param name="challengeId"></param>
+        /// <returns></returns>
+        public bool IsAvailable(int challengeId, int userId)
+        {
+            return db.CHALLENGES
+                .Where(table => table.ID == challengeId 
+                && (table.IsPublic 
+                || table.OwnerID == userId 
+                || table.CHALLENGE_COMPETE.FirstOrDefault(item => item.ChallengeID == challengeId).COMPETE.COMPETE_PARTICIPANTS.FirstOrDefault(item => item.UserID == userId) != null))
+                .Count() > 0;
+        }
+
+        /// <summary>
+        /// check challenge is public
+        /// </summary>
+        /// <param name="challengeID"></param>
+        /// <returns></returns>
+        public bool IsPublic(int? challengeID)
+        {
+            if (challengeID == null)
+            {
+                return false;
+            }
+            bool is_public = db.CHALLENGES
+                .Where(table => table.ID == challengeID)
+                .Select(table => table.IsPublic).FirstOrDefault();
+            return is_public;
+        }
+
+        /// <summary>
+        /// check user joined challenge
+        /// </summary>
+        /// <param name="challengeID"></param>
+        /// <returns></returns>
+        public bool IsJoined(int userID, int challengeID, int? competeID)
+        {
+            var count = db.COMPETE_PARTICIPANTSS.Where(cp => cp.CompeteID == competeID && cp.UserID == userID)
+                  .GroupJoin(db.CHALLENGE_COMPETES.Where(cc => cc.ChallengeID == challengeID)
+                        , q => q.CompeteID, qa => qa.CompeteID, (f, b) => new { f, b }).FirstOrDefault();
+            if (count == null || count.b.Count() < 1 )
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// check challenge is public
+        /// </summary>
+        /// <param name="challengeID"></param>
+        /// <returns></returns>
+        public bool CanAccess(int userID, int challengeID, int? competeID)
+        {
+            if (competeID == null)
+            {
+                return this.IsPublic(challengeID);
+            }
+            else
+            {
+                return this.IsJoined(userID, challengeID, competeID);
+            }
         }
 
         /// <summary>

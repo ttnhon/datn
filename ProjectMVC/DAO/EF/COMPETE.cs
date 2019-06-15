@@ -13,8 +13,8 @@ namespace DAO.EF
         public COMPETE()
         {
             CHALLENGE_COMPETE = new HashSet<CHALLENGE_COMPETE>();
+            COMPETE_PARTICIPANTS = new HashSet<COMPETE_PARTICIPANTS>();
             QUESTIONs = new HashSet<QUESTION>();
-            USER_INFO1 = new HashSet<USER_INFO>();
         }
 
         public int ID { get; set; }
@@ -47,9 +47,9 @@ namespace DAO.EF
         public virtual USER_INFO USER_INFO { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QUESTION> QUESTIONs { get; set; }
+        public virtual ICollection<COMPETE_PARTICIPANTS> COMPETE_PARTICIPANTS { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<USER_INFO> USER_INFO1 { get; set; }
+        public virtual ICollection<QUESTION> QUESTIONs { get; set; }
     }
 }

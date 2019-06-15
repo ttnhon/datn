@@ -271,3 +271,42 @@ a.skill-card-link {
     color: black;
 }
 
+
+
+
+.invitation__box {
+    margin: auto;
+    background: white;
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    position: relative;
+    width: 40%;
+}
+
+    .invitation__box > .container {
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        align-items: center;
+        padding: 2em 1em;
+    }
+
+    .invitation__box img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-bottom: .5em;
+    }
+
+    .invitation__box p {
+        font-size: 1.3rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .invitation__button button{
+        margin: 0 .5em;
+    }
+
+
+

@@ -75,6 +75,24 @@ namespace DAO.DAO
         }
 
         /// <summary>
+        /// Get all question in compete of a user
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public dynamic GetAllWithAnswerByCompeteID(int competeID, int userID)
+        {
+            //return db.QUESTIONS.Where(table => table.CompeteID == id).ToList();
+            var questions = db.QUESTIONS.Where(table => table.CompeteID == competeID)
+                  .GroupJoin(db.QUESTION_ANSWERS.Where(table => table.UserId == userID)
+                        , q => q.ID, qa => qa.QuestionID, (f, b) => new { f, b })
+                        .SelectMany(z => z.b.DefaultIfEmpty(), (z, g) => new {
+                            Question = z.f,
+                            Chosen = g
+                        }).ToList();
+            return questions;
+        }
+
+        /// <summary>
         /// Get one challenge
         /// </summary>
         /// <param name=""></param>
@@ -83,5 +101,6 @@ namespace DAO.DAO
         {
             return db.QUESTIONS.Find(id);
         }
+        
     }
 }

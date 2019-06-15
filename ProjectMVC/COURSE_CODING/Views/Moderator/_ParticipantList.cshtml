@@ -1,0 +1,56 @@
+﻿@model COURSE_CODING.Models.ParticipantList
+
+<div  class="table-adjustable">
+    <div class="form-group row">
+        <label class="col-sm-2 control-label" for="moderators_Input">Add Email</label>
+        <div class="col-sm-3">
+            @Html.TextBox("participants", "", new { @class = "form-control", @id = "participant_Input" })
+            @Html.HiddenFor(model => model.ContestID)
+        </div>
+        <div class="col-sm-3">
+            <button class="btn btn-primary" id="js-participant-add-btn" onclick="addParticipant()">Send Invitation</button>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="table">
+        <div class="row table-title no-margin">
+            <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">
+                User Name
+            </div>
+            <div class="col-xs-1 vd-col-xs-30 text-center">
+                User Email
+            </div>
+            <div class="col-xs-1 vd-col-xs-30 text-center">
+                ACtion
+            </div>
+        </div>
+        <div class="table-border table-cs table-body" id="participant-list">
+            @if (Model.Participants.Count() > 0)
+            {
+                foreach (var Participant in Model.Participants)
+                {
+                    <div class="row table-row no-margin table-cs">
+                        <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">@Participant.Name</div>
+                        <div class="col-xs-1 vd-col-xs-30 text-center">@Participant.Email</div>
+                        <div class="col-xs-1 vd-col-xs-30 text-center">
+                            <button class="btn btn-primary">
+
+                            </button>
+                        </div>
+
+                    </div>
+                }
+            }
+            else
+            {
+                <div id="no-content" class="row table-row no-margin table-cs">
+                    <div class="col-sm-12 text-center">
+                        You have not invite any participant.
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

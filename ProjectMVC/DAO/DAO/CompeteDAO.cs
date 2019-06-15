@@ -29,6 +29,122 @@ namespace DAO.DAO
             return db.COMPETES.Where(table => table.USER_INFO.ID == id).ToList();
         }
 
+        public List<COMPETE> GetJoined(int id)
+        {
+            return db.COMPETE_PARTICIPANTSS.Where(table => table.UserID == id).Select(table=> table.COMPETE).ToList();
+        }
+
+        public List<COMPETE> GetJoinedAndPublic(int id)
+        {
+            return db.COMPETES.GroupJoin(db.COMPETE_PARTICIPANTSS, t => t.ID, p => p.CompeteID, (t, p) => new { t, p })
+                .Where(table => table.t.IsPublic || table.p.FirstOrDefault(list => list.UserID == id) != null)
+                .Select(table => table.t).ToList();
+        }
+
+        public List<COMPETE> GetScheduledCompetes(int id, int take = 5)
+        {
+            return db.COMPETES.GroupJoin(db.COMPETE_PARTICIPANTSS, t => t.ID, p => p.CompeteID, (t, p) => new { t, p })
+                .Where(table => table.t.IsPublic || table.p.FirstOrDefault(list => list.UserID == id) != null)
+                .Select(table => table.t).OrderBy(table => table.TimeEnd).Take(take).ToList();
+        }
+
+        public int CountJoinedAndPublic(int id)
+        {
+            return db.COMPETES.GroupJoin(db.COMPETE_PARTICIPANTSS, t => t.ID, p => p.CompeteID, (t, p) => new { t, p })
+                .Where(table => table.t.IsPublic || table.p.FirstOrDefault(list => list.UserID == id) != null)
+                .Select(table => table.t).Count();
+        }
+
+        public List<COMPETE> GetPublic(int id)
+        {
+            return db.COMPETES.GroupJoin(db.COMPETE_PARTICIPANTSS, t => t.ID, p => p.CompeteID, (t, p) => new { t, p })
+                .Where(table => table.t.IsPublic && table.p.FirstOrDefault(list => list.UserID == id) == null)
+                .Select(table => table.t).ToList();
+        }
+
+        public List<int> GetParticipantList(int id)
+        {
+            return db.COMPETE_PARTICIPANTSS.Where(table => table.CompeteID == id).Select(s => s.UserID).ToList();
+        }
+
+        public Boolean CheckParticipantExist(int id)
+        {
+            return db.COMPETE_PARTICIPANTSS.Count(u => u.UserID == id) > 0;
+        }
+
+        public Boolean InsertParticipant(COMPETE_PARTICIPANTS model)
+        {
+            try
+            {
+                db.COMPETE_PARTICIPANTSS.Add(model);
+                db.SaveChanges();
+                return true;
+
+            } catch(Exception e)
+            {
+                return false;
+            }
+        }
+
+        public Boolean DeleteParticipant(COMPETE_PARTICIPANTS model)
+        {
+            try
+            {
+                db.COMPETE_PARTICIPANTSS.Remove(model);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public bool EnterCompete(int userID, int competeID)
+        {
+            try
+            {
+                COMPETE_PARTICIPANTS entity = new COMPETE_PARTICIPANTS()
+                {
+                    UserID = userID,
+                    CompeteID = competeID,
+                    TimeJoined = DateTime.Now
+                };
+                db.COMPETE_PARTICIPANTSS.Add(entity);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public bool? IsPublic(int id)
+        {
+            var item = db.COMPETES.Find(id);
+            if(item != null)
+            {
+                return item.IsPublic;
+            }
+            return null;
+        }
+
+        public bool? IsOwner(int competeID, int userID)
+        {
+            var item = db.COMPETES.Find(competeID);
+            if (item != null)
+            {
+                return item.OwnerID == userID;
+            }
+            return null;
+        }
+
+        public List<USER_INFO> GetParticipants(int id)
+        {
+            return db.COMPETE_PARTICIPANTSS.Where(table => table.CompeteID == id).Select(item => item.USER_INFO).ToList();
+        }
+
         public List<COMPETE> GetTen(int id)
         {
             return db.COMPETES.Where(table => table.USER_INFO.ID == id).Take(10).ToList();
@@ -73,5 +189,26 @@ namespace DAO.DAO
                 return false;
             }
         }
+
+        public Boolean CanAccess(int competeID, int userID)
+        {
+            var compete = db.COMPETES.Where(table => table.ID == competeID).FirstOrDefault();
+
+            if (compete.IsPublic)
+            {
+                return true;
+            }
+
+            foreach (var participant in compete.COMPETE_PARTICIPANTS)
+            {
+                if (userID == participant.UserID)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        
     }
 }

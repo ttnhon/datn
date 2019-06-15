@@ -4,6 +4,53 @@
     font-family: 'Lato', sans-serif;
 }
 
+.one-challenge-box.base-box.solved {
+    background-color: #33AD33;
+    margin: 2px 0px;
+    color: floralwhite;
+}
+
+.sq-div {
+    margin: 0.5rem;
+    height: 4rem;
+}
+
+.tabs .row.base-box {
+    margin: 0;
+    padding: 1.2rem;
+}
+
+.compete-section-title {
+    padding: .3rem 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.solve-question {
+    margin: 1rem 1rem;
+    float: right;
+    padding: .5rem 1.5rem;
+}
+
+.not-answered a {
+    background-color: gainsboro;
+}
+
+.answered a {
+}
+
+li.page-item {
+    margin-right: 2px;
+}
+
+.answered a {
+    background-color: #33AD33;
+}
+
+a.page-link {
+    color: snow;
+}
+
 .card-content.btn:hover {
     color: white;
 }

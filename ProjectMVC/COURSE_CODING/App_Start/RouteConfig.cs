@@ -38,7 +38,6 @@ namespace COURSE_CODING
                  namespaces: new[] { "COURSE_CODING.Controllers" }
             );
 
-
         }
     }
 }

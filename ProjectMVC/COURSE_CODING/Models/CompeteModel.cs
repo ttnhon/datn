@@ -10,7 +10,7 @@ namespace COURSE_CODING.Models
     {
 
         public List<COMPETE> competes = new List<COMPETE>();
-        public List<LANGUAGE> languages = new List<LANGUAGE>();
+        public List<COMPETE> PublicCompetes = new List<COMPETE>();
 
     }
 }
