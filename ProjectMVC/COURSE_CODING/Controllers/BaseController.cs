@@ -10,7 +10,7 @@ namespace COURSE_CODING.Controllers
 {
     public class BaseController : Controller
     {
-        protected override void OnActionExecuted(ActionExecutedContext filterContext) // day la ham mà truoc khi thuc hien bat ki phuong thuc nao deu phải goi ham nay truoc, no co ho tro ca kieu phuong thuc dong bo
+        protected override void OnActionExecuting(ActionExecutingContext filterContext) // day la ham mà truoc khi thuc hien bat ki phuong thuc nao deu phải goi ham nay truoc, no co ho tro ca kieu phuong thuc dong bo
         {
             var session = (InfoLogIn)Session[CommonConstant.SESSION_INFO_LOGIN];
             if (session == null)
@@ -18,7 +18,7 @@ namespace COURSE_CODING.Controllers
                 filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary(new { Controller = "Authen", Action = "Login", Areas = "" }));
                 // neu session rong tuc chua có dang nhap thanh cong thi se dieu huong sang hàm index( trang login) của controler login thuoc areas admin
             }
-            base.OnActionExecuted(filterContext);// thuc thi bo loc
+            base.OnActionExecuting(filterContext);// thuc thi bo loc
         }
         protected void SetAlert(string message, string type)
         {

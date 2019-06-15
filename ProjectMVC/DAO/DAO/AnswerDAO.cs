@@ -50,6 +50,15 @@ namespace DAO.DAO
         {
             return db.ANSWERS.Where(table=>table.ChallengeID==id).Select(u => u.TimeDone).SingleOrDefault();
         }
-      
+
+        /// <summary>
+        /// Get number success challenge by user id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int CountSuccessAnswerByUserID(int id)
+        {
+            return db.ANSWERS.Count(item => item.UserId == id);
+        }
     }
 }

@@ -50,40 +50,36 @@ namespace COURSE_CODING.Controllers
             if (ModelState.IsValid)
             {
                 var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+                int userID = ses != null? ses.ID : 1;
                 UserDashboardModel model = new UserDashboardModel();
-                LanguageDAO DAO = new LanguageDAO();
-                model.Languages = DAO.GetList();
-                model.Data.UserCompetes = DAO.GetCompeteCount();
-                model.Data.AvailableLanguages = model.Languages.Count;
-                if (ses != null)
-                {
-                    model.Data.SuccessChellenges = DAO.GetNumberSuccessChallengeByID(ses.ID);
 
-                    foreach (var item in model.Languages)
+                //Get analysis user info
+                LanguageDAO languageDao = new LanguageDAO();
+                CompeteDAO competeDao = new CompeteDAO();
+                AnswerDAO answerDao = new AnswerDAO();
+                model.Languages = languageDao.GetList();
+                model.Data.UserCompetes = competeDao.CountJoinedAndPublic(userID);
+                model.Data.AvailableLanguages = model.Languages.Count;
+                model.Data.SuccessChellenges = answerDao.CountSuccessAnswerByUserID(userID);
+                model.Competes = competeDao.GetScheduledCompetes(userID);
+                foreach (var item in model.Languages)
+                {
+                    //get skill list
+                    int count = languageDao.GetAnswerCountByID(ses.ID, item.Name);
+                    if (count > 0)
                     {
-                        //get skill list
-                        int count = DAO.GetAnswerCountByID(ses.ID, item.Name);
-                        if (count > 0)
-                        {
-                            Skill skill = new Skill();
-                            skill.Language = item;
-                            skill.Solved = count;
-                            skill.Count = DAO.GetChallengeCount(item.Name);
-                            model.Skills.Add(skill);
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                        //get next challenge list
-                        CHALLENGE c = DAO.GetNextChallengeByID(ses.ID, item.Name);
-                        if (c != null)
-                        {
-                            model.Challenges.Add(c);
-                        }
+                        Skill skill = new Skill();
+                        skill.Language = item;
+                        skill.Solved = count;
+                        skill.Count = languageDao.GetChallengeCount(item.Name);
+                        model.Skills.Add(skill);
+                    }
+                    else
+                    {
+                        continue;
                     }
                 }
-                return View(model);
+            return View(model);
             }
             return View("Dashboard");
         }

@@ -80,35 +80,26 @@ namespace DAO.DAO
         {
             return db.COMPETES.Count();
         }
+        
 
-        /// <summary>
-        /// Get number success challenge by user id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public int GetNumberSuccessChallengeByID(int id)
-        {
-            return db.ANSWERS.Count(item => item.UserId == id);
-        }
-
-        /// <summary>
-        /// Get next challenge by user id and language name
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public CHALLENGE GetNextChallengeByID(int id, string language)
-        {
-            var res = db.CHALLENGES.Join(db.CHALLENGE_LANGUAGES, t => t.ID, p => p.ChallengeID, (t, p) => new { t, p })
-                .Join(db.LANGUAGES, t => t.p.LanguageID, p => p.ID, (t, p) => new { t, p })
-                .Where(table => table.p.Name.Contains(language)).Select(item => item.t.t.ID)
-                .Except(
-                db.CHALLENGES.Join(db.ANSWERS, t => t.ID, p => p.ChallengeID, (t, p) => new { t, p })
-                .Join(db.CHALLENGE_LANGUAGES, t => t.t.ID, p => p.ChallengeID, (t, p) => new { t, p })
-                .Join(db.LANGUAGES, t => t.p.LanguageID, p => p.ID, (t, p) => new { t, p })
-                .Where(table => table.t.t.p.UserId == id && table.p.Name.Contains(language)).Select(item => item.t.t.t.ID)
-                ).ToList();
-            return db.CHALLENGES.Where(table => res.Contains(table.ID)).FirstOrDefault();
-        }
+        ///// <summary>
+        ///// Get next challenge by user id and language name
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <returns></returns>
+        //public CHALLENGE GetNextChallengeByID(int id, string language)
+        //{
+        //    var res = db.CHALLENGES.Join(db.CHALLENGE_LANGUAGES, t => t.ID, p => p.ChallengeID, (t, p) => new { t, p })
+        //        .Join(db.LANGUAGES, t => t.p.LanguageID, p => p.ID, (t, p) => new { t, p })
+        //        .Where(table => table.p.Name.Contains(language)).Select(item => item.t.t.ID)
+        //        .Except(
+        //        db.CHALLENGES.Join(db.ANSWERS, t => t.ID, p => p.ChallengeID, (t, p) => new { t, p })
+        //        .Join(db.CHALLENGE_LANGUAGES, t => t.t.ID, p => p.ChallengeID, (t, p) => new { t, p })
+        //        .Join(db.LANGUAGES, t => t.p.LanguageID, p => p.ID, (t, p) => new { t, p })
+        //        .Where(table => table.t.t.p.UserId == id && table.p.Name.Contains(language)).Select(item => item.t.t.t.ID)
+        //        ).ToList();
+        //    return db.CHALLENGES.Where(table => res.Contains(table.ID)).FirstOrDefault();
+        //}
 
         /// <summary>
         /// Get number of answer of language by user id
