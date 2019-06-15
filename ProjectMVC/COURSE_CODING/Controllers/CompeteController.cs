@@ -146,35 +146,62 @@ namespace COURSE_CODING.Controllers
                 return View("Score");
             }
             ViewBag.CanAccess = true;
+            ViewBag.Title = compete.Title;
             List<UserScore> Model = new List<UserScore>();
             //get list participants
             var paticipants = DAO.GetParticipants(id);
             foreach (var item in paticipants)
             {
                 UserScore temp = new UserScore();
-                temp.Name = item.FirstName + item.LastName;
+                temp.Name = item.FirstName +" "+ item.LastName;
                 temp.PhotoUrl = item.PhotoURL;
+
+                temp.TotalScore = 0;
                 //get score question
                 temp.QuestionDone = 0;
                 temp.ScoreQuestion = 0;
-                dynamic questions = (new QuestionDAO()).GetAllWithAnswerByCompeteID(id, this.GetLoginID());
-                
+
+                dynamic questions = (new QuestionDAO()).GetAllWithAnswerByCompeteID(id, item.ID);
+                temp.QuestionNumber = 0;
+
                 foreach (var one_question in questions)
                 {
+                    temp.QuestionNumber++;
                     var question = one_question.GetType().GetProperty("Question").GetValue(one_question, null);
                     var chosen = one_question.GetType().GetProperty("Chosen").GetValue(one_question, null);
-                    
+                    temp.TotalScore += question.Score;
                     if (chosen != null)
                     {
-                        temp.QuestionDone++;
-                        if (chosen.Result)
+                        if (chosen.Result == 1)
                         {
+                            temp.QuestionDone++;
                             temp.ScoreQuestion += question.Score;
                         }
                     }
                 }
                 //get score challenge
-                temp.ScoreChalenge = 0;
+                temp.ChallengeDone = 0;
+                temp.ScoreChallenge = 0;
+
+                //Get list Challenge and check user is solved challenge
+                dynamic challenges = new ChallengeDAO().GetAllWithAnswerByCompeteID(id, item.ID);
+                temp.ChallengeNumber = 0;
+                foreach (var challenge in challenges)         //Parse data
+                {
+                    temp.ChallengeNumber++;
+                    bool isSolved = challenge.GetType().GetProperty("isSolved").GetValue(challenge, null);
+                    int score = challenge.GetType().GetProperty("Score").GetValue(challenge, null);
+                    temp.TotalScore += score;
+                    if (isSolved)
+                    {
+                        temp.ChallengeDone++;
+                        temp.ScoreChallenge += score;
+                    }
+                    
+                }
+
+                //add to model
+                Model.Add(temp);
             }
             return View(Model);
         }
