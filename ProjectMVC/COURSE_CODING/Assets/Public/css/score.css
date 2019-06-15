@@ -1,0 +1,53 @@
+﻿* {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Lato', sans-serif;
+}
+
+.total-score {
+    text-align: right;
+}
+
+.user-info .card-title {
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: bold;
+    opacity: .7;
+    margin: .5rem;
+}
+
+.one-user-box {
+    background-color: white;
+    border: 1px solid #C2C7D0;
+    border-radius: 10px;
+    padding: 20px 20px;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.one-user-box:hover {
+    border: 1px solid black;
+}
+
+section.content-page {
+    padding: 3rem 0;
+}
+
+.sub-contest-title {
+    color: slategrey;
+    margin-bottom: 0;
+}
+
+section.header-page {
+    padding: 1rem 0;
+    background-color: #fff;
+    box-shadow: 0.1px 1px 4px 0 #e7eeef;
+}
+
+.user-info .profile-img{
+    max-height: 50px;
+}
+
+.score-info .info-title {
+    font-size: 1.2rem;
+}
