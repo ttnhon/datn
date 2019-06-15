@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "Score";
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
+}
+
+@if (ViewBag.CanAccess == false)
+{
+    <div style="text-align: center;margin: 0 auto; padding: 30px;">
+        <h2>You don't have permission to view this page</h2>
+        <h2>405!</h2>
+    </div>
+    return;
+}

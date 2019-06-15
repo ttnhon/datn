@@ -62,6 +62,34 @@ namespace DAO.DAO
             return challenges;
         }
 
+        public int GetBackChallenge(int competeID, int challengeID)
+        {
+            var list = db.CHALLENGE_COMPETES.Where(table => table.CompeteID == competeID)
+                .Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t, p) => new { t, p })
+                .Select(item => item.p.ID).ToList();
+            if (list.Count <= 0) return -2;
+            int index = list.IndexOf(challengeID);
+            if (index == 0)
+            {
+                return -1;
+            }
+            return list[index - 1];
+        }
+
+        public int GetNextChallenge(int competeID, int challengeID)
+        {
+            var list = db.CHALLENGE_COMPETES.Where(table => table.CompeteID == competeID)
+                .Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t, p) => new { t, p })
+                .Select(item => item.p.ID).ToList();
+            if (list.Count <= 0) return -2;
+            int index = list.IndexOf(challengeID);
+            if (index == (list.Count - 1))
+            {
+                return -1;
+            }
+            return list[index + 1];
+        }
+
         /// <summary>
         /// check if is owner
         /// </summary>

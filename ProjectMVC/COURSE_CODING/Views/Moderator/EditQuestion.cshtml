@@ -3,6 +3,16 @@
     ViewBag.Title = "Edit Question";
     Layout = "~/Views/Shared/_User_Layout.cshtml";
 }
+
+@if (ViewBag.CanAccess == false)
+{
+    <div style="text-align: center;margin: 0 auto; padding: 30px;">
+        <h2>You don't have permission to view this page</h2>
+        <h2>405!</h2>
+    </div>
+    return;
+}
+
 @section CustomCSS
 {
     @Styles.Render("~/Assets/Public/css/EditQuestion.css")
@@ -16,86 +26,86 @@
 @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>*@
 
-    <div class="container">
-        <h1 class="title">Create Question</h1>
-        @Html.Hidden("competeID", Model.ID)
-        @if (Model.Questions.Count > 0)
+<div class="container">
+    <h1 class="title">Create Question</h1>
+    @Html.Hidden("competeID", Model.ID)
+    @if (Model.Questions.Count > 0)
+    {
+        for (int i = 0; i < Model.Questions.Count; i++)
         {
-            for (int i = 0; i < Model.Questions.Count; i++)
-            {
-                @Html.Hidden("question-ID-" + (i + 1), Model.Questions[i].ID)
-                <div class="question" id="question">
-                    <div class="ques-item">
-                        <h3>Question @(i + 1)</h3>
-                        <div class="form-group row">
-                            <label class="col-sm-2 control-label" for="choice-@(i+1)">Type</label>
-                            <div class="col-sm-4">
-                                <select class="form-control" id="choice-@(i+1)" onchange="onChoiceChange(@(i+1), this)">
-                                    <option value="single" selected=@(Model.Questions[i].Type == 0 ? "selected" : null)>single</option>
-                                    <option value="multiple" selected=@(Model.Questions[i].Type == 1 ? "selected" : null)>multiple</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 control-label" for="score_Input-@(i+1)">Score</label>
-                            <div class="col-sm-4">
-                                <input class="form-control" id="score_Input-@(i+1)" type="number" value="@Model.Questions[i].Score">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 control-label" for="description_Input-@(i+1)">Description</label>
-                            <div class="col-sm-8">
-                                <textarea class="form-control" rows="4" id="description_Input-@(i+1)">@Model.Questions[i].Description</textarea>
-                            </div>
-                        </div>
-                        <div class="answer">
-                            <h6>Add answer for question (choose the the right answer on the left)</h6>
-                            <div class="list" id="answer-list-@(i+1)">
-                                @if (Model.Questions[i].Type == 0)
-                                {
-                                    for (int j = 0; j < Model.Questions[i].List.Length; j++)
-                                    {
-                                        answer++;
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="@(i+1)-answer-@answer" name="answer-@(i+1)" checked=@(Model.Questions[i].List[j].Result ? "checked" : null)>
-                                            <label class="custom-control-label" for="@(i+1)-answer-@answer">
-                                                <input class="form-control" id="@(i+1)-ques-@answer" type="text" value="@Model.Questions[i].List[j].Value">
-                                            </label>
-                                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
-                                               class="remove-option"><i class="fas fa-times"></i></a>
-                                        </div>
-                                    }
-                                }
-                                else
-                                {
-                                    for (int j = 0; j < Model.Questions[i].List.Length; j++)
-                                    {
-                                        answer++;
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="@(i+1)-answer-@answer" name="answer-@(i+1)" checked=@(Model.Questions[i].List[j].Result ? "checked" : null)>
-                                            <label class="custom-control-label" for="@(i+1)-answer-@answer">
-                                                <input class="form-control" id="@(i+1)-ques-@answer" type="text" value="@Model.Questions[i].List[j].Value">
-                                            </label>
-                                            <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
-                                               class="remove-option"><i class="fas fa-times"></i></a>
-                                        </div>
-                                    }
-                                }
-                            </div>
-                            <button type="button" class="btn btn-success" onclick="AddNewAnswer(@(i+1))">Add</button>
+            @Html.Hidden("question-ID-" + (i + 1), Model.Questions[i].ID)
+            <div class="question" id="question">
+                <div class="ques-item">
+                    <h3>Question @(i + 1)</h3>
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label" for="choice-@(i+1)">Type</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" id="choice-@(i+1)" onchange="onChoiceChange(@(i+1), this)">
+                                <option value="single" selected=@(Model.Questions[i].Type == 0 ? "selected" : null)>single</option>
+                                <option value="multiple" selected=@(Model.Questions[i].Type == 1 ? "selected" : null)>multiple</option>
+                            </select>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label" for="score_Input-@(i+1)">Score</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" id="score_Input-@(i+1)" type="number" value="@Model.Questions[i].Score">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label" for="description_Input-@(i+1)">Description</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" rows="4" id="description_Input-@(i+1)">@Model.Questions[i].Description</textarea>
+                        </div>
+                    </div>
+                    <div class="answer">
+                        <h6>Add answer for question (choose the the right answer on the left)</h6>
+                        <div class="list" id="answer-list-@(i+1)">
+                            @if (Model.Questions[i].Type == 0)
+                            {
+                                for (int j = 0; j < Model.Questions[i].List.Length; j++)
+                                {
+                                    answer++;
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" id="@(i+1)-answer-@answer" name="answer-@(i+1)" checked=@(Model.Questions[i].List[j].Result ? "checked" : null)>
+                                        <label class="custom-control-label" for="@(i+1)-answer-@answer">
+                                            <input class="form-control" id="@(i+1)-ques-@answer" type="text" value="@Model.Questions[i].List[j].Value">
+                                        </label>
+                                        <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                                           class="remove-option"><i class="fas fa-times"></i></a>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                for (int j = 0; j < Model.Questions[i].List.Length; j++)
+                                {
+                                    answer++;
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="@(i+1)-answer-@answer" name="answer-@(i+1)" checked=@(Model.Questions[i].List[j].Result ? "checked" : null)>
+                                        <label class="custom-control-label" for="@(i+1)-answer-@answer">
+                                            <input class="form-control" id="@(i+1)-ques-@answer" type="text" value="@Model.Questions[i].List[j].Value">
+                                        </label>
+                                        <a style="font-size: 24px;padding-left: 5px;color: red;" href="javascript:;"
+                                           class="remove-option"><i class="fas fa-times"></i></a>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <button type="button" class="btn btn-success" onclick="AddNewAnswer(@(i+1))">Add</button>
+                    </div>
                 </div>
-            }
+            </div>
         }
-        <div class="save-change-btn-group">
-            <button class="btn btn-success" id="js-save-changes-btn" onclick="Submit()">Save Changes</button>
-            <button type="button" class="btn btn-success" onclick="AddNewQuestion()">New question</button>
-        </div>
-        <div style="height: 100px;">
-
-        </div>
+    }
+    <div class="save-change-btn-group">
+        <button class="btn btn-success" id="js-save-changes-btn" onclick="Submit()">Save Changes</button>
+        <button type="button" class="btn btn-success" onclick="AddNewQuestion()">New question</button>
     </div>
+    <div style="height: 100px;">
+
+    </div>
+</div>
 
 @section scripts
     {
@@ -117,7 +127,7 @@
             }
         });
         //window.onload = function SetClassicEditor() {
-            
+
         //}
         //SetClassicEditor();
 

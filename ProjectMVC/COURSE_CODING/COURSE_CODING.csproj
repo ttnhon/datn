@@ -222,6 +222,7 @@
     <Compile Include="Models\UserChallengeStatus.cs" />
     <Compile Include="Models\UserDashboardModel.cs" />
     <Compile Include="Models\UserProfileModel.cs" />
+    <Compile Include="Models\UserScore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -558,6 +559,7 @@
     <Content Include="Views\Moderator\_QuestionList.cshtml" />
     <Content Include="Views\Moderator\_ParticipantList.cshtml" />
     <Content Include="Views\Compete\Invitation.cshtml" />
+    <Content Include="Views\Compete\Score.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

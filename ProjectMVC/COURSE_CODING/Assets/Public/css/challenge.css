@@ -285,7 +285,7 @@ a.active.show {
 
 .nav-tabs .nav-item {
     position: relative;
-    padding: 5px 10px 5px 10px;
+    padding: 5px 7px 5px 7px;
 }
 
     .nav-tabs .nav-item.active {
@@ -302,7 +302,7 @@ a.active.show {
     color: white;
 }
 
-.nav-item:not(.active)::after {
+.content-body .nav-item:not(.active)::after {
     content: "";
     position: absolute;
     top: 50%;
@@ -531,4 +531,28 @@ h2 {
 
 .result-right {
     color: #1ba94c;
+}
+
+.sidebar-difficulty-move-btn a {
+    border-radius: 0px;
+    background-color: #33AD33;
+    color: white;
+    box-shadow: 0 3px 4px 0 rgba(107,152,118,.3);
+}
+
+    .sidebar-difficulty-move-btn a:hover {
+        background-color: #1b921b;
+        color: white;
+    }
+
+.sidebar-difficulty-move-btn a:focus {
+    box-shadow: none;
+}
+
+.affix {
+    position: fixed;
+    top: 10%;
+    right: 10%;
+    z-index: 9999;
+    display: none;
 }
