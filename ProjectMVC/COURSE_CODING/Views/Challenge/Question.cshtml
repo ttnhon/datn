@@ -211,7 +211,7 @@
                 let answer = [];
                 if (type == "multiple") {
                     answers.children('.checkbox').each(function () {
-                        let key = $(this).children('label').children('input');
+                        let key = $(this).children('input');
                         if (key.is(":checked")) {
                             answer.push(key.val());
                         }
@@ -228,7 +228,6 @@
                 answers_result.push(answer);
 
             });
-
             //send to server
             $.ajax({
                 method: "POST",
