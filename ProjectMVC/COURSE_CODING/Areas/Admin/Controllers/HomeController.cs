@@ -4,8 +4,10 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CommonProject;
 using CommonProject.Helper;
 using COURSE_CODING.Models;
+using DAO.DAO;
 
 namespace COURSE_CODING.Areas.Admin.Controllers
 {
@@ -15,11 +17,46 @@ namespace COURSE_CODING.Areas.Admin.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Dash board";
+            GeneralDAO dao = new GeneralDAO();
+            ViewBag.numberUser = dao.CountUsers();
+            ViewBag.numberCompete = dao.CountCompetes();
+            ViewBag.numberChallenge = dao.CountChallenges();
+            ViewBag.numberLanguage = dao.CountLanguages();
+
             return View();
         }
         public ActionResult Contact()
         {
             return View();
+        }
+
+        public JsonResult GetAllDataUsers()
+        {
+            GeneralDAO dao = new GeneralDAO();
+            return Json(
+                dao.GetAllDataUsers()
+                );
+        }
+        public JsonResult GetAllDataChallenges()
+        {
+            GeneralDAO dao = new GeneralDAO();
+            return Json(
+                dao.GetAllDataChallenges()
+                );
+        }
+        public JsonResult GetAllDataCompetes()
+        {
+            GeneralDAO dao = new GeneralDAO();
+            return Json(
+                dao.GetAllDataCompetes()
+                );
+        }
+        public JsonResult GetAllDataLanguages()
+        {
+            GeneralDAO dao = new GeneralDAO();
+            return Json(
+                dao.GetAllDataLanguages()
+                );
         }
 
         [HttpPost]
@@ -55,6 +92,56 @@ namespace COURSE_CODING.Areas.Admin.Controllers
         {
             ViewBag.title = "About";
             return View();
+        }
+        public ActionResult ComfirmRequest(string searchString, int? page, int pageSize = 5)
+        {
+            var dao = new UserDAO();
+            ViewBag.Title = "Comfirm request";
+            var model = dao.ListAllPagingRequestAdmin(searchString, page ?? 1, pageSize);
+            ViewBag.ChuoiTimKiem = searchString;
+            return View(model);
+        }
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                var dao = new UserDataDAO();
+                dao.Delete(id);
+                return RedirectToAction("ComfirmRequest");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        public ActionResult Accept(int id)
+        {
+            try
+            {
+                var userDataDao = new UserDataDAO();
+                var userDao = new UserDAO();
+                var user = userDao.GetUserById(id);
+                userDao.UpdateRole(id, CommonConstant.ROLE_TEACHER);
+                userDataDao.Delete(id);
+                return RedirectToAction("ComfirmRequest");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        public ActionResult Deny(int id)
+        {
+            try
+            {
+                var dao = new UserDataDAO();
+                dao.Delete(id);
+                return RedirectToAction("ComfirmRequest");
+            }
+            catch
+            {
+                return View();
+            }
         }
         protected void SetAlert(string message, string type)
         {
@@ -121,12 +208,6 @@ namespace COURSE_CODING.Areas.Admin.Controllers
             {
                 return View();
             }
-        }
-
-        // GET: Admin/Home/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
         }
 
         // POST: Admin/Home/Delete/5

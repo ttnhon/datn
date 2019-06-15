@@ -59,6 +59,7 @@
     <Compile Include="DAO\ChallengeDAO.cs" />
     <Compile Include="DAO\CommentDAO.cs" />
     <Compile Include="DAO\CompeteDAO.cs" />
+    <Compile Include="DAO\GeneralDAO.cs" />
     <Compile Include="DAO\LanguageDAO.cs" />
     <Compile Include="DAO\LikeStatusDAO.cs" />
     <Compile Include="DAO\QuestionAnswerDAO.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="DAO\SchoolDAO.cs" />
     <Compile Include="DAO\TestCaseDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
+    <Compile Include="DAO\UserDataDAO.cs" />
     <Compile Include="EF\ADD_DATA.cs" />
     <Compile Include="EF\ANSWER.cs" />
     <Compile Include="EF\CHALLENGE.cs" />

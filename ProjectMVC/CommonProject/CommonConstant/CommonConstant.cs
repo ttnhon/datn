@@ -22,6 +22,8 @@ namespace CommonProject
         public const int ROLE_TEACHER = 1;
         public const int ROLE_ADMIN = 2;
 
+        public const string REQUEST_MODERATOR = "REQUEST_MODERATOR";
+
         //public const string URL_HOST_API = "http://aipcompiler.somee.com";
         public const string URL_HOST_API = "http://localhost:52508";
         public const string ROUTER_CSHARP_COMPILER_API = "/api/CSharpCompiler/Compiler";

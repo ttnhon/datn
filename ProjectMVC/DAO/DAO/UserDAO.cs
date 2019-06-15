@@ -28,6 +28,26 @@ namespace DAO.DAO
         }
 
         /// <summary>
+        /// update role user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="typeRole"></param>
+        /// <returns></returns>
+        public Boolean UpdateRole(int id,int typeRole)
+        {
+            try
+            {
+                var u = db.USER_INFOS.Find(id);
+                u.RoleUser = typeRole;
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        /// <summary>
         /// check if have email exist
         /// </summary>
         /// <param name="email"></param>
@@ -244,5 +264,21 @@ namespace DAO.DAO
             return model.OrderByDescending(x => x.ID).ToPagedList(page ?? 1, pageSize);
         }
 
+        public IEnumerable<USER_INFO> ListAllPagingRequestAdmin(string searchString, int? page, int pageSize)
+        {
+            IQueryable<USER_INFO> model = db.USER_INFOS;
+            model = (from u in db.USER_INFOS
+                     join ud in db.USER_DATAS on u.ID equals ud.UserID
+                     where ud.Title == CommonConstant.REQUEST_MODERATOR
+                     select u
+                );
+
+            if (String.IsNullOrEmpty(searchString) == false)
+            {
+                model = model.Where(x => x.UserName.Contains(searchString) || x.Email.Contains(searchString));
+
+            }
+            return model.OrderByDescending(x => x.ID).ToPagedList(page ?? 1, pageSize);
+        }
     }
 }
