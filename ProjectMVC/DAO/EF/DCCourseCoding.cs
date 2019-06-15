@@ -12,8 +12,6 @@ namespace DAO.EF
         {
         }
 
-        
-
         public virtual DbSet<ADD_DATA> ADD_DATAS { get; set; }
         public virtual DbSet<ANSWER> ANSWERS { get; set; }
         public virtual DbSet<CHALLENGE> CHALLENGES { get; set; }

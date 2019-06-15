@@ -41,6 +41,20 @@ namespace DAO.DAO
                 .Select(table => table.t).ToList();
         }
 
+        public List<COMPETE> GetScheduledCompetes(int id, int take = 5)
+        {
+            return db.COMPETES.GroupJoin(db.COMPETE_PARTICIPANTSS, t => t.ID, p => p.CompeteID, (t, p) => new { t, p })
+                .Where(table => table.t.IsPublic || table.p.FirstOrDefault(list => list.UserID == id) != null)
+                .Select(table => table.t).OrderBy(table => table.TimeEnd).Take(take).ToList();
+        }
+
+        public int CountJoinedAndPublic(int id)
+        {
+            return db.COMPETES.GroupJoin(db.COMPETE_PARTICIPANTSS, t => t.ID, p => p.CompeteID, (t, p) => new { t, p })
+                .Where(table => table.t.IsPublic || table.p.FirstOrDefault(list => list.UserID == id) != null)
+                .Select(table => table.t).Count();
+        }
+
         public List<COMPETE> GetPublic(int id)
         {
             return db.COMPETES.GroupJoin(db.COMPETE_PARTICIPANTSS, t => t.ID, p => p.CompeteID, (t, p) => new { t, p })
@@ -195,5 +209,6 @@ namespace DAO.DAO
 
             return false;
         }
+        
     }
 }

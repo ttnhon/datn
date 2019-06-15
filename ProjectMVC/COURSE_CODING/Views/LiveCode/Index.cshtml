@@ -14,7 +14,7 @@
 <div id="option">
     <button id="btn_run" class="btn btn-success" onclick="runCode()">Run &nbsp; <i class="fas fa-play"></i></button>
     <select class="form-control" id="language_option">
-        <option value="CPlus">C++</option>
+        <option value="CPP">C++</option>
         <option value="CSharp">C#</option>
         <option value="Java">Java</option>
     </select>
@@ -54,9 +54,10 @@
         });
 
         function setModeEditor(language) {
-            if (language == "C++") {
+            console.log('Da thay doi language ' + language)
+            if (language == "CPP") {
                 language = "c_cpp";
-            } else if (language == "C#") {
+            } else if (language == "CSharp") {
                 language = "csharp";
             } else if (language == "Java") {
                 language = "java";
