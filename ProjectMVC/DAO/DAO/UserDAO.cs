@@ -267,11 +267,15 @@ namespace DAO.DAO
         public IEnumerable<USER_INFO> ListAllPagingRequestAdmin(string searchString, int? page, int pageSize)
         {
             IQueryable<USER_INFO> model = db.USER_INFOS;
-            model = (from u in db.USER_INFOS
-                     join ud in db.USER_DATAS on u.ID equals ud.UserID
-                     where ud.Title == CommonConstant.REQUEST_MODERATOR
-                     select u
-                );
+            List<string> requestIds = db.ADD_DATAS.Where(table => table.Title == CommonConstant.REQUEST_MODERATOR)
+                .Select(table => table.Data).ToList();
+            model= db.USER_INFOS.Where(table => requestIds.Contains((table.ID).ToString()));
+            //model = (from u in db.USER_INFOS
+            //         from ud in db.ADD_DATAS
+            //         //join ud in db.ADD_DATAS on new { ID = u.ID.ToString() } equals new { ID = ud.Data.ToString() }
+            //         where ud.Title == CommonConstant.REQUEST_MODERATOR && ud.Data.Contains(u.ID.ToString())
+            //         select u
+            //    );
 
             if (String.IsNullOrEmpty(searchString) == false)
             {
