@@ -2,6 +2,14 @@
     padding: 15px 0 15px 0;
 }
 
+.edit-challenge a.nav-link:hover{
+    color: black;
+}
+
+.edit-challenge h1.title{
+    padding: 10px 0;
+}
+
 .edit-challenge .test-case-popup .modal-content {
     max-height: 500px;
     overflow-y: auto;

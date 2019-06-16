@@ -1,0 +1,203 @@
+﻿@using COURSE_CODING.Models
+@model COURSE_CODING.Models.EditCodestubsModel
+
+@{
+    ViewBag.Title = "Edit Challenge";
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
+}
+
+@if (ViewBag.CanAccess == false)
+{
+    <div style="text-align: center;margin: 0 auto; padding: 30px;">
+        <h2>You don't have permission to view this page</h2>
+        <h2>405!</h2>
+    </div>
+    return;
+}
+
+@section CustomCSS
+{
+    @Styles.Render("~/Assets/Public/css/EditChallenge.css")
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+}
+
+<section class="content-page edit-challenge">
+    <div class="container">
+        <h1 class="title">@ViewBag.Name</h1>
+        <nav class="navbar navbar-light bg-light">
+            <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
+                <li class="nav-item">
+                    <a id="js-details" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID">Details</a>
+                </li>
+                <li class="nav-item"><a id="js-moderators" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Moderator">Moderators</a></li>
+                <li class="nav-item"><a id="js-test-cases" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Testcase">Test cases</a></li>
+                <li class="nav-item"><a id="js-code-stubs" class="nav-link active" href="/Moderator/Edit/Challenge/@Model.ID/Codestubs">Code stubs</a></li>
+                <li class="nav-item"><a id="js-languages" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Languages">Languages</a></li>
+                <li class="nav-item"><a id="js-settings" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Settings">Settings</a></li>
+            </ul>
+        </nav>
+
+        <div class="code-stubs-modal main-modal" id="div-code-stubs-modal">
+            <div class="clearfix">
+                <p>
+                    Để nhập địa chỉ file đọc test case input thì thay thế địa chỉ bằng string <strong>"INPUT_FILE_NAME"</strong>
+                </p>
+            </div>
+            @*<div class="form-group row dsl-input">
+                    <label class="col-sm-2 control-label" for="dsl_Input">DSL for code stubs</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" rows="4" id="dsl_Input"></textarea>
+                        <button class="btn btn-success" style="float: right; margin-top: 10px;">
+                            Generate Code
+                            Stubs
+                        </button>
+                    </div>
+                </div>*@
+            <!--Code Editor-->
+            <div class="container code-section">
+                <!--Code Option-->
+                <div class="row code-option">
+                    <div class="form-group col-md-4 offset-md-8 language-option">
+                        @*<label for="inputState">State</label>*@
+                        <select id="inputLanguage" class="form-control">
+                            <option value="1">C++</option>
+                            <option value="2">C#</option>
+                            <option value="3">Java</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="code-editor" id="div-CSharp">
+                    <div id="editor">@Model.CodeStubs_CSharp</div>
+                    <iframe id="result" frameborder="0"></iframe>
+                </div>
+            </div>
+            <div class="save-change-btn-group">
+                <button class="btn btn-success" id="js-save-changes-btn" onclick="CodeStubSave()">Save Changes</button>
+            </div>
+        </div>
+        <div style="height: 100px;">
+
+        </div>
+        @*<div class="save-change-btn-group">
+                <button class="btn btn-success" id="js-save-changes-btn">Save Changes</button>
+            </div>*@
+    </div>
+</section>
+
+@section scripts
+    {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" type="text/javascript" charset="utf-8">
+        //<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ext-language_tools.js" type="text/javascript" charset="utf-8">
+    </script>
+    <script type="text/javascript">
+        //code
+        var code_CSharp = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_CSharp))`;
+        var code_Cpp = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_Cpp))`;
+        var code_Java = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_Java))`;
+
+        $("#inputLanguage").change(function () {
+            var selectedVal = Number.parseInt(this.value);
+            if (selectedVal === 1) {
+                editor.setValue(code_Cpp);
+                setModeEditor("C++");
+            }
+            else if (selectedVal === 2) {
+                editor.setValue(code_CSharp);
+                setModeEditor("C#");
+            }
+            else if (selectedVal === 3) {
+                editor.setValue(code_Java);
+                setModeEditor("Java");
+            }
+        });
+
+        function setModeEditor(language) {
+            if (language == "C++") {
+                language = "c_cpp";
+            } else if (language == "C#") {
+                language = "csharp";
+            } else if (language == "Java") {
+                language = "java";
+            }
+
+            editor.session.setMode("ace/mode/" + language);
+        }
+
+        @* Code Editor Script *@
+        function update(id) {
+            var res = document.getElementById(id).contentWindow.document;
+            res.open();
+            res.write(editor.getValue());
+            res.close();
+            var select = Number.parseInt($('#inputLanguage').val());
+            if (select === 1) {
+                code_Cpp = editor.getValue();
+            }
+            else if (select === 2) {
+                code_CSharp = editor.getValue();
+            }
+            else if (select === 3) {
+                code_Java = editor.getValue();
+            }
+        }
+
+        function setupEditor(id) {
+            window.editor = ace.edit(id);
+            editor.setTheme("ace/theme/light");
+            editor.session.setMode("ace/mode/csharp");
+            //editor.setValue(`<h1>Hello World</h1>`, 1);
+            // trigger extension
+            ace.require("ace/ext/language_tools");
+            // enable autocompletion and snippets
+            editor.setOptions({
+                enableBasicAutocompletion: true,
+                enableSnippets: true,
+                enableLiveAutocompletion: false
+            });
+            var select = Number.parseInt($('#inputLanguage').val());
+            if (select === 1) {
+                editor.setValue(code_Cpp);
+                setModeEditor("C++");
+            }
+            else if (select === 2) {
+                editor.setValue(code_CSharp);
+                setModeEditor("C#");
+            }
+            else if (select === 3) {
+                editor.setValue(code_Java);
+                setModeEditor("Java");
+            }
+            editor.getSession().on('change', function () {
+                update("result");
+            });
+        }
+
+        setupEditor("editor");
+        update("result");
+
+        function CodeStubSave() {
+            //var code = editor.getValue();
+            var language = Number.parseInt($('#inputLanguage').val());
+            console.log(language);
+            console.log(code_Cpp);
+            console.log(code_CSharp);
+            console.log(code_Java);
+            $.ajax({
+                method: "POST",
+                url: "/Challenge/UpdateCodeStubs",
+                data: {
+                    challengeID: @(Model.ID),
+                    language: language,
+                    Code: language === 1 ? code_Cpp : language === 2 ? code_CSharp : language === 3 ? code_Java : null
+                }
+            })
+                .done(function (msg) {
+                    if (msg) {
+                        console.log(msg);
+                        alert(msg.msg);
+                    }
+
+                });
+        }
+    </script>
+}

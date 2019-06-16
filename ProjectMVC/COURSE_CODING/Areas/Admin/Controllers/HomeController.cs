@@ -22,6 +22,7 @@ namespace COURSE_CODING.Areas.Admin.Controllers
             ViewBag.numberCompete = dao.CountCompetes();
             ViewBag.numberChallenge = dao.CountChallenges();
             ViewBag.numberLanguage = dao.CountLanguages();
+            var a = GetAllDataUsers();
 
             return View();
         }

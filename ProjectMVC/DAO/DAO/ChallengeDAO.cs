@@ -186,15 +186,10 @@ namespace DAO.DAO
         {
             try
             {
-                entity.LanguageCSharp = true;
-                entity.LanguageCpp = true;
-                entity.LanguageJava = true;
                 entity.DisCompileTest = false;
-                entity.DisCustomTestcase = false;
                 entity.DisSubmissions = false;
-                entity.PublicTestcase = false;
                 entity.PublicSolutions = false;
-                entity.PartialEditorial = false;
+                entity.IsPublic = true;
                 db.CHALLENGES.Add(entity);
                 db.SaveChanges();
                 return true;
@@ -220,6 +215,7 @@ namespace DAO.DAO
                     c.Title = entity.Title;
                     c.Slug = entity.Slug;
                     c.Description = entity.Description;
+                    c.Score = entity.Score;
                     c.InputFormat = entity.InputFormat;
                     c.OutputFormat = entity.OutputFormat;
                     c.ChallengeDifficulty = entity.ChallengeDifficulty;
@@ -248,9 +244,8 @@ namespace DAO.DAO
                 if (c.ID > 0)
                 {
                     c.DisCompileTest = entity.DisCompileTest;
-                    c.DisCustomTestcase = entity.DisCustomTestcase;
+                    c.IsPublic = entity.IsPublic;
                     c.DisSubmissions = entity.DisSubmissions;
-                    c.PublicTestcase = entity.PublicTestcase;
                     c.PublicSolutions = entity.PublicSolutions;
                 }
                 db.SaveChanges();
@@ -267,31 +262,53 @@ namespace DAO.DAO
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public bool UpdateLanguage(CHALLENGE entity)
+        public bool UpdateLanguage(int ID, bool LanguageCpp, bool LanguageCSharp, bool LanguageJava)
         {
             try
             {
                 List<int> addList = new List<int>();
-                if ((bool)entity.LanguageCpp)
+                if (LanguageCpp)
                 {
                     addList.Add(1);
                 }
-                if ((bool)entity.LanguageCSharp)
+                else
+                {
+                    addList.Add(-1);
+                }
+                if (LanguageCSharp)
                 {
                     addList.Add(2);
                 }
-                if ((bool)entity.LanguageJava)
+                else
+                {
+                    addList.Add(-2);
+                }
+                if (LanguageJava)
                 {
                     addList.Add(3);
                 }
-                foreach(var id in addList)
+                else
                 {
-                    bool res = db.CHALLENGE_LANGUAGES.Where(table => table.ChallengeID == entity.ID && table.LanguageID == id).Count() > 0;
+                    addList.Add(-3);
+                }
+                foreach (var id in addList)
+                {
+                    if (id < 0)
+                    {
+                        var item = db.CHALLENGE_LANGUAGES.FirstOrDefault(table => table.ChallengeID == ID && table.LanguageID == -id);
+                        if(item != null)
+                        {
+                            db.CHALLENGE_LANGUAGES.Remove(item);
+                            db.SaveChanges();
+                        }
+                        continue;
+                    }
+                    bool res = db.CHALLENGE_LANGUAGES.Where(table => table.ChallengeID == ID && table.LanguageID == id).Count() > 0;
                     if (!res)
                     {
                         CHALLENGE_LANGUAGE temp = new CHALLENGE_LANGUAGE()
                         {
-                            ChallengeID = entity.ID,
+                            ChallengeID = ID,
                             LanguageID = id,
                             CodeStub = null
                         };
@@ -306,38 +323,7 @@ namespace DAO.DAO
                 return false;
             }
         }
-
-        /// <summary>
-        /// Update editorial challenge
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public bool UpdateEditorial(CHALLENGE entity)
-        {
-            try
-            {
-                var c = db.CHALLENGES.Find(entity.ID);
-                if (c.ID > 0)
-                {
-                    c.RequiredKnowledge = entity.RequiredKnowledge;
-                    c.TimeComplexity = entity.TimeComplexity;
-                    c.Editorialist = entity.Editorialist;
-                    c.PartialEditorial = entity.PartialEditorial;
-                    c.Approach = entity.Approach;
-                    c.ProblemSetter = entity.ProblemSetter;
-                    c.SetterCode = entity.SetterCode;
-                    c.ProblemTester = entity.ProblemTester;
-                    c.TesterCode = entity.SetterCode;
-                }
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
-
+        
         /// <summary>
         /// Get list moderator by challenge id
         /// </summary>

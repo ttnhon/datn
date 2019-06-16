@@ -34,7 +34,7 @@
                     @if (ViewBag.competeID != null)
                     {
                         <li class="breadcrumb-item">
-                            <a href="/Compete/Detail/@Model.challenge.ID">Compete</a>
+                            <a href="/Compete/@Model.challenge.ID/Detail">Compete</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
                             @Model.challenge.Title
@@ -333,7 +333,7 @@
                 {
                     <div class="sidebar-difficulty-move-btn">
                         <a class="btn @(ViewBag.Back < 0 ? "disabled" : null)" href="/Compete/@ViewBag.competeID/Challenge/@(ViewBag.Back < 0 ? Model.challenge.ID : ViewBag.Back)/Problem"><i class="fas fa-less-than"></i> Back</a>
-                        <a class="btn" href="/Compete/Detail/@ViewBag.competeID">List Challenge</a>
+                        <a class="btn" href="/Compete/@ViewBag.competeID/Detail">List Challenge</a>
                         <a class="btn @(ViewBag.Next < 0 ? "disabled" : null)" href="/Compete/@ViewBag.competeID/Challenge/@(ViewBag.Next < 0 ? Model.challenge.ID : ViewBag.Next)/Problem">Next <i class="fas fa-greater-than"></i></a>
                     </div>
                 }

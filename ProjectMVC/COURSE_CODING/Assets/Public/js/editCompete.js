@@ -1,4 +1,13 @@
-﻿$('#js-question').click(function () {
+﻿$(function () {
+    jQuery('.date-picker').datetimepicker({
+        format: 'm/d/Y H:i',
+        lang: 'vi',
+
+    });
+
+});
+
+$('#js-question').click(function () {
     $(this).addClass('active');
     $('#js-details').removeClass('active');
     $('#js-participant').removeClass('active');
@@ -31,6 +40,20 @@ $('#js-participant').click(function () {
         }
     })
 });
+
+function OnSuccess(data) {
+    console.log(data)
+    if (data) {
+        alert('Save changes succeed');
+    } else {
+        alert('operation fail');
+    }
+}
+function OnFailure(data) {
+    console.log(data)
+    alert('POST: Save changes fail');
+}
+
 
 function addParticipant() {
     console.log("clicked");

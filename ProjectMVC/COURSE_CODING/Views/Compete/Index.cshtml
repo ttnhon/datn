@@ -47,7 +47,7 @@
                                     <div class="col-md-6 contest-enter">
                                         <span><strong class="time-happen">@item.TimeEnd.ToString()</strong><i class="contest-status">@(item.TimeEnd > DateTime.Now ? "Open" : "Close")</i></span>
                                         @*<a href="" class="btn btn-outline-success">Do Contest</a>*@
-                                        <button class="btn btn-outline-success" tabindex="0" onclick="location.href='/Compete/Detail/@item.ID'">
+                                        <button class="btn btn-outline-success" tabindex="0" onclick="location.href='/Compete/@item.ID/Detail'">
                                             <span class="ui-text">Do Contest</span>
                                         </button>
                                     </div>
@@ -188,7 +188,7 @@
                         if (msg) {
                             console.log(msg);
                             if (msg.result) {
-                                window.location.href = '/Compete/Detail/'+ id;
+                                window.location.href = '/Compete/'+ id +'/Detail';
                             }
                         }
                     });
