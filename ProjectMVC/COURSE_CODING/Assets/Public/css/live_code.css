@@ -4,18 +4,19 @@
 }
 
 #btn_run {
-    padding: 4px 25px;
+    padding: 1px 20px;
     font-size: 20px;
-    margin-bottom: 10px;
 }
 
 #runcode_result {
+    height: 400px;
     background-color: lightslategray;
     color: white;
 }
 
 select#language_option {
     float: right;
+    width: 200px;
 }
 
 #option {
