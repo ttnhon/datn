@@ -21,7 +21,7 @@ namespace DAO.EF
 
         public int OwnerID { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "ntext")]
         [Required]
         public string Text { get; set; }
 

@@ -54,7 +54,7 @@ namespace DAO.EF
 
         public int Score { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "ntext")]
         public string Solution { get; set; }
 
         [StringLength(256)]
