@@ -29,6 +29,7 @@ namespace COURSE_CODING.Controllers
 
             model.userId = userId;
             model.lsChallenges = (new ChallengeDAO()).GetAllByEditorId(userId);
+            model.lsCompetes = (new CompeteDAO().GetAll(userId));
 
             return View(model);
         }
@@ -369,7 +370,7 @@ namespace COURSE_CODING.Controllers
             //add to table CHALLENGE
             bool res = DAO.Insert(c);
             //add to table CHALLENGE_EDITOR
-            return Json(new { result = false });
+            return Json(new { result = true });
         }
 
         [HttpPost]
@@ -386,8 +387,10 @@ namespace COURSE_CODING.Controllers
                 c.IsPublic = model.isPublic;
                 var DAO = new CompeteDAO();
                 var result = DAO.Update(c);
+
+                return Json(result);
             }
-            return View();
+            return View(model);
 
         }
     }

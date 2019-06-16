@@ -10,5 +10,6 @@ namespace COURSE_CODING.Models
     {
         public int userId { get; set; }
         public List<CHALLENGE> lsChallenges { get; set; }
+        public List<COMPETE> lsCompetes { get; set; }
     }
 }
