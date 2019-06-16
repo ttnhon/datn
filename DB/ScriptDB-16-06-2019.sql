@@ -65,23 +65,9 @@ CREATE TABLE CHALLENGE(
 	Solution			    ntext			,				    --giải pháp làm bài nếu "bí"
 	Tags				    nvarchar(256)	,					--Các thẻ (phụ vụ cho việc tìm kiếm (nếu có))
 	IsPublic				bit					NOT NULL,--Chế độ public hay private của challenge
-	LanguageCSharp bit,
-	LanguageCpp bit,
-	LanguageJava bit,
 	DisCompileTest bit,	--Tắt chức năng run challenge
-	DisCustomTestcase bit,
 	DisSubmissions bit,	--tắt chức năng submit challenge
-	PublicTestcase bit,	--test case public
 	PublicSolutions bit,--public cách giải challenge sau khi submit
-	RequiredKnowledge nvarchar(256),
-	TimeComplexity nvarchar(256),
-	Editorialist nvarchar(256),
-	PartialEditorial bit,
-	Approach nvarchar(256),
-	ProblemSetter nvarchar(256),
-	SetterCode nvarchar(256),
-	ProblemTester nvarchar(256),
-	TesterCode nvarchar(256),
 
 	foreign key (OwnerID) references  USER_INFO(ID)
 );

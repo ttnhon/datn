@@ -876,19 +876,13 @@ namespace COURSE_CODING.Controllers
             {
                 return Json(new { result = false });
             }
-            CHALLENGE c = new CHALLENGE()
-            {
-                ID = model.ID,
-                LanguageCSharp = model.LanguageCSharp,
-                LanguageCpp = model.LanguageCpp,
-                LanguageJava = model.LanguageJava
-            };
-            bool res = DAO.UpdateLanguage(c);
+
+            bool res = DAO.UpdateLanguage(model.ID, model.LanguageCpp, model.LanguageCSharp, model.LanguageJava);
             if (res)
             {
-                return Json(new { result = true, data = c });
+                return Json(new { result = true });
             }
-            return Json(new { result = false });
+            return Json(new { result = false, msg = "Update Language fail" });
         }
 
         [HttpPost]
