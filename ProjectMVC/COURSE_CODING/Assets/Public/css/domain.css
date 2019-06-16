@@ -170,3 +170,79 @@ i.far.fa-star {
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
     background-color: #28a745;
 }
+
+.affix {
+    position: fixed;
+    top: 10%;
+    right: 10%;
+    z-index: 9999;
+    display: none;
+}
+
+.affix > div {
+    max-width: 100% !important;
+}
+
+.difficulty-block {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 30% auto;
+    grid-template-columns: 30% auto;
+    margin-bottom: 10px;
+}
+
+    .difficulty-block p {
+        margin-bottom: 0 !important;
+    }
+
+    .difficulty-block a,
+    .difficulty-block .difficulty-easy,
+    .difficulty-block .difficulty-medium,
+    .difficulty-block .difficulty-hard,
+    .difficulty-block .difficulty-score {
+        text-align: right;
+    }
+
+.difficulty-label {
+    color: gray;
+}
+
+.difficulty-easy {
+    color: #1ba94c;
+}
+
+.sidebar-difficulty-help hr {
+    margin-top: 4px !important;
+}
+
+.sidebar-difficulty-help a {
+    text-decoration: none;
+    font-size: 20px;
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 30px 1fr;
+    grid-template-columns: 30px 1fr;
+}
+
+    .sidebar-difficulty-help a:hover {
+        text-decoration: none;
+    }
+
+        .sidebar-difficulty-help a:hover i {
+            color: #333333;
+        }
+
+    .sidebar-difficulty-help a i {
+        -ms-flex-item-align: center;
+        -ms-grid-row-align: center;
+        align-self: center;
+        text-align: left;
+        color: gray;
+    }
+
+    .sidebar-difficulty-help a span {
+        font-weight: 10;
+        display: inline-block;
+        color: #097bbf;
+        text-align: left;
+    }
