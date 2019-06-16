@@ -30,9 +30,15 @@ namespace DAO.DAO
         {
             return db.LANGUAGES.Count();
         }
-        public IQueryable<USER_INFO> GetAllDataUsers()
+        public IOrderedQueryable<USER_INFO> GetAllDataUsers()
         {
-            return db.USER_INFOS;
+            // return db.USER_INFOS;
+            //var grouped = (from u in db.USER_INFOS
+            //               group u by new { month = u.CreateDate.Month, year = u.CreateDate.Year } into d
+            //               select new { dt = string.Format("{0}/{1}", d.Key.month, d.Key.year), count = d.Count() }).OrderByDescending(g => g.dt);
+            //return grouped;
+
+            return null;
         }
         public IQueryable<COMPETE> GetAllDataCompetes()
         {
