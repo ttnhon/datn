@@ -22,6 +22,21 @@ jQuery(document).ready(function () {
             }
         });
     })
+    var dataUser;
+    $.ajax({
+        url: "/Admin/Home/GetAllDataUsers",
+        contentType: "application/json",
+        dataType: "json",
+        method: "GET",
+        data: dataList,
+        success: function (respone) {
+            dataUser = respone;
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+
 
 
     Morris.Area({

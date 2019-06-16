@@ -19,8 +19,8 @@ namespace DAO.DAO
         {
             try
             {
-                var u = db.USER_DATAS.Find(userId);
-                db.USER_DATAS.Remove(u);
+                var u = db.ADD_DATAS.Find(userId);
+                db.ADD_DATAS.Remove(u);
                 db.SaveChanges();
                 return true;
             }

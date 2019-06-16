@@ -8,19 +8,21 @@
 {
     @Styles.Render("~/Assets/Public/css/live_code.css")
 }
-<div id="code_editor">
-    <div id="editor"></div>
-</div>
-<div id="option">
-    <button id="btn_run" class="btn btn-success" onclick="runCode()">Run &nbsp; <i class="fas fa-play"></i></button>
-    <select class="form-control" id="language_option">
-        <option value="CPP">C++</option>
-        <option value="CSharp">C#</option>
-        <option value="Java">Java</option>
-    </select>
-</div>
-<div id="runcode_result">
+<div class="row">
+    <div id="code_editor" class="col-md-5">
+        <div id="editor"></div>
+    </div>
+    <div id="option" class="col-md-1">
+        <button id="btn_run" class="btn btn-success" onclick="runCode()">Run &nbsp; <i class="fas fa-play"></i></button>
+        <select class="form-control" id="language_option">
+            <option value="CPP">C++</option>
+            <option value="CSharp">C#</option>
+            <option value="Java">Java</option>
+        </select>
+    </div>
+    <div id="runcode_result" class="col-md-6">
 
+    </div>
 </div>
 
 @section scripts
@@ -81,7 +83,13 @@
             })
                 .done(function (msg) {
                     if (msg) {
-                        console.log(msg);
+                        console.log(msg)
+                        if (msg) {
+                            content = `<h4> ${msg.status}</h4>
+                                        <p>${msg.message}</p>`;
+                            $('#runcode_result').append(content);
+
+                        }
                     }
 
                 });
