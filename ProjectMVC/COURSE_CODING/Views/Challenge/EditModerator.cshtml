@@ -1,0 +1,104 @@
+﻿@using COURSE_CODING.Models
+@model COURSE_CODING.Models.EditModeratorModel
+
+@{
+    ViewBag.Title = "Edit Challenge";
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
+}
+
+@if (ViewBag.CanAccess == false)
+{
+    <div style="text-align: center;margin: 0 auto; padding: 30px;">
+        <h2>You don't have permission to view this page</h2>
+        <h2>405!</h2>
+    </div>
+    return;
+}
+
+@section CustomCSS
+{
+    @Styles.Render("~/Assets/Public/css/EditChallenge.css")
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<section class="content-page edit-challenge">
+    <div class="container">
+        <h1 class="title">@ViewBag.Name</h1>
+        <nav class="navbar navbar-light bg-light">
+            <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
+                <li class="nav-item">
+                    <a id="js-details" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID">Details</a>
+                </li>
+                <li class="nav-item"><a id="js-moderators" class="nav-link active" href="/Moderator/Edit/Challenge/@Model.ID/Moderator">Moderators</a></li>
+                <li class="nav-item"><a id="js-test-cases" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Testcase">Test cases</a></li>
+                <li class="nav-item"><a id="js-code-stubs" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Codestubs">Code stubs</a></li>
+                <li class="nav-item"><a id="js-languages" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Languages">Languages</a></li>
+                <li class="nav-item"><a id="js-settings" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Settings">Settings</a></li>
+            </ul>
+        </nav>
+
+        <div class="moderators-modal main-modal" id="div-moderators-modal">
+            @using (Ajax.BeginForm("AddModerator", "Challenge", new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnSuccess = "OnSuccessModerator",
+                OnFailure = "OnFailureModerator"
+            }, new { @class = "form-horizontal" }))
+            {
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label" for="moderators_Input">Moderators</label>
+                    <div class="col-sm-3">
+                        @Html.TextBox("moderator", "", new { @class = "form-control", @id = "moderators_Input" })
+                        @*<input class="form-control" id="moderators_Input" type="text">*@
+                        @Html.Hidden("challengeID", Model.ID)
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn moderator-add-btn" id="js-moderator-add-btn" type="submit">Add</button>
+                    </div>
+                </div>
+            }
+            <div class="moderators-list row">
+                <div class="col-sm-2">
+                </div>
+                <ul class="col-sm-8" id="moderatorList">
+                    @if (Model.Moderators.Count > 0)
+                    {
+                        foreach (var item in Model.Moderators)
+                        {
+                            <li><img src="http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg" alt="profile picture" class="profile-pic"> @item.UserName</li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+        <div style="height: 100px;">
+
+        </div>
+        @*<div class="save-change-btn-group">
+                <button class="btn btn-success" id="js-save-changes-btn">Save Changes</button>
+            </div>*@
+    </div>
+</section>
+
+
+@section scripts
+    {
+    <script type="text/javascript">
+        
+        function OnSuccessModerator(data) {
+            //alert('Add succeed');
+            console.log(data);
+            if (data.result) {
+                document.getElementById("moderatorList").innerHTML += '<li><img src="http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg" alt="profile picture" class="profile-pic"> ' + data.data.UserName + '</li>';
+            } else {
+                alert('The person not exists');
+            }
+        }
+        function OnFailureModerator(data) {
+            alert('Fail to add moderator');
+        }
+    </script>
+}

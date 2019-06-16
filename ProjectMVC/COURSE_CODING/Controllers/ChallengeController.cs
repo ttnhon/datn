@@ -370,6 +370,7 @@ namespace COURSE_CODING.Controllers
         }
 
         // GET: Challenge/edit/:id
+        [Route("Moderator/Edit/Challenge/{id}")]
         public ActionResult Edit(int id)
         {
             //login session
@@ -389,25 +390,8 @@ namespace COURSE_CODING.Controllers
             CHALLENGE c = DAO.GetOne(id);
             if(c != null)
             {
-                //get code stubs
-                var cs = DAO.GetCodeStubs(id);
-                bool isCpp = false, isCsharp = false, isJava = false;
-                foreach (var item in cs)
-                {
-                    if (item.LanguageID == 1)
-                    {
-                        isCpp = true;
-                    }
-                    else if (item.LanguageID == 2)
-                    {
-                        isCsharp = true;
-                    }
-                    else if (item.LanguageID == 3)
-                    {
-                        isJava = true;
-                    }
-                }
-                EditChallengeModel model = new EditChallengeModel()
+                ViewBag.Name = c.Title;
+                EditDetailModel model = new EditDetailModel()
                 {
                     ID = id,
                     Slug = c.Slug,
@@ -419,55 +403,10 @@ namespace COURSE_CODING.Controllers
                     InputFormat = c.InputFormat,
                     Constraints = c.Constraints,
                     OutputFormat = c.OutputFormat,
-                    Tags = c.Tags,
-                    Moderators = DAO.GetModeratorByChallengeID(id),
-                    TestCases = DAO.GetTestCaseByID(id),
-                    LanguageCSharp = isCsharp,
-                    LanguageCpp = isCpp,
-                    LanguageJava = isJava,
-                    DisCompileTest = (bool)c.DisCompileTest,
-                    DisCustomTestcase = (bool)c.DisCustomTestcase,
-                    DisSubmissions = (bool)c.DisSubmissions,
-                    PublicTestcase = (bool)c.PublicTestcase,
-                    PublicSolutions = (bool)c.PublicSolutions,
-                    RequiredKnowledge = c.RequiredKnowledge,
-                    TimeComplexity = c.TimeComplexity,
-                    Editorialist = c.Editorialist,
-                    PartialEditorial = (bool)c.PartialEditorial,
-                    Approach = c.Approach,
-                    ProblemSetter = c.ProblemSetter,
-                    SetterCode = c.SetterCode,
-                    ProblemTester = c.ProblemTester,
-                    TesterCode = c.TesterCode
+                    Tags = c.Tags
                 };
-                //code stub to model
-                foreach(var item in cs)
-                {
-                    if(item.LanguageID == 1)
-                    {
-                        model.CodeStubs_Cpp = item.CodeStub;
-                    }else if(item.LanguageID == 2)
-                    {
-                        model.CodeStubs_CSharp = item.CodeStub;
-                    }
-                    else if (item.LanguageID == 3)
-                    {
-                        model.CodeStubs_Java = item.CodeStub;
-                    }
-                }
-                //get test case content
-                int pos_test_case = 0;
-                Dictionary<int, Dictionary<string, string>> test_case_contents = this.ReadTestCaseContent(model.TestCases);
-                foreach (var one_test_case in model.TestCases)
-                {
-                    //get test case content
-                    Dictionary<string, string> one_test_case_content = test_case_contents[pos_test_case++];
-                    TestCaseResultModel temp = new TestCaseResultModel();
-                    temp.Input = one_test_case_content["Input"];
-                    temp.Output = one_test_case_content["Output"];
-                    model.TestCaseContent.Add(temp);
-                }
-                return View(model);
+                
+                return View("Edit", model);
             }
             return View("Edit");
         }
@@ -490,15 +429,219 @@ namespace COURSE_CODING.Controllers
             return result;
         }
 
-        [HttpPost]
-        public ActionResult Edit(EditChallengeModel model)
+        [Route("Moderator/Edit/Challenge/{id}/Moderator")]
+        public ActionResult EditModerator(int id)
         {
-            return null;
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            if (ses == null)
+            {
+                return Redirect("Authen/Login");
+            }
+            ChallengeDAO DAO = new ChallengeDAO();
+            bool IsEditor = DAO.IsEditor(id, ses.ID);
+            if (!IsEditor)
+            {
+                ViewBag.CanAccess = false;
+                return View("EditModerator");
+            }
+            ViewBag.CanAccess = true;
+            CHALLENGE c = DAO.GetOne(id);
+            if (c != null)
+            {
+                ViewBag.Name = c.Title;
+                EditModeratorModel model = new EditModeratorModel()
+                {
+                    ID = id,
+                    Moderators = DAO.GetModeratorByChallengeID(id)
+                };
+                
+                return View("EditModerator", model);
+            }
+            return View("EditModerator");
+        }
+
+        [Route("Moderator/Edit/Challenge/{id}/Testcase")]
+        public ActionResult EditTestcase(int id)
+        {
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            if (ses == null)
+            {
+                return Redirect("Authen/Login");
+            }
+            ChallengeDAO DAO = new ChallengeDAO();
+            bool IsEditor = DAO.IsEditor(id, ses.ID);
+            if (!IsEditor)
+            {
+                ViewBag.CanAccess = false;
+                return View("EditTestcase");
+            }
+            ViewBag.CanAccess = true;
+            CHALLENGE c = DAO.GetOne(id);
+            if (c != null)
+            {
+                ViewBag.Name = c.Title;
+                EditTestcaseModel model = new EditTestcaseModel()
+                {
+                    ID = id,
+                    TestCases = DAO.GetTestCaseByID(id)
+                };
+                //get test case content
+                int pos_test_case = 0;
+                Dictionary<int, Dictionary<string, string>> test_case_contents = this.ReadTestCaseContent(model.TestCases);
+                foreach (var one_test_case in model.TestCases)
+                {
+                    //get test case content
+                    Dictionary<string, string> one_test_case_content = test_case_contents[pos_test_case++];
+                    TestCaseResultModel temp = new TestCaseResultModel();
+                    temp.Input = one_test_case_content["Input"];
+                    temp.Output = one_test_case_content["Output"];
+                    model.TestCaseContent.Add(temp);
+                }
+                return View("EditTestcase", model);
+            }
+            return View("EditTestcase");
+        }
+
+        [Route("Moderator/Edit/Challenge/{id}/Codestubs")]
+        public ActionResult EditCodestubs(int id)
+        {
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            if (ses == null)
+            {
+                return Redirect("Authen/Login");
+            }
+            ChallengeDAO DAO = new ChallengeDAO();
+            bool IsEditor = DAO.IsEditor(id, ses.ID);
+            if (!IsEditor)
+            {
+                ViewBag.CanAccess = false;
+                return View("EditCodestubs");
+            }
+            ViewBag.CanAccess = true;
+            CHALLENGE c = DAO.GetOne(id);
+            if (c != null)
+            {
+                ViewBag.Name = c.Title;
+                EditCodestubsModel model = new EditCodestubsModel()
+                {
+                    ID = id
+                };
+                //code stub to model
+                var cs = DAO.GetCodeStubs(id);
+                foreach (var item in cs)
+                {
+                    if (item.LanguageID == 1)
+                    {
+                        model.CodeStubs_Cpp = item.CodeStub;
+                    }
+                    else if (item.LanguageID == 2)
+                    {
+                        model.CodeStubs_CSharp = item.CodeStub;
+                    }
+                    else if (item.LanguageID == 3)
+                    {
+                        model.CodeStubs_Java = item.CodeStub;
+                    }
+                }
+                
+                return View("EditCodestubs", model);
+            }
+            return View("EditCodestubs");
+        }
+
+        [Route("Moderator/Edit/Challenge/{id}/Languages")]
+        public ActionResult EditLanguages(int id)
+        {
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            if (ses == null)
+            {
+                return Redirect("Authen/Login");
+            }
+            ChallengeDAO DAO = new ChallengeDAO();
+            bool IsEditor = DAO.IsEditor(id, ses.ID);
+            if (!IsEditor)
+            {
+                ViewBag.CanAccess = false;
+                return View("EditLanguages");
+            }
+            ViewBag.CanAccess = true;
+            CHALLENGE c = DAO.GetOne(id);
+            if (c != null)
+            {
+                ViewBag.Name = c.Title;
+                //get code stubs
+                var cs = DAO.GetCodeStubs(id);
+                bool isCpp = false, isCsharp = false, isJava = false;
+                foreach (var item in cs)
+                {
+                    if (item.LanguageID == 1)
+                    {
+                        isCpp = true;
+                    }
+                    else if (item.LanguageID == 2)
+                    {
+                        isCsharp = true;
+                    }
+                    else if (item.LanguageID == 3)
+                    {
+                        isJava = true;
+                    }
+                }
+                EditLanguagesModel model = new EditLanguagesModel()
+                {
+                    ID = id,
+                    LanguageCSharp = isCsharp,
+                    LanguageCpp = isCpp,
+                    LanguageJava = isJava
+                };
+                
+                return View("EditLanguages", model);
+            }
+            return View("EditLanguages");
+        }
+
+        [Route("Moderator/Edit/Challenge/{id}/Settings")]
+        public ActionResult EditSettings(int id)
+        {
+            //login session
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            if (ses == null)
+            {
+                return Redirect("Authen/Login");
+            }
+            ChallengeDAO DAO = new ChallengeDAO();
+            bool IsEditor = DAO.IsEditor(id, ses.ID);
+            if (!IsEditor)
+            {
+                ViewBag.CanAccess = false;
+                return View("EditSettings");
+            }
+            ViewBag.CanAccess = true;
+            CHALLENGE c = DAO.GetOne(id);
+            if (c != null)
+            {
+                ViewBag.Name = c.Title;
+                EditSettingsModel model = new EditSettingsModel()
+                {
+                    ID = id,
+                    DisCompileTest = (bool)c.DisCompileTest,
+                    DisSubmissions = (bool)c.DisSubmissions,
+                    PublicSolutions = (bool)c.PublicSolutions,
+                    IsPublic = c.IsPublic
+                };
+                
+                return View("EditSettings", model);
+            }
+            return View("EditSettings");
         }
 
         [HttpPost]
         [ValidateInput(false)]
-        public JsonResult UpdateDetails(EditChallengeModel model)
+        public JsonResult UpdateDetails(EditDetailModel model)
         {
             ChallengeDAO DAO = new ChallengeDAO();
             //login session
@@ -723,7 +866,7 @@ namespace COURSE_CODING.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdateLanguages(EditChallengeModel model)
+        public JsonResult UpdateLanguages(EditLanguagesModel model)
         {
             ChallengeDAO DAO = new ChallengeDAO();
             //login session
@@ -749,7 +892,7 @@ namespace COURSE_CODING.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdateSettings(EditChallengeModel model)
+        public JsonResult UpdateSettings(EditSettingsModel model)
         {
             ChallengeDAO DAO = new ChallengeDAO();
             //login session
@@ -763,45 +906,11 @@ namespace COURSE_CODING.Controllers
             {
                 ID = model.ID,
                 DisCompileTest = model.DisCompileTest,
-                DisCustomTestcase = model.DisCustomTestcase,
+                IsPublic = model.IsPublic,
                 DisSubmissions = model.DisSubmissions,
-                PublicTestcase = model.PublicTestcase,
                 PublicSolutions = model.PublicSolutions
             };
             bool res = DAO.UpdateSetting(c);
-            if (res)
-            {
-                return Json(new { result = true, data = c });
-            }
-            return Json(new { result = false });
-        }
-
-        [HttpPost]
-        [ValidateInput(false)]
-        public JsonResult UpdateEditorial(EditChallengeModel model)
-        {
-            ChallengeDAO DAO = new ChallengeDAO();
-            //login session
-            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
-            //check is login and is editor
-            if (ses == null || !DAO.IsEditor(model.ID, ses.ID))
-            {
-                return Json(new { result = false });
-            }
-            CHALLENGE c = new CHALLENGE()
-            {
-                ID = model.ID,
-                RequiredKnowledge = model.RequiredKnowledge,
-                TimeComplexity = model.TimeComplexity,
-                Editorialist = model.Editorialist,
-                PartialEditorial = model.PartialEditorial,
-                Approach = model.Approach,
-                ProblemSetter = model.ProblemSetter,
-                SetterCode = model.SetterCode,
-                ProblemTester = model.ProblemTester,
-                TesterCode = model.SetterCode
-            };
-            bool res = DAO.UpdateEditorial(c);
             if (res)
             {
                 return Json(new { result = true, data = c });

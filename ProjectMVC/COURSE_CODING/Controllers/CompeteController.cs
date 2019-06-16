@@ -70,7 +70,8 @@ namespace COURSE_CODING.Controllers
             return Json(new { result = false, msg = "fail to enter contest." });
         }
 
-        // GET: Compete/Detail/id
+        // GET: Compete/id/Detail
+        [Route("Compete/{id}/Detail")]
         public ActionResult Detail(int id)
         {
             if (ModelState.IsValid)
@@ -248,7 +249,7 @@ namespace COURSE_CODING.Controllers
 
         public ActionResult AcceptInvitation(int id)
         {
-            return Redirect("/Compete/Detail/" + id);
+            return Redirect("/Compete/"+id+"/Detail");
         }
 
         public ActionResult DeclineInvitation(int id)

@@ -204,8 +204,13 @@
     <Compile Include="Models\DataAchieve.cs" />
     <Compile Include="Models\DomainModel.cs" />
     <Compile Include="Models\DoneChallenge.cs" />
-    <Compile Include="Models\EditChallengeModel.cs" />
+    <Compile Include="Models\EditCodestubsModel.cs" />
+    <Compile Include="Models\EditDetailModel.cs" />
+    <Compile Include="Models\EditLanguagesModel.cs" />
+    <Compile Include="Models\EditModeratorModel.cs" />
     <Compile Include="Models\EditQuestionModel.cs" />
+    <Compile Include="Models\EditSettingsModel.cs" />
+    <Compile Include="Models\EditTestcaseModel.cs" />
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\InvitationModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -560,6 +565,11 @@
     <Content Include="Views\Moderator\_ParticipantList.cshtml" />
     <Content Include="Views\Compete\Invitation.cshtml" />
     <Content Include="Views\Compete\Score.cshtml" />
+    <Content Include="Views\Challenge\EditModerator.cshtml" />
+    <Content Include="Views\Challenge\EditTestcase.cshtml" />
+    <Content Include="Views\Challenge\EditCodestubs.cshtml" />
+    <Content Include="Views\Challenge\EditLanguages.cshtml" />
+    <Content Include="Views\Challenge\EditSettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
