@@ -34,7 +34,7 @@
             <div style="float: left;">
                 Contests you can edit are below.
             </div>
-            <a class="btn btn-success" href="#" style="float: right;">Create Contest</a>
+            <a class="btn btn-success" href="/Moderator/CreateCompete" style="float: right;">Create Contest</a>
         </div>
 
         <div id=" 	" class="table-adjustable">
@@ -46,35 +46,48 @@
                     <div class="col-xs-1 vd-col-xs-20 text-center">
                         Contest Slug
                     </div>
-                    <div class="col-xs-1 vd-col-xs-20 text-center">
-                        Contest Owner
-                    </div>
                     <div class="col-xs-1 vd-col-xs-15 text-center">
-                        Start Date
+                        End Time
                     </div>
                     <div class="col-xs-1 vd-col-xs-10 text-center">
-                        Signups
+                        Privacy
                     </div>
                     <div class="col-xs-1 vd-col-xs-15 text-center">
-                        Participants
+                        Total Score
                     </div>
                 </div>
                 <div class="table-border table-cs table-body">
-                    <div id="no-content" class="row table-row no-margin table-cs">
-                        <div class="col-sm-12 text-center">
-                            You have not created any contests.
+
+                    @if (Model.lsCompetes.Count > 0)
+                    {
+                        foreach (var compete in Model.lsCompetes)
+                        {
+                            <a href="/Moderator/EditCompete/@compete.ID">
+                                <div class="row table-row no-margin table-cs">
+                                    <div class="col-xs-1 vd-col-xs-20" style="margin-left: 5px;">@compete.Title</div>
+                                    <div class="col-xs-1 vd-col-xs-20 text-center">@compete.Slug</div>
+                                    <div class="col-xs-1 vd-col-xs-15 text-center">@compete.TimeEnd</div>
+                                    @if (compete.IsPublic)
+                                    {
+                                        <div class="col-xs-1 vd-col-xs-10 text-center">Public</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-xs-1 vd-col-xs-10 text-center">Private</div>
+                                    }
+                                    <div class="col-xs-1 vd-col-xs-15 text-center">@compete.TotalScore</div>
+                                </div>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <div id="no-content" class="row table-row no-margin table-cs">
+                            <div class="col-sm-12 text-center">
+                                You have not created any contests.
+                            </div>
                         </div>
-                    </div>
-                    <a href="#">
-                        <div class="row table-row no-margin table-cs">
-                            <div class="col-xs-1 vd-col-xs-20" style="margin-left: 5px;">contest 1</div>
-                            <div class="col-xs-1 vd-col-xs-20 text-center">contest-1</div>
-                            <div class="col-xs-1 vd-col-xs-20 text-center">reficul</div>
-                            <div class="col-xs-1 vd-col-xs-15 text-center">Apr 10, 2019</div>
-                            <div class="col-xs-1 vd-col-xs-10 text-center">0</div>
-                            <div class="col-xs-1 vd-col-xs-15 text-center">0</div>
-                        </div>
-                    </a>
+                    }
                 </div>
             </div>
         </div>
@@ -134,3 +147,27 @@
         </div>
     </div>
 </div>
+
+@section scripts {
+<script>
+    $('#js-mng-contests').click(function () {
+        $(this).addClass('active');
+        $('#js-mng-challenges').removeClass('active');
+        $('#js-statistics').removeClass('active');
+
+        $('.mng-contests-modal').removeAttr('hidden');
+        $('.mng-challenges-modal').attr('hidden', '');
+        $('.statistics-modal').attr('hidden', '');
+    });
+
+    $('#js-mng-challenges').click(function () {
+        $(this).addClass('active');
+        $('#js-mng-contests').removeClass('active');
+        $('#js-statistics').removeClass('active');
+
+        $('.mng-challenges-modal').removeAttr('hidden');
+        $('.mng-contests-modal').attr('hidden', '');
+        $('.statistics-modal').attr('hidden', '');
+    });
+</script>
+}
