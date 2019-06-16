@@ -54,55 +54,19 @@ namespace DAO.EF
 
         public int Score { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "ntext")]
         public string Solution { get; set; }
 
         [StringLength(256)]
         public string Tags { get; set; }
 
         public bool IsPublic { get; set; }
-
-        public bool? LanguageCSharp { get; set; }
-
-        public bool? LanguageCpp { get; set; }
-
-        public bool? LanguageJava { get; set; }
-
+        
         public bool? DisCompileTest { get; set; }
-
-        public bool? DisCustomTestcase { get; set; }
 
         public bool? DisSubmissions { get; set; }
 
-        public bool? PublicTestcase { get; set; }
-
         public bool? PublicSolutions { get; set; }
-
-        [StringLength(256)]
-        public string RequiredKnowledge { get; set; }
-
-        [StringLength(256)]
-        public string TimeComplexity { get; set; }
-
-        [StringLength(256)]
-        public string Editorialist { get; set; }
-
-        public bool? PartialEditorial { get; set; }
-
-        [StringLength(256)]
-        public string Approach { get; set; }
-
-        [StringLength(256)]
-        public string ProblemSetter { get; set; }
-
-        [StringLength(256)]
-        public string SetterCode { get; set; }
-
-        [StringLength(256)]
-        public string ProblemTester { get; set; }
-
-        [StringLength(256)]
-        public string TesterCode { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANSWER> ANSWERs { get; set; }

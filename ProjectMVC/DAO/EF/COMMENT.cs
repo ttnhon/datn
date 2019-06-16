@@ -18,7 +18,7 @@ namespace DAO.EF
 
         public int ID { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "ntext")]
         [Required]
         public string Text { get; set; }
 

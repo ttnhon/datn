@@ -1,0 +1,114 @@
+﻿@using COURSE_CODING.Models
+@model COURSE_CODING.Models.EditSettingsModel
+
+@{
+    ViewBag.Title = "Edit Challenge";
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
+}
+
+@if (ViewBag.CanAccess == false)
+{
+    <div style="text-align: center;margin: 0 auto; padding: 30px;">
+        <h2>You don't have permission to view this page</h2>
+        <h2>405!</h2>
+    </div>
+    return;
+}
+
+@section CustomCSS
+{
+    @Styles.Render("~/Assets/Public/css/EditChallenge.css")
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<section class="content-page edit-challenge">
+    <div class="container">
+        <h1 class="title">@ViewBag.Name</h1>
+        <nav class="navbar navbar-light bg-light">
+            <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
+                <li class="nav-item">
+                    <a id="js-details" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID">Details</a>
+                </li>
+                <li class="nav-item"><a id="js-moderators" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Moderator">Moderators</a></li>
+                <li class="nav-item"><a id="js-test-cases" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Testcase">Test cases</a></li>
+                <li class="nav-item"><a id="js-code-stubs" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Codestubs">Code stubs</a></li>
+                <li class="nav-item"><a id="js-languages" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Languages">Languages</a></li>
+                <li class="nav-item"><a id="js-settings" class="nav-link active" href="/Moderator/Edit/Challenge/@Model.ID/Settings">Settings</a></li>
+            </ul>
+        </nav>
+
+        <div class="settings-modal main-modal" id="div-settings-modal">
+            <div class="clearfix">
+                <p>Set various challenge flags and parameters.</p>
+            </div>
+            @using (Ajax.BeginForm("UpdateSettings", "Challenge", new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnSuccess = "OnSuccess",
+                OnFailure = "OnFailure"
+            }, new { @class = "form-horizontal" }))
+            {
+                @Html.Hidden("ID", Model.ID)
+                <div class="form-group row setting-item">
+                    <label class="col-sm-3 control-label" for="setting_1">Disable Compile & Test</label>
+                    <div class="col-sm-7">
+                        @Html.CheckBoxFor(model => model.DisCompileTest, new { @id = "setting_1" })
+                        @*<input type="checkbox" id="setting_1" value="">*@
+                    </div>
+                    <p class="setting-des">Compile and test button will not be shown</p>
+                </div>
+                <div class="form-group row setting-item">
+                    <label class="col-sm-3 control-label" for="setting_2">Set public or private</label>
+                    <div class="col-sm-7">
+                        @Html.CheckBoxFor(model => model.IsPublic, new { @id = "setting_2" })
+                        @*<input type="checkbox" id="setting_2" value="">*@
+                    </div>
+                    <p class="setting-des">Set the permission of challenge to public or private</p>
+                </div>
+                <div class="form-group row setting-item">
+                    <label class="col-sm-3 control-label" for="setting_3">Disable Submissions</label>
+                    <div class="col-sm-7">
+                        @Html.CheckBoxFor(model => model.DisSubmissions, new { @id = "setting_3" })
+                        @*<input type="checkbox" id="setting_3" value="">*@
+                    </div>
+                    <p class="setting-des">Don't accept any user submissions for this challenge</p>
+                </div>
+                <div class="form-group row setting-item">
+                    <label class="col-sm-3 control-label" for="setting_5">Public Solutions</label>
+                    <div class="col-sm-7">
+                        @Html.CheckBoxFor(model => model.PublicSolutions, new { @id = "setting_5" })
+                        @*<input type="checkbox" id="setting_5" value="">*@
+                    </div>
+                    <p class="setting-des">Make solutions public after the compete ends</p>
+                </div>
+                <div class="save-change-btn-group">
+                    <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
+                </div>
+            }
+        </div>
+        <div style="height: 100px;">
+
+        </div>
+        @*<div class="save-change-btn-group">
+                <button class="btn btn-success" id="js-save-changes-btn">Save Changes</button>
+            </div>*@
+    </div>
+</section>
+
+@Scripts.Render("~/Assets/Public/js/EditChallenge.js")
+
+@section scripts
+    {
+    <script type="text/javascript">
+        function OnSuccess(data) {
+            alert('Save changes succeed');
+        }
+        
+        function OnFailure(data) {
+            alert('Save changes fail');
+        }
+    </script>
+}

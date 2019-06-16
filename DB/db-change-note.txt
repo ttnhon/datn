@@ -40,3 +40,7 @@
 - đổi thuộc tính của bảng CHALLENGE
 	bit PartialEditorial
 - fill data test
+
+16/06/2019
+- đổi text sang ntext ở các table để hiển thị được tiếng việt
+- Xóa thuộc tính thừa CHALLENGE

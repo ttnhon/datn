@@ -19,7 +19,7 @@ namespace DAO.EF
 
         public int CompeteID { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "ntext")]
         public string Title { get; set; }
 
         [Column(TypeName = "text")]

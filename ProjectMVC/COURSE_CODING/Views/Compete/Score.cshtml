@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Score";
+    ViewBag.Title = "Score report";
     Layout = "~/Views/Shared/_User_Layout.cshtml";
 }
 
@@ -23,12 +23,12 @@
 <section class="header-page">
     <div class="container">
         <div class="row">
-            <div class="col-6 domain-header">
+            <div class="col-md-6 domain-header">
                 <p class="sub-contest-title">Compete Score Report</p>
-                <h3 class="contest-title">@ViewBag.Title</h3>
+                <h3 class="contest-title">@ViewBag.Name</h3>
             </div>
 
-            <div class="col-6">
+            <div class="col-md-6">
 
             </div>
         </div>
@@ -38,7 +38,7 @@
     <div class="container">
         <div class="row">
             <!--Contest list-->
-            <div class="col-9 user-list-score">
+            <div class="col-md-9 user-list-score">
                 @if (Model.Count > 0)
                 {
                     foreach (var item in Model)
@@ -46,16 +46,16 @@
                         <!--1 user-->
                         <div class="one-user-box">
                             <div class="row">
-                                <div class="col-md-7 user-info">
-                                    <img class="profile-img" src="@item.PhotoUrl" alt=""/>
+                                <div class="col-xs-6 col-md-6 user-info">
+                                    <img class="profile-img" src="@item.PhotoUrl" alt="" />
                                     <span class="card-title">@item.Name</span>
                                 </div>
-                                
-                                <div class="col-md-5 total-score">
+
+                                <div class="col-xs-6 col-md-6 total-score">
                                     <span><strong>Total Score: </strong><i class="score">@(item.ScoreQuestion + item.ScoreChallenge)/@item.TotalScore</i></span>
                                 </div>
                             </div>
-                            <div class="user-score">
+                            <div class="user-score" style="display: none;">
                                 <hr>
                                 <h5><strong>Submission info</strong></h5>
                                 <div class="row score-info">
@@ -80,59 +80,110 @@
             </div>
 
             <!--filter-->
-            <div class="col-3 contest-filter">
-                @*<div class="one-filter">
-                        <h6 class="label">STATUS</h6>
-                        <!-- Default indeterminate -->
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="status_unjoined" name="status" checked>
-                            <label class="custom-control-label" for="status_unjoined">Unjoined</label>
-                        </div>
-                        <!-- Default indeterminate -->
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="status_joined" name="status" checked>
-                            <label class="custom-control-label" for="status_joined">Joined</label>
-                        </div>
+            <div class="col-md-3 compete-info" id="affix-panel" data-toggle="affix">
+                <div class="sidebar-difficulty-detail">
+                    <div class="difficulty-block">
+                        <p class="difficulty-label">Author</p>
+                        <a href="#">@ViewBag.Author</a>
                     </div>
-                    <hr>*@
+                    <div class="difficulty-block">
+                        <p class="difficulty-label">Title</p>
+                        <p class="difficulty-score">@ViewBag.Name</p>
+                    </div>
+                    <div class="difficulty-block">
+                        <p class="difficulty-label">Time end</p>
+                        <p class="difficulty-score">@ViewBag.TimeEnd</p>
+                    </div>
+                </div>
+                <div class="sidebar-difficulty-move-btn">
+                    <a class="btn" href="/Compete/@ViewBag.competeID/Detail">Compete Detail</a>
+                    <a class="btn" href="#">Edit Compete</a>
+                </div>
+                @*<div class="one-filter">
+            <h6 class="label">STATUS</h6>
+            <!-- Default indeterminate -->
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="status_unjoined" name="status" checked>
+                <label class="custom-control-label" for="status_unjoined">Unjoined</label>
+            </div>
+            <!-- Default indeterminate -->
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="status_joined" name="status" checked>
+                <label class="custom-control-label" for="status_joined">Joined</label>
+            </div>
+        </div>
+        <hr>*@
 
                 @*<div class="one-filter">
-                        <h6 class="label">DIFFICULTY</h6>
-                        <!-- Default indeterminate -->
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="difficult_easy" checked>
-                            <label class="custom-control-label" for="difficult_easy">Easy</label>
-                        </div>
-                        <!-- Default indeterminate -->
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="difficult_normal">
-                            <label class="custom-control-label" for="difficult_normal">Normal</label>
-                        </div>
-                        <!-- Default indeterminate -->
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="difficult_hard">
-                            <label class="custom-control-label" for="difficult_hard">hard</label>
-                        </div>
+            <h6 class="label">DIFFICULTY</h6>
+            <!-- Default indeterminate -->
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="difficult_easy" checked>
+                <label class="custom-control-label" for="difficult_easy">Easy</label>
+            </div>
+            <!-- Default indeterminate -->
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="difficult_normal">
+                <label class="custom-control-label" for="difficult_normal">Normal</label>
+            </div>
+            <!-- Default indeterminate -->
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="difficult_hard">
+                <label class="custom-control-label" for="difficult_hard">hard</label>
+            </div>
+        </div>
+        <hr>
+
+        <div class="one-filter">
+            <h6 class="label">LANGUAGE</h6>
+            @if (true)
+            {
+                foreach (var item in Model.languages)
+                {
+                    <!-- Default indeterminate -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input">
+                        <label class="custom-control-label" for="language_@Html.DisplayFor(modelItem => item.Name)">@Html.DisplayFor(modelItem => item.Name)</label>
                     </div>
-                    <hr>
+                }
+            }
 
-                    <div class="one-filter">
-                        <h6 class="label">LANGUAGE</h6>
-                        @if (true)
-                        {
-                            foreach (var item in Model.languages)
-                            {
-                                <!-- Default indeterminate -->
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input">
-                                    <label class="custom-control-label" for="language_@Html.DisplayFor(modelItem => item.Name)">@Html.DisplayFor(modelItem => item.Name)</label>
-                                </div>
-                            }
-                        }
-
-                    </div>*@
+        </div>*@
 
             </div>
         </div>
     </div>
 </section>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".one-user-box").click(function () {
+                $(this).children(".user-score").slideToggle("slow");
+            });
+        });
+
+        var target = $('#affix-panel')
+        target.after('<div class="affix" id="affix"></div>')
+
+        var affix = $('.affix')
+        affix.append(target.clone(true))
+
+        // Show affix on scroll.
+        var element = document.getElementById('affix')
+        if (element !== null) {
+            var position = target.position()
+            window.addEventListener('scroll', function () {
+                var height = $(window).scrollTop()
+                if (height > position.top) {
+                    target.css('visibility', 'hidden')
+                    affix.css('display', 'block')
+                } else {
+                    affix.css('display', 'none')
+                    target.css('visibility', 'visible')
+                }
+            })
+        }
+    </script>
+}

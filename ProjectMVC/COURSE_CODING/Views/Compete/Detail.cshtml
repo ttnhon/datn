@@ -19,7 +19,7 @@
 <section class="header-page">
     <div class="container">
         <div class="row">
-            <div class="col-6 domain-header">
+            <div class="col-md-6 domain-header">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Practice</a></li>
                     <li class="breadcrumb-item active">@Html.DisplayFor(model => model.compete.Title)</li>
@@ -27,7 +27,7 @@
                 <h3 class="domain-title">@Html.DisplayFor(model => model.compete.Title)</h3>
             </div>
 
-            <div class="col-6">
+            <div class="col-md-6">
 
             </div>
         </div>
@@ -38,7 +38,7 @@
     <div class="container">
         <div class="row">
             <!--                Challenge list-->
-            <div class="col-9 challenge-list">
+            <div class="col-md-9 challenge-list">
                 @*Question Here*@
                 <div class="tabs">
                     @{
@@ -85,7 +85,7 @@
                         <a class="challenge-link" href="/Compete/@(ViewBag.competeID)/Challenge/@Html.DisplayFor(modelItem => item.ID)/Problem">
                             <div class="one-challenge-box base-box @(item.isSolved? "solved": null)">
                                 <div class="row">
-                                    <div class="col-8 challenge-info">
+                                    <div class="col-md-8 challenge-info">
                                         <h3 class="card-title" title="Regex">@Html.DisplayFor(modelItem => item.Title)</h3>
                                         <div class="card-detail">
                                             <p class="challenge-detail">
@@ -107,7 +107,7 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="col-4 challenge-enter">
+                                    <div class="col-md-4 challenge-enter">
                                         <i class="far fa-star"></i> &nbsp;
                                         <button class="btn btn-outline-success btn-lg" tabindex="0">
                                             <span class="ui-text">Solve Challenge</span>
@@ -122,40 +122,54 @@
             </div>
 
             <!--filter-->
-            <div class="col-3 challenge-list-filter">
-                <div class="one-filter">
-                    <h4 class="label">STATUS</h4>
-                    <!-- Default indeterminate -->
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="status_easy" checked>
-                        <label class="custom-control-label" for="status_easy">Unsolved</label>
+            <div class="col-md-3 compete-info"  id="affix-panel" data-toggle="affix">
+                <div class="sidebar-difficulty-detail">
+                    <div class="difficulty-block">
+                        <p class="difficulty-label">Author</p>
+                        <a href="#">@ViewBag.Author</a>
                     </div>
-                    <!-- Default indeterminate -->
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="status_normal">
-                        <label class="custom-control-label" for="status_normal">Solved</label>
+                    <div class="difficulty-block">
+                        <p class="difficulty-label">Title</p>
+                        <p class="difficulty-score">@Model.compete.Title</p>
+                    </div>
+                    <div class="difficulty-block">
+                        <p class="difficulty-label">Time end</p>
+                        <p class="difficulty-score">@ViewBag.TimeEnd</p>
                     </div>
                 </div>
-                <hr>
+                @*<div class="one-filter">
+            <h4 class="label">STATUS</h4>
+            <!-- Default indeterminate -->
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="status_easy" checked>
+                <label class="custom-control-label" for="status_easy">Unsolved</label>
+            </div>
+            <!-- Default indeterminate -->
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="status_normal">
+                <label class="custom-control-label" for="status_normal">Solved</label>
+            </div>
+        </div>
+        <hr>
 
-                <div class="one-filter">
-                    <h4 class="label">DIFFICULTY</h4>
-                    <!-- Default indeterminate -->
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="difficult_easy" checked>
-                        <label class="custom-control-label" for="difficult_easy">Easy</label>
-                    </div>
-                    <!-- Default indeterminate -->
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="difficult_normal">
-                        <label class="custom-control-label" for="difficult_normal">Normal</label>
-                    </div>
-                    <!-- Default indeterminate -->
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="difficult_hard">
-                        <label class="custom-control-label" for="difficult_hard">hard</label>
-                    </div>
-                </div>
+        <div class="one-filter">
+            <h4 class="label">DIFFICULTY</h4>
+            <!-- Default indeterminate -->
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="difficult_easy" checked>
+                <label class="custom-control-label" for="difficult_easy">Easy</label>
+            </div>
+            <!-- Default indeterminate -->
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="difficult_normal">
+                <label class="custom-control-label" for="difficult_normal">Normal</label>
+            </div>
+            <!-- Default indeterminate -->
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="difficult_hard">
+                <label class="custom-control-label" for="difficult_hard">hard</label>
+            </div>
+        </div>*@
 
             </div>
         </div>
@@ -165,6 +179,28 @@
 @section scripts
 {
     <script>
+        var target = $('#affix-panel')
+        target.after('<div class="affix" id="affix"></div>')
+
+        var affix = $('.affix')
+        affix.append(target.clone(true))
+
+        // Show affix on scroll.
+        var element = document.getElementById('affix')
+        if (element !== null) {
+            var position = target.position()
+            window.addEventListener('scroll', function () {
+                var height = $(window).scrollTop()
+                if (height > position.top) {
+                    target.css('visibility', 'hidden')
+                    affix.css('display', 'block')
+                } else {
+                    affix.css('display', 'none')
+                    target.css('visibility', 'visible')
+                }
+            })
+        }
+
         function doQuestion() {
             window.location.href = '/Compete/@(ViewBag.competeID)/Question';
         }

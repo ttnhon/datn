@@ -70,7 +70,8 @@ namespace COURSE_CODING.Controllers
             return Json(new { result = false, msg = "fail to enter contest." });
         }
 
-        // GET: Compete/Detail/id
+        // GET: Compete/id/Detail
+        [Route("Compete/{id}/Detail")]
         public ActionResult Detail(int id)
         {
             if (ModelState.IsValid)
@@ -121,6 +122,10 @@ namespace COURSE_CODING.Controllers
 
                 ViewBag.Title = model.compete.Title;
                 ViewBag.CompeteID = id;
+
+                USER_INFO u = new UserDAO().GetUserById(model.compete.OwnerID);
+                ViewBag.Author = u.FirstName + " " + u.LastName;
+                ViewBag.TimeEnd = model.compete.TimeEnd.ToString();
                 return View("Detail", model);
                 //return Json(model);
             }
@@ -146,7 +151,11 @@ namespace COURSE_CODING.Controllers
                 return View("Score");
             }
             ViewBag.CanAccess = true;
-            ViewBag.Title = compete.Title;
+            ViewBag.competeID = id;
+            ViewBag.Name = compete.Title;
+            USER_INFO u = new UserDAO().GetUserById(compete.OwnerID);
+            ViewBag.Author = u.FirstName + " " + u.LastName;
+            ViewBag.TimeEnd = compete.TimeEnd.ToString();
             List<UserScore> Model = new List<UserScore>();
             //get list participants
             var paticipants = DAO.GetParticipants(id);
@@ -172,10 +181,13 @@ namespace COURSE_CODING.Controllers
                     temp.TotalScore += question.Score;
                     if (chosen != null)
                     {
-                        if (chosen.Result == 1)
+                        if(chosen.TimeDone <= compete.TimeEnd)
                         {
-                            temp.QuestionDone++;
-                            temp.ScoreQuestion += question.Score;
+                            if (chosen.Result == 1)
+                            {
+                                temp.QuestionDone++;
+                                temp.ScoreQuestion += question.Score;
+                            }
                         }
                     }
                 }
@@ -191,11 +203,16 @@ namespace COURSE_CODING.Controllers
                     temp.ChallengeNumber++;
                     bool isSolved = challenge.GetType().GetProperty("isSolved").GetValue(challenge, null);
                     int score = challenge.GetType().GetProperty("Score").GetValue(challenge, null);
+                    DateTime timeDone = challenge.GetType().GetProperty("TimeDone").GetValue(challenge, null);
                     temp.TotalScore += score;
+                    
                     if (isSolved)
                     {
-                        temp.ChallengeDone++;
-                        temp.ScoreChallenge += score;
+                        if (timeDone <= compete.TimeEnd)
+                        {
+                            temp.ChallengeDone++;
+                            temp.ScoreChallenge += score;
+                        }
                     }
                     
                 }
@@ -232,7 +249,7 @@ namespace COURSE_CODING.Controllers
 
         public ActionResult AcceptInvitation(int id)
         {
-            return Redirect("/Compete/Detail/" + id);
+            return Redirect("/Compete/"+id+"/Detail");
         }
 
         public ActionResult DeclineInvitation(int id)

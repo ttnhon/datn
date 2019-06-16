@@ -1,0 +1,272 @@
+﻿@using COURSE_CODING.Models
+@model COURSE_CODING.Models.EditTestcaseModel
+
+@{
+    ViewBag.Title = "Edit Challenge";
+    Layout = "~/Views/Shared/_User_Layout.cshtml";
+}
+
+@if (ViewBag.CanAccess == false)
+{
+    <div style="text-align: center;margin: 0 auto; padding: 30px;">
+        <h2>You don't have permission to view this page</h2>
+        <h2>405!</h2>
+    </div>
+    return;
+}
+
+@section CustomCSS
+{
+    @Styles.Render("~/Assets/Public/css/EditChallenge.css")
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<section class="content-page edit-challenge">
+    <div class="container">
+        <h1 class="title">@ViewBag.Name</h1>
+        <nav class="navbar navbar-light bg-light">
+            <ul class="nav nav-tabs tabs-bar" style="margin-bottom: 0;">
+                <li class="nav-item">
+                    <a id="js-details" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID">Details</a>
+                </li>
+                <li class="nav-item"><a id="js-moderators" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Moderator">Moderators</a></li>
+                <li class="nav-item"><a id="js-test-cases" class="nav-link active" href="/Moderator/Edit/Challenge/@Model.ID/Testcase">Test cases</a></li>
+                <li class="nav-item"><a id="js-code-stubs" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Codestubs">Code stubs</a></li>
+                <li class="nav-item"><a id="js-languages" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Languages">Languages</a></li>
+                <li class="nav-item"><a id="js-settings" class="nav-link" href="/Moderator/Edit/Challenge/@Model.ID/Settings">Settings</a></li>
+            </ul>
+        </nav>
+
+        <div class="test-cases-modal main-modal" id="div-test-cases-modal">
+            <div class="clearfix">
+                <p>Add test cases to judge the correctness of a user’s code.</p>
+            </div>
+            <!-- Trigger the modal with a button -->
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#test-case-modal">
+                Add
+                Test Case
+            </button>
+
+            <!-- Modal -->
+            <div id="test-case-modal" class="modal fade" role="dialog">
+                <div class="modal-dialog test-case-popup">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        @using (Ajax.BeginForm("AddTestCase", "Challenge", new AjaxOptions()
+                        {
+                            HttpMethod = "POST",
+                            OnSuccess = "OnSuccessTestCase",
+                            OnFailure = "OnFailureTestCase"
+                        }, new { @class = "form-horizontal" }))
+                        {
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add Test Case</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="test-case-input-field">
+                                    <label class="control-label" for="test_input_Input">Input</label>
+                                    <div class="">
+                                        @Html.TextArea("input", "", new { @class = "form-control", @id = "test_input_Input", @rows = "2" })
+                                        @*<textarea class="form-control" rows="2" id="test_input_Input"></textarea>*@
+                                    </div>
+                                </div>
+                                <div class="test-case-input-field">
+                                    <label class="control-label" for="test_output_Input">Output</label>
+                                    <div class="">
+                                        @Html.TextArea("output", "", new { @class = "form-control", @id = "test_output_Input", @rows = "2" })
+                                        @*<textarea class="form-control" rows="2" id="test_output_Input"></textarea>*@
+                                    </div>
+                                </div>
+                                @Html.Hidden("challengeID", Model.ID)
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-default btn-success"
+                                        id="js-save-test-case-btn">
+                                    Save
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!--end modal-->
+            <div class="table-test-case">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Order</th>
+                            <th>Input</th>
+                            <th>Output</th>
+                            <th>Select</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="testCaseList">
+                        @if (Model.TestCases.Count > 0)
+                        {
+                            for (int i = 0; i < Model.TestCases.Count; i++)
+                            {
+                                <tr id="test_case_@Model.TestCases[i].ID">
+                                    <td>@i</td>
+                                    <td><a href="javascript:;" data-toggle="modal" data-target="#test-case-@Model.TestCases[i].ID-modal">@Model.TestCases[i].Input</a></td>
+                                    <td><a href="javascript:;" data-toggle="modal" data-target="#test-case-@Model.TestCases[i].ID-modal">@Model.TestCases[i].Output</a></td>
+                                    <td><input type="checkbox" value=""></td>
+                                    <td><a href="javascript:;" data-toggle="modal" data-target="#test-case-@Model.TestCases[i].ID-modal"><i class="far fa-edit"></i></a>   <a href="javascript:DeleteTestCase(@Model.TestCases[i].ID);"><i class="far fa-trash-alt"></i></a></td>
+                                </tr>
+
+                                <div id="test-case-@Model.TestCases[i].ID-modal" class="modal fade" role="dialog">
+                                    <div class="modal-dialog test-case-popup">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            @using (Ajax.BeginForm("UpdateTestCase", "Challenge", new AjaxOptions()
+                                            {
+                                                HttpMethod = "POST",
+                                                OnSuccess = "OnSuccessUpdateTestCase",
+                                                OnFailure = "OnFailureTestCase"
+                                            }, new { @class = "form-horizontal" }))
+                                            {
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Add Test Case</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    @Html.Hidden("testcaseId", Model.TestCases[i].ID)
+                                                    @Html.Hidden("id", Model.ID)
+                                                    <div class="test-case-input-field">
+                                                        <label class="control-label" for="test_input_Input">Input</label>
+                                                        <div class="">
+                                                            @Html.TextArea("input", Model.TestCaseContent[i].Input, new { @class = "form-control", @id = "test_input_Input", @rows = "2" })
+                                                            @*<textarea class="form-control" rows="2" id="test_input_Input"></textarea>*@
+                                                        </div>
+                                                    </div>
+                                                    <div class="test-case-input-field">
+                                                        <label class="control-label" for="test_output_Input">Output</label>
+                                                        <div class="">
+                                                            @Html.TextArea("output", Model.TestCaseContent[i].Output, new { @class = "form-control", @id = "test_output_Input", @rows = "2" })
+                                                            @*<textarea class="form-control" rows="2" id="test_output_Input"></textarea>*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-default btn-success"
+                                                            id="js-save-test-case-btn">
+                                                        Save
+                                                    </button>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="save-change-btn-group">
+                <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
+            </div>
+        </div>
+        <div style="height: 100px;">
+
+        </div>
+        @*<div class="save-change-btn-group">
+                <button class="btn btn-success" id="js-save-changes-btn">Save Changes</button>
+            </div>*@
+    </div>
+</section>
+
+@section scripts
+    {
+    <script type="text/javascript">
+        function OnSuccessTestCase(data) {
+            //alert('Add succeed');
+            if (data.result) {
+                $('#test-case-modal').modal('toggle');
+                document.getElementById("testCaseList").innerHTML +=
+                    `<tr id="test_case_` + data.data.ID + `">
+                                    <td>` + data.count + `</td>
+                                    <td><a href="javascript:;" data-toggle="modal" data-target="#test-case-` + data.data.ID + `-modal">` + data.data.Input + `</a></td>
+                                    <td><a href="javascript:;" data-toggle="modal" data-target="#test-case-` + data.data.ID + `-modal">` + data.data.Output + `</a></td>
+                                    <td><input type="checkbox" value=""></td>
+                                    <td><a href="javascript:;" data-toggle="modal" data-target="#test-case-` + data.data.ID + `-modal"><i class="far fa-edit"></i></a>   <a href="javascript:DeleteTestCase(` + data.data.ID + `);"><i class="far fa-trash-alt"></i></a></td>
+                                </tr>
+
+                <div id="test-case-` + data.data.ID + `-modal" class="modal fade" role="dialog" style="display: none;" aria-hidden="true">
+                                    <div class="modal-dialog test-case-popup">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+<form action="/Challenge/UpdateTestCase?Length=9" class="form-horizontal" data-ajax="true" data-ajax-failure="OnFailureTestCase" data-ajax-method="POST" data-ajax-success="OnSuccessUpdateTestCase" id="form3" method="post"></form>                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Add Test Case</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input data-val="true" data-val-number="The field ID must be a number." data-val-required="The ID field is required." id="id" name="id" type="hidden" value="`+ data.data.ID + `">
+                                                    <div class="test-case-input-field">
+                                                        <label class="control-label" for="test_input_Input">Input</label>
+                                                        <div class="">
+                                                            <textarea class="form-control" cols="20" id="test_input_Input" name="input" rows="2">`+ data.content.input + `</textarea>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="test-case-input-field">
+                                                        <label class="control-label" for="test_output_Input">Output</label>
+                                                        <div class="">
+                                                            <textarea class="form-control" cols="20" id="test_output_Input" name="output" rows="2">`+ data.content.output + `</textarea>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-default btn-success" id="js-save-test-case-btn">
+                                                        Save
+                                                    </button>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+            } else {
+                alert('Error: ' + data.msg);
+            }
+        }
+
+        function OnSuccessUpdateTestCase(data) {
+            if (data.result) {
+                alert('Save changes succeed');
+            } else {
+                alert('Error: ' + data.msg);
+            }
+        }
+
+        function OnFailureTestCase(data) {
+            alert('POST: Fail');
+        }
+        function DeleteTestCase(testcaseID) {
+            $.ajax({
+                method: "POST",
+                url: "/Challenge/DeleteTestCase",
+                data: {
+                    id: testcaseID,
+                    challengeID: @Model.ID
+                }
+             })
+             .done(function (msg) {
+                if (msg) {
+                     //console.log(msg);
+                    //alert(msg);
+                    if (msg.result) {
+                        $('#test_case_' + msg.data).remove();
+                    } else {
+                        alert("Fail to delete test case.");
+                    }
+                    }
+                });
+        }
+    </script>
+}
