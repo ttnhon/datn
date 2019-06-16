@@ -57,7 +57,8 @@ namespace DAO.DAO
                                 Title = z.f.Title,
                                 Difficulty = z.f.ChallengeDifficulty,
                                 Score = z.f.Score,
-                                isSolved = g == null ? false: true
+                                isSolved = g == null ? false : true,
+                                TimeDone = g != null ? g.TimeDone : default(DateTime)
                             }).ToList();
             return challenges;
         }
