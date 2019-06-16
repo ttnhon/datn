@@ -106,6 +106,15 @@
                         </div>
                     </div>
                 }
+                @if (Model.Info.ID == session.ID)
+                {
+                    if (session.Role.Equals(CommonProject.CommonConstant.ROLE_MEMBER))
+                    {
+                        <div class="request-teacher">
+                            <button id="btn_request_teacher" class="btn btn-outline-primary" style="float:right">Request Teacher</button>
+                        </div>
+                    }
+                }
 
             </div>
         </div>
@@ -355,6 +364,20 @@
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        $('#btn_request_teacher').click(function () {
+            $.ajax({
+                method: "POST",
+                url: "/User/RequestTeacher",
+                data: {}
+            })
+                .done(function (msg) {
+                    if (msg) {
+                        alert(msg)
+                    }
+                });
+        });
+    </script>
 }
 
 

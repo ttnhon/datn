@@ -29,6 +29,12 @@ namespace COURSE_CODING.Controllers
             return Redirect("/");
         }
 
+        protected int GetUserID()
+        {
+            var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
+            int userID = ses != null ? ses.ID : -1;
+            return userID;
+        }
         [HttpGet]
         public ActionResult Dashboard()
         {
@@ -49,8 +55,7 @@ namespace COURSE_CODING.Controllers
 
             if (ModelState.IsValid)
             {
-                var ses = Session[CommonConstant.SESSION_INFO_LOGIN] as InfoLogIn;
-                int userID = ses != null? ses.ID : 1;
+                int userID = this.GetUserID();
                 UserDashboardModel model = new UserDashboardModel();
 
                 //Get analysis user info
@@ -65,7 +70,7 @@ namespace COURSE_CODING.Controllers
                 foreach (var item in model.Languages)
                 {
                     //get skill list
-                    int count = languageDao.GetAnswerCountByID(ses.ID, item.Name);
+                    int count = languageDao.GetAnswerCountByID(userID, item.Name);
                     if (count > 0)
                     {
                         Skill skill = new Skill();
@@ -264,6 +269,25 @@ namespace COURSE_CODING.Controllers
             yearList.Add(new SelectListItem { Value = "0", Text = "I am still in HighSchool" });
 
             ViewBag.Year = new SelectList(yearList, "Value", "Text", selectedID);
+        }
+
+        public ActionResult RequestTeacher()
+        {
+            int userID = this.GetUserID();
+            string titleData = CommonConstant.REQUEST_MODERATOR;
+            ADD_DATA add = new ADD_DATA();
+            add.Title = titleData;
+            add.Data = userID.ToString();
+            int result = (new AddDataDAO()).AddRequestTeacher(add);
+            if (result == 1)
+            {
+                return Json("Request thành công, đang đợi Admin phê duyệt");
+            }
+            if(result == -1)
+            {
+                return Json("Bạn đã request trước đó rồi, vui lòng chờ Admin phê duyệt");
+            }
+            return Json("Lỗi! Request không thành công");
         }
     }
 
