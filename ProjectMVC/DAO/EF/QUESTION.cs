@@ -22,7 +22,7 @@ namespace DAO.EF
         [Column(TypeName = "ntext")]
         public string Title { get; set; }
 
-        [Column(TypeName = "ntext")]
+        [Column(TypeName = "text")]
         public string Choise { get; set; }
 
         public short? Type { get; set; }

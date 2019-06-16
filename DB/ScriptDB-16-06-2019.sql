@@ -141,13 +141,13 @@ CREATE TABLE ANSWER(    --Lưu trữ câu trả lời của user với từng ch
 CREATE TABLE ADD_DATA(	--Dùng để lưu trữ những dữ liệu nhỏ, lẻ tẻ
 	ID				    int				NOT NULL IDENTITY primary key,
 	Title				varchar(256)	NOT NULL,
-	Data			    ntext			NOT NULL        --dạng json (mảng dữ liệu)
+	Data			    varchar(256)			NOT NULL        --dạng json (mảng dữ liệu)
 );
 
 CREATE TABLE USER_DATA(	--Dùng để lưu trữ dữ liệu của người dùng: process status, event status, ....
 	UserID				int             NOT NULL primary key,
 	Title				varchar(256)	NOT NULL,
-	Data			    ntext			NOT NULL      --dạng json (mảng dữ liệu)
+	Data			    varchar(256)			NOT NULL      --dạng json (mảng dữ liệu)
 
 	foreign key (UserId)		references USER_INFO(ID)
 );
@@ -191,7 +191,7 @@ CREATE TABLE QUESTION(
 	ID				INT NOT NULL IDENTITY PRIMARY KEY,
 	CompeteID		INT NOT NULL,
 	Title			NTEXT,
-	Choise			NTEXT,					--JSON
+	Choise			TEXT,					--JSON
 	Type			SMALLINT,
 	Score			INT,
 	Result			VARCHAR(255),			--JSON
