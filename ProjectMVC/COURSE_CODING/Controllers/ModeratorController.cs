@@ -109,7 +109,7 @@ namespace COURSE_CODING.Controllers
                 var user = (new UserDAO().GetUserByEmail(email));
                 var contest = (new CompeteDAO().GetOne(contestID));
                 string emailHeader = String.Format("{0} invited you to participate in the {1} contest.", user.UserName, contest.Title);
-                string emailContent = String.Format("@{0} has invited you to participant in the {1}contest. You can accept or deline following the link below:/nhttp://localhost:49512/Compete/{2}Invitation", user.UserName, contest.Title, contest.ID);
+                string emailContent = String.Format("@{0} has invited you to participant in the {1} contest. You can accept or deline following the link:\n http://localhost:49512/Compete/{2}/Invitation", user.UserName, contest.Title, contest.ID);
                 CommonProject.Helper.Email_Helper emailHelper = new CommonProject.Helper.Email_Helper();
                 emailHelper.SendMail(email, emailHeader, emailContent);
                 COMPETE_PARTICIPANTS model = new COMPETE_PARTICIPANTS();
@@ -118,7 +118,7 @@ namespace COURSE_CODING.Controllers
                 model.TimeJoined = DateTime.Now;
                 if(new CompeteDAO().CheckParticipantExist(user.ID))
                 {
-                    return Json("This email is exist in this contest! Please enter another email");
+                    return Json(new { result = "This email is exist in this contest! Please enter another email" });
                 }
                 var result = (new CompeteDAO().InsertParticipant(model));
                 if (result)
@@ -127,14 +127,14 @@ namespace COURSE_CODING.Controllers
                     p.ID = user.ID;
                     p.Name = user.UserName;
                     p.Email = user.Email;
-                    return Json(p, JsonRequestBehavior.AllowGet);
+                    return Json(new { data = p, result = "Send invitation succeed!" }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    return Json("Failt to send invitation");
+                    return Json(new { result = "Fail to send invitation!" });
                 }
             }
-            return Json("Fail to send invitation");
+            return Json(new { result = "Fail to send invitation!" });
         }
 
         public ActionResult CreateCompete()
@@ -392,6 +392,24 @@ namespace COURSE_CODING.Controllers
             }
             return View(model);
 
+        }
+
+        [HttpPost]
+        public ActionResult DeleteParticipant(int contestID,int userID)
+        {
+            var competeDAO = new CompeteDAO();
+            COMPETE_PARTICIPANTS c = new COMPETE_PARTICIPANTS();
+            c.CompeteID = contestID;
+            c.UserID = userID;
+            var result = competeDAO.DeleteParticipant(c);
+            if(result)
+            {
+                return Json("Delete succeed!");
+            }
+            else
+            {
+                return Json("Delete fail!");
+            }
         }
     }
 }

@@ -23,7 +23,7 @@
                 User Email
             </div>
             <div class="col-xs-1 vd-col-xs-30 text-center">
-                ACtion
+                Action
             </div>
         </div>
         <div class="table-border table-cs table-body" id="participant-list">
@@ -31,12 +31,12 @@
             {
                 foreach (var Participant in Model.Participants)
                 {
-                    <div class="row table-row no-margin table-cs">
+                    <div class="row table-row no-margin table-cs" id="@Participant.ID">
                         <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">@Participant.Name</div>
                         <div class="col-xs-1 vd-col-xs-30 text-center">@Participant.Email</div>
                         <div class="col-xs-1 vd-col-xs-30 text-center">
-                            <button class="btn btn-primary">
-
+                            <button class="btn btn-primary" data-id="@Participant.ID" onclick="DeleteParticipant(this)">
+                                Delete
                             </button>
                         </div>
 

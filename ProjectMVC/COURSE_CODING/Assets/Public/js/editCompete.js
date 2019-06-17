@@ -54,10 +54,33 @@ function OnFailure(data) {
     alert('POST: Save changes fail');
 }
 
+function DeleteParticipant(btn) {
+    $.ajax({
+        method:'POST',
+        url: '/Moderator/DeleteParticipant',
+        data: {
+            contestID: competeID,
+            userID: btn.dataset.id
+        },
+        success: function (response) {
+            alert(response);
+            $(`div[id=${btn.dataset.id}]`).remove();
+            if ($('#participant-list').html() === '') {
+                var html = `<div id="no-content" class="row table-row no-margin table-cs">
+                    <div class="col-sm-12 text-center">
+                        You have not invite any participant.
+                    </div>
+                    </div>`;
+                $('#participant-list').append(html);
+            }
+        }
+    });
+}
+
 
 function addParticipant() {
-    console.log("clicked");
     let email_input = $('#participant_Input').val();
+    $('#participant_Input').html('');
     $.ajax({
         method: 'POST',
         url: '/Moderator/SendInvitation',
@@ -66,12 +89,14 @@ function addParticipant() {
             email: email_input
         },
         success: function (response) {
-            var html = `<div class="row table-row no-margin table-cs">
-                        <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">${response.Name}</div>
-                        <div class="col-xs-1 vd-col-xs-30 text-center">${response.Email}</div>
+            alert(response.result);
+            $('#no-content').remove();
+            var html = `<div class="row table-row no-margin table-cs"  id="${response.data.ID}">
+                        <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">${response.data.Name}</div>
+                        <div class="col-xs-1 vd-col-xs-30 text-center">${response.data.Email}</div>
                         <div class="col-xs-1 vd-col-xs-30 text-center">
-                            <button class="btn btn-primary">
-
+                            <button class="btn btn-primary"  id="btn-${response.data.ID}">
+                                 Delete
                             </button>
                         </div>
                             </div>`

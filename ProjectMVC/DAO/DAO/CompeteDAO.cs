@@ -90,7 +90,8 @@ namespace DAO.DAO
         {
             try
             {
-                db.COMPETE_PARTICIPANTSS.Remove(model);
+                var u = db.COMPETE_PARTICIPANTSS.Find(model.UserID,model.CompeteID);
+                db.COMPETE_PARTICIPANTSS.Remove(u);
                 db.SaveChanges();
                 return true;
             }
