@@ -12,7 +12,7 @@
     <div id="code_editor" class="col-md-5">
         <div id="editor"></div>
     </div>
-    <div id="option" class="col-md-1">
+    <div id="option" class="col-md-2">
         <button id="btn_run" class="btn btn-success" onclick="runCode()">Run &nbsp; <i class="fas fa-play"></i></button>
         <select class="form-control" id="language_option">
             <option value="CPP">C++</option>
@@ -20,8 +20,8 @@
             <option value="Java">Java</option>
         </select>
     </div>
-    <div id="runcode_result" class="col-md-6">
-
+    <div id="runcode_result" class="col-md-5">
+        <h4>Output</h4>
     </div>
 </div>
 
@@ -85,9 +85,22 @@
                     if (msg) {
                         console.log(msg)
                         if (msg) {
-                            content = `<h4> ${msg.status}</h4>
-                                        <p>${msg.message}</p>`;
-                            $('#runcode_result').append(content);
+                            var content;
+                            if (msg.status === "success") {
+                                content = `<div class="alert alert-success">
+                                            <strong>Success!</strong>
+                                        </div>
+                                        <h5>Output: </h5>
+                                        <pre class="code-panel-success"><code>${msg.message}</code></pre>`;
+                            } else {
+                                content = `<div class="alert alert-danger">
+                                            <strong>Fail!</strong>
+                                        </div>
+                                        <h5>Output: </h5>
+                                        <pre class="code-panel-fail"><code>${msg.message}</code></pre>`;
+                            }
+                            
+                            $('#runcode_result').html(content);
 
                         }
                     }

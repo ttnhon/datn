@@ -10,8 +10,7 @@
 }
 
 #runcode_result {
-    background-color: lightslategray;
-    color: white;
+    border-left: 1px solid grey;
 }
 
 select#language_option {
@@ -38,4 +37,20 @@ select#language_option {
     right: 0;
     bottom: 0;
     left: 0;
+}
+
+.code-panel-success {
+    border-radius: 5px;
+    background-color: #f7f7f7;
+    font-size: 1em;
+    min-height: 100px;
+    padding: 10px;
+}
+
+.code-panel-fail {
+    border-radius: 5px;
+    background-color: #f7f7f7;
+    color: red;
+    font-size: 1em;
+    padding: 10px;
 }

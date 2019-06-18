@@ -223,6 +223,7 @@ namespace COURSE_CODING.Controllers
             return View(Model);
         }
 
+        [Route("Compete/{id}/Invitation")]
         public ActionResult Invitation(int id)
         {
             var loginID = GetLoginID();
