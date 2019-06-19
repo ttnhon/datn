@@ -26,16 +26,16 @@
 @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>*@
 
-<div class="container">
-    <h1 class="title">Create Question</h1>
-    @Html.Hidden("competeID", Model.ID)
-    @if (Model.Questions.Count > 0)
-    {
-        for (int i = 0; i < Model.Questions.Count; i++)
+    <div class="container">
+        <h1 class="title">Create Question</h1>
+        @Html.Hidden("competeID", Model.ID)
+        @if (Model.Questions.Count > 0)
         {
-            @Html.Hidden("question-ID-" + (i + 1), Model.Questions[i].ID)
             <div class="question" id="question">
+                @for (int i = 0; i < Model.Questions.Count; i++)
+                {
                 <div class="ques-item">
+                    @Html.Hidden("question-ID-" + (i + 1), Model.Questions[i].ID)
                     <h3>Question @(i + 1)</h3>
                     <div class="form-group row">
                         <label class="col-sm-2 control-label" for="choice-@(i+1)">Type</label>
@@ -95,17 +95,17 @@
                         <button type="button" class="btn btn-success" onclick="AddNewAnswer(@(i+1))">Add</button>
                     </div>
                 </div>
+                }
             </div>
         }
-    }
-    <div class="save-change-btn-group">
-        <button class="btn btn-success" id="js-save-changes-btn" onclick="Submit()">Save Changes</button>
-        <button type="button" class="btn btn-success" onclick="AddNewQuestion()">New question</button>
-    </div>
-    <div style="height: 100px;">
+        <div class="save-change-btn-group">
+            <button class="btn btn-success" id="js-save-changes-btn" onclick="Submit()">Save Changes</button>
+            <button type="button" class="btn btn-success" onclick="AddNewQuestion()">New question</button>
+        </div>
+        <div style="height: 100px;">
 
+        </div>
     </div>
-</div>
 
 @section scripts
     {
@@ -240,6 +240,7 @@
             count++;
             answer++;
             $('#question').append(`<div class="ques-item">
+                <input id="question-ID-`+ count + `" name="question-ID-` + count +`" type="hidden" value="">
                 <h3>Question `+ count + `</h3>
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="choice-` + count + `">Type</label>
@@ -307,7 +308,7 @@
                     Type: e.options[e.selectedIndex].value === "single" ? 0 : 1,
                     List: list
                 };
-                console.log(obj);
+                //console.log(obj);
                 arr.push(obj);
             }
 
@@ -322,8 +323,19 @@
             })
                 .done(function (msg) {
                     if (msg) {
-                        console.log(msg);
+                        //console.log(msg);
                         //alert(msg.result);
+                        var j = 0;
+                        if (msg.result) {
+                            for (var i = 1; i <= count; i++) {
+                                var Eid = $('#question-ID-' + i);
+                                if (Eid.val() === "") {
+                                    //console.log(msg.insertList[j]);
+                                    $('#question-ID-' + i).val(msg.insertList[j]);
+                                    j++;
+                                }
+                            }
+                        }
                     }
 
                 });

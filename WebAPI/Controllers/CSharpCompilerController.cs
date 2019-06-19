@@ -116,6 +116,7 @@ namespace WebAPI.Controllers
         /// <param name="stringSource"> string of source</param>
         /// <returns></returns>
         [HttpPost]
+        [System.Web.Mvc.ValidateInput(false)]
         public IHttpActionResult Compiler(Source source)
         {
             try
@@ -130,7 +131,7 @@ namespace WebAPI.Controllers
                 Dictionary<string, string> resultAPI = new Dictionary<string, string>();
                 using (StreamWriter w = new StreamWriter(pathFolder + fileName+".cs" , true))
                 {
-                    w.WriteLine(source.stringSource); 
+                    w.WriteLine(code); 
                 }
                 
                 CSharpCodeProvider ccp = new CSharpCodeProvider();

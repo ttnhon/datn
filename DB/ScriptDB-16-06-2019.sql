@@ -177,7 +177,7 @@ CREATE TABLE QUESTION(
 	ID				INT NOT NULL IDENTITY PRIMARY KEY,
 	CompeteID		INT NOT NULL,
 	Title			NTEXT,
-	Choise			TEXT,					--JSON
+	Choise			NTEXT,					--JSON
 	Type			SMALLINT,
 	Score			INT,
 	Result			VARCHAR(255),			--JSON
@@ -233,11 +233,11 @@ INSERT INTO USER_INFO VALUES (N'person5', N'e10adc3949ba59abbe56e057f20f883e', N
 INSERT INTO USER_INFO VALUES (N'person6', N'e10adc3949ba59abbe56e057f20f883e', N'P6', N'Phieu', N'person6@gmail.com', 1, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
 INSERT INTO USER_INFO VALUES (N'person7', N'e10adc3949ba59abbe56e057f20f883e', N'P7', N'Phieu', N'person7@gmail.com', 1, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
 INSERT INTO USER_INFO VALUES (N'person8', N'e10adc3949ba59abbe56e057f20f883e', N'P8', N'Phieu', N'person8@gmail.com', 1, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
-INSERT INTO USER_INFO VALUES (N'person9', N'e10adc3949ba59abbe56e057f20f883e', N'P9', N'Phieu', N'person9@gmail.com', 1, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
-INSERT INTO USER_INFO VALUES (N'person10', N'e10adc3949ba59abbe56e057f20f883e', N'P10', N'Phieu', N'person10@gmail.com', 1, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
-INSERT INTO USER_INFO VALUES (N'person11', N'e10adc3949ba59abbe56e057f20f883e', N'P11', N'Phieu', N'person11@gmail.com', 1, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
-INSERT INTO USER_INFO VALUES (N'person12', N'e10adc3949ba59abbe56e057f20f883e', N'P12', N'Phieu', N'person12@gmail.com', 1, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
-INSERT INTO USER_INFO VALUES (N'person13', N'e10adc3949ba59abbe56e057f20f883e', N'P13', N'Phieu', N'person13@gmail.com', 1, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
+INSERT INTO USER_INFO VALUES (N'person9', N'e10adc3949ba59abbe56e057f20f883e', N'P9', N'Phieu', N'person9@gmail.com', 0, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
+INSERT INTO USER_INFO VALUES (N'person10', N'e10adc3949ba59abbe56e057f20f883e', N'P10', N'Phieu', N'person10@gmail.com', 0, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
+INSERT INTO USER_INFO VALUES (N'person11', N'e10adc3949ba59abbe56e057f20f883e', N'P11', N'Phieu', N'person11@gmail.com', 0, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
+INSERT INTO USER_INFO VALUES (N'person12', N'e10adc3949ba59abbe56e057f20f883e', N'P12', N'Phieu', N'person12@gmail.com', 0, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
+INSERT INTO USER_INFO VALUES (N'person13', N'e10adc3949ba59abbe56e057f20f883e', N'P13', N'Phieu', N'person13@gmail.com', 0, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
 INSERT INTO USER_INFO VALUES (N'person14', N'e10adc3949ba59abbe56e057f20f883e', N'P14', N'Phieu', N'person14@gmail.com', 1, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
 INSERT INTO USER_INFO VALUES (N'person15', N'e10adc3949ba59abbe56e057f20f883e', N'P15', N'Phieu', N'person15@gmail.com', 1, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
 INSERT INTO USER_INFO VALUES (N'person16', N'e10adc3949ba59abbe56e057f20f883e', N'P16', N'Phieu', N'person16@gmail.com', 1, N'http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg', 1, 'Vietnam', 'Description About', 1, 2019, 'facebookLink', 'googleLink',GETDATE())
@@ -285,6 +285,9 @@ INSERT INTO CHALLENGE VALUES (1, N'Simple Array Sum', N'simple-array-sum', N'<p>
 <ul>
 <li><em>ar</em>: an array of integers</li>
 </ul>', N'problem statement', N'<p>The first line contains an integer, <strong>n</strong>, denoting the size of the array. <br />The second line contains <strong>n</strong> space-separated integers representing the array''s elements.</p>', N'Print the sum of the array''s elements as a single integer.', 1, N'<p><strong>0 &lt; n, ar[i] &lt;= 1000</strong></p>', 60, 100, N'<p>We print the sum of the array''s elements: <strong>1 + 2 + 3 + 4 + 10 + 11 = 31</strong>.</p>', N'Cpp', 1, 0, 0, 0)
+INSERT INTO CHALLENGE VALUES (1, N'Say "Hello, World!" With C++', N'cpp-hello-world', N'<p>This is a simple challenge to help you practice printing to&nbsp;<a href="https://en.wikipedia.org/wiki/Standard_streams#Standard_output_.28stdout.29">stdout</a>. You may also want to complete&nbsp;<a href="https://www.hackerrank.com/challenges/solve-me-first">Solve Me First</a>&nbsp;in C++ before attempting this challenge.</p>
+<hr />
+<p>We''re starting out by printing the most famous computing phrase of all time! In the editor below, use either&nbsp;<a href="http://www.cplusplus.com/printf">printf</a>&nbsp;or&nbsp;<a href="http://www.cplusplus.com/cout">cout</a>&nbsp;to print the string <strong>Hello, World!</strong> to&nbsp;<a href="https://en.wikipedia.org/wiki/Standard_streams#Standard_output_.28stdout.29">stdout</a>.</p>', N'problem statement', N'You do not need to read any input in this challenge.', N'<p>Print <strong>Hello, World!</strong>&nbsp;to stdout.</p>', 1, null, 60, 100, N'gdfgdfg', N'Cpp', 1, 0, 0, 0)
 INSERT INTO CHALLENGE VALUES (1, N'Plus Minus', N'plus-minus', N'<p>Given an array of integers, calculate the fractions of its elements that are&nbsp;<em>positive</em>,&nbsp;<em>negative</em>, and are&nbsp;<em>zeros</em>. Print the decimal value of each fraction on a new line.</p>
 <p><strong>Note:</strong>&nbsp;This challenge introduces precision problems. The test cases are scaled to six decimal places, though answers with absolute error of up to <strong>10<sup>-4</sup></strong>&nbsp;are acceptable.</p>
 <p>For example, given the array <strong>arr = [1,1,0,-1,-1]</strong> there are <strong>5</strong> elements, two positive, two negative and one zero. Their ratios would be <strong>2/5 = 0.400000</strong>,&nbsp;<strong>2/5 = 0.400000</strong>&nbsp;and <strong>1/5 = 0.200000</strong>. It should be printed as</p>
@@ -305,9 +308,6 @@ N'<p>You must print the following <strong>3</strong> lines:</p>
 <li>A decimal representing of the fraction of&nbsp;<em>zeros</em>&nbsp;in the array compared to its size.</li>
 </ol>',1, N'<p><strong>0 &lt;= n &lt;= 100</strong></p>
 <p><strong>-100 &lt;= arr[i] &lt;= 100</strong></p>', 60, 100, N'<p>There are <strong>3</strong> positive numbers, <strong>2</strong> negative numbers, and <strong>1</strong> zero in the array. <br />The proportions of occurrence are positive: <strong>3/6 = 0.500000</strong>, negative: <strong>2/6 = 0.333333</strong> and zeros: <strong>1/6 = 0.166667</strong>.</p>', N'Cpp', 1, 0, 0, 0)
-INSERT INTO CHALLENGE VALUES (1, N'Say "Hello, World!" With C++', N'cpp-hello-world', N'<p>This is a simple challenge to help you practice printing to&nbsp;<a href="https://en.wikipedia.org/wiki/Standard_streams#Standard_output_.28stdout.29">stdout</a>. You may also want to complete&nbsp;<a href="https://www.hackerrank.com/challenges/solve-me-first">Solve Me First</a>&nbsp;in C++ before attempting this challenge.</p>
-<hr />
-<p>We''re starting out by printing the most famous computing phrase of all time! In the editor below, use either&nbsp;<a href="http://www.cplusplus.com/printf">printf</a>&nbsp;or&nbsp;<a href="http://www.cplusplus.com/cout">cout</a>&nbsp;to print the string <strong>Hello, World!</strong> to&nbsp;<a href="https://en.wikipedia.org/wiki/Standard_streams#Standard_output_.28stdout.29">stdout</a>.</p>', N'problem statement', N'You do not need to read any input in this challenge.', N'<p>Print <strong>Hello, World!</strong>&nbsp;to stdout.</p>', 1, null, 60, 100, N'gdfgdfg', N'Cpp', 1, 0, 0, 0)
 INSERT INTO CHALLENGE VALUES (1, N'Input and Output', N'cpp-input-and-output', N'test 4', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 0, 0, 0)
 INSERT INTO CHALLENGE VALUES (1, N'Basic Data Types', N'c-tutorial-basic-data-types', N'test 5', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 0, 0, 0)
 INSERT INTO CHALLENGE VALUES (1, N'Conditional Statements', N'c-tutorial-conditional-if-else', N'test 6', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'Cpp', 1, 0, 0, 0)
@@ -441,16 +441,6 @@ INSERT INTO CHALLENGE_COMPETE VALUES (7, 1)
 INSERT INTO CHALLENGE_COMPETE VALUES (8, 1)
 INSERT INTO CHALLENGE_COMPETE VALUES (9, 1)
 INSERT INTO CHALLENGE_COMPETE VALUES (10, 1)
-INSERT INTO CHALLENGE_COMPETE VALUES (11, 1)
-INSERT INTO CHALLENGE_COMPETE VALUES (12, 1)
-INSERT INTO CHALLENGE_COMPETE VALUES (13, 1)
-INSERT INTO CHALLENGE_COMPETE VALUES (14, 1)
-INSERT INTO CHALLENGE_COMPETE VALUES (15, 1)
-INSERT INTO CHALLENGE_COMPETE VALUES (16, 1)
-INSERT INTO CHALLENGE_COMPETE VALUES (17, 1)
-INSERT INTO CHALLENGE_COMPETE VALUES (18, 1)
-INSERT INTO CHALLENGE_COMPETE VALUES (19, 1)
-INSERT INTO CHALLENGE_COMPETE VALUES (20, 1)
 INSERT INTO CHALLENGE_COMPETE VALUES (21, 2)
 INSERT INTO CHALLENGE_COMPETE VALUES (22, 2)
 INSERT INTO CHALLENGE_COMPETE VALUES (23, 2)
@@ -461,94 +451,64 @@ INSERT INTO CHALLENGE_COMPETE VALUES (27, 2)
 INSERT INTO CHALLENGE_COMPETE VALUES (28, 2)
 INSERT INTO CHALLENGE_COMPETE VALUES (29, 2)
 INSERT INTO CHALLENGE_COMPETE VALUES (30, 2)
-INSERT INTO CHALLENGE_COMPETE VALUES (31, 2)
-INSERT INTO CHALLENGE_COMPETE VALUES (32, 2)
-INSERT INTO CHALLENGE_COMPETE VALUES (33, 2)
-INSERT INTO CHALLENGE_COMPETE VALUES (34, 2)
-INSERT INTO CHALLENGE_COMPETE VALUES (35, 2)
-INSERT INTO CHALLENGE_COMPETE VALUES (36, 2)
-INSERT INTO CHALLENGE_COMPETE VALUES (37, 2)
-INSERT INTO CHALLENGE_COMPETE VALUES (38, 2)
-INSERT INTO CHALLENGE_COMPETE VALUES (39, 2)
-INSERT INTO CHALLENGE_COMPETE VALUES (40, 2)
+INSERT INTO CHALLENGE_COMPETE VALUES (41, 3)
+INSERT INTO CHALLENGE_COMPETE VALUES (42, 3)
+INSERT INTO CHALLENGE_COMPETE VALUES (43, 3)
+INSERT INTO CHALLENGE_COMPETE VALUES (44, 3)
+INSERT INTO CHALLENGE_COMPETE VALUES (45, 3)
+INSERT INTO CHALLENGE_COMPETE VALUES (46, 3)
+INSERT INTO CHALLENGE_COMPETE VALUES (47, 3)
+INSERT INTO CHALLENGE_COMPETE VALUES (48, 3)
+INSERT INTO CHALLENGE_COMPETE VALUES (49, 3)
+INSERT INTO CHALLENGE_COMPETE VALUES (50, 3)
 go
 
 --CHALLENGE_LANGUAGE
-INSERT INTO CHALLENGE_LANGUAGE VALUES (1, 1, N'#include <bits/stdc++.h>
-
+INSERT INTO CHALLENGE_LANGUAGE VALUES (1, 1, N'#include <iostream>
+#include <fstream>
+ 
 using namespace std;
 
-vector<string> split_string(string);
-
-/*
- * Complete the simpleArraySum function below.
- */
-int simpleArraySum(vector<int> ar) {
-    /*
-     * Write your code here.
-     */
-
-}
-
-int main()
-{
-    ofstream fout(getenv("OUTPUT_PATH"));
-
-    int ar_count;
-    cin >> ar_count;
-    cin.ignore(numeric_limits<streamsize>::max(), ''\n'');
-
-    string ar_temp_temp;
-    getline(cin, ar_temp_temp);
-
-    vector<string> ar_temp = split_string(ar_temp_temp);
-
-    vector<int> ar(ar_count);
-
-    for (int ar_itr = 0; ar_itr < ar_count; ar_itr++) {
-        int ar_item = stoi(ar_temp[ar_itr]);
-
-        ar[ar_itr] = ar_item;
-    }
-
-    int result = simpleArraySum(ar);
-
-    fout << result << "\n";
-
-    fout.close();
-
-    return 0;
-}
-
-vector<string> split_string(string input_string) {
-    string::iterator new_end = unique(input_string.begin(), input_string.end(), [] (const char &x, const char &y) {
-        return x == y and x == '' '';
-    });
-
-    input_string.erase(new_end, input_string.end());
-
-    while (input_string[input_string.length() - 1] == '' '') {
-        input_string.pop_back();
-    }
-
-    vector<string> splits;
-    char delimiter = '' '';
-
-    size_t i = 0;
-    size_t pos = input_string.find(delimiter);
-
-    while (pos != string::npos) {
-        splits.push_back(input_string.substr(i, pos - i));
-
-        i = pos + 1;
-        pos = input_string.find(delimiter, i);
-    }
-
-    splits.push_back(input_string.substr(i, min(pos, input_string.length()) - i + 1));
-
-    return splits;
+int ArraySum(int array[], int length){
+    //write your code here
+    
+ }
+ 
+int main() {
+	ifstream myfile("INPUT_FILE_NAME");
+	if (myfile.is_open())
+	{
+		int arrSize = 0;
+		int length;
+		myfile >> length;
+		int arr[length];
+		
+		while (!myfile.eof())
+		{
+			int x;
+			myfile >> x;
+			arr[arrSize] = x;
+			arrSize++;
+		}
+		int res = ArraySum(arr, length);
+		cout << res;
+		myfile.close();
+	}
+	else
+	{
+		cout << "Unable to open file";
+	}
+	return 0;
 }')
-INSERT INTO CHALLENGE_LANGUAGE VALUES (2, 1, N'#include <bits/stdc++.h>
+INSERT INTO CHALLENGE_LANGUAGE VALUES (2, 1, N'#include <iostream>
+#include <cstdio>
+using namespace std;
+
+int main() {
+    printf("Hello, World!");
+    return 0;
+}')
+INSERT INTO CHALLENGE_LANGUAGE VALUES (3, 1, N'#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -558,13 +518,13 @@ vector<string> split_string(string);
 void plusMinus(vector<int> arr) {
 
 
-}
+ }
 
 int main()
 {
     int n;
     cin >> n;
-    cin.ignore(numeric_limits<streamsize>::max(), ''\n'');
+    cin.ignore(numeric_limits<streamsize>::max(), ''\\n'');
 
     string arr_temp_temp;
     getline(cin, arr_temp_temp);
@@ -612,14 +572,6 @@ vector<string> split_string(string input_string) {
 
     return splits;
 }')
-INSERT INTO CHALLENGE_LANGUAGE VALUES (3, 1, N'#include <iostream>
-#include <cstdio>
-using namespace std;
-
-int main() {
-    printf("Hello, World!");
-    return 0;
-}')
 INSERT INTO CHALLENGE_LANGUAGE VALUES (4, 1, null)
 INSERT INTO CHALLENGE_LANGUAGE VALUES (5, 1, null)
 INSERT INTO CHALLENGE_LANGUAGE VALUES (6, 1, null)
@@ -655,13 +607,29 @@ class Solution {
 
     // Complete the staircase function below.
     static void staircase(int n) {
-
-
+        for (int i = 1; i <= n; ++i)
+        {
+            for (int j = 1; j <= n; ++j)
+            {
+                if (j <= n - i)
+                {
+                    Console.Write(" ");
+                }
+                else
+                {
+                    Console.Write("#");
+                }
+            }
+            Console.WriteLine();
+        }
     }
 
     static void Main(string[] args) {
-        int n = Convert.ToInt32(Console.ReadLine());
-
+        int n = 0;
+        using (TextReader reader = File.OpenText("INPUT_FILE_NAME"))
+        {
+            int n = int.Parse(reader.ReadLine());
+        }
         staircase(n);
     }
 }')
@@ -683,7 +651,7 @@ class Solution {
     }
 
     static void Main(string[] args) {
-        TextWriter tw = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+        TextWriter tw = new StreamWriter(@System.Environment.GetEnvironmentVariable("INPUT_FILE_NAME"), true);
 
         string s = Console.ReadLine();
 
@@ -718,7 +686,7 @@ class Solution {
     }
 
     static void Main(string[] args) {
-        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("INPUT_FILE_NAME"), true);
 
         int arCount = Convert.ToInt32(Console.ReadLine());
 
@@ -749,25 +717,28 @@ INSERT INTO CHALLENGE_LANGUAGE VALUES (37, 2, null)
 INSERT INTO CHALLENGE_LANGUAGE VALUES (38, 2, null)
 INSERT INTO CHALLENGE_LANGUAGE VALUES (39, 2, null)
 INSERT INTO CHALLENGE_LANGUAGE VALUES (40, 2, null)
-INSERT INTO CHALLENGE_LANGUAGE VALUES (41, 3, N'public class Solution {
-
+INSERT INTO CHALLENGE_LANGUAGE VALUES (41, 3, N'public class HelloWorld {
     public static void main(String[] args) {
-        /* Enter your code here. Print output to STDOUT. Your class should be named Solution. */
+        // Prints "Hello, World!" to the terminal window.
+        System.out.println("Hello, World!");
     }
 }')
-INSERT INTO CHALLENGE_LANGUAGE VALUES (42, 3, N'import java.util.*;
+INSERT INTO CHALLENGE_LANGUAGE VALUES (42, 3, N'import java.io.*;
+import java.math.*;
 
 public class Solution {
 
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        int a = scan.nextInt();
-        // Complete this line
-        // Complete this line
-
-        System.out.println(a);
-        // Complete this line
-        // Complete this line
+    public static void main(String[] args) throws IOException {
+        BufferedReader brTest = new BufferedReader(new FileReader("INPUT_FILE_NAME"));
+        String text = brTest .readLine();
+        String[] aItems = text.split(" ");
+        
+        int size = aItems.length;
+        int arr_sum = 0;
+        for(int i=0; i<size; i++) {
+            arr_sum += Integer.parseInt(aItems[i]);
+        }
+        System.out.println(arr_sum);
     }
 }')
 INSERT INTO CHALLENGE_LANGUAGE VALUES (43, 3, N'import java.io.*;
@@ -786,7 +757,7 @@ public class Solution {
 
     public static void main(String[] args) {
         int N = scanner.nextInt();
-        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+        scanner.skip("(\\r\\n|[\\n\\r\\u2028\\u2029\\u0085])?");
 
         scanner.close();
     }
@@ -873,7 +844,18 @@ INSERT INTO CHALLENGE_EDITOR VALUES (59, 1)
 INSERT INTO CHALLENGE_EDITOR VALUES (60, 1)
 go
 
+--QUESTION
+INSERT INTO [QUESTION] VALUES (1, N'<p><strong>1</strong> + <strong>1</strong> = <strong>?</strong></p>', N'["1", "2", "3", "4"]', 0, 10, '[1]')
+INSERT INTO [QUESTION] VALUES (1, N'<p>Trường KHTN có cơ sở nào?</p>', N'["Linh Trung", "Nguyễn Văn Cừ", "Phạm Ngũ Lão", "Bến Thành"]', 1, 10, '[0, 1]')
+go
+
 --TEST_CASE
+INSERT INTO TESTCASE VALUES (1, 'challenge_1_input_0.txt', 'challenge_1_output_0.txt')
+INSERT INTO TESTCASE VALUES (1, 'challenge_1_input_1.txt', 'challenge_1_output_1.txt')
+INSERT INTO TESTCASE VALUES (1, 'challenge_1_input_2.txt', 'challenge_1_output_2.txt')
+INSERT INTO TESTCASE VALUES (2, 'challenge_2_input_0.txt', 'challenge_2_output_0.txt')
+INSERT INTO TESTCASE VALUES (2, 'challenge_2_input_1.txt', 'challenge_2_output_1.txt')
+INSERT INTO TESTCASE VALUES (2, 'challenge_2_input_2.txt', 'challenge_2_output_2.txt')
 INSERT INTO TESTCASE VALUES (41, 'challenge_41_input_0.txt', 'challenge_41_output_0.txt')
 INSERT INTO TESTCASE VALUES (41, 'challenge_41_input_1.txt', 'challenge_41_output_1.txt')
 INSERT INTO TESTCASE VALUES (41, 'challenge_41_input_2.txt', 'challenge_41_output_2.txt')
