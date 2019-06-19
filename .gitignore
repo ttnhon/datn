@@ -4,7 +4,6 @@
 *.com
 *.class
 
-*.exe
 *.pdb
 *.cache
 *.suo
@@ -66,7 +65,7 @@ Thumbs.db
 
 NuGet.exe
 _[Ss]cripts
-*.exe
+
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over

@@ -37,10 +37,10 @@
         {<div class="alert alert-success">@ViewBag.Success</div>}
 else
 {
-                <h4>Register now</h4>
+                @*<h4>Register now</h4>*@
 }
                     </div>
-                    <hr />
+                    @*<hr />*@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group ">
                         <div class="form-row">
@@ -131,9 +131,9 @@ else
 
                 </div>
                 }
-                <div class="text-center">
+                @*<div class="text-center">
                     @Html.ActionLink("forgot-password", "ChangePassword")
-                </div>
+                </div>*@
             </div>
         </div>
     </div>
