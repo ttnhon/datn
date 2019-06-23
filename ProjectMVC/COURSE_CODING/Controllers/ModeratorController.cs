@@ -262,6 +262,7 @@ namespace COURSE_CODING.Controllers
         public ActionResult EditQuestion(Question[] question, int competeID)
         {
             QuestionDAO DAO = new QuestionDAO();
+            List<int> InsertList = new List<int>();
             for (int i = 0; i < question.Length; i++)
             {
                 QUESTION ques = new QUESTION();
@@ -291,6 +292,7 @@ namespace COURSE_CODING.Controllers
                     //if question not exist insert to table QUESTION
                     ques.CompeteID = competeID;
                     res = DAO.Insert(ques);
+                    InsertList.Add(ques.ID);
                 }
                 else
                 {
@@ -302,7 +304,7 @@ namespace COURSE_CODING.Controllers
                     return Json(new { result = false, msg = "Fail to update question " + i });
                 }
             }
-            return Json(new { result = true, msg = "Update questions succeed." });
+            return Json(new { result = true, msg = "Update questions succeed.", insertList = InsertList.ToArray() });
         }
 
         [HttpPost]

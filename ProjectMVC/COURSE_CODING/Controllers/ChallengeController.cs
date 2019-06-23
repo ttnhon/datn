@@ -59,8 +59,11 @@ namespace COURSE_CODING.Controllers
             }
 
             ViewBag.competeID = competeID;
-            ViewBag.Back = challengeDao.GetBackChallenge((int)competeID, challengeID);
-            ViewBag.Next = challengeDao.GetNextChallenge((int)competeID, challengeID);
+            if(competeID != null)
+            {
+                ViewBag.Back = challengeDao.GetBackChallenge((int)competeID, challengeID);
+                ViewBag.Next = challengeDao.GetNextChallenge((int)competeID, challengeID);
+            }
             return View(model);
         }
 
@@ -859,7 +862,9 @@ namespace COURSE_CODING.Controllers
             }
             bool result = false;
             //string encrypted = CommonProject.Helper.Encrypt.EncryptString(Code, "testpass");
-            result = DAO.UpdateCodestub(challengeID, language, Code);
+            String code = Code;
+            code = code.Replace("\\n", "\\\\n").Replace("\\t", "\\\\t");
+            result = DAO.UpdateCodestub(challengeID, language, code);
             //string decrypted = CommonProject.Helper.Encrypt.DecryptString(encrypted, "testpass");
             //result = true;
             return Json(new { result, msg = "Update Code stub succeed." });

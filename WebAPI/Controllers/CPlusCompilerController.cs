@@ -94,6 +94,7 @@ namespace WebAPI.Controllers
         /// <param name="source"> string of source</param>
         /// <returns></returns>
         [HttpPost]
+        [System.Web.Mvc.ValidateInput(false)]
         public IHttpActionResult Compiler(Source source)
         {
             try
@@ -113,6 +114,10 @@ namespace WebAPI.Controllers
                 code = this.ChangeCode(code, class_name, input_file);
                 string full_path = directory_file + "\\" + filename_code;
                 //make sure this file not exist
+                if (System.IO.File.Exists(full_path + ".exe"))           //delete file MyClass{userKey}.exe and MyClass{userKey}.cpp
+                {
+                    System.IO.File.Delete(full_path + ".exe");
+                }
                 if (System.IO.File.Exists(full_path + ".cpp"))
                 {
                     System.IO.File.Delete(full_path + ".cpp");
@@ -121,7 +126,7 @@ namespace WebAPI.Controllers
                 /*write code to file.cpp*/
                 using (StreamWriter w = new StreamWriter(full_path + ".cpp", true))
                 {
-                    w.WriteLine(source.stringSource); // Write the text
+                    w.WriteLine(code); // Write the text
                 }
 
                 /*run g++ dir\\MyClass{userKey}.cpp*/

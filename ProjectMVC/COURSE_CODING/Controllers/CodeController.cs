@@ -134,6 +134,16 @@ namespace COURSE_CODING.Controllers
             //call api to run
             Dictionary<string, string> result_api = this.CallAPI(code_run, language, user_id, input_file_name_change_in_code);
 
+            if(result_api.Count <= 0)
+            {
+                return (new TestCaseResultModel()
+                {
+                    Status = "fail",
+                    Input = input_expect,
+                    Output = "Server call api compiler fail",
+                    OutputExpect = output_expect,
+                });
+            }
             char[] charsToTrim = {'\r','\n'};
             result_api["message"] = result_api["message"].TrimEnd(charsToTrim);
 
