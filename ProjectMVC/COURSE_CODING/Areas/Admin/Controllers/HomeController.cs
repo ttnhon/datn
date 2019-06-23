@@ -6,8 +6,11 @@ using System.Web;
 using System.Web.Mvc;
 using CommonProject;
 using CommonProject.Helper;
+using COURSE_CODING.Areas.Admin.Models;
 using COURSE_CODING.Models;
 using DAO.DAO;
+using DAO.EF;
+using Newtonsoft.Json;
 
 namespace COURSE_CODING.Areas.Admin.Controllers
 {
@@ -22,8 +25,6 @@ namespace COURSE_CODING.Areas.Admin.Controllers
             ViewBag.numberCompete = dao.CountCompetes();
             ViewBag.numberChallenge = dao.CountChallenges();
             ViewBag.numberLanguage = dao.CountLanguages();
-            var a = GetAllDataUsers();
-
             return View();
         }
         public ActionResult Contact()
@@ -31,12 +32,38 @@ namespace COURSE_CODING.Areas.Admin.Controllers
             return View();
         }
 
-        public JsonResult GetAllDataUsers()
+        [HttpGet]
+        public ActionResult GetAllDataUsers()
         {
             GeneralDAO dao = new GeneralDAO();
-            return Json(
-                dao.GetAllDataUsers()
-                );
+            var data = dao.GetAllDataUsersForChart().ToList<USER_INFO>();
+            JsonResult result = new JsonResult();
+            //Object[] listData = new Object[13];
+            List<ChartUser> listData = new List<ChartUser>();
+            string formatString = DateTime.Now.Year.ToString() + '-';
+            for (int i = 1; i <= 12; i++)
+            {
+                var list = data.FindAll(m => m.CreateDate.Month.Equals(i));
+                string stringMonth = string.Empty;
+                if (i < 10)
+                {
+                    stringMonth = '0' + i.ToString();
+                }
+                else
+                {
+                    stringMonth = i.ToString();
+                }
+                stringMonth = formatString + stringMonth;
+                if (list != null)
+                {
+                    listData.Add(new ChartUser() { month = stringMonth, count = list.Count });
+                }
+                else
+                {
+                    listData.Add(new ChartUser() { month = stringMonth, count = 0 });
+                }
+            }
+            return Json(listData,JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetAllDataChallenges()
         {
@@ -55,9 +82,22 @@ namespace COURSE_CODING.Areas.Admin.Controllers
         public JsonResult GetAllDataLanguages()
         {
             GeneralDAO dao = new GeneralDAO();
-            return Json(
-                dao.GetAllDataLanguages()
-                );
+            var dataChart = dao.GetAllDataLanguagesForChart().ToList<CHALLENGE_LANGUAGE>();
+            var dataLanguage = dao.GetAllDataLanguages().ToList<LANGUAGE>();
+            JsonResult result = new JsonResult();
+            List<ChartLanguages> listData = new List<ChartLanguages>();
+            int numberChanllenge = dataChart.Count;
+            foreach(var itemLanguage in dataLanguage)
+            {
+                var itemChart = dataChart.FindAll(m => m.LanguageID.Equals(itemLanguage.ID));
+                if (itemChart != null)
+                {
+                    string label = itemLanguage.Name;
+                    string value = Math.Round( (((float)itemChart.Count / (float)dataChart.Count) * 100)).ToString();
+                    listData.Add(new ChartLanguages() { label = label, value = value });
+                }
+            }
+            return Json(listData, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
