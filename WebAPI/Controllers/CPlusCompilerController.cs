@@ -23,11 +23,12 @@ namespace WebAPI.Controllers
         {
             /*Run cmd command*/
             //set up
+            string ProjDir = System.AppDomain.CurrentDomain.BaseDirectory;
             System.Diagnostics.Process p = new System.Diagnostics.Process();
             p.StartInfo.FileName = "cmd.exe";  //run cmd
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.WorkingDirectory = directory_file_code;        //Link to directory of file need to execute
-            p.StartInfo.Arguments = "/C " + file_code;          //=> "MyClass"
+            //p.StartInfo.Arguments = "/C " + directory_file_code + file_code + ".exe";          //=> "MyClass"
             p.StartInfo.CreateNoWindow = true;
             p.StartInfo.RedirectStandardInput = true;
             p.StartInfo.RedirectStandardOutput = true;
@@ -35,13 +36,24 @@ namespace WebAPI.Controllers
 
             //run
             p.Start();
+            p.StandardInput.WriteLine("set PATH=%PATH%;" + ProjDir + @"Compilers/MinGW/bin");
+            p.StandardInput.WriteLine(file_code + ".exe");
+            p.StandardInput.Flush();
+            p.StandardInput.Close();
             string result_string = p.StandardOutput.ReadToEnd();
             string error_string = p.StandardError.ReadToEnd();
             p.WaitForExit();
 
+            string[] str = result_string.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+            StringBuilder S_builder = new StringBuilder();
+
+            for(int i = 6; i < str.Length - 1; i++)
+            {
+                S_builder.Append(str[i]);
+            }
             //return result
             string status = "success";
-            string result_message = result_string;
+            string result_message = S_builder.ToString();
             if (error_string != "")
             {
                 status = "fail";
@@ -53,16 +65,20 @@ namespace WebAPI.Controllers
             return result;
 
         }
-
+        
         //create a.exe (defaut) file
         protected Dictionary<string, string> ExecuteGPP(string directory_file_code = "D:\\", string file_code = "MyClass.exe MyClass.cpp")
         {
             string ProjDir = System.AppDomain.CurrentDomain.BaseDirectory;
+            ProjDir = ProjDir.Replace("\\", "/");
+            file_code = file_code.Replace("\\", "/");
             System.Diagnostics.Process p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = ProjDir + @"\Compilers\MinGW\bin\g++.exe";  //Link to g++.exe  => "g++"
+           // p.StartInfo.FileName = ProjDir + @"Compilers/MinGW/bin/g++.exe";  //Link to g++.exe  => "g++"
+            p.StartInfo.FileName = "cmd.exe";
             p.StartInfo.UseShellExecute = false;
-            p.StartInfo.WorkingDirectory = directory_file_code;                //Link to directory of file need to execute
-            p.StartInfo.Arguments = "-o " + file_code;             // =>    "g++ -o MyClass.exe MyClass.cpp"
+            //p.StartInfo.WorkingDirectory = ProjDir + @"Compilers/MinGW/bin";                //Link to directory of file need to execute
+            p.StartInfo.WorkingDirectory = directory_file_code;
+            //p.StartInfo.Arguments = "/C g++ -o " + file_code;             // =>    "g++ -o MyClass.exe MyClass.cpp"
             p.StartInfo.CreateNoWindow = true;
             p.StartInfo.RedirectStandardInput = true;
             p.StartInfo.RedirectStandardOutput = true;
@@ -70,6 +86,10 @@ namespace WebAPI.Controllers
 
             //run
             p.Start();
+            p.StandardInput.WriteLine("set PATH=%PATH%;"+ ProjDir + @"Compilers/MinGW/bin");
+            p.StandardInput.WriteLine("g++ -o " + file_code);
+            p.StandardInput.Flush();
+            p.StandardInput.Close();
             string result_string = p.StandardOutput.ReadToEnd();
             string error_string = p.StandardError.ReadToEnd();
             p.WaitForExit();
@@ -112,7 +132,7 @@ namespace WebAPI.Controllers
 
                 //Change code
                 code = this.ChangeCode(code, class_name, input_file);
-                string full_path = directory_file + "\\" + filename_code;
+                string full_path = directory_file + filename_code;
                 //make sure this file not exist
                 if (System.IO.File.Exists(full_path + ".exe"))           //delete file MyClass{userKey}.exe and MyClass{userKey}.cpp
                 {
