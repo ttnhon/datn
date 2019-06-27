@@ -335,14 +335,8 @@ INSERT INTO CHALLENGE VALUES (1, N'Staircase', N'staircase', N'<p>Consider a sta
 <li>n: an integer</li>
 </ul>', N'problem statement', N'<p>A single integer, <strong>n</strong>, denoting the size of the staircase.</p>', N'<p>Print a staircase of size <strong>n</strong> using # symbols and spaces.</p>
 <p><strong>Note:</strong> The last line must have <strong>0</strong> spaces in it.</p>', 1, N'<p><strong>0 &lt; n &lt;= 100</strong></p>', 60, 100, N'The staircase is right-aligned, composed of # symbols and spaces, and has a height and width of n = 6.', N'CSharp', 1, 0, 0, 0)
-INSERT INTO CHALLENGE VALUES (1, N'Time Conversion', N'time-conversion', N'<p>Given a time in <strong>12</strong>-hour AM/PM format, convert it to military (24-hour) time.</p>
-<p>Note: Midnight is 12:00:00AM on a 12-hour clock, and 00:00:00 on a 24-hour clock. Noon is 12:00:00PM on a 12-hour clock, and 12:00:00 on a 24-hour clock.</p>
-<p><strong>Function Description</strong></p>
-<p>Complete the timeConversion function in the editor below. It should return a new string representing the input time in 24 hour format.</p>
-<p>timeConversion has the following parameter(s):</p>
-<ul style="list-style-type: circle;">
-<li>s: a string representing time in <strong>12</strong> hour format</li>
-</ul>', N'problem statement', N'<p>A single string <strong>s</strong> containing a time in <strong>12</strong>-hour clock format (i.e.: <strong>hh:mm:ssAM</strong> or <strong>hh:mm:ssPM</strong>), where <strong>01 &lt;= hh &lt;= 12</strong> and <strong>00 &lt;= mm, ss &lt;= 59</strong>.</p>', N'<p>Convert and print the given time in <strong>24</strong>-hour format, where <strong>00 &lt;= hh &lt;= 23</strong>.</p>', 1, N'All input times are valid', 60, 100, null, N'CSharp', 1, 0, 0, 0)
+INSERT INTO CHALLENGE VALUES (1, N'Say "Hello world" With C#', N'csharp-hello-world', N'<p>This is a simple challenge to help you practice printing to console write.</p><p>We''re starting out by printing the most famous computing phrase of all time! In the editor below, use either&nbsp;<i>Console.WriteLine</i>&nbsp;or <i>Console.Write</i> to print the string <strong>Hello world</strong> to&nbsp;console.</p>', 
+N'problem statement', NULL, N'<p>Print string <strong>Hello world</strong></p>', 1, NULL, 60, 100, null, N'CSharp', 1, 0, 0, 0)
 INSERT INTO CHALLENGE VALUES (1, N'A Very Big Sum', N'a-very-big-sum', N'<p>Calculate and print the sum of the elements in an array, keeping in mind that some of those integers may be quite large.</p>
 <p><strong>Function Description</strong></p>
 <p>Complete the&nbsp;<em>aVeryBigSum</em>&nbsp;function in the editor below. It must return the sum of all array elements.</p>
@@ -467,7 +461,11 @@ using namespace std;
 
 int ArraySum(int array[], int length){
     //write your code here
-    
+    int res = 0;
+    for(int i = 0; i < length; i++){
+        res += array[i];
+    }
+    return res;
  }
  
 int main() {
@@ -631,32 +629,18 @@ class Solution {
 }')
 INSERT INTO CHALLENGE_LANGUAGE VALUES (22, 2, N'using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-class Solution {
-
-    /*
-     * Complete the timeConversion function below.
-     */
-    static string timeConversion(string s) {
-        /*
-         * Write your code here.
-         */
-
-    }
-
-    static void Main(string[] args) {
-        TextWriter tw = new StreamWriter(@System.Environment.GetEnvironmentVariable("INPUT_FILE_NAME"), true);
-
-        string s = Console.ReadLine();
-
-        string result = timeConversion(s);
-
-        tw.WriteLine(result);
-
-        tw.Flush();
-        tw.Close();
+namespace ConsoleApp1
+ {
+    class Program
+    {
+        static void Main(string[] args)
+        {         
+            Console.WriteLine("Hello world");
+        }
     }
 }')
 INSERT INTO CHALLENGE_LANGUAGE VALUES (23, 2, N'using System.CodeDom.Compiler;
@@ -852,6 +836,12 @@ INSERT INTO TESTCASE VALUES (1, 'challenge_1_input_2.txt', 'challenge_1_output_2
 INSERT INTO TESTCASE VALUES (2, 'challenge_2_input_0.txt', 'challenge_2_output_0.txt')
 INSERT INTO TESTCASE VALUES (2, 'challenge_2_input_1.txt', 'challenge_2_output_1.txt')
 INSERT INTO TESTCASE VALUES (2, 'challenge_2_input_2.txt', 'challenge_2_output_2.txt')
+INSERT INTO TESTCASE VALUES (2, 'challenge_21_input_0.txt', 'challenge_21_output_0.txt')
+INSERT INTO TESTCASE VALUES (2, 'challenge_21_input_1.txt', 'challenge_21_output_1.txt')
+INSERT INTO TESTCASE VALUES (2, 'challenge_21_input_2.txt', 'challenge_21_output_2.txt')
+INSERT INTO TESTCASE VALUES (2, 'challenge_22_input_0.txt', 'challenge_22_output_0.txt')
+INSERT INTO TESTCASE VALUES (2, 'challenge_22_input_1.txt', 'challenge_22_output_1.txt')
+INSERT INTO TESTCASE VALUES (2, 'challenge_22_input_2.txt', 'challenge_22_output_2.txt')
 INSERT INTO TESTCASE VALUES (41, 'challenge_41_input_0.txt', 'challenge_41_output_0.txt')
 INSERT INTO TESTCASE VALUES (41, 'challenge_41_input_1.txt', 'challenge_41_output_1.txt')
 INSERT INTO TESTCASE VALUES (41, 'challenge_41_input_2.txt', 'challenge_41_output_2.txt')
