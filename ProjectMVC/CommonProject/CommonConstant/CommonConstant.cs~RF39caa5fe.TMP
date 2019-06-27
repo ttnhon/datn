@@ -49,7 +49,6 @@ namespace CommonProject
         public const string TYPE_UPDATE_FILE_API = "UPDATE";
         public const string TYPE_DELETE_FILE_API = "DELETE";
 
-        public const int TIME_ALIVE_TOKEN = 100;    //timeout 100s
-        public const string SECRET_KEY_TOKEN = "phucphieu@secret.jwt.code";
+        public const long TIME_ALIVE_TOKEN = 100;     // 100 second
     }
 }

@@ -49,18 +49,25 @@ namespace CommonProject
             }
             
             client.DefaultRequestHeaders.Accept.Clear();
-          
+            client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", this.JWT());
             var responsePostTask =  client.PostAsJsonAsync<Source>("", src);
-            responsePostTask.Wait();
-            var result = responsePostTask.Result;
             Dictionary<string, string> resultAPI = new Dictionary<string, string>();
-            if (result.IsSuccessStatusCode)
+            try
             {
-                var readTask = result.Content.ReadAsAsync<Dictionary<string, string>>();
-                readTask.Wait();
-                resultAPI = readTask.Result;
+                responsePostTask.Wait();
+                var result = responsePostTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<Dictionary<string, string>>();
+                    readTask.Wait();
+                    resultAPI = readTask.Result;
+                }
+                return resultAPI;
             }
-            return resultAPI;
+            catch (Exception e)
+            {
+                return resultAPI;
+            }
         }
 
         /// <summary>
@@ -74,25 +81,33 @@ namespace CommonProject
             client.BaseAddress = new Uri(CommonConstant.URL_HOST_API + CommonConstant.ROUTE_TESTCASE_API);
 
             client.DefaultRequestHeaders.Accept.Clear();
-
+            client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", this.JWT());
             var responsePostTask = client.PostAsJsonAsync<Dictionary<int, Dictionary<string, string>>>("", TestCase);
-            responsePostTask.Wait();
-            var result = responsePostTask.Result;
             Dictionary<int, Dictionary<string, string>> resultAPI = new Dictionary<int, Dictionary<string, string>>();
-            if (result.IsSuccessStatusCode)
+            try
             {
-                var readTask = result.Content.ReadAsAsync<Dictionary<int, Dictionary<string, string>>>();
-                readTask.Wait();
-                resultAPI = readTask.Result;
+                responsePostTask.Wait();
+                var result = responsePostTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<Dictionary<int, Dictionary<string, string>>>();
+                    readTask.Wait();
+                    resultAPI =  readTask.Result;
+                }
+                return resultAPI;
             }
-            return resultAPI;
+            catch (Exception e)
+            {
+                return resultAPI;
+            }
+            
         }
 
         /// <summary>
         /// in client call this method need to check result return with flag: result.IsSuccessStatusCode
         /// </summary>
         /// <param name="typeAPI"></param>
-        /// <param name="src"></param>
+        /// <param name="file"></param>
         /// <returns></returns>
         public string RequestUploadAPI(FileManager file, string typeAPI)
         {
@@ -110,18 +125,33 @@ namespace CommonProject
             }
 
             client.DefaultRequestHeaders.Accept.Clear();
-
+            client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", this.JWT());
             var responsePostTask = client.PostAsJsonAsync("", file);
-            responsePostTask.Wait();
-            var result = responsePostTask.Result;
-            string resultAPI = "";
-            if (result.IsSuccessStatusCode)
+            try
             {
-                var readTask = result.Content.ReadAsAsync<string>();
-                readTask.Wait();
-                resultAPI = readTask.Result;
+                responsePostTask.Wait();
+                var result = responsePostTask.Result;
+                string resultAPI = "";
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<string>();
+                    readTask.Wait();
+                    resultAPI = readTask.Result;
+                }
+                return resultAPI;
             }
-            return resultAPI;
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            
+        }
+
+        protected string JWT()
+        {
+            int unixTimestamp = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            string jwt = Helper.Encrypt.EncryptString((unixTimestamp + CommonConstant.TIME_ALIVE_TOKEN).ToString(), CommonConstant.SECRET_KEY_TOKEN);
+            return jwt;
         }
     }
 }

@@ -25,5 +25,7 @@ namespace WebAPI.Common
         public static string FOLDER_CODE_DIR = "/App_Data/Dir_Code/";
 
         public static string TESTCASE_DIR = "App_Data/Dir_TestCase/";
+
+        public const string SECRET_KEY_TOKEN = "phucphieu@secret.jwt.code";
     }
 }

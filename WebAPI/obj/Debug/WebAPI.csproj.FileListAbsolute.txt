@@ -698,3 +698,8 @@ E:\Backup\Lap Trinh\Đồ án tốt ngiệp\datn\WebAPI\obj\Debug\WebAPI.csproj.
 E:\Backup\Lap Trinh\Đồ án tốt ngiệp\datn\WebAPI\obj\Debug\WebAPI.csproj.CopyComplete
 E:\Backup\Lap Trinh\Đồ án tốt ngiệp\datn\WebAPI\obj\Debug\WebAPI.dll
 E:\Backup\Lap Trinh\Đồ án tốt ngiệp\datn\WebAPI\obj\Debug\WebAPI.pdb
+C:\Users\nvpit\OneDrive\Documents\GitHub\datn\WebAPI\bin\Microsoft.Owin.dll
+C:\Users\nvpit\OneDrive\Documents\GitHub\datn\WebAPI\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\nvpit\OneDrive\Documents\GitHub\datn\WebAPI\bin\Owin.dll
+C:\Users\nvpit\OneDrive\Documents\GitHub\datn\WebAPI\bin\Microsoft.Owin.xml
+C:\Users\nvpit\OneDrive\Documents\GitHub\datn\WebAPI\bin\Microsoft.Owin.Host.SystemWeb.xml
