@@ -124,8 +124,13 @@ namespace WebAPI.Controllers
                 string code = source.stringSource;
                 StringBuilder resultCompiler = new StringBuilder();
                 String fileName = "Outputcshap"+Guid.NewGuid().ToString();
+                string input_file = "";
+                if (source.Data.Count > 0)
+                {
+                    input_file = source.Data["inputFile"] ?? "";                   //input file name to read when execute
+                }
                 //Change code
-                code = this.ChangeCode(code, "", fileName);
+                code = this.ChangeCode(code, "", input_file);
                 String pathFolder = System.AppDomain.CurrentDomain.BaseDirectory + @"App_Data\Code_File\Csharp\";
                 String outputCompiler = pathFolder+fileName;
                 Dictionary<string, string> resultAPI = new Dictionary<string, string>();
