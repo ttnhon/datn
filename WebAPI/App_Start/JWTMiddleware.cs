@@ -38,7 +38,7 @@ namespace WebAPI
         protected bool Validate(string Token)
         {
             int unixTimestamp = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-            string jwtDecode = Helper.Encrypt.DecryptString(Token, Common.Constant.SECRET_KEY_TOKEN);
+            string jwtDecode = Helpers.Encrypt.DecryptString(Token, Common.Constant.SECRET_KEY_TOKEN);
             int expiredTime = Int32.Parse(jwtDecode);
             if (unixTimestamp > expiredTime)
             {

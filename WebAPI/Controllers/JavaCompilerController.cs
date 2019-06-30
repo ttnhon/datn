@@ -37,8 +37,16 @@ namespace WebAPI.Controllers
             p.Start();
             string result_string = p.StandardOutput.ReadToEnd(); ;
             string error_string = p.StandardError.ReadToEnd();
-            p.WaitForExit(30000);
+            bool WaitResult = p.WaitForExit(30000);
 
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            if (!WaitResult)
+            {
+                Helpers.ProcessManager.KillProcessAndChildren(p.Id);
+                result.Add("status", "fail");
+                result.Add("message", "Error: Process timeout");
+                return result;
+            }
             //return result
             string status = Constant.STATUS_SUCCESS;
             string result_message = result_string;
@@ -47,7 +55,6 @@ namespace WebAPI.Controllers
                 status = Constant.STATUS_FAIL;
                 result_message = error_string;
             }
-            Dictionary<string, string> result = new Dictionary<string, string>();
             result.Add("status", status);
             result.Add("message", result_message);
             return result;
@@ -73,8 +80,16 @@ namespace WebAPI.Controllers
             p.Start();
             string result_string = p.StandardOutput.ReadToEnd(); ;
             string error_string = p.StandardError.ReadToEnd();
-            p.WaitForExit(30000);
+            bool WaitResult = p.WaitForExit(30000);
 
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            if (!WaitResult)
+            {
+                Helpers.ProcessManager.KillProcessAndChildren(p.Id);
+                result.Add("status", "fail");
+                result.Add("message", "Error: Process timeout");
+                return result;
+            }
             //return result
             string status = Constant.STATUS_SUCCESS;
             string result_message = result_string;
@@ -83,7 +98,6 @@ namespace WebAPI.Controllers
                 status = Constant.STATUS_FAIL;
                 result_message = error_string;
             }
-            Dictionary<string, string> result = new Dictionary<string, string>();
             result.Add("status", status);
             result.Add("message", result_message);
             return result;

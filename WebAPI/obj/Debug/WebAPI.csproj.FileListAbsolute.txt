@@ -703,3 +703,8 @@ C:\Users\nvpit\OneDrive\Documents\GitHub\datn\WebAPI\bin\Microsoft.Owin.Host.Sys
 C:\Users\nvpit\OneDrive\Documents\GitHub\datn\WebAPI\bin\Owin.dll
 C:\Users\nvpit\OneDrive\Documents\GitHub\datn\WebAPI\bin\Microsoft.Owin.xml
 C:\Users\nvpit\OneDrive\Documents\GitHub\datn\WebAPI\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\GitHub\datn\datn\WebAPI\bin\Microsoft.Owin.dll
+D:\GitHub\datn\datn\WebAPI\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\GitHub\datn\datn\WebAPI\bin\Owin.dll
+D:\GitHub\datn\datn\WebAPI\bin\Microsoft.Owin.xml
+D:\GitHub\datn\datn\WebAPI\bin\Microsoft.Owin.Host.SystemWeb.xml
