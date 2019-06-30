@@ -212,6 +212,8 @@
     <Compile Include="Helpers\ProcessManager.cs" />
     <Compile Include="Models\FileManager.cs" />
     <Compile Include="Models\Source.cs" />
+    <Compile Include="Models\TestCaseFile.cs" />
+    <Compile Include="Models\TestCaseResultModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

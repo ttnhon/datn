@@ -1,4 +1,5 @@
-﻿using DAO.EF;
+﻿using CommonProject.Models;
+using DAO.EF;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonProject;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -131,7 +132,7 @@ namespace WebAPI.Controllers
 
         // POST api/values
         [HttpPost]
-        public IHttpActionResult RunCode(Source source)
+        public IHttpActionResult RunCodeChallenge(Source source)
         {
             try
             {
@@ -140,15 +141,19 @@ namespace WebAPI.Controllers
                 string directory_path = app_path + Constant.CODE_DIR;    //get directory execute
                 string filename_code = "MyClass" + source.userKey;              //file to execute
                 string class_name = filename_code;                              //class name in file execute   ( = filename)
-                string input_file = "";
-                if (source.Data.Count > 0)
-                {
-                    input_file = source.Data["inputFile"] ?? "";                   //input file name to read when execute
-                }
 
-                //Change code
-                code = this.ChangeCode(code, class_name, input_file);
-                return Ok(this.Run(code, filename_code, directory_path));
+                TestCaseFileManagerController testcase_controller = new TestCaseFileManagerController();
+                List<TestCaseResultModel> list_result_run_code = new List<TestCaseResultModel>();
+                List<TestCaseFile> testcases = source.TestCase;
+
+                foreach (TestCaseFile testCase in testcases)
+                {
+                    string code_run = this.ChangeCode(code, class_name, testCase.inputFile);
+                    Dictionary<string, string> run_code_output = this.Run(code_run, filename_code, directory_path);     //run code and catch output
+                    Dictionary<string, string> testcase_content = testcase_controller.ReadTestCaseContent(testCase);    //read testcase content
+                    list_result_run_code.Add(this.MatchTestCase(run_code_output, testcase_content));
+                }
+                return Ok(list_result_run_code);
             }
             catch (Exception e)
             {
@@ -214,6 +219,56 @@ namespace WebAPI.Controllers
                 System.IO.File.Delete(full_path + ".class");
             }
         }
-        
+
+        protected TestCaseResultModel MatchTestCase(Dictionary<string, string> run_code_output, Dictionary<string, string> testcase)
+        {
+            if (run_code_output.Count <= 0)
+            {
+                return (new TestCaseResultModel()
+                {
+                    Status = "fail",
+                    Input = testcase["Input"],
+                    Output = "Server call api compiler fail",
+                    OutputExpect = testcase["Output"],
+                });
+            }
+            char[] charsToTrim = { '\r', '\n' };
+            run_code_output["message"] = run_code_output["message"].TrimEnd(charsToTrim);
+
+            if (run_code_output["status"] == "success")
+            {
+                //Check result with output testcase
+                if (run_code_output["message"] == testcase["Output"])
+                {
+                    return (new TestCaseResultModel()
+                    {
+                        Status = "success",
+                        Input = testcase["Input"],
+                        Output = run_code_output["message"],
+                        OutputExpect = testcase["Output"],
+                    });
+                }
+                else
+                {
+                    return (new TestCaseResultModel()
+                    {
+                        Status = "fail",
+                        Input = testcase["Input"],
+                        Output = run_code_output["message"],
+                        OutputExpect = testcase["Output"],
+                    });
+                }
+            }
+            else
+            {
+                return (new TestCaseResultModel()
+                {
+                    Status = "fail",
+                    Input = testcase["Input"],
+                    Output = run_code_output["message"],
+                    OutputExpect = testcase["Output"],
+                });
+            }
+        }
     }
 }

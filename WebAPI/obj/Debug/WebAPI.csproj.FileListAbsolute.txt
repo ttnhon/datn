@@ -708,3 +708,8 @@ D:\GitHub\datn\datn\WebAPI\bin\Microsoft.Owin.Host.SystemWeb.dll
 D:\GitHub\datn\datn\WebAPI\bin\Owin.dll
 D:\GitHub\datn\datn\WebAPI\bin\Microsoft.Owin.xml
 D:\GitHub\datn\datn\WebAPI\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\bin\Microsoft.Owin.dll
+C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\bin\Owin.dll
+C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\bin\Microsoft.Owin.xml
+C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\bin\Microsoft.Owin.Host.SystemWeb.xml

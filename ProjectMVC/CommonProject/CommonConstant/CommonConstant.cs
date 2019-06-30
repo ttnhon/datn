@@ -29,6 +29,10 @@ namespace CommonProject
         public const string ROUTER_CSHARP_COMPILER_API = "/api/CSharpCompiler/Compiler";
         public const string ROUTER_CPLUS_COMPILER_API = "/api/CPlusCompiler/Compiler";
         public const string ROUTER_JAVA_COMPILER_API = "/api/JavaCompiler/Compiler";
+        public const string ROUTER_CSHARP_RUNCODE_CHALLENGE_API = "/api/CSharpCompiler/RunCodeChallenge";
+        public const string ROUTER_CPLUS_RUNCODE_CHALLENGE_API = "/api/CPlusCompiler/RunCodeChallenge";
+        public const string ROUTER_JAVA_RUNCODE_CHALLENGE_API = "/api/JavaCompiler/RunCodeChallenge";
+
         public const string ROUTE_TESTCASE_API = "/api/TestCaseFileManager/GetTestCase";
         public const string ROUTE_UPLOAD_TESTCASE_API = "/api/TestCaseFileManager/Upload";
         public const string ROUTE_UPDATE_TESTCASE_API = "/api/TestCaseFileManager/UpdateFile";

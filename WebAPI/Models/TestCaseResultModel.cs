@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using DAO.EF;
-
-namespace COURSE_CODING.Models
+﻿namespace WebAPI.Models
 {
     public class TestCaseResultModel
     {
