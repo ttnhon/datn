@@ -3,7 +3,7 @@ using System.Text;
 using System.Security.Cryptography;
 using System.IO;
 
-namespace WebAPI.Helper
+namespace WebAPI.Helpers
 {
     public static class Encrypt
     {

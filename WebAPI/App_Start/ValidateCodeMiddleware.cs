@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using WebAPI.Models;
+using System.Text.RegularExpressions;
 namespace WebAPI
 {
     internal class ValidateCodeMiddleware : OwinMiddleware
@@ -50,6 +51,9 @@ namespace WebAPI
 
         protected bool ValidateCpp(string Code)
         {
+            string regex = @".system";
+            
+            if (Regex.IsMatch(Code, regex)) return false;
             return true;
         }
 
