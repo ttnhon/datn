@@ -64,7 +64,21 @@ namespace WebAPI
 
         protected bool ValidateJava(string Code)
         {
-            return true;
+            bool result = true;
+            
+            //validate exec
+            string[] exec_catch = new string[]{"new ProcessBuilder(","Runtime.getRuntime().exec", };
+            foreach (string catch_exec in exec_catch)
+            {
+                if (Code.Contains(catch_exec))
+                {
+                    result = true;
+                }
+            }
+
+            //validate Read and Write file
+
+            return result;
         }
     }
 }

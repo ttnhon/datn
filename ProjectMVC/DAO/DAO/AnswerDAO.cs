@@ -34,6 +34,33 @@ namespace DAO.DAO
             }
         }
 
+        public Boolean InsertOrUpdate(ANSWER entity)
+        {
+            try
+            {
+                ANSWER update_answer = db.ANSWERS.Where(table => table.ChallengeID == entity.ChallengeID)
+                        .Where(table => table.UserId == entity.UserId).FirstOrDefault();
+                if (update_answer != null)
+                {
+                    update_answer.Content = entity.Content;
+                    update_answer.Result = entity.Result;
+                    update_answer.TimeDone = entity.TimeDone;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    db.ANSWERS.Add(entity);
+                    db.SaveChanges();
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public List<CHALLENGE> GetChallengesDone(int userID)
         {
             try

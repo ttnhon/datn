@@ -65,7 +65,7 @@ namespace COURSE_CODING.Controllers
                     TimeDone = DateTime.Now       //timestamp now
                 };
 
-                bool insert_status = (new AnswerDAO()).Insert(answer);
+                bool insert_status = (new AnswerDAO()).InsertOrUpdate(answer);
             }
 
             return Json(result);
