@@ -34,9 +34,14 @@ namespace COURSE_CODING.Controllers
             return View(model);
         }
 
-        public ActionResult CreateChallenge()
+        [Route("Moderator/CreateChallenge")]
+        [Route("Moderator/CreateChallenge/{competeID}")]
+
+        public ActionResult CreateChallenge(int? competeID)
         {
             CreateChallengeModel model = new CreateChallengeModel();
+            if (competeID != null)
+                model.competeID = (int)competeID;
             return View(model);
         }
 
@@ -63,7 +68,7 @@ namespace COURSE_CODING.Controllers
                 model.OwnerID = c.OwnerID;
                 model.Title = c.Title;
                 model.Description = c.Description;
-                model.TimeEnd = c.TimeEnd;
+                model.TimeEnd = (DateTime)c.TimeEnd;
                 model.isPublic = c.IsPublic;
                 model.Questions = (new QuestionDAO().GetAllByCompeteID(id));
                 return View(model);
@@ -71,12 +76,22 @@ namespace COURSE_CODING.Controllers
             return View();
         }
 
+        public ActionResult RenderChallengeView(int id)
+        {
+            var challengeDAO = new ChallengeDAO();
+            List<CHALLENGE> challengeList = new List<CHALLENGE>();
+            challengeList = challengeDAO.GetAllByCompeteID(id);
+            ViewBag.CompeteID = id;
+
+            return PartialView("_ChallengeList", challengeList);
+        }
+
         public ActionResult RenderQuestionView(int id)
         {
             var questionDAO = new QuestionDAO();
             List<QUESTION> questionList = new List<QUESTION>();
             questionList = questionDAO.GetAllByCompeteID(id);
-
+            ViewBag.CompeteID = id;
             return PartialView("_QuestionList", questionList);
         }
 
@@ -137,6 +152,7 @@ namespace COURSE_CODING.Controllers
             return Json(new { result = "Fail to send invitation!" });
         }
 
+        
         public ActionResult CreateCompete()
         {
             CompeteDetailModel model = new CompeteDetailModel();
@@ -336,6 +352,10 @@ namespace COURSE_CODING.Controllers
             };
             //add to table CHALLENGE
             bool res = DAO.Insert(c);
+            if(model.competeID != null)
+            {
+                DAO.AddChallengetoCompete(c.ID, model.competeID);
+            }
             //add to table CHALLENGE_EDITOR
             CHALLENGE_EDITOR editor = new CHALLENGE_EDITOR();
             editor.ChallegenID = c.ID;
@@ -343,7 +363,7 @@ namespace COURSE_CODING.Controllers
             res = DAO.AddModerator(editor);
             if (res)
             {
-                return Json(new { result = true });
+                return Json(new { result = true, competeID = model.competeID });
             }
             return Json(new { result = false });
         }
@@ -363,16 +383,22 @@ namespace COURSE_CODING.Controllers
 
             COMPETE c = new COMPETE()
             {
-                OwnerID = model.OwnerID,
+                OwnerID = ses.ID,
                 Title = model.Title,
+                Slug = CommonProject.Helper.SlugGenerator.GenerateSlug(model.Title),
                 Description = model.Description,
+                Rules = model.Rules,
                 TimeEnd = model.TimeEnd,
                 IsPublic = model.isPublic
             };
             //add to table CHALLENGE
             bool res = DAO.Insert(c);
             //add to table CHALLENGE_EDITOR
-            return Json(new { result = true });
+            if(res)
+            {
+                return Json(new { result = true, competeID = c.ID });
+            }
+            return Json(new { result = false });
         }
 
         [HttpPost]
@@ -405,6 +431,40 @@ namespace COURSE_CODING.Controllers
             c.UserID = userID;
             var result = competeDAO.DeleteParticipant(c);
             if(result)
+            {
+                return Json("Delete succeed!");
+            }
+            else
+            {
+                return Json("Delete fail!");
+            }
+        }
+        [HttpPost]
+        public ActionResult DeleteChallenge(int contestID, int challengeID)
+        {
+            var challengeDAO = new ChallengeDAO();
+            CHALLENGE_COMPETE c = new CHALLENGE_COMPETE();
+            c.CompeteID = contestID;
+            c.ChallengeID = challengeID;
+            var result = challengeDAO.DeleteChallenge(c);
+            if (result)
+            {
+                return Json("Delete succeed!");
+            }
+            else
+            {
+                return Json("Delete fail!");
+            }
+        }
+        [HttpPost]
+        public ActionResult DeleteQuestion(int contestID, int questionID)
+        {
+            var questionDAO = new QuestionDAO();
+            QUESTION q = new QUESTION();
+            q.CompeteID = contestID;
+            q.ID = questionID;
+            var result = questionDAO.Delete(q);
+            if (result)
             {
                 return Json("Delete succeed!");
             }

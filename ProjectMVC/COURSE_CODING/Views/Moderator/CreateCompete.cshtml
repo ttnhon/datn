@@ -54,7 +54,17 @@
         <div class="form-group row">
             <label class="col-sm-2 control-label" for="name_Input">Description</label>
             <div class="col-sm-8">
-                @Html.TextBoxFor(model => model.Description, new { @class = "form-control", @id = "name_Input" })
+                @Html.TextBoxFor(model => model.Description, new { @class = "form-control", @id = "description_Input" })
+                @*<input class="form-control" id="name_Input" type="text">*@
+            </div>
+        </div>
+
+        <br />
+
+        <div class="form-group row">
+            <label class="col-sm-2 control-label" for="name_Input">Rules</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(model => model.Rules, new { @class = "form-control", @id = "rule_Input" })
                 @*<input class="form-control" id="name_Input" type="text">*@
             </div>
         </div>
@@ -95,27 +105,12 @@
     <script>
         window.onload = function SetClassicEditor() {
             ClassicEditor
+                .create(document.querySelector('#rule_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
                 .create(document.querySelector('#description_Input'))
-                .catch(error => {
-                    console.error(error);
-                });
-            ClassicEditor
-                .create(document.querySelector('#problem_Input'))
-                .catch(error => {
-                    console.error(error);
-                });
-            ClassicEditor
-                .create(document.querySelector('#inputFormat_Input'))
-                .catch(error => {
-                    console.error(error);
-                });
-            ClassicEditor
-                .create(document.querySelector('#constraints_Input'))
-                .catch(error => {
-                    console.error(error);
-                });
-            ClassicEditor
-                .create(document.querySelector('#outputFormat_Input'))
                 .catch(error => {
                     console.error(error);
                 });
@@ -124,6 +119,7 @@
             console.log(data)
             if (data.result) {
                 alert('Save changes succeed');
+                window.location.href=`/Moderator/EditCompete/${data.competeID}`
             } else {
                 alert('operation fail');
             }
@@ -135,7 +131,7 @@
 
         $(function () {
             jQuery('.date-picker').datetimepicker({
-                format: 'm.d.Y H.i',
+                format: 'm/d/Y H:i',
                 lang: 'vi',
 
             });

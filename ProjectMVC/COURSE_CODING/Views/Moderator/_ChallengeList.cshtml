@@ -1,0 +1,55 @@
+﻿
+@model IEnumerable<DAO.EF.CHALLENGE>
+
+<a class="btn btn-success" href="/Moderator/CreateChallenge/@ViewBag.CompeteID" style="float: right;">Create Challenge</a>
+<div id="" class="table-adjustable">
+    <div class="table">
+        <div class="row table-title no-margin">
+            <div class="col-xs-1 vd-col-xs-30" style="margin-left: 5px;">
+                Challenge Title
+            </div>
+            <div class="col-xs-1 vd-col-xs-20 text-center">
+                Challenge Difficulty
+            </div>
+            <div class="col-xs-1 vd-col-xs-20 text-center">
+                Challenge Score
+            </div>
+            <div class="col-xs-1 vd-col-xs-20 text-center">
+                Action
+            </div>
+        </div>
+        <div class="table-border table-cs table-body" id="challenge-list">
+            @if (Model.Count() > 0)
+            {
+                foreach (var challenge in Model)
+                {
+
+                    <div class="row table-row no-margin table-cs" id="c-@challenge.ID">
+                        
+                        <div class="col-xs-1 vd-col-xs-30" style="margin-left: 5px;">
+                            <a href="/Moderator/Edit/Challenge/@challenge.ID">
+                                @challenge.Title
+                            </a>
+                        </div>
+                        <div class="col-xs-1 vd-col-xs-20 text-center">@challenge.ChallengeDifficulty</div>
+                        <div class="col-xs-1 vd-col-xs-20 text-center">@challenge.Score</div>
+                        <div class="col-xs-1 vd-col-xs-20 text-center">
+                            <button class="btn btn-primary" data-id="@challenge.ID" onclick="DeleteChallenge(this)">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+
+                }
+            }
+            else
+            {
+                <div id="no-content" class="row table-row no-margin table-cs">
+                    <div class="col-sm-12 text-center">
+                        You have not created any challenges.
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

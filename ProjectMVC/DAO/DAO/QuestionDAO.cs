@@ -64,6 +64,21 @@ namespace DAO.DAO
             }
         }
 
+        public bool Delete(QUESTION entity)
+        {
+            try
+            {
+                var u = db.QUESTIONS.Find(entity.ID);
+                db.QUESTIONS.Remove(u);
+                return true;
+            }
+            catch (Exception e)
+            {
+
+                return false;
+            }
+        }
+
         /// <summary>
         /// Get all question in compete
         /// </summary>

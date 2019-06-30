@@ -19,6 +19,8 @@ namespace COURSE_CODING.Models
 
         public string Description { get; set; }
 
+        public string Rules { get; set; }
+
         [DataType(DataType.DateTime)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddThh:mm:ss}")]
         public DateTime? TimeEnd { get; set; }
@@ -28,6 +30,7 @@ namespace COURSE_CODING.Models
         public Boolean isPublic { get; set; }
 
         public List<QUESTION> Questions { get; set; }
+
 
         public CompeteDetailModel()
         {
