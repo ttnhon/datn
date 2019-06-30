@@ -583,24 +583,14 @@ INSERT INTO CHALLENGE_LANGUAGE VALUES (17, 1, null)
 INSERT INTO CHALLENGE_LANGUAGE VALUES (18, 1, null)
 INSERT INTO CHALLENGE_LANGUAGE VALUES (19, 1, null)
 INSERT INTO CHALLENGE_LANGUAGE VALUES (20, 1, null)
-INSERT INTO CHALLENGE_LANGUAGE VALUES (21, 2, N'using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Collections;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
-using System.Text;
+INSERT INTO CHALLENGE_LANGUAGE VALUES (21, 2, N'using System.IO;
 using System;
 
 class Solution {
 
     // Complete the staircase function below.
     static void staircase(int n) {
+        //write your code here
         for (int i = 1; i <= n; ++i)
         {
             for (int j = 1; j <= n; ++j)
@@ -622,7 +612,7 @@ class Solution {
         int n = 0;
         using (TextReader reader = File.OpenText("INPUT_FILE_NAME"))
         {
-            int n = int.Parse(reader.ReadLine());
+            n = int.Parse(reader.ReadLine());
         }
         staircase(n);
     }

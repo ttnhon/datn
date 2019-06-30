@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
             string result_string = string.Empty;
             string error_string = p.StandardError.ReadToEnd();
             result_string = p.StandardOutput.ReadToEnd();
-            p.WaitForExit();
+            p.WaitForExit(30000);
 
             //return result
             string status = Constant.STATUS_SUCCESS;
@@ -76,7 +76,7 @@ namespace WebAPI.Controllers
             p.Start();
             string result_string = p.StandardOutput.ReadToEnd();
             string error_string = p.StandardError.ReadToEnd();
-            p.WaitForExit();
+            p.WaitForExit(30000);
 
             //return result
             string status = "success";
@@ -145,16 +145,18 @@ namespace WebAPI.Controllers
                 CompilerResults result = ccp.CompileAssemblyFromSource(parameters, source.stringSource);
                 //return result
                 string status = Constant.STATUS_SUCCESS;
-                string result_message = string.Empty;
+                //string result_message = string.Empty;
                    
                 if (result.Errors.HasErrors)
                 {
                     var listErrors = result.Errors.Cast<CompilerError>().ToList();
                     foreach (var error in listErrors)
                     {
-                        resultCompiler.Append(error.ErrorText);
+                        resultCompiler.Append(error.ErrorText + "\r\n");
                     }
-                    status = Constant.STATUS_FAIL;                  
+                    status = Constant.STATUS_FAIL;
+                    resultAPI.Add("status", status);
+                    resultAPI.Add("message", resultCompiler.ToString());
                 }
                 else
                 {
@@ -164,9 +166,8 @@ namespace WebAPI.Controllers
 
                     /*run java E:\\MyClass*/
                     resultAPI = this.ExecuteCMD(pathFolder, fileName);
-
-                    this.DeleteFile(outputCompiler);
                 }
+                this.DeleteFile(outputCompiler);
                 return Ok(resultAPI);
             }
             catch (Exception e)

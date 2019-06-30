@@ -1,5 +1,6 @@
 ﻿using Microsoft.Owin;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using WebAPI.Models;
 namespace WebAPI
@@ -14,6 +15,7 @@ namespace WebAPI
         public async override Task Invoke(IOwinContext context)
         {
             //context.Response.Headers["MachineName"] = Environment.MachineName;
+            var requestBody = new StreamReader(context.Request.Body).ReadToEnd();
             string Code = context.Request.Get<string>("Code");
             string Language = context.Request.Get<string>("Language");
             if (this.Validate(Code, Language))

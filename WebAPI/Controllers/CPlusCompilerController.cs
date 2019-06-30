@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
             p.StandardInput.Close();
             string result_string = p.StandardOutput.ReadToEnd();
             string error_string = p.StandardError.ReadToEnd();
-            p.WaitForExit();
+            p.WaitForExit(30000);
 
             string[] str = result_string.Split(new string[] { "\r\n" }, StringSplitOptions.None);
             StringBuilder S_builder = new StringBuilder();
@@ -92,7 +92,7 @@ namespace WebAPI.Controllers
             p.StandardInput.Close();
             string result_string = p.StandardOutput.ReadToEnd();
             string error_string = p.StandardError.ReadToEnd();
-            p.WaitForExit();
+            p.WaitForExit(30000);
 
             //return result
             string status = "success";

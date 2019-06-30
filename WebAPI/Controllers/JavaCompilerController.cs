@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
             p.Start();
             string result_string = p.StandardOutput.ReadToEnd(); ;
             string error_string = p.StandardError.ReadToEnd();
-            p.WaitForExit();
+            p.WaitForExit(30000);
 
             //return result
             string status = Constant.STATUS_SUCCESS;
@@ -73,7 +73,7 @@ namespace WebAPI.Controllers
             p.Start();
             string result_string = p.StandardOutput.ReadToEnd(); ;
             string error_string = p.StandardError.ReadToEnd();
-            p.WaitForExit();
+            p.WaitForExit(30000);
 
             //return result
             string status = Constant.STATUS_SUCCESS;
