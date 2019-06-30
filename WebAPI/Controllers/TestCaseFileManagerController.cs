@@ -28,10 +28,8 @@ namespace WebAPI.Controllers
 
             return Ok(result);
         }
-
-
-
-        protected Dictionary<string, string> ReadTestCaseContent(Dictionary<string,string> oneTestCase)
+        
+        public Dictionary<string, string> ReadTestCaseContent(Dictionary<string,string> oneTestCase)
         {
             string app_path = AppDomain.CurrentDomain.BaseDirectory;
             string input_file = app_path + Constant.TESTCASE_DIR + oneTestCase["inputFile"];

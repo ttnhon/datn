@@ -131,7 +131,7 @@ namespace WebAPI.Controllers
                 }
                 //Change code
                 code = this.ChangeCode(code, "", input_file);
-                String pathFolder = System.AppDomain.CurrentDomain.BaseDirectory + @"App_Data\Code_File\Csharp\";
+                String pathFolder = System.AppDomain.CurrentDomain.BaseDirectory + Common.Constant.CODE_DIR;
                 String outputCompiler = pathFolder+fileName;
                 Dictionary<string, string> resultAPI = new Dictionary<string, string>();
                 using (StreamWriter w = new StreamWriter(pathFolder + fileName+".cs" , true))

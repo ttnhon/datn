@@ -12,5 +12,7 @@ namespace CommonProject
         public string versionFramework { get; set; }
         public string userKey { get; set; }
         public Dictionary<string, string> Data = new Dictionary<string, string>();
+
+        public List<TestCaseFile> TestCase = new List<TestCaseFile>();
     }
 }

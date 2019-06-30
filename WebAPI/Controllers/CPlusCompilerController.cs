@@ -19,7 +19,7 @@ namespace WebAPI.Controllers
     public class CPlusCompilerController : ApiController
     {
         //private string text;
-        protected Dictionary<string, string> ExecuteCMD(string directory_file_code = "D:\\", string file_code = "MyClass")
+        protected Dictionary<string, string> ExecuteCMD(string directory_path = "D:\\", string file_code = "MyClass")
         {
             /*Run cmd command*/
             //set up
@@ -27,8 +27,8 @@ namespace WebAPI.Controllers
             System.Diagnostics.Process p = new System.Diagnostics.Process();
             p.StartInfo.FileName = "cmd.exe";  //run cmd
             p.StartInfo.UseShellExecute = false;
-            p.StartInfo.WorkingDirectory = directory_file_code;        //Link to directory of file need to execute
-            //p.StartInfo.Arguments = "/C " + directory_file_code + file_code + ".exe";          //=> "MyClass"
+            p.StartInfo.WorkingDirectory = directory_path;        //Link to directory of file need to execute
+            //p.StartInfo.Arguments = "/C " + directory_path_code + file_code + ".exe";          //=> "MyClass"
             p.StartInfo.CreateNoWindow = true;
             p.StartInfo.RedirectStandardInput = true;
             p.StartInfo.RedirectStandardOutput = true;
@@ -67,7 +67,7 @@ namespace WebAPI.Controllers
         }
         
         //create a.exe (defaut) file
-        protected Dictionary<string, string> ExecuteGPP(string directory_file_code = "D:\\", string file_code = "MyClass.exe MyClass.cpp")
+        protected Dictionary<string, string> ExecuteGPP(string directory_path_code = "D:\\", string file_code = "MyClass.exe MyClass.cpp")
         {
             string ProjDir = System.AppDomain.CurrentDomain.BaseDirectory;
             ProjDir = ProjDir.Replace("\\", "/");
@@ -77,7 +77,7 @@ namespace WebAPI.Controllers
             p.StartInfo.FileName = "cmd.exe";
             p.StartInfo.UseShellExecute = false;
             //p.StartInfo.WorkingDirectory = ProjDir + @"Compilers/MinGW/bin";                //Link to directory of file need to execute
-            p.StartInfo.WorkingDirectory = directory_file_code;
+            p.StartInfo.WorkingDirectory = directory_path_code;
             //p.StartInfo.Arguments = "/C g++ -o " + file_code;             // =>    "g++ -o MyClass.exe MyClass.cpp"
             p.StartInfo.CreateNoWindow = true;
             p.StartInfo.RedirectStandardInput = true;
@@ -121,7 +121,7 @@ namespace WebAPI.Controllers
             {
                 string code = source.stringSource;
                 string app_path = AppDomain.CurrentDomain.BaseDirectory;        //get app_path
-                string directory_file = app_path + Constant.FOLDER_CODE_DIR;    //get directory execute
+                string directory_path = app_path + Constant.CODE_DIR;    //get directory execute
                 string filename_code = "MyClass" + source.userKey;              //file to execute
                 string class_name = filename_code;                              //class name in file execute   ( = filename)
                 string input_file = "";
@@ -132,7 +132,7 @@ namespace WebAPI.Controllers
 
                 //Change code
                 code = this.ChangeCode(code, class_name, input_file);
-                string full_path = directory_file + filename_code;
+                string full_path = directory_path + filename_code;
                 //make sure this file not exist
                 if (System.IO.File.Exists(full_path + ".exe"))           //delete file MyClass{userKey}.exe and MyClass{userKey}.cpp
                 {
@@ -150,7 +150,7 @@ namespace WebAPI.Controllers
                 }
 
                 /*run g++ dir\\MyClass{userKey}.cpp*/
-                Dictionary<string, string> result_gpp = this.ExecuteGPP(directory_file, filename_code + ".exe " + filename_code + ".cpp");
+                Dictionary<string, string> result_gpp = this.ExecuteGPP(directory_path, filename_code + ".exe " + filename_code + ".cpp");
                 if (result_gpp["status"] == "fail")            //return if run g++ fail
                 {
                     //delete MyClass.cpp
@@ -162,7 +162,7 @@ namespace WebAPI.Controllers
                 }
 
                 /*run D:\\MyClass*/
-                Dictionary<string, string> result_cpp = this.ExecuteCMD(directory_file, filename_code);
+                Dictionary<string, string> result_cpp = this.ExecuteCMD(directory_path, filename_code);
 
                 if (System.IO.File.Exists(full_path + ".exe"))           //delete file MyClass{userKey}.exe and MyClass{userKey}.cpp
                 {

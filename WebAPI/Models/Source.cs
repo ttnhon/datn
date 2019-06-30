@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonProject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,5 +13,7 @@ namespace WebAPI.Models
         public string userKey { get; set; }
 
         public Dictionary<string, string> Data = new Dictionary<string, string>();
+
+        public List<TestCaseFile> TestCase = new List<TestCaseFile>();
     }
 }
