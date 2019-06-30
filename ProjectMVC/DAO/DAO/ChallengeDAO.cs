@@ -200,6 +200,22 @@ namespace DAO.DAO
             }
         }
 
+        public bool AddChallengetoCompete(int challengeID, int competeID)
+        {
+            try
+            {
+                CHALLENGE_COMPETE c = new CHALLENGE_COMPETE();
+                c.CompeteID = competeID;
+                c.ChallengeID = challengeID;
+                db.CHALLENGE_COMPETES.Add(c);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Update info challenge
         /// </summary>
@@ -223,6 +239,25 @@ namespace DAO.DAO
                     c.Tags = entity.Tags;
                 }
                 db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteChallenge(CHALLENGE_COMPETE c)
+        {
+            try
+            {
+                var v = db.CHALLENGE_COMPETES.Find(c.ChallengeID, c.CompeteID);
+                var u = db.CHALLENGES.Find(c.ChallengeID);
+                db.CHALLENGE_COMPETES.Remove(v);
+                if (u.ID > 0)
+                {
+                    db.CHALLENGES.Remove(u);
+                }
                 return true;
             }
             catch (Exception e)
