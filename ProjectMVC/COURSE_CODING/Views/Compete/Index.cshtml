@@ -15,8 +15,8 @@
     <div class="container">
         <div class="row">
             <div class="col-6 domain-header">
-                <p class="sub-contest-title">All Competes</p>
-                <h3 class="contest-title">Compete</h3>
+                <p class="sub-contest-title">All Competitions</p>
+                <h3 class="contest-title">Competition</h3>
             </div>
 
             <div class="col-6">
@@ -79,10 +79,10 @@
                                         <h6 class="card-title" title="Regex">Unjoined</h6>
                                     </div>
                                     <div class="col-md-6 contest-enter">
-                                        <span><strong class="time-happen">@item.TimeEnd.ToString()</strong><i class="contest-status">@(item.TimeEnd > DateTime.Now ? "Open" : "Close")</i></span>
+                                        <span><strong class="time-happen">@(((DateTime)item.TimeEnd).ToString("dd/MM/yyyy"))</strong><i class="contest-status">@(item.TimeEnd > DateTime.Now ? "Open" : "Close")</i></span>
                                         @*<a href="" class="btn btn-outline-success">Enter Contest</a>*@
                                         <button class="btn btn-outline-success" tabindex="0" onclick="EnterContestBtn(event, @item.ID)">
-                                            <span class="ui-text">Enter Contest</span>
+                                            <span class="ui-text">Enter Competition</span>
                                         </button>
                                     </div>
                                 </div>

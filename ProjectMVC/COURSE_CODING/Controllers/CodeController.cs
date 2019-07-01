@@ -66,6 +66,13 @@ namespace COURSE_CODING.Controllers
             List<TestCaseResultModel> result = this.CallAPIRunCode(code, Language, userID, list_test_case);
 
             //save submit to DB
+            foreach (var one_result in result)
+            {
+                if (one_result.Status == "success")
+                {
+                    count_success++;
+                }
+            }
             if (count_success == test_cases.Count())
             {
                 ANSWER answer = new ANSWER()
