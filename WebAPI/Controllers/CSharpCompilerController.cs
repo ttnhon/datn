@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Web.Http;
+using CommonProject;
 using Microsoft.CSharp;
 using WebAPI.Common;
 using WebAPI.Models;
@@ -139,7 +140,7 @@ namespace WebAPI.Controllers
             {
                 string code = source.stringSource;
                 StringBuilder resultCompiler = new StringBuilder();
-                String fileName = "Outputcshap"+Guid.NewGuid().ToString();
+                String fileName = "Outputcshap" + Guid.NewGuid().ToString();
                 string input_file = "";
                 if (source.Data.Count > 0)
                 {
@@ -148,9 +149,11 @@ namespace WebAPI.Controllers
                 //Change code
                 code = this.ChangeCode(code, "", input_file);
                 String pathFolder = System.AppDomain.CurrentDomain.BaseDirectory + Common.Constant.CODE_DIR;
-                String outputCompiler = pathFolder+fileName;
+                String outputCompiler = pathFolder + fileName;
+
+
                 Dictionary<string, string> resultAPI = new Dictionary<string, string>();
-                using (StreamWriter w = new StreamWriter(pathFolder + fileName+".cs" , true))
+                using (StreamWriter w = new StreamWriter(pathFolder + fileName + ".cs", true))
                 {
                     w.WriteLine(code); 
                 }
@@ -191,6 +194,134 @@ namespace WebAPI.Controllers
                 return BadRequest(e.ToString());
             }
         }
+
+        // POST api/values
+        [HttpPost]
+        public IHttpActionResult RunCodeChallenge(Source source)
+        {
+            try
+            {
+                string code = source.stringSource;
+                StringBuilder resultCompiler = new StringBuilder();
+                String fileName = "Outputcshap" + Guid.NewGuid().ToString();
+
+                String pathFolder = System.AppDomain.CurrentDomain.BaseDirectory + Common.Constant.CODE_DIR;
+                String outputCompiler = pathFolder + fileName;
+
+                TestCaseFileManagerController testcase_controller = new TestCaseFileManagerController();
+                List<TestCaseResultModel> list_result_run_code = new List<TestCaseResultModel>();
+                List<TestCaseFile> testcases = source.TestCase;
+
+                foreach (TestCaseFile testCase in testcases)
+                {
+                    string code_run = this.ChangeCode(code, "", testCase.inputFile);
+                    Dictionary<string, string> run_code_output = this.Run(code_run, fileName, pathFolder);     //run code and catch output
+                    Dictionary<string, string> testcase_content = testcase_controller.ReadTestCaseContent(testCase);    //read testcase content
+                    list_result_run_code.Add(this.MatchTestCase(run_code_output, testcase_content));
+                }
+                return Ok(list_result_run_code);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
+
+
+        protected Dictionary<string, string> Run(string code, string filename_code, string directory_path)
+        {
+            StringBuilder resultCompiler = new StringBuilder();
+            String outputCompiler = directory_path + filename_code;
+            this.DeleteFile(outputCompiler);
+
+            Dictionary<string, string> resultAPI = new Dictionary<string, string>();
+            using (StreamWriter w = new StreamWriter(directory_path + filename_code + ".cs", true))
+            {
+                w.WriteLine(code);
+            }
+
+            CSharpCodeProvider ccp = new CSharpCodeProvider();
+            CompilerParameters parameters = new CompilerParameters(new[] { Constant.MSCOR_LIB,
+                Constant.CORE_LIB }, outputCompiler, true);
+            CompilerResults result = ccp.CompileAssemblyFromSource(parameters, code);
+            //return result
+            string status = Constant.STATUS_SUCCESS;
+
+            if (result.Errors.HasErrors)
+            {
+                var listErrors = result.Errors.Cast<CompilerError>().ToList();
+                foreach (var error in listErrors)
+                {
+                    resultCompiler.Append(error.ErrorText + "\r\n");
+                }
+                status = Constant.STATUS_FAIL;
+                resultAPI.Add("status", status);
+                resultAPI.Add("message", resultCompiler.ToString());
+            }
+            else
+            {
+                Dictionary<string, string> result_compiler = this.ExecuteCSC(directory_path, filename_code + ".cs");
+                if (result_compiler["status"] == Constant.STATUS_FAIL)            //return if run javac fail
+                    return result_compiler;
+                
+                resultAPI = this.ExecuteCMD(directory_path, filename_code);
+            }
+            this.DeleteFile(outputCompiler);
+            return resultAPI;
+        }
+
+        protected TestCaseResultModel MatchTestCase(Dictionary<string, string> run_code_output, Dictionary<string, string> testcase)
+        {
+            if (run_code_output.Count <= 0)
+            {
+                return (new TestCaseResultModel()
+                {
+                    Status = "fail",
+                    Input = testcase["Input"],
+                    Output = "Server call api compiler fail",
+                    OutputExpect = testcase["Output"],
+                });
+            }
+            char[] charsToTrim = { '\r', '\n' };
+            run_code_output["message"] = run_code_output["message"].TrimEnd(charsToTrim);
+
+            if (run_code_output["status"] == "success")
+            {
+                //Check result with output testcase
+                if (run_code_output["message"] == testcase["Output"])
+                {
+                    return (new TestCaseResultModel()
+                    {
+                        Status = "success",
+                        Input = testcase["Input"],
+                        Output = run_code_output["message"],
+                        OutputExpect = testcase["Output"],
+                    });
+                }
+                else
+                {
+                    return (new TestCaseResultModel()
+                    {
+                        Status = "fail",
+                        Input = testcase["Input"],
+                        Output = run_code_output["message"],
+                        OutputExpect = testcase["Output"],
+                    });
+                }
+            }
+            else
+            {
+                return (new TestCaseResultModel()
+                {
+                    Status = "fail",
+                    Input = testcase["Input"],
+                    Output = run_code_output["message"],
+                    OutputExpect = testcase["Output"],
+                });
+            }
+        }
+
+
         //Change file input name to full path
         protected string ChangeCode(string Code, string className, string inputFileName)
         {
