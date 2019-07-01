@@ -39,5 +39,7 @@ namespace COURSE_CODING.Models
 
         [Display(Name = "Tags")]
         public string Tags { get; set; }
+
+        public int competeID { get; set; }
     }
 }

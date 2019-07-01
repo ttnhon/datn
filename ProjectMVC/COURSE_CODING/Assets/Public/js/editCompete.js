@@ -11,6 +11,7 @@ $('#js-question').click(function () {
     $(this).addClass('active');
     $('#js-details').removeClass('active');
     $('#js-participant').removeClass('active');
+    $('#js-challenge').removeClass('active');
 
     $.ajax({
         method: 'GET',
@@ -28,10 +29,29 @@ $('#js-participant').click(function () {
     $(this).addClass('active');
     $('#js-details').removeClass('active');
     $('#js-question').removeClass('active');
+    $('#js-challenge').removeClass('active');
 
     $.ajax({
         method: 'GET',
         url: '/Moderator/RenderParticipantView',
+        data: {
+            id: competeID
+        },
+        success: function (response) {
+            $('.tab-section').html(response);
+        }
+    })
+});
+
+$('#js-challenge').click(function () {
+    $(this).addClass('active');
+    $('#js-details').removeClass('active');
+    $('#js-question').removeClass('active');
+    $('#js-participant').removeClass('active');
+
+    $.ajax({
+        method: 'GET',
+        url: '/Moderator/RenderChallengeView',
         data: {
             id: competeID
         },
@@ -64,7 +84,7 @@ function DeleteParticipant(btn) {
         },
         success: function (response) {
             alert(response);
-            $(`div[id=${btn.dataset.id}]`).remove();
+            $(`div[id=p-${btn.dataset.id}]`).remove();
             if ($('#participant-list').html() === '') {
                 var html = `<div id="no-content" class="row table-row no-margin table-cs">
                     <div class="col-sm-12 text-center">
@@ -72,6 +92,52 @@ function DeleteParticipant(btn) {
                     </div>
                     </div>`;
                 $('#participant-list').append(html);
+            }
+        }
+    });
+}
+
+function DeleteChallenge(btn) {
+    $.ajax({
+        method: 'POST',
+        url: '/Moderator/DeleteChallenge',
+        data: {
+            contestID: competeID,
+            challengeID: btn.dataset.id
+        },
+        success: function (response) {
+            alert(response);
+            $(`div[id=c-${btn.dataset.id}]`).remove();
+            if ($('#challenge-list').html() === '') {
+                var html = `<div id="no-content" class="row table-row no-margin table-cs">
+                    <div class="col-sm-12 text-center">
+                        You have not created any challenges.
+                    </div>
+                    </div>`;
+                $('#challenge-list').append(html);
+            }
+        }
+    });
+}
+
+function DeleteQuestion(btn) {
+    $.ajax({
+        method: 'POST',
+        url: '/Moderator/DeleteQuestion',
+        data: {
+            contestID: competeID,
+            questionID: btn.dataset.id
+        },
+        success: function (response) {
+            alert(response);
+            $(`div[id=q-${btn.dataset.id}]`).remove();
+            if ($('#question-list').html() === '') {
+                var html = `<div id="no-content" class="row table-row no-margin table-cs">
+                    <div class="col-sm-12 text-center">
+                        You have not created any questions.
+                    </div>
+                    </div>`;
+                $('#question-list').append(html);
             }
         }
     });

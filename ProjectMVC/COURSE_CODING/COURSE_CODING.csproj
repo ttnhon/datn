@@ -268,7 +268,6 @@
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\ReplyModel.cs" />
     <Compile Include="Models\Skill.cs" />
-    <Compile Include="Models\TestCaseResultModel.cs" />
     <Compile Include="Models\UserChallengeStatus.cs" />
     <Compile Include="Models\UserDashboardModel.cs" />
     <Compile Include="Models\UserProfileModel.cs" />
@@ -563,6 +562,7 @@
     <Content Include="Areas\Admin\Views\Home\Contact.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Home\ComfirmRequest.cshtml" />
+    <Content Include="Views\Moderator\_ChallengeList.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

@@ -38,6 +38,7 @@
         OnFailure = "OnFailure"
     }, new { @class = "form-horizontal" }))
     {
+        @Html.HiddenFor(model => model.competeID)
         <div class="form-group row">
             <label class="col-sm-2 control-label" for="name_Input">Challenge Name</label>
             <div class="col-sm-8">
@@ -153,6 +154,9 @@
             console.log(data)
             if (data.result) {
                 alert('Save changes succeed');
+                if (data.competeID != null) {
+                    window.location.href = `/Moderator/EditCompete/${data.competeID}`;
+                }
             } else {
                 alert('operation fail');
             }

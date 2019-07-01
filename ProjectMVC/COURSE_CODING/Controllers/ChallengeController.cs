@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using CommonProject;
+using CommonProject.Models;
 using COURSE_CODING.Common;
 using COURSE_CODING.Models;
 using DAO.DAO;
