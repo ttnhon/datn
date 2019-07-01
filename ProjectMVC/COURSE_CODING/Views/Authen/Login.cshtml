@@ -75,14 +75,14 @@
                                 <div class="form-group">
                                     <div class="form-row mt-5">
                                         <div class="col-md-12">
-                                            @*<a class="btn btn-facebook btn-primary btn-block" href="/Authen/LoginFace">
-            <i class="fab fa-facebook primary"></i>
-            Đăng nhập bằng Facebook
-        </a>*@
-                                            <a class="btn btn-facebook btn-primary btn-block" href="/Register">
-            <i class="fab  primary"></i>
-            Or register now
-        </a>
+                                            <a class="btn btn-facebook btn-primary btn-block" href="/Authen/LoginFace">
+                                                <i class="fab fa-facebook primary"></i>
+                                                Đăng nhập bằng Facebook
+                                            </a>
+                                                    @*<a class="btn btn-facebook btn-primary btn-block" href="/Register">
+                                                        <i class="fab  primary"></i>
+                                                        Or register now
+                                                    </a>*@
                                         </div>
                                     </div>
                                 </div>
@@ -93,6 +93,28 @@
             </div>
         </div>
     </div>
+    
 
 </body>
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '270461573788228',
+            cookie: true,
+            xfbml: true,
+            version: 'v3.3'
+        });
+
+        FB.AppEvents.logPageView();
+
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 </html>

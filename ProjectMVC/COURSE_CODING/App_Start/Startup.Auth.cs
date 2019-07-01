@@ -22,9 +22,9 @@ namespace COURSE_CODING
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
            // Uncomment the following lines to enable logging in with third party login providers
-            app.UseMicrosoftAccountAuthentication(
-             clientId: "b09d5949-6a62-4bc4-9e6e-17b861a68865",
-             clientSecret: "hmpqLGK66^dsjXUIJ887}|~");
+            //app.UseMicrosoftAccountAuthentication(
+            // clientId: "b09d5949-6a62-4bc4-9e6e-17b861a68865",
+            // clientSecret: "hmpqLGK66^dsjXUIJ887}|~");
 
             //app.UseTwitterAuthentication(
             // consumerKey: "",
