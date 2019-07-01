@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
+using CommonProject;
 using Microsoft.CSharp;
 using WebAPI.Common;
 using WebAPI.Models;
@@ -149,14 +150,7 @@ namespace WebAPI.Controllers
                 code = this.ChangeCode(code, class_name, input_file);
                 string full_path = directory_path + filename_code;
                 //make sure this file not exist
-                if (System.IO.File.Exists(full_path + ".exe"))           //delete file MyClass{userKey}.exe and MyClass{userKey}.cpp
-                {
-                    System.IO.File.Delete(full_path + ".exe");
-                }
-                if (System.IO.File.Exists(full_path + ".cpp"))
-                {
-                    System.IO.File.Delete(full_path + ".cpp");
-                }
+                DeleteFile(full_path);
 
                 /*write code to file.cpp*/
                 using (StreamWriter w = new StreamWriter(full_path + ".cpp", true))
@@ -179,14 +173,7 @@ namespace WebAPI.Controllers
                 /*run D:\\MyClass*/
                 Dictionary<string, string> result_cpp = this.ExecuteCMD(directory_path, filename_code);
 
-                if (System.IO.File.Exists(full_path + ".exe"))           //delete file MyClass{userKey}.exe and MyClass{userKey}.cpp
-                {
-                    System.IO.File.Delete(full_path + ".exe");
-                }
-                if (System.IO.File.Exists(full_path + ".cpp"))
-                {
-                    System.IO.File.Delete(full_path + ".cpp");
-                }
+                DeleteFile(full_path);
 
                 //return g++ execute
                 //if (result_gpp["status"] == "fail")
@@ -213,6 +200,136 @@ namespace WebAPI.Controllers
             Code = Code.Replace("INPUT_FILE_NAME", input_file_path);
 
             return Code;
+        }
+
+        /// <summary>
+        /// Delete File
+        /// </summary>
+        /// <param name="full_path">Full path of the file</param>
+        /// <returns></returns>
+        protected void DeleteFile(string full_path)
+        {
+            //delete file MyClass{userKey}.exe and MyClass{userKey}.cpp
+            if (System.IO.File.Exists(full_path + ".exe"))
+            {
+                System.IO.File.Delete(full_path + ".exe");
+            }
+            if (System.IO.File.Exists(full_path + ".cpp"))
+            {
+                System.IO.File.Delete(full_path + ".cpp");
+            }
+        }
+
+        /// <summary>
+        /// get result when submit code challenge
+        /// </summary>
+        /// <param name="source">data contain string code and testcase</param>
+        /// <returns></returns>
+        [HttpPost]
+        public IHttpActionResult RunCodeChallenge(Source source)
+        {
+            try
+            {
+                string code = source.stringSource;
+                string app_path = AppDomain.CurrentDomain.BaseDirectory;        //get app_path
+                string directory_path = app_path + Constant.CODE_DIR;    //get directory execute
+                string filename_code = "MyClass" + source.userKey;              //file to execute
+                string class_name = filename_code;                              //class name in file execute   ( = filename)
+
+                TestCaseFileManagerController testcase_controller = new TestCaseFileManagerController();
+                List<TestCaseResultModel> list_result_run_code = new List<TestCaseResultModel>();
+                List<TestCaseFile> testcases = source.TestCase;
+
+                foreach (TestCaseFile testCase in testcases)
+                {
+                    string code_run = this.ChangeCode(code, class_name, testCase.inputFile);
+                    Dictionary<string, string> run_code_output = this.Run(code_run, filename_code, directory_path);     //run code and catch output
+                    Dictionary<string, string> testcase_content = testcase_controller.ReadTestCaseContent(testCase);    //read testcase content
+                    list_result_run_code.Add(this.MatchTestCase(run_code_output, testcase_content));
+                }
+                return Ok(list_result_run_code);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
+
+
+        protected Dictionary<string, string> Run(string code, string filename_code, string directory_path)
+        {
+            string class_name = filename_code;                              //class name in file execute   ( = filename)
+            string path_file_execute = directory_path + "\\" + filename_code;
+
+            this.DeleteFile(path_file_execute);             // make sure file not exit to create file
+
+            /*write code to file.java*/
+            using (StreamWriter w = new StreamWriter(path_file_execute + ".cpp", true))
+            {
+                w.WriteLine(code); // Write the text
+            }
+
+            /*run javac E:\\MyClass.java*/
+            Dictionary<string, string> result_gpp = this.ExecuteGPP(directory_path, filename_code + ".exe " + filename_code + ".cpp");
+            if (result_gpp["status"] == Constant.STATUS_FAIL)            //return if run javac fail
+                return result_gpp;
+
+            /*run java E:\\MyClass*/
+            Dictionary<string, string> result = this.ExecuteCMD(directory_path, filename_code);
+
+            this.DeleteFile(path_file_execute);
+            return result;
+        }
+
+        protected TestCaseResultModel MatchTestCase(Dictionary<string, string> run_code_output, Dictionary<string, string> testcase)
+        {
+            if (run_code_output.Count <= 0)
+            {
+                return (new TestCaseResultModel()
+                {
+                    Status = "fail",
+                    Input = testcase["Input"],
+                    Output = "Server call api compiler fail",
+                    OutputExpect = testcase["Output"],
+                });
+            }
+            char[] charsToTrim = { '\r', '\n' };
+            run_code_output["message"] = run_code_output["message"].TrimEnd(charsToTrim);
+
+            if (run_code_output["status"] == "success")
+            {
+                //Check result with output testcase
+                if (run_code_output["message"] == testcase["Output"])
+                {
+                    return (new TestCaseResultModel()
+                    {
+                        Status = "success",
+                        Input = testcase["Input"],
+                        Output = run_code_output["message"],
+                        OutputExpect = testcase["Output"],
+                    });
+                }
+                else
+                {
+                    return (new TestCaseResultModel()
+                    {
+                        Status = "fail",
+                        Input = testcase["Input"],
+                        Output = run_code_output["message"],
+                        OutputExpect = testcase["Output"],
+                    });
+                }
+            }
+            else
+            {
+                return (new TestCaseResultModel()
+                {
+                    Status = "fail",
+                    Input = testcase["Input"],
+                    Output = run_code_output["message"],
+                    OutputExpect = testcase["Output"],
+                });
+            }
         }
     }
 }
