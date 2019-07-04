@@ -104,12 +104,16 @@ namespace COURSE_CODING.Controllers
             var participantList = competeDAO.GetParticipantList(id);
             for(int i=0;i<participantList.Count;i++)
             {
-                var info = userDAO.GetUserById(participantList[i]);
+                var info = userDAO.GetUserById(participantList[i].UserID);
 
                 Participant p = new Participant();
                 p.ID = info.ID;
                 p.Name = info.UserName;
                 p.Email = info.Email;
+                if (participantList[i].TimeJoined != null)
+                {
+                    p.TimeJoined = (DateTime)participantList[i].TimeJoined;
+                }
                 model.Participants.Add(p);
             }
 
@@ -121,19 +125,27 @@ namespace COURSE_CODING.Controllers
         {
             if(email!=null)
             {
-                var user = (new UserDAO().GetUserByEmail(email));
-                var contest = (new CompeteDAO().GetOne(contestID));
-                string emailHeader = String.Format("{0} invited you to participate in the {1} contest.", user.UserName, contest.Title);
-                string emailContent = String.Format("@{0} has invited you to participant in the {1} contest. You can accept or deline following the link:\n http://localhost:49512/Compete/{2}/Invitation", user.UserName, contest.Title, contest.ID);
+                var userDAO = new UserDAO();
+                var competeDAO = new CompeteDAO();
+
+                var user = userDAO.GetUserByEmail(email);
+                var compete = competeDAO.GetOne(contestID);
+
+                if(!userDAO.CheckEmailExist(email))
+                {
+                    return Json(new { result=false, msg = "This email is not registered yet! Please enter another email" });
+                }
+
+                string emailHeader = String.Format("{0} invited you to participate in the {1} contest.", user.UserName, compete.Title);
+                string emailContent = String.Format("@{0} has invited you to participant in the {1} contest. You can accept or deline following the link:\n http://localhost:49512/Compete/{2}/Invitation", user.UserName, compete.Title, compete.ID);
                 CommonProject.Helper.Email_Helper emailHelper = new CommonProject.Helper.Email_Helper();
                 emailHelper.SendMail(email, emailHeader, emailContent);
                 COMPETE_PARTICIPANTS model = new COMPETE_PARTICIPANTS();
                 model.CompeteID = contestID;
                 model.UserID = user.ID;
-                model.TimeJoined = DateTime.Now;
                 if(new CompeteDAO().CheckParticipantExist(user.ID))
                 {
-                    return Json(new { result = "This email is exist in this contest! Please enter another email" });
+                    return Json(new { result = false, msg = "This email is exist in this contest! Please enter another email" });
                 }
                 var result = (new CompeteDAO().InsertParticipant(model));
                 if (result)
@@ -142,14 +154,14 @@ namespace COURSE_CODING.Controllers
                     p.ID = user.ID;
                     p.Name = user.UserName;
                     p.Email = user.Email;
-                    return Json(new { data = p, result = "Send invitation succeed!" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { data = p, result = true, msg = "Send invitation succeed!"}, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    return Json(new { result = "Fail to send invitation!" });
+                    return Json(new { result = false, msg = "Fail to send invitation!" });
                 }
             }
-            return Json(new { result = "Fail to send invitation!" });
+            return Json(new { result = false, msg = "Fail to send invitation!" });
         }
 
         
@@ -325,7 +337,7 @@ namespace COURSE_CODING.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult CreateChallenge(CreateChallengeModel model)
+        public ActionResult CreateNewChallenge(CreateChallengeModel model)
         {
             ChallengeDAO DAO = new ChallengeDAO();
             //login session
@@ -352,7 +364,7 @@ namespace COURSE_CODING.Controllers
             };
             //add to table CHALLENGE
             bool res = DAO.Insert(c);
-            if(model.competeID != null)
+            if(model.competeID != 0)
             {
                 DAO.AddChallengetoCompete(c.ID, model.competeID);
             }
@@ -363,7 +375,7 @@ namespace COURSE_CODING.Controllers
             res = DAO.AddModerator(editor);
             if (res)
             {
-                return Json(new { result = true, competeID = model.competeID });
+                return Json(new { result = true, competeID = model.competeID, challengeID = c.ID });
             }
             return Json(new { result = false });
         }

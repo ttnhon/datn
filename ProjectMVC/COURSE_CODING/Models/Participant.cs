@@ -14,5 +14,6 @@ namespace COURSE_CODING.Models
 
         public string Email { get; set; }
 
+        public DateTime TimeJoined { get; set; }
     }
 }

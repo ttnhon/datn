@@ -31,14 +31,13 @@
     <h1 class="title">Create Challenge</h1>
 
     <p class="subtitle"><i>Get started by providing the initial details needed to create a challenge.</i></p>
-    @using (Ajax.BeginForm("CreateChallenge", "Moderator", new AjaxOptions()
+    @using (Ajax.BeginForm("CreateNewChallenge", "Moderator", new AjaxOptions()
     {
         HttpMethod = "POST",
         OnSuccess = "OnSuccess",
         OnFailure = "OnFailure"
     }, new { @class = "form-horizontal" }))
     {
-        @Html.HiddenFor(model => model.competeID)
         <div class="form-group row">
             <label class="col-sm-2 control-label" for="name_Input">Challenge Name</label>
             <div class="col-sm-8">
@@ -110,6 +109,7 @@
                 @*<textarea class="form-control" rows="2" id="tags_Input"></textarea>*@
             </div>
         </div>
+        @Html.HiddenFor(model => model.competeID)
         <div class="save-change-btn-group">
             <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
         </div>
@@ -154,8 +154,11 @@
             console.log(data)
             if (data.result) {
                 alert('Save changes succeed');
-                if (data.competeID != null) {
+                if (data.competeID != 0) {
                     window.location.href = `/Moderator/EditCompete/${data.competeID}`;
+                }
+                else {
+                    window.location.href = `/Moderator/Edit/Challenge/${data.challengeID}`;
                 }
             } else {
                 alert('operation fail');

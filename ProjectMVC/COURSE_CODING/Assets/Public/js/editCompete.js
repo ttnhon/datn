@@ -146,7 +146,7 @@ function DeleteQuestion(btn) {
 
 function addParticipant() {
     let email_input = $('#participant_Input').val();
-    $('#participant_Input').html('');
+    $('#participant_Input').val('');
     $.ajax({
         method: 'POST',
         url: '/Moderator/SendInvitation',
@@ -155,18 +155,22 @@ function addParticipant() {
             email: email_input
         },
         success: function (response) {
-            alert(response.result);
-            $('#no-content').remove();
-            var html = `<div class="row table-row no-margin table-cs"  id="${response.data.ID}">
+            alert(response.msg);
+            if (response.result) {
+                $('#no-content').remove();
+                var html = `<div class="row table-row no-margin table-cs"  id="${response.data.ID}">
                         <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">${response.data.Name}</div>
-                        <div class="col-xs-1 vd-col-xs-30 text-center">${response.data.Email}</div>
-                        <div class="col-xs-1 vd-col-xs-30 text-center">
+                        <div class="col-xs-1 vd-col-xs-20 text-center">${response.data.Email}</div>
+                        <div class="col-xs-1 vd-col-xs-20 text-center">Waiting for response...</div>
+                        <div class="col-xs-1 vd-col-xs-20 text-center">
                             <button class="btn btn-primary"  id="btn-${response.data.ID}">
                                  Delete
                             </button>
                         </div>
                             </div>`
-            $('#participant-list').append(html);
+                $('#participant-list').append(html);
+            }
+            
         }
     });
 };

@@ -34,14 +34,14 @@ namespace DAO.DAO
             return db.CHALLENGES.Join(db.CHALLENGE_EDITORS, t => t.ID, p => p.ChallegenID, (t, p) => new { t, p })
                 .Where(table => table.p.EditorID == editorId)
                // .Join(db.USER_INFOS, t => t.p.EditorID, p => p.ID, (t, p) => new { t, p })
-                .Select(table => table.t).ToList();
+                .Select(table => table.t).OrderByDescending(table => table.ID).ToList();
         }
 
         public List<CHALLENGE> GetAllByCompeteID(int id)
         {
             return db.CHALLENGE_COMPETES.Where(table => table.CompeteID == id)
                 .Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t, p) => new { t, p })
-                .Select(item => item.p).ToList();
+                .Select(item => item.p).OrderByDescending(table => table.ID).ToList();
         }
 
         public dynamic GetAllWithAnswerByCompeteID(int competeID, int userID)

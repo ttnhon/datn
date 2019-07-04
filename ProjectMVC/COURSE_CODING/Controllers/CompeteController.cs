@@ -85,7 +85,7 @@ namespace COURSE_CODING.Controllers
                 if (!can_access)
                 {
                     ViewBag.CanAccess = false;
-                    return View("Detail.cshtml");
+                    return View("Detail");
                 }
 
                 CompeteChallengesModel model = new CompeteChallengesModel();    //Model
@@ -250,7 +250,17 @@ namespace COURSE_CODING.Controllers
 
         public ActionResult AcceptInvitation(int id)
         {
-            return Redirect("/Compete/"+id+"/Detail");
+            var competeDAO = new CompeteDAO();
+            COMPETE_PARTICIPANTS model = new COMPETE_PARTICIPANTS();
+            model.CompeteID = id;
+            model.UserID = GetLoginID();
+            model.TimeJoined = DateTime.Now;
+            var result = competeDAO.UpdateTimeJoined(model);
+            if(result)
+            {
+                return Redirect("/Compete/" + id + "/Detail");
+            }
+            return Redirect("/Error/PageNotFound");
         }
 
         public ActionResult DeclineInvitation(int id)
@@ -262,9 +272,9 @@ namespace COURSE_CODING.Controllers
             var result = competeDAO.DeleteParticipant(model);
             if(result)
             {
-                return View("Index.cshtml");
+                return Redirect("/Compete/Index");
             }
-            return View();
+            return Redirect("/Error/PageNotFound");
         }
 
         //public ActionResult VerifyEmail(string crypt)
