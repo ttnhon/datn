@@ -120,6 +120,96 @@ namespace COURSE_CODING.Controllers
             return PartialView("_ParticipantList", model);
         }
 
+        public ActionResult RenderScoreView(int id)
+        {
+            //var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
+            //int userID = session.ID;
+            CompeteDAO DAO = new CompeteDAO();
+            //check compete exist
+            var compete = DAO.GetOne(id);
+            if (compete == null)
+            {
+                return Redirect("/Error/PageNotFound");
+            }
+            ////check is owner
+            //if (compete.OwnerID != userID)
+            //{
+            //    ViewBag.CanAccess = false;
+            //    return View("Score");
+            //}
+            ViewBag.CanAccess = true;
+            ViewBag.competeID = id;
+            ViewBag.Name = compete.Title;
+            USER_INFO u = new UserDAO().GetUserById(compete.OwnerID);
+            ViewBag.Author = u.FirstName + " " + u.LastName;
+            ViewBag.TimeEnd = compete.TimeEnd.ToString();
+            List<UserScore> Model = new List<UserScore>();
+            //get list participants
+            var paticipants = DAO.GetParticipants(id);
+            foreach (var item in paticipants)
+            {
+                UserScore temp = new UserScore();
+                temp.Name = item.FirstName + " " + item.LastName;
+                temp.PhotoUrl = item.PhotoURL;
+
+                temp.TotalScore = 0;
+                //get score question
+                temp.QuestionDone = 0;
+                temp.ScoreQuestion = 0;
+
+                dynamic questions = (new QuestionDAO()).GetAllWithAnswerByCompeteID(id, item.ID);
+                temp.QuestionNumber = 0;
+
+                foreach (var one_question in questions)
+                {
+                    temp.QuestionNumber++;
+                    var question = one_question.GetType().GetProperty("Question").GetValue(one_question, null);
+                    var chosen = one_question.GetType().GetProperty("Chosen").GetValue(one_question, null);
+                    temp.TotalScore += question.Score;
+                    if (chosen != null)
+                    {
+                        if (chosen.TimeDone <= compete.TimeEnd)
+                        {
+                            if (chosen.Result == 1)
+                            {
+                                temp.QuestionDone++;
+                                temp.ScoreQuestion += question.Score;
+                            }
+                        }
+                    }
+                }
+                //get score challenge
+                temp.ChallengeDone = 0;
+                temp.ScoreChallenge = 0;
+
+                //Get list Challenge and check user is solved challenge
+                dynamic challenges = new ChallengeDAO().GetAllWithAnswerByCompeteID(id, item.ID);
+                temp.ChallengeNumber = 0;
+                foreach (var challenge in challenges)         //Parse data
+                {
+                    temp.ChallengeNumber++;
+                    bool isSolved = challenge.GetType().GetProperty("isSolved").GetValue(challenge, null);
+                    int score = challenge.GetType().GetProperty("Score").GetValue(challenge, null);
+                    DateTime timeDone = challenge.GetType().GetProperty("TimeDone").GetValue(challenge, null);
+                    temp.TotalScore += score;
+
+                    if (isSolved)
+                    {
+                        if (timeDone <= compete.TimeEnd)
+                        {
+                            temp.ChallengeDone++;
+                            temp.ScoreChallenge += score;
+                        }
+                    }
+
+                }
+
+                //add to model
+                Model.Add(temp);
+            }
+            return PartialView("_CompeteScore", Model);
+        }
+
         [HttpPost]
         public ActionResult SendInvitation(int contestID,string email)
         {
@@ -190,7 +280,7 @@ namespace COURSE_CODING.Controllers
             }
             ViewBag.CanAccess = true;
             //CreateChallengeModel model = new CreateChallengeModel();
-            return View(id);
+            return View("CreateQuestion", id);
         }
 
         //GET: /Moderator/EditQuestion/{id}
@@ -245,7 +335,8 @@ namespace COURSE_CODING.Controllers
                 ques.List = answers.ToArray();
                 model.Questions.Add(ques);
             }
-            return View(model);
+            ViewBag.CompeteTitle = new CompeteDAO().GetOne(id).Title;
+            return View("EditQuestion", model);
         }
 
         [HttpPost]

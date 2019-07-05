@@ -69,7 +69,13 @@ namespace DAO.DAO
             try
             {
                 var u = db.QUESTIONS.Find(entity.ID);
+                var answer = db.QUESTION_ANSWERS.Where(table => table.QuestionID == u.ID);
+                if(answer.Count() > 0)
+                {
+                    db.QUESTION_ANSWERS.RemoveRange(answer);
+                }
                 db.QUESTIONS.Remove(u);
+                db.SaveChanges();
                 return true;
             }
             catch (Exception e)

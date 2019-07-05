@@ -45,7 +45,7 @@ namespace DAO.DAO
         public List<COMPETE> GetScheduledCompetes(int id, int take = 5)
         {
             return db.COMPETES.Where(table => table.TimeEnd > DateTime.Now).GroupJoin(db.COMPETE_PARTICIPANTSS, t => t.ID, p => p.CompeteID, (t, p) => new { t, p })
-                .Where(table => table.t.IsPublic || table.p.FirstOrDefault(list => list.UserID == id) != null)
+                .Where(table => table.p.FirstOrDefault(list => list.UserID == id) != null)
                 .Select(table => table.t).OrderBy(table => table.TimeEnd).Take(take).ToList();
         }
 
