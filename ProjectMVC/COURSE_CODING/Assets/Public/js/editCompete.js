@@ -12,6 +12,7 @@ $('#js-question').click(function () {
     $('#js-details').removeClass('active');
     $('#js-participant').removeClass('active');
     $('#js-challenge').removeClass('active');
+    $('#js-score').removeClass('active');
 
     $.ajax({
         method: 'GET',
@@ -30,6 +31,7 @@ $('#js-participant').click(function () {
     $('#js-details').removeClass('active');
     $('#js-question').removeClass('active');
     $('#js-challenge').removeClass('active');
+    $('#js-score').removeClass('active');
 
     $.ajax({
         method: 'GET',
@@ -48,10 +50,30 @@ $('#js-challenge').click(function () {
     $('#js-details').removeClass('active');
     $('#js-question').removeClass('active');
     $('#js-participant').removeClass('active');
+    $('#js-score').removeClass('active');
 
     $.ajax({
         method: 'GET',
         url: '/Moderator/RenderChallengeView',
+        data: {
+            id: competeID
+        },
+        success: function (response) {
+            $('.tab-section').html(response);
+        }
+    })
+});
+
+$('#js-score').click(function () {
+    $(this).addClass('active');
+    $('#js-details').removeClass('active');
+    $('#js-question').removeClass('active');
+    $('#js-participant').removeClass('active');
+    $('#js-challenge').removeClass('active');
+
+    $.ajax({
+        method: 'GET',
+        url: '/Moderator/RenderScoreView',
         data: {
             id: competeID
         },

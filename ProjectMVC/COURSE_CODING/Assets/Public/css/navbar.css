@@ -96,6 +96,11 @@ form.navbar-search-form:hover .navbar-search-form.fa{
 }
 /*==================*/
 
+.navbar-brand{
+    overflow: hidden;
+    height: 100%;
+}
+
 .navbar-brand img.img-fluid {
-    height: 4rem;
+    height: 5rem;
 }

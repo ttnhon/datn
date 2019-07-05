@@ -45,10 +45,17 @@
                                         <h6 class="card-title" title="Regex"><i class="fas fa-check" style="color: lawngreen;"></i> Joined</h6>
                                     </div>
                                     <div class="col-md-6 contest-enter">
-                                        <span><strong class="time-happen">@item.TimeEnd.ToString()</strong><i class="contest-status">@(item.TimeEnd > DateTime.Now ? "Open" : "Close")</i></span>
+                                        @if (item.TimeEnd > DateTime.Now)
+                                        {
+                                            <span><strong class="time-happen">@(((DateTime)item.TimeEnd).ToString("dd/MM/yyyy"))</strong><i class="contest-status" style="color: lawngreen; font-weight: 700;">Open</i></span>
+                                        }
+                                        else
+                                        {
+                                            <span><strong class="time-happen">@(((DateTime)item.TimeEnd).ToString("dd/MM/yyyy"))</strong><i class="contest-status" style="color: red; font-weight: 700;">Open</i></span>
+                                        }
                                         @*<a href="" class="btn btn-outline-success">Do Contest</a>*@
                                         <button class="btn btn-outline-success" tabindex="0" onclick="location.href='/Compete/@item.ID/Detail'">
-                                            <span class="ui-text">Do Contest</span>
+                                            <span class="ui-text">&nbsp;&nbsp;&nbsp;Do Competition&nbsp;&nbsp;&nbsp;</span>
                                         </button>
                                     </div>
                                 </div>
@@ -79,7 +86,14 @@
                                         <h6 class="card-title" title="Regex">Unjoined</h6>
                                     </div>
                                     <div class="col-md-6 contest-enter">
-                                        <span><strong class="time-happen">@(((DateTime)item.TimeEnd).ToString("dd/MM/yyyy"))</strong><i class="contest-status">@(item.TimeEnd > DateTime.Now ? "Open" : "Close")</i></span>
+                                        @if (item.TimeEnd > DateTime.Now)
+                                        {
+                                            <span><strong class="time-happen">@(((DateTime)item.TimeEnd).ToString("dd/MM/yyyy"))</strong><i class="contest-status" style="color: lawngreen; font-weight: 700;">Open</i></span>
+                                        }
+                                        else
+                                        {
+                                            <span><strong class="time-happen">@(((DateTime)item.TimeEnd).ToString("dd/MM/yyyy"))</strong><i class="contest-status" style="color: red; font-weight: 700;">Open</i></span>
+                                        }
                                         @*<a href="" class="btn btn-outline-success">Enter Contest</a>*@
                                         <button class="btn btn-outline-success" tabindex="0" onclick="EnterContestBtn(event, @item.ID)">
                                             <span class="ui-text">Enter Competition</span>
