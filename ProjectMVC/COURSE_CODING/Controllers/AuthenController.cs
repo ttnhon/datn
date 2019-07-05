@@ -106,6 +106,12 @@ namespace COURSE_CODING.Controllers
         {
             if (ModelState.IsValid)
             {
+                string callback_uri = string.Empty;
+                if (Request.UrlReferrer != null)
+                {
+                    var paramss = HttpUtility.ParseQueryString(Request.UrlReferrer.Query);
+                    callback_uri = paramss["callback"] ?? "";
+                }
                 var DAO = new UserDAO();
                 var statusLogin = DAO.Login(model.UserName, HashMD5.HashStringMD5(model.Password));
                 if (statusLogin.Equals(CommonConstant.STATUS_RIGHT_ACCOUNT))
@@ -116,6 +122,11 @@ namespace COURSE_CODING.Controllers
                     sessionLogin.Name = user.UserName;
                     sessionLogin.Role = (int)user.RoleUser;
                     Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
+
+                    if (!String.IsNullOrEmpty(callback_uri))
+                    {
+                        return Redirect(callback_uri);
+                    }
                     if (user.RoleUser.Equals(CommonConstant.ROLE_ADMIN))
                     {
                         return Redirect("/Admin/User/Index");

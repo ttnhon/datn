@@ -99,3 +99,6 @@ form.navbar-search-form:hover .navbar-search-form.fa{
 .navbar-brand img.img-fluid {
     height: 4rem;
 }
+.loadingImg {
+    width:1.5rem;
+}

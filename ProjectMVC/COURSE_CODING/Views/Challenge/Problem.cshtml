@@ -209,8 +209,8 @@
                         <iframe id="result" frameborder="0"></iframe>
                     </div>
                     <div class="code-submit">
-                        <button class="btn btn-outline-success btn-lg run-code" onclick="runCode()">Run Code</button>
-                        <button class="btn btn-success btn-lg submit-code" onclick="submitCode()">Submit Code</button>
+                        <button class="btn btn-outline-success btn-lg run-code" onclick="runCode()">Run Code <span><img id="loadingImgRuncode" class="loadingImg" src="~/Assets/Public/images/loading.gif" alt="Alternate Text" /></span></button>
+                        <button class="btn btn-success btn-lg submit-code" onclick="submitCode()">Submit Code <span><img id="loadingImgSubmitcode" class="loadingImg" src="~/Assets/Public/images/loading.gif" alt="Alternate Text" /></span></button>
                     </div>
                 </div>
 
@@ -286,6 +286,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ace.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ext-language_tools.js"></script>
     <script>
+        $('.loadingImg').hide();
+
         $(function () {
             var $a = $(".runcode-testcase li");
             $a.click(function () {
@@ -473,6 +475,7 @@
 
         }
         function runCode() {
+            $('#loadingImgRuncode').show();
             code = editor.getValue();
             language = $('#inputLanguage').val();
             $.ajax({
@@ -485,6 +488,7 @@
                 }
             })
                 .done(function (msg) {
+                    $('#loadingImgRuncode').hide();
                     if (msg) {
                         console.log(msg);
                         showResult(msg)
@@ -494,6 +498,7 @@
         }
 
         function submitCode() {
+            $('#loadingImgSubmitcode').show();
             code = editor.getValue();
             language = $('#inputLanguage').val();
             $.ajax({
@@ -507,6 +512,7 @@
             })
                 .done(function (msg) {
                     console.log(msg);
+                    $('#loadingImgSubmitcode').hide();
                     showResult(msg)
                 });
         }
