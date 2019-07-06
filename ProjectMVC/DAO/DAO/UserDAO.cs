@@ -61,6 +61,14 @@ namespace DAO.DAO
         {
             return db.USER_INFOS.Where(u => u.Email == email).FirstOrDefault();
         }
+
+        public List<string> GetAllUserEmailExcept(int id)
+        {
+            return db.USER_INFOS
+                .Where(u => u.ID != id)
+                .Select(u => u.Email)
+                .ToList();
+        }
         /// <summary>
         /// insert information of user in database
         /// </summary>

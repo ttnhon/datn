@@ -14,6 +14,19 @@ namespace COURSE_CODING.Controllers
 {
     public class ModeratorController : BaseModeratorController
     {
+        protected int GetLoginID()
+        {
+            var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
+            if (session != null)
+            {
+                return session.ID;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         [HttpGet]
         // GET: Moderator
         public ActionResult ManageChallenge()
@@ -575,6 +588,12 @@ namespace COURSE_CODING.Controllers
             {
                 return Json("Delete fail!");
             }
+        }
+
+        public ActionResult GetUserEmail()
+        {
+            var userDAO = new UserDAO();
+            return Json(userDAO.GetAllUserEmailExcept(GetLoginID()),JsonRequestBehavior.AllowGet);
         }
     }
 }

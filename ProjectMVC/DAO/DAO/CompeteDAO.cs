@@ -65,7 +65,7 @@ namespace DAO.DAO
 
         public List<COMPETE_PARTICIPANTS> GetParticipantList(int id)
         {
-            return db.COMPETE_PARTICIPANTSS.Where(table => table.CompeteID == id).OrderByDescending(t => t.UserID).ToList();
+            return db.COMPETE_PARTICIPANTSS.Where(table => table.CompeteID == id).OrderByDescending(t => t.TimeJoined).ThenBy(t => t.UserID).ToList();
         }
 
         public Boolean CheckParticipantExist(int id)

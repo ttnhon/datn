@@ -169,6 +169,8 @@ function DeleteQuestion(btn) {
 function addParticipant() {
     let email_input = $('#participant_Input').val();
     $('#participant_Input').val('');
+    let loading = document.querySelector(".spinner");
+    loading.style.display = 'flex';
     $.ajax({
         method: 'POST',
         url: '/Moderator/SendInvitation',
@@ -177,6 +179,7 @@ function addParticipant() {
             email: email_input
         },
         success: function (response) {
+            loading.style.display = 'none';
             alert(response.msg);
             if (response.result) {
                 $('#no-content').remove();
@@ -190,9 +193,29 @@ function addParticipant() {
                             </button>
                         </div>
                             </div>`
-                $('#participant-list').append(html);
+                $('#participant-list').prepend(html);
             }
             
         }
     });
 };
+
+/*Email Autocomplete*/
+
+function EmailAutocomplete() {
+    var searchVal = $('#participant_Input').val();
+    $.ajax({
+        method: 'GET',
+        url: '/Moderator/GetUserEmail',
+        success: function (data) {
+            $('#participant_Input').autocomplete({
+                source: data
+            },
+                {
+                    autoFocus: true,
+                    minChars: 3,
+                });
+            console.log(data);
+        }
+    });
+}
