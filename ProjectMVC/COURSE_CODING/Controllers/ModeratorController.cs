@@ -493,6 +493,10 @@ namespace COURSE_CODING.Controllers
         {
             var challengeDAO = new ChallengeDAO();
             List<CreateChallengeModel> challenges = new List<CreateChallengeModel>();
+            if(challengeIDList.Length == 0)
+            {
+                return Json(new { result = false, msg = "Add Challenge Fail!" });
+            }
             for(int i = 0; i < challengeIDList.Length; i++)
             {
                 CHALLENGE model = new CHALLENGE();
@@ -619,10 +623,10 @@ namespace COURSE_CODING.Controllers
             }
         }
 
-        public ActionResult GetUserEmail()
+        public ActionResult GetUserName()
         {
             var userDAO = new UserDAO();
-            return Json(userDAO.GetAllUserEmailExcept(GetLoginID()),JsonRequestBehavior.AllowGet);
+            return Json(userDAO.GetAllUserNameExcept(GetLoginID()),JsonRequestBehavior.AllowGet);
         }
     }
 }
