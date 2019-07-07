@@ -51,7 +51,7 @@
                                         }
                                         else
                                         {
-                                            <span><strong class="time-happen">@(((DateTime)item.TimeEnd).ToString("dd/MM/yyyy"))</strong><i class="contest-status" style="color: red; font-weight: 700;">Open</i></span>
+                                            <span><strong class="time-happen">@(((DateTime)item.TimeEnd).ToString("dd/MM/yyyy"))</strong><i class="contest-status" style="color: red; font-weight: 700;">Close</i></span>
                                         }
                                         @*<a href="" class="btn btn-outline-success">Do Contest</a>*@
                                         <button class="btn btn-outline-success" tabindex="0" onclick="location.href='/Compete/@item.ID/Detail'">
@@ -92,7 +92,7 @@
                                         }
                                         else
                                         {
-                                            <span><strong class="time-happen">@(((DateTime)item.TimeEnd).ToString("dd/MM/yyyy"))</strong><i class="contest-status" style="color: red; font-weight: 700;">Open</i></span>
+                                            <span><strong class="time-happen">@(((DateTime)item.TimeEnd).ToString("dd/MM/yyyy"))</strong><i class="contest-status" style="color: red; font-weight: 700;">Close</i></span>
                                         }
                                         @*<a href="" class="btn btn-outline-success">Enter Contest</a>*@
                                         <button class="btn btn-outline-success" tabindex="0" onclick="EnterContestBtn(event, @item.ID)">
