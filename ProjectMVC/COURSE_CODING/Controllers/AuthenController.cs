@@ -12,7 +12,6 @@ using COURSE_CODING.Common;
 using COURSE_CODING.Models;
 using DAO.DAO;
 using DAO.EF;
-using Facebook;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 
@@ -95,6 +94,7 @@ namespace COURSE_CODING.Controllers
                 }
 
             }
+            
             return View();
         }
 
@@ -133,7 +133,7 @@ namespace COURSE_CODING.Controllers
                     }
                     if (user.RoleUser.Equals(CommonConstant.ROLE_ADMIN))
                     {
-                        return Redirect("/Admin/User/Index");
+                        return Redirect("/Admin/Home/Index");
                     }
                     else if (user.RoleUser.Equals(CommonConstant.ROLE_MEMBER))
                     {
@@ -179,7 +179,7 @@ namespace COURSE_CODING.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult GoogleLoginCallback()
+        public  ActionResult  GoogleLoginCallback()
         {
             var claimsPrincipal = HttpContext.User.Identity as ClaimsIdentity;
             var loginInfo = GoogleLoginViewModel.GetLoginInfo(claimsPrincipal);
@@ -214,91 +214,27 @@ namespace COURSE_CODING.Controllers
                 var userSession = new InfoLogIn();
                 userSession.Name = user.UserName;
                 userSession.ID = user.ID;
-                userSession.Role = CommonConstant.ROLE_MEMBER;
+                userSession.Role = user.RoleUser;
                 Session.Add(CommonConstant.SESSION_INFO_LOGIN, userSession);
                 // Set the auth cookie
-                FormsAuthentication.SetAuthCookie(user.Email, false);
-                return Redirect("/User/Dashboard");
+                // FormsAuthentication.SetAuthCookie(user.Email, false);
+                if (user.RoleUser.Equals(CommonConstant.ROLE_ADMIN))
+                {
+                    return Redirect("/Admin/Home/Index");
+                }
+                else if (user.RoleUser.Equals(CommonConstant.ROLE_MEMBER))
+                {
+                    return Redirect("/User/Dashboard");
+                }
+                else if (user.RoleUser.Equals(CommonConstant.ROLE_TEACHER))
+                {
+                    return Redirect("/Moderator/ManageChallenge");
+                }
             }
             return Redirect("~/");
         }
 
-        public ActionResult LoginFace()
-        {
-            var fa = new FacebookClient();
-            var loginFace = fa.GetLoginUrl(new
-            {
-                client_id = ConfigurationManager.AppSettings["FbAppId"],
-                client_secret = ConfigurationManager.AppSettings["FbAppSecret"],
-              //  redirect_uri = RedirectUri.AbsoluteUri,
-                response_type = "code",
-                scope = "email",
-            }
-                );
-            return Redirect(loginFace.AbsoluteUri);
-        }
-
-        public ActionResult FacebookCallback(string code)
-        {
-            var fa = new FacebookClient();
-            var DAO = new UserDAO();
-            dynamic result = fa.Post("oauth/access_token", new
-            {
-                client_id = ConfigurationManager.AppSettings["FbAppId"],
-                client_secret = ConfigurationManager.AppSettings["FbAppSecret"],
-               // redirect_uri = RedirectUri.AbsoluteUri,
-                code = code
-            });
-            var accessToken = result.access_token;
-            if (!string.IsNullOrEmpty(accessToken))
-            {
-                fa.AccessToken = accessToken;
-                dynamic me = fa.Get("me?fields=first_name,middle_name,last_name,id,email");
-                string email = me.email;
-                string id = me.id;
-                string firstName = me.first_name;
-                string middleName = me.middle_name;
-                string lastName = me.last_name;
-                string userName = firstName + " " + middleName + " " + lastName;
-                var user = DAO.GetByName(userName);
-                Boolean canLogin = false;
-                if (user == null)
-                {
-                    user = new USER_INFO();
-                    string ID = Guid.NewGuid().ToString();
-                    user.FirstName = firstName;
-                    user.LastName = lastName;
-                    if (email == null)
-                    {
-                        email = ID + "gmail.com";
-                    }
-                    user.Email = email;
-                    user.RoleUser = CommonConstant.ROLE_MEMBER;
-                    user.StatusUser = CommonConstant.STATUS_RIGHT_ACCOUNT;
-                    user.UserName = firstName + " " + middleName + " " + lastName;
-                    user.PasswordUser = "123456";
-                    user.CreateDate = DateTime.Now;
-                    user.SchoolID = 1;
-                    canLogin = new UserDAO().Insert(user);
-                }
-                else
-                {
-                    canLogin = true;
-                }
-                if (canLogin.Equals(true))
-                {
-                    var userSession = new InfoLogIn();
-                    userSession.Name = user.UserName;
-                    userSession.ID = user.ID;
-                    userSession.Role = CommonConstant.ROLE_MEMBER;
-                    Session.Add(CommonConstant.SESSION_INFO_LOGIN, userSession);
-                    // Set the auth cookie
-                    FormsAuthentication.SetAuthCookie(email, false);
-                    return Redirect("/User/Dashboard");
-                }
-            }
-            return Redirect("/");
-        }
+       
         /// <summary>
         /// object help catch data call back 
         /// </summary>

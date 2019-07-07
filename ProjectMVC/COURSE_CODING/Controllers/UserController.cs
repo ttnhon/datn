@@ -11,7 +11,6 @@ using COURSE_CODING.Common;
 using COURSE_CODING.Models;
 using DAO.DAO;
 using DAO.EF;
-using Facebook;
 
 namespace COURSE_CODING.Controllers
 {
