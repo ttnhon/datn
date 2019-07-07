@@ -14,7 +14,7 @@ using DAO.EF;
 
 namespace COURSE_CODING.Areas.Admin.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseAdminController
 
     {
         private UserDAO UDAO;
