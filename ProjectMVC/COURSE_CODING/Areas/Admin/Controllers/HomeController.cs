@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace COURSE_CODING.Areas.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseAdminController
     {
         // GET: Admin/Home
         public ActionResult Index()

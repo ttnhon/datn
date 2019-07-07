@@ -236,10 +236,15 @@ namespace DAO.DAO
         /// </summary>
         /// <param name="Name"></param>
         /// <returns></returns>
-        public USER_INFO GetByName(string Name)
+        public USER_INFO GetByEmail(string email)
         {
-            return db.USER_INFOS.SingleOrDefault(x => x.UserName == Name);
+            return db.USER_INFOS.SingleOrDefault(x => x.Email == email);
         }
+        public USER_INFO GetByName(string name)
+        {
+            return db.USER_INFOS.SingleOrDefault(x => x.UserName == name);
+        }
+       
 
         /// <summary>
         /// get Name by ID
