@@ -92,7 +92,7 @@ namespace DAO.DAO
         /// <returns></returns>
         public List<QUESTION> GetAllByCompeteID(int id)
         {
-            return db.QUESTIONS.Where(table => table.CompeteID == id).Distinct().OrderByDescending(table => table.ID).ToList();
+            return db.QUESTIONS.Where(table => table.CompeteID == id).Distinct().ToList();
         }
 
         /// <summary>

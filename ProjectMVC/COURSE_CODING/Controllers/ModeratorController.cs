@@ -92,8 +92,9 @@ namespace COURSE_CODING.Controllers
         public ActionResult RenderChallengeView(int id)
         {
             var challengeDAO = new ChallengeDAO();
-            List<CHALLENGE> challengeList = new List<CHALLENGE>();
-            challengeList = challengeDAO.GetAllByCompeteID(id);
+            ChallengeList challengeList = new ChallengeList();
+            challengeList.AssignedChallenge = challengeDAO.GetAllByCompeteID(id);
+            challengeList.UnassignedChallenge = challengeDAO.GetAllNotByCompeteID(id);
             ViewBag.CompeteID = id;
 
             return PartialView("_ChallengeList", challengeList);
@@ -240,7 +241,10 @@ namespace COURSE_CODING.Controllers
                 }
 
                 string emailHeader = String.Format("{0} invited you to participate in the {1} contest.", user.UserName, compete.Title);
-                string emailContent = String.Format("@{0} has invited you to participant in the {1} contest. You can accept or deline following the link:\n http://localhost:49512/Compete/{2}/Invitation", user.UserName, compete.Title, compete.ID);
+                string emailContent = System.IO.File.ReadAllText(Server.MapPath("~/Assets/Page/pages/ContentMail.html"));
+                emailContent = emailContent.Replace("{{CustomerName}}", user.UserName);
+                emailContent = emailContent.Replace("{{Email}}", user.Email);
+                emailContent = emailContent.Replace("{{Content}}", String.Format("http://localhost:44307/Compete/{0}/Invitation",compete.ID));
                 CommonProject.Helper.Email_Helper emailHelper = new CommonProject.Helper.Email_Helper();
                 emailHelper.SendMail(email, emailHeader, emailContent);
                 COMPETE_PARTICIPANTS model = new COMPETE_PARTICIPANTS();
@@ -482,6 +486,31 @@ namespace COURSE_CODING.Controllers
                 return Json(new { result = true, competeID = model.competeID, challengeID = c.ID });
             }
             return Json(new { result = false });
+        }
+
+        [HttpPost]
+        public ActionResult AddChallengeToCompete(int competeID, int[] challengeIDList)
+        {
+            var challengeDAO = new ChallengeDAO();
+            List<CreateChallengeModel> challenges = new List<CreateChallengeModel>();
+            for(int i = 0; i < challengeIDList.Length; i++)
+            {
+                CHALLENGE model = new CHALLENGE();
+                model = challengeDAO.GetOne(challengeIDList[i]);
+                CreateChallengeModel challenge = new CreateChallengeModel();
+                challenge.competeID = model.ID;
+                challenge.Difficulty = (Difficulty)model.ChallengeDifficulty;
+                challenge.Name = model.Title;
+                challenge.Score = model.Score;
+                challenges.Add(challenge);
+                var result = challengeDAO.AddChallengetoCompete(model.ID, competeID);
+                if(!result)
+                {
+                    return Json(new { result = false, msg = "Add Challenge Fail!" });
+                }
+            }
+            return Json(new { result = true, msg = "Add Challenge Success!", data = challenges });
+
         }
 
         [HttpPost]

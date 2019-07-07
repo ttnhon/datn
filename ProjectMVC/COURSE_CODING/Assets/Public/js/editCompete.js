@@ -41,6 +41,7 @@ $('#js-participant').click(function () {
         },
         success: function (response) {
             $('.tab-section').html(response);
+            $('#js-participant-add-btn').attr("disabled", true);
         }
     })
 });
@@ -204,6 +205,13 @@ function addParticipant() {
 
 function EmailAutocomplete() {
     var searchVal = $('#participant_Input').val();
+    if (searchVal.length >= 3) {
+        $('#js-participant-add-btn').attr("disabled", false);
+    }
+    else {
+        $('#js-participant-add-btn').attr("disabled", true);
+    }
+
     $.ajax({
         method: 'GET',
         url: '/Moderator/GetUserEmail',
@@ -215,7 +223,78 @@ function EmailAutocomplete() {
                     autoFocus: true,
                     minChars: 3,
                 });
-            console.log(data);
+        }
+    });
+}
+
+/* Add Existing Challenge*/
+
+function OpenChallengePopup() {
+    $('#challenge-popup').css("height", "100%");
+}
+
+function CloseChallengePopup() {
+    $('#challenge-popup').css("height", "0%");
+}
+
+function AddToCompete() {
+    var CheckedChallenges = document.querySelectorAll('input[type=checkbox]');
+    var ChallengeIDList = new Array();
+    CheckedChallenges.forEach((checkbox, index) => {
+        if (checkbox.checked == true) {
+            ChallengeIDList.push(checkbox.dataset.id);
+        }
+    });
+    $.ajax({
+        method: 'POST',
+        url: '/Moderator/AddChallengeToCompete',
+        data: {
+            competeID: competeID,
+            challengeIDList: ChallengeIDList
+        },
+        success: function (response) {
+            alert(response.msg);
+            $('#challenge-popup').css("height", "0%");
+            if (response.result = true) {
+                var html = '';
+                response.data.forEach(challenge => {
+                    var difficulty;
+                    switch (challenge.Difficulty) {
+                        case 1:
+                            difficulty = 'Easy';
+                            break;
+                        case 2:
+                            difficulty = 'Medium';
+                            break;
+                        case 3:
+                            difficulty = 'Hard';
+                            break;
+                        case 4:
+                            difficulty = 'Advanded';
+                            break;
+                        case 5:
+                            difficulty = 'Expert';
+                            break;
+                    }
+                    html += `<div class="row table-row no-margin table-cs" id="c-${challenge.competeID}">
+
+                <div class="col-xs-1 vd-col-xs-30" style="margin-left: 1em;">
+                    <a href="/Moderator/Edit/Challenge/${challenge.competeID}">
+                        ${challenge.Name}
+                    </a>
+                </div>
+                <div class="col-xs-1 vd-col-xs-30 text-center">${difficulty}</div>
+                <div class="col-xs-1 vd-col-xs-20 text-center">${challenge.Score}</div>
+                <div class="col-xs-1 vd-col-xs-20 text-center">
+                    <button class="btn btn-primary" data-id="${challenge.competeID}" onclick="DeleteChallenge(this)">
+                        Delete
+                    </button>
+                </div>
+            </div>`
+                });
+                $('#challenge-list').prepend(html);
+            }
+            
         }
     });
 }
