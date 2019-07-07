@@ -137,19 +137,23 @@ a.challenge-link {
     color: black;
 }
 
-    a.challenge-link:hover {
-        text-decoration: none;
-    }
+a.challenge-link:hover {
+    text-decoration: none;
+}
 
-        a.challenge-link:hover .one-challenge-box {
-            background-color: aliceblue;
-        }
+a.challenge-link:hover .one-challenge-box {
+    background-color: aliceblue;
+}
 
 .card-title {
     font-size: 1.5rem;
 }
 
 a.challenge-link:hover .card-title {
+    color: #28a745;
+}
+
+a.challenge-link:hover .challenge-detail {
     color: #28a745;
 }
 

@@ -125,5 +125,27 @@ namespace DAO.DAO
                 .Join(db.LANGUAGES, t => t.LanguageID, p => p.ID, (t, p) => new { t, p })
                 .Select(item => item.p).ToList();
         }
+
+        public List<CHALLENGE> GetSolvedAndPublic(string languageName, int userID)
+        {
+            var challenge = db.CHALLENGE_LANGUAGES
+                .Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t, p) => new { t, p })
+                .Join(db.LANGUAGES, t => t.t.LanguageID, p => p.ID, (t, p) => new { t, p })
+                .Where(table => table.p.Name.Contains(languageName)).Select(item => item.t.p);
+            return challenge.Where(table => table.IsPublic).GroupJoin(db.ANSWERS, t => t.ID, p => p.ChallengeID, (t, p) => new { t, p })
+                .Where(table => table.p.FirstOrDefault(list => list.UserId == userID) != null)
+                .Select(table => table.t).ToList();
+        }
+
+        public List<CHALLENGE> GetUnsolvedAndPublic(string languageName, int userID)
+        {
+            var challenge = db.CHALLENGE_LANGUAGES
+                .Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t, p) => new { t, p })
+                .Join(db.LANGUAGES, t => t.t.LanguageID, p => p.ID, (t, p) => new { t, p })
+                .Where(table => table.p.Name.Contains(languageName)).Select(item => item.t.p);
+            return challenge.Where(table => table.IsPublic).GroupJoin(db.ANSWERS, t => t.ID, p => p.ChallengeID, (t, p) => new { t, p })
+                .Where(table => table.p.FirstOrDefault(list => list.UserId == userID) == null)
+                .Select(table => table.t).ToList();
+        }
     }
 }

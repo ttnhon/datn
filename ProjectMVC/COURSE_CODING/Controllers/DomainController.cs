@@ -16,10 +16,12 @@ namespace COURSE_CODING.Controllers
         {
             if (ModelState.IsValid)
             {
+                var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
                 DomainModel model = new DomainModel();
                 LanguageDAO DAO = new LanguageDAO();
                 model.Language = DAO.GetLanguageByName(id);
-                model.List = DAO.GetChallenge(model.Language.Name);
+                model.ListSolved = DAO.GetSolvedAndPublic(model.Language.Name, session.ID);
+                model.ListUnsolved = DAO.GetUnsolvedAndPublic(model.Language.Name, session.ID);
                 return View(model);
             }
             return View();
