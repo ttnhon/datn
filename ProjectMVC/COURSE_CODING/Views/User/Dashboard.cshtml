@@ -12,157 +12,158 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 }
 
-    <section class="statistic">
-        <div class="container">
-            <div class="row">
-                <!-- Single Cool Facts Area -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="single-statistic text-center mb-100 wow">
-                        <div class="icon">
-                            <img src="~/Assets/Public/images/intro/docs.png" alt="" runat="server">
-                        </div>
-                        <h2><span class="counter">@Html.DisplayFor(model => model.Data.SuccessChellenges)</span></h2>
-                        <h5>Success Challenges</h5>
+<section class="statistic">
+    <div class="container">
+        <div class="row">
+            <!-- Single Cool Facts Area -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="single-statistic text-center mb-100 wow">
+                    <div class="icon">
+                        <img src="~/Assets/Public/images/intro/docs.png" alt="" runat="server">
                     </div>
+                    <h2><span class="counter">@Html.DisplayFor(model => model.Data.SuccessChellenges)</span></h2>
+                    <h5>Success Challenges</h5>
                 </div>
+            </div>
 
-                <!-- Single Cool Facts Area -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="single-statistic text-center mb-100 wow">
-                        <div class="icon">
-                            <img src="~/Assets/Public/images/intro/star.png" alt="" runat="server">
-                        </div>
-                        <h2><span class="counter">@Html.DisplayFor(model => model.Data.UserCompetes)</span></h2>
-                        <h5>Your Competes</h5>
+            <!-- Single Cool Facts Area -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="single-statistic text-center mb-100 wow">
+                    <div class="icon">
+                        <img src="~/Assets/Public/images/intro/star.png" alt="" runat="server">
                     </div>
+                    <h2><span class="counter">@Html.DisplayFor(model => model.Data.UserCompetes)</span></h2>
+                    <h5>Your Competes</h5>
                 </div>
+            </div>
 
-                <!-- Single Cool Facts Area -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="single-statistic text-center mb-100 wow">
-                        <div class="icon">
-                            <img src="~/Assets/Public/images/intro/events.png" alt="" runat="server">
-                        </div>
-                        <h2><span class="counter">@Html.DisplayFor(model => model.Data.ScheduledEvents)</span></h2>
-                        <h5>Scheduled Events</h5>
+            <!-- Single Cool Facts Area -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="single-statistic text-center mb-100 wow">
+                    <div class="icon">
+                        <img src="~/Assets/Public/images/intro/events.png" alt="" runat="server">
                     </div>
+                    <h2><span class="counter">@Html.DisplayFor(model => model.Data.ScheduledEvents)</span></h2>
+                    <h5>Scheduled Events</h5>
                 </div>
+            </div>
 
-                <!-- Single Cool Facts Area -->
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <div class="single-statistic text-center mb-100 wow">
-                        <div class="icon">
-                            <img src="~/Assets/Public/images/intro/earth.png" alt="" runat="server">
-                        </div>
-                        <h2><span class="counter">@Html.DisplayFor(model => model.Data.AvailableLanguages)</span></h2>
-                        <h5>Available Languages</h5>
+            <!-- Single Cool Facts Area -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="single-statistic text-center mb-100 wow">
+                    <div class="icon">
+                        <img src="~/Assets/Public/images/intro/earth.png" alt="" runat="server">
                     </div>
+                    <h2><span class="counter">@Html.DisplayFor(model => model.Data.AvailableLanguages)</span></h2>
+                    <h5>Available Languages</h5>
                 </div>
             </div>
         </div>
-    </section>
-    <!--	end intro-->
-    <section class="skill-div">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-3 test_list">
-                    <h1>Scheduled List</h1>
-                    <div class="row">
-                        <div class="col-xs-12" style="max-width: 100%;">
-                            <ul class="event-list">
-                                @if (Model.Competes.Count > 0)
+    </div>
+</section>
+<!--	end intro-->
+<section class="skill-div">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3 test_list">
+                <h1>Scheduled List</h1>
+                <div class="row">
+                    <div class="col-xs-12" style="max-width: 100%;">
+                        <ul class="event-list">
+                            @if (Model.Competes.Count > 0)
+                            {
+                                foreach (var item in Model.Competes)
                                 {
-                                    foreach (var item in Model.Competes)
-                                    {
-                                        <!--one event-->
-                                        <li>
-                                            <time datetime="@item.TimeEnd">
-                                                <span class="day">@String.Format("{0:dd}", item.TimeEnd)</span>
-                                                <span class="month">@String.Format("{0:MMMM}", item.TimeEnd)</span>
-                                            </time>
-                                            <div class="info">
-                                                <h2 class="title">@item.Title</h2>
-                                                <div class="desc" style="max-height: 100px;overflow: hidden;">@Html.Raw(HttpUtility.HtmlDecode(item.Description))</div>
-                                                <ul>
-                                                    <li style="width:50%;"><a href="/Compete/@item.ID/Detail"> Enter <i class="far fa-hand-point-right"></i></a></li>
-                                                    <li style="width:50%;"><i class="fas fa-info-circle"></i> View</li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                    }
+                                    <!--one event-->
+                                    <li>
+                                        <time datetime="@item.TimeEnd">
+                                            <span class="day">@String.Format("{0:dd}", item.TimeEnd)</span>
+                                            <span class="month">@String.Format("{0:MMMM}", item.TimeEnd)</span>
+                                        </time>
+                                        <div class="info">
+                                            <h2 class="title">@item.Title</h2>
+                                            <div class="desc" style="max-height: 100px;overflow: hidden;">@Html.Raw(HttpUtility.HtmlDecode(item.Description))</div>
+                                            <ul>
+                                                <li style="width:50%;"><a href="/Compete/@item.ID/Detail"> Enter <i class="far fa-hand-point-right"></i></a></li>
+                                                <li style="width:50%;"><i class="fas fa-info-circle"></i> View</li>
+                                            </ul>
+                                        </div>
+                                    </li>
                                 }
-                            </ul>
-                        </div>
+                            }
+                        </ul>
                     </div>
                 </div>
-                <!--end test_list-->
-                <div class="col-sm-9 student_course">
-                    <h1 class="text-center">Skills Board</h1>
-                    <h2 class="session-title">Your skills</h2>
+            </div>
+            <!--end test_list-->
+            <div class="col-sm-9 student_course">
+                <h1 class="text-center">Skills Board</h1>
+                <h2 class="session-title">Your skills</h2>
 
-                    <div class="row skill-process">
-                        @if (Model.Skills.Count > 0)
+                <div class="row skill-process">
+                    @if (Model.Skills.Count > 0)
+                    {
+                        foreach (var item in Model.Skills)
                         {
-                            foreach (var item in Model.Skills)
-                            {
-                                <!--1 skill-->
-                                <div class="col-sm-5 offset-1 base-box">
-                                    <a class="skill-card-link" href="/Domain/Index/@item.Language.Name">
-                                        <div class="skill-card">
-                                            <h5 class="skill-title">@item.Language.Description</h5>
-                                            <div class="card-content">
-                                                <h3 class="card-title" title=@item.Language.Name>@item.Language.Name</h3>
-                                                <div class="skill-detail">
-                                                    <div class="skill-progress-bar">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: @((((item.Solved * 1.0) / item.Count) * 100).ToString() + "%")"></div>
-                                                        </div>
-                                                        <div class="progress-count text-content">
-                                                            <span class="percentage">@((((item.Solved * 1.0) / item.Count) * 100).ToString("n2") + "%")</span><span class="points-left"> (@(item.Solved.ToString() + "/" + item.Count.ToString()) challenges solved)</span>
-                                                        </div>
+                            <!--1 skill-->
+                            <div class="col-sm-5 offset-1 base-box">
+                                <a class="skill-card-link" href="/Domain/Index/@item.Language.Name">
+                                    <div class="skill-card">
+                                        <h5 class="skill-title">@item.Language.Description</h5>
+                                        <div class="card-content">
+                                            <h3 class="card-title replace-language" title=@item.Language.Name>@item.Language.Name</h3>
+                                            <div class="skill-detail">
+                                                <div class="skill-progress-bar">
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: @((((item.Solved * 1.0) / item.Count) * 100).ToString() + "%")"></div>
+                                                    </div>
+                                                    <div class="progress-count text-content">
+                                                        <span class="percentage">@((((item.Solved * 1.0) / item.Count) * 100).ToString("n2") + "%")</span><span class="points-left"> (@(item.Solved.ToString() + "/" + item.Count.ToString()) challenges solved)</span>
                                                     </div>
                                                 </div>
-                                                <button class="btn btn-outline-success btn-lg" tabindex="0">
-                                                    <div class="ui-content align-icon-right">
-                                                        <span class="ui-text">Continue Practice</span>
-                                                    </div>
-                                                </button>
                                             </div>
+                                            <button class="btn btn-outline-success btn-lg" tabindex="0">
+                                                <div class="ui-content align-icon-right">
+                                                    <span class="ui-text">Continue Practice</span>
+                                                </div>
+                                            </button>
                                         </div>
-                                    </a>
-                                </div>
-                                <!--end 1 skill-->
-                            }
-                        }
-                        else {
-                            <h4 class="no-skill">You didn't got skill yet</h4>
-                        }
-                    </div>
-                    <!--end skill-process-->
-                    <!--language-session-->
-                    <div class="language">
-                        <h2 class="session-title">Languages</h2>
-                        <div class="row">
-                            <div class="col-sm-4 offset-1 base-box">
-                                <div class="skill-card">
-                                    <h5 class="skill-title">Languages</h5>
-                                    <hr>
-                                    <div class="language-div">
-                                        @if (Model.Languages != null)
-                                        {
-                                            foreach (var item in Model.Languages)
-                                            {
-                                                <a class="one-language" href="/Domain/Index/@item.Name"><h5 class="language-name">@Html.DisplayFor(modelItem => item.Name)</h5></a>
-                                                <hr>
-                                            }
-                                        }
                                     </div>
+                                </a>
+                            </div>
+                            <!--end 1 skill-->
+                        }
+                    }
+                    else
+                    {
+                        <h4 class="no-skill">You didn't got skill yet</h4>
+                    }
+                </div>
+                <!--end skill-process-->
+                <!--language-session-->
+                <div class="language">
+                    <h2 class="session-title">Languages</h2>
+                    <div class="row">
+                        <div class="col-sm-4 offset-1 base-box">
+                            <div class="skill-card">
+                                <h5 class="skill-title">Languages</h5>
+                                <hr>
+                                <div class="language-div">
+                                    @if (Model.Languages != null)
+                                    {
+                                        foreach (var item in Model.Languages)
+                                        {
+                                            <a class="one-language" href="/Domain/Index/@item.Name"><h5 class="language-name replace-language">@Html.DisplayFor(modelItem => item.Name)</h5></a>
+                                            <hr>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    @*<!--tutorial-session-->
+                @*<!--tutorial-session-->
                     <div class="tutorial">
                         <h2 class="session-title">Tutorials</h2>
                         <div class="row">
@@ -197,9 +198,22 @@
                         </div>
                     </div>*@
 
-                </div>
-
             </div>
+
         </div>
-        <!--		end container-->
-    </section>
+    </div>
+    <!--		end container-->
+</section>
+@section scripts
+{
+    
+    <script>
+        var mapLanguages = new Map([["Cpp", "C++"], ["CSharp", "C#"], ["Java", "Java"]]);
+        var languages = $('.replace-language');
+        for (var i = 0; i < languages.length; i++) {
+            var lang = languages[i];
+            lang.textContent = mapLanguages.get(lang.textContent);
+            lang.title = mapLanguages.get(lang.textContent);
+        }
+    </script>
+}
