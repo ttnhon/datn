@@ -12,6 +12,7 @@ $('#js-question').click(function () {
     $('#js-details').removeClass('active');
     $('#js-participant').removeClass('active');
     $('#js-challenge').removeClass('active');
+    $('#js-score').removeClass('active');
 
     $.ajax({
         method: 'GET',
@@ -30,6 +31,7 @@ $('#js-participant').click(function () {
     $('#js-details').removeClass('active');
     $('#js-question').removeClass('active');
     $('#js-challenge').removeClass('active');
+    $('#js-score').removeClass('active');
 
     $.ajax({
         method: 'GET',
@@ -48,10 +50,30 @@ $('#js-challenge').click(function () {
     $('#js-details').removeClass('active');
     $('#js-question').removeClass('active');
     $('#js-participant').removeClass('active');
+    $('#js-score').removeClass('active');
 
     $.ajax({
         method: 'GET',
         url: '/Moderator/RenderChallengeView',
+        data: {
+            id: competeID
+        },
+        success: function (response) {
+            $('.tab-section').html(response);
+        }
+    })
+});
+
+$('#js-score').click(function () {
+    $(this).addClass('active');
+    $('#js-details').removeClass('active');
+    $('#js-question').removeClass('active');
+    $('#js-participant').removeClass('active');
+    $('#js-challenge').removeClass('active');
+
+    $.ajax({
+        method: 'GET',
+        url: '/Moderator/RenderScoreView',
         data: {
             id: competeID
         },
@@ -146,7 +168,9 @@ function DeleteQuestion(btn) {
 
 function addParticipant() {
     let email_input = $('#participant_Input').val();
-    $('#participant_Input').html('');
+    $('#participant_Input').val('');
+    let loading = document.querySelector(".spinner");
+    loading.style.display = 'flex';
     $.ajax({
         method: 'POST',
         url: '/Moderator/SendInvitation',
@@ -155,18 +179,43 @@ function addParticipant() {
             email: email_input
         },
         success: function (response) {
-            alert(response.result);
-            $('#no-content').remove();
-            var html = `<div class="row table-row no-margin table-cs"  id="${response.data.ID}">
+            loading.style.display = 'none';
+            alert(response.msg);
+            if (response.result) {
+                $('#no-content').remove();
+                var html = `<div class="row table-row no-margin table-cs"  id="${response.data.ID}">
                         <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">${response.data.Name}</div>
-                        <div class="col-xs-1 vd-col-xs-30 text-center">${response.data.Email}</div>
-                        <div class="col-xs-1 vd-col-xs-30 text-center">
+                        <div class="col-xs-1 vd-col-xs-20 text-center">${response.data.Email}</div>
+                        <div class="col-xs-1 vd-col-xs-20 text-center">Waiting for response...</div>
+                        <div class="col-xs-1 vd-col-xs-20 text-center">
                             <button class="btn btn-primary"  id="btn-${response.data.ID}">
                                  Delete
                             </button>
                         </div>
                             </div>`
-            $('#participant-list').append(html);
+                $('#participant-list').prepend(html);
+            }
+            
         }
     });
 };
+
+/*Email Autocomplete*/
+
+function EmailAutocomplete() {
+    var searchVal = $('#participant_Input').val();
+    $.ajax({
+        method: 'GET',
+        url: '/Moderator/GetUserEmail',
+        success: function (data) {
+            $('#participant_Input').autocomplete({
+                source: data
+            },
+                {
+                    autoFocus: true,
+                    minChars: 3,
+                });
+            console.log(data);
+        }
+    });
+}

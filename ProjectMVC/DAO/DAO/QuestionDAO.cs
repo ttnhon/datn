@@ -69,7 +69,13 @@ namespace DAO.DAO
             try
             {
                 var u = db.QUESTIONS.Find(entity.ID);
+                var answer = db.QUESTION_ANSWERS.Where(table => table.QuestionID == u.ID);
+                if(answer.Count() > 0)
+                {
+                    db.QUESTION_ANSWERS.RemoveRange(answer);
+                }
                 db.QUESTIONS.Remove(u);
+                db.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -86,7 +92,7 @@ namespace DAO.DAO
         /// <returns></returns>
         public List<QUESTION> GetAllByCompeteID(int id)
         {
-            return db.QUESTIONS.Where(table => table.CompeteID == id).ToList();
+            return db.QUESTIONS.Where(table => table.CompeteID == id).Distinct().OrderByDescending(table => table.ID).ToList();
         }
 
         /// <summary>

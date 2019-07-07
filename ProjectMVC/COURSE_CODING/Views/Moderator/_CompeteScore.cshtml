@@ -1,0 +1,81 @@
+﻿@*@if (ViewBag.CanAccess == false)
+    {
+        <div style="text-align: center;margin: 0 auto; padding: 30px;">
+            <h2>You don't have permission to view this page</h2>
+            <h2>405!</h2>
+        </div>
+        return;
+    }*@
+@Styles.Render("~/Assets/Public/css/score.css")
+<!-- google font -->
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+<div class="row user-list-score">
+    @if (Model.Count > 0)
+    {
+        foreach (var item in Model)
+        {
+            <!--1 user-->
+            <div class="col-md-6">
+                <div class="one-user-box">
+                    <div class="row">
+                        <div class="col-xs-6 col-md-6 user-info">
+                            <img class="profile-img" src="@item.PhotoUrl" alt="" />
+                            <span class="card-title">@item.Name</span>
+                        </div>
+
+                        <div class="col-xs-6 col-md-6 total-score">
+                            <span><strong>Total Score: </strong><i class="score">@(item.ScoreQuestion + item.ScoreChallenge)/@item.TotalScore</i></span>
+                        </div>
+                    </div>
+                    <div class="user-score" style="display: none;">
+                        <hr>
+                        <h5><strong>Submission info</strong></h5>
+                        <div class="row score-info">
+                            <div class="col-md-6">
+                                <span class="info-title">Questions: </span><span class="Numbber"><span class="quantity">@item.QuestionDone</span>/<span class="max">@item.QuestionNumber</span></span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="info-title">Questions score: </span><span class="score">@item.ScoreQuestion</span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="info-title">Challenges: </span><span class="Numbber"><span class="quantity">@item.ChallengeDone</span>/<span class="max">@item.ChallengeNumber</span></span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="info-title">Challenges score: </span><span class="score">@item.ScoreChallenge</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        $(".one-user-box").click(function () {
+            $(this).children(".user-score").slideToggle("slow");
+        });
+    });
+
+    var target = $('#affix-panel')
+    target.after('<div class="affix" id="affix"></div>')
+
+    var affix = $('.affix')
+    affix.append(target.clone(true))
+
+    // Show affix on scroll.
+    var element = document.getElementById('affix')
+    if (element !== null) {
+        var position = target.position()
+        window.addEventListener('scroll', function () {
+            var height = $(window).scrollTop()
+            if (height > position.top) {
+                target.css('visibility', 'hidden')
+                affix.css('display', 'block')
+            } else {
+                affix.css('display', 'none')
+                target.css('visibility', 'visible')
+            }
+        })
+    }
+</script>

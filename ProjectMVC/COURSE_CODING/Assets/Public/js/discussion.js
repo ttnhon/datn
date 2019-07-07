@@ -20,7 +20,7 @@ window.addEventListener('load', () => {
     sortBox.addEventListener('change', () => {
         let selectedOption = sortBox.options[sortBox.selectedIndex].value;
         let loading = document.querySelector(".lds-roller");
-        loading.setAttribute("display", "flex");
+        loading.style.display = 'flex';
         $.ajax({
             method: 'GET',
             url: '/Challenge/GetSortComment',
@@ -29,7 +29,7 @@ window.addEventListener('load', () => {
                 sort: selectedOption
             },
             success: function (response) {
-                loading.setAttribute("display", "none");
+                loading.style.display = 'none';
                 document.querySelector('.discussion-group').innerHTML = response;
             },
             error: function (response) {

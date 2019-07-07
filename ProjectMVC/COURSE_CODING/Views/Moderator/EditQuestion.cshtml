@@ -26,17 +26,18 @@
 @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>*@
 
-    <div class="container">
-        <h1 class="title">Edit Question</h1>
-        @Html.Hidden("competeID", Model.ID)
-        @if (Model.Questions.Count > 0)
-        {
-            <div class="question" id="question">
-                @for (int i = 0; i < Model.Questions.Count; i++)
-                {
+<div class="container">
+    <h1 class="title">@ViewBag.CompeteTitle</h1>
+    @Html.Hidden("competeID", Model.ID)
+    @if (Model.Questions.Count > 0)
+    {
+        <div class="question" id="question">
+            @for (int i = 0; i < Model.Questions.Count; i++)
+            {
                 <div class="ques-item">
+                    <a href="javascript:;" onclick="RemoveQuestion(event, this, @(i+1))" class="btn-remove-ques"><i class="fas fa-times"></i></a>
                     @Html.Hidden("question-ID-" + (i + 1), Model.Questions[i].ID)
-                    <h3>Question @(i + 1)</h3>
+                    <h4>Question @(i + 1)</h4>
                     <div class="form-group row">
                         <label class="col-sm-2 control-label" for="choice-@(i+1)">Type</label>
                         <div class="col-sm-4">
@@ -95,21 +96,22 @@
                         <button type="button" class="btn btn-success" onclick="AddNewAnswer(@(i+1))">Add</button>
                     </div>
                 </div>
-                }
-            </div>
-        }
-        <div class="save-change-btn-group">
-            <button class="btn btn-success" id="js-save-changes-btn" onclick="Submit()">Save Changes</button>
-            <button type="button" class="btn btn-success" onclick="AddNewQuestion()">New question</button>
+            }
         </div>
-        <div style="height: 100px;">
-
-        </div>
+    }
+    <div class="save-change-btn-group">
+        <button class="btn btn-success" id="js-save-changes-btn" onclick="Submit()">Save Changes</button>
+        <button type="button" class="btn btn-success" onclick="AddNewQuestion()">New question</button>
     </div>
+    <div style="height: 100px;">
+
+    </div>
+</div>
 
 @section scripts
     {
     <script src="~/Assets/Public/vendor/ckeditor5-build-classic/ckeditor.js"></script>
+    <script src="~/Assets/Public/vendor/sweetalert2-8.13.1/dist/sweetalert2.all.min.js"></script>
     <script type="text/javascript">
         var count = @Model.Questions.Count;
         var answer = @answer;
@@ -240,8 +242,9 @@
             count++;
             answer++;
             $('#question').append(`<div class="ques-item">
-                <input id="question-ID-`+ count + `" name="question-ID-` + count +`" type="hidden" value="">
-                <h3>Question `+ count + `</h3>
+                <input id="question-ID-`+ count + `" name="question-ID-` + count + `" type="hidden" value="">
+                <a href="javascript:;" onclick="RemoveQuestion(event, this, ` + count + `)" class="btn-remove-ques"><i class="fas fa-times"></i></a>
+                <h4>Question `+ count + `</h4>
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="choice-` + count + `">Type</label>
                     <div class="col-sm-4">
@@ -294,6 +297,7 @@
             var arr = [];
             for (var i = 1; i <= count; i++) {
                 var e = $('#choice-' + i)[0];
+                if (e === undefined) continue;
                 var list = [];
                 for (var j = 1; j <= answer; j++) {
                     var temp = $('#' + i + '-ques-' + j)[0];
@@ -329,6 +333,7 @@
                         if (msg.result) {
                             for (var i = 1; i <= count; i++) {
                                 var Eid = $('#question-ID-' + i);
+                                if (Eid[0] === undefined) continue;
                                 if (Eid.val() === "") {
                                     //console.log(msg.insertList[j]);
                                     $('#question-ID-' + i).val(msg.insertList[j]);
@@ -339,6 +344,45 @@
                     }
 
                 });
+        }
+
+        function RemoveQuestion(event, element, id) {
+            var questionID = $('#question-ID-' + id).val();
+            if (questionID === "") {
+                element.parentNode.remove();
+            } else {
+                //call ajax remove question in db
+                //confirm
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                    method: "POST",
+                    url: "/Moderator/DeleteQuestion",
+                    data: {
+                        contestID: @Model.ID,
+                        questionID: questionID
+                    }
+                })
+                    .done(function (msg) {
+                        if (msg) {
+                            console.log(msg);
+                            //alert(msg.result);
+                            if (msg === "Delete succeed!") {
+                                element.parentNode.remove();
+                            }
+                        }
+                    });
+                    }
+                })
+            }
         }
     </script>
 }

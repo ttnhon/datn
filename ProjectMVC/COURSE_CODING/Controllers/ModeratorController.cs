@@ -14,6 +14,19 @@ namespace COURSE_CODING.Controllers
 {
     public class ModeratorController : BaseModeratorController
     {
+        protected int GetLoginID()
+        {
+            var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
+            if (session != null)
+            {
+                return session.ID;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         [HttpGet]
         // GET: Moderator
         public ActionResult ManageChallenge()
@@ -104,16 +117,110 @@ namespace COURSE_CODING.Controllers
             var participantList = competeDAO.GetParticipantList(id);
             for(int i=0;i<participantList.Count;i++)
             {
-                var info = userDAO.GetUserById(participantList[i]);
+                var info = userDAO.GetUserById(participantList[i].UserID);
 
                 Participant p = new Participant();
                 p.ID = info.ID;
                 p.Name = info.UserName;
                 p.Email = info.Email;
+                if (participantList[i].TimeJoined != null)
+                {
+                    p.TimeJoined = (DateTime)participantList[i].TimeJoined;
+                }
                 model.Participants.Add(p);
             }
 
             return PartialView("_ParticipantList", model);
+        }
+
+        public ActionResult RenderScoreView(int id)
+        {
+            //var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
+            //int userID = session.ID;
+            CompeteDAO DAO = new CompeteDAO();
+            //check compete exist
+            var compete = DAO.GetOne(id);
+            if (compete == null)
+            {
+                return Redirect("/Error/PageNotFound");
+            }
+            ////check is owner
+            //if (compete.OwnerID != userID)
+            //{
+            //    ViewBag.CanAccess = false;
+            //    return View("Score");
+            //}
+            ViewBag.CanAccess = true;
+            ViewBag.competeID = id;
+            ViewBag.Name = compete.Title;
+            USER_INFO u = new UserDAO().GetUserById(compete.OwnerID);
+            ViewBag.Author = u.FirstName + " " + u.LastName;
+            ViewBag.TimeEnd = compete.TimeEnd.ToString();
+            List<UserScore> Model = new List<UserScore>();
+            //get list participants
+            var paticipants = DAO.GetParticipants(id);
+            foreach (var item in paticipants)
+            {
+                UserScore temp = new UserScore();
+                temp.Name = item.FirstName + " " + item.LastName;
+                temp.PhotoUrl = item.PhotoURL;
+
+                temp.TotalScore = 0;
+                //get score question
+                temp.QuestionDone = 0;
+                temp.ScoreQuestion = 0;
+
+                dynamic questions = (new QuestionDAO()).GetAllWithAnswerByCompeteID(id, item.ID);
+                temp.QuestionNumber = 0;
+
+                foreach (var one_question in questions)
+                {
+                    temp.QuestionNumber++;
+                    var question = one_question.GetType().GetProperty("Question").GetValue(one_question, null);
+                    var chosen = one_question.GetType().GetProperty("Chosen").GetValue(one_question, null);
+                    temp.TotalScore += question.Score;
+                    if (chosen != null)
+                    {
+                        if (chosen.TimeDone <= compete.TimeEnd)
+                        {
+                            if (chosen.Result == 1)
+                            {
+                                temp.QuestionDone++;
+                                temp.ScoreQuestion += question.Score;
+                            }
+                        }
+                    }
+                }
+                //get score challenge
+                temp.ChallengeDone = 0;
+                temp.ScoreChallenge = 0;
+
+                //Get list Challenge and check user is solved challenge
+                dynamic challenges = new ChallengeDAO().GetAllWithAnswerByCompeteID(id, item.ID);
+                temp.ChallengeNumber = 0;
+                foreach (var challenge in challenges)         //Parse data
+                {
+                    temp.ChallengeNumber++;
+                    bool isSolved = challenge.GetType().GetProperty("isSolved").GetValue(challenge, null);
+                    int score = challenge.GetType().GetProperty("Score").GetValue(challenge, null);
+                    DateTime timeDone = challenge.GetType().GetProperty("TimeDone").GetValue(challenge, null);
+                    temp.TotalScore += score;
+
+                    if (isSolved)
+                    {
+                        if (timeDone <= compete.TimeEnd)
+                        {
+                            temp.ChallengeDone++;
+                            temp.ScoreChallenge += score;
+                        }
+                    }
+
+                }
+
+                //add to model
+                Model.Add(temp);
+            }
+            return PartialView("_CompeteScore", Model);
         }
 
         [HttpPost]
@@ -121,19 +228,27 @@ namespace COURSE_CODING.Controllers
         {
             if(email!=null)
             {
-                var user = (new UserDAO().GetUserByEmail(email));
-                var contest = (new CompeteDAO().GetOne(contestID));
-                string emailHeader = String.Format("{0} invited you to participate in the {1} contest.", user.UserName, contest.Title);
-                string emailContent = String.Format("@{0} has invited you to participant in the {1} contest. You can accept or deline following the link:\n http://localhost:49512/Compete/{2}/Invitation", user.UserName, contest.Title, contest.ID);
+                var userDAO = new UserDAO();
+                var competeDAO = new CompeteDAO();
+
+                var user = userDAO.GetUserByEmail(email);
+                var compete = competeDAO.GetOne(contestID);
+
+                if(!userDAO.CheckEmailExist(email))
+                {
+                    return Json(new { result=false, msg = "This email is not registered yet! Please enter another email" });
+                }
+
+                string emailHeader = String.Format("{0} invited you to participate in the {1} contest.", user.UserName, compete.Title);
+                string emailContent = String.Format("@{0} has invited you to participant in the {1} contest. You can accept or deline following the link:\n http://localhost:49512/Compete/{2}/Invitation", user.UserName, compete.Title, compete.ID);
                 CommonProject.Helper.Email_Helper emailHelper = new CommonProject.Helper.Email_Helper();
                 emailHelper.SendMail(email, emailHeader, emailContent);
                 COMPETE_PARTICIPANTS model = new COMPETE_PARTICIPANTS();
                 model.CompeteID = contestID;
                 model.UserID = user.ID;
-                model.TimeJoined = DateTime.Now;
                 if(new CompeteDAO().CheckParticipantExist(user.ID))
                 {
-                    return Json(new { result = "This email is exist in this contest! Please enter another email" });
+                    return Json(new { result = false, msg = "This email is exist in this contest! Please enter another email" });
                 }
                 var result = (new CompeteDAO().InsertParticipant(model));
                 if (result)
@@ -142,14 +257,14 @@ namespace COURSE_CODING.Controllers
                     p.ID = user.ID;
                     p.Name = user.UserName;
                     p.Email = user.Email;
-                    return Json(new { data = p, result = "Send invitation succeed!" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { data = p, result = true, msg = "Send invitation succeed!"}, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    return Json(new { result = "Fail to send invitation!" });
+                    return Json(new { result = false, msg = "Fail to send invitation!" });
                 }
             }
-            return Json(new { result = "Fail to send invitation!" });
+            return Json(new { result = false, msg = "Fail to send invitation!" });
         }
 
         
@@ -178,7 +293,7 @@ namespace COURSE_CODING.Controllers
             }
             ViewBag.CanAccess = true;
             //CreateChallengeModel model = new CreateChallengeModel();
-            return View(id);
+            return View("CreateQuestion", id);
         }
 
         //GET: /Moderator/EditQuestion/{id}
@@ -233,7 +348,8 @@ namespace COURSE_CODING.Controllers
                 ques.List = answers.ToArray();
                 model.Questions.Add(ques);
             }
-            return View(model);
+            ViewBag.CompeteTitle = new CompeteDAO().GetOne(id).Title;
+            return View("EditQuestion", model);
         }
 
         [HttpPost]
@@ -325,7 +441,7 @@ namespace COURSE_CODING.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult CreateChallenge(CreateChallengeModel model)
+        public ActionResult CreateNewChallenge(CreateChallengeModel model)
         {
             ChallengeDAO DAO = new ChallengeDAO();
             //login session
@@ -352,7 +468,7 @@ namespace COURSE_CODING.Controllers
             };
             //add to table CHALLENGE
             bool res = DAO.Insert(c);
-            if(model.competeID != null)
+            if(model.competeID != 0)
             {
                 DAO.AddChallengetoCompete(c.ID, model.competeID);
             }
@@ -363,7 +479,7 @@ namespace COURSE_CODING.Controllers
             res = DAO.AddModerator(editor);
             if (res)
             {
-                return Json(new { result = true, competeID = model.competeID });
+                return Json(new { result = true, competeID = model.competeID, challengeID = c.ID });
             }
             return Json(new { result = false });
         }
@@ -472,6 +588,12 @@ namespace COURSE_CODING.Controllers
             {
                 return Json("Delete fail!");
             }
+        }
+
+        public ActionResult GetUserEmail()
+        {
+            var userDAO = new UserDAO();
+            return Json(userDAO.GetAllUserEmailExcept(GetLoginID()),JsonRequestBehavior.AllowGet);
         }
     }
 }

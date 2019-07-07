@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 }
 
 <div style="border-bottom: 1px solid #C2C7D0;">
@@ -54,6 +55,7 @@
             {
                 <li class="nav-item"><a id="js-participant" class="nav-link" href="javascript:;">Participants</a></li>
             }
+            <li class="nav-item"><a id="js-score" class="nav-link" href="javascript:;">Score Board</a></li>
         </ul>
     </nav>
 
@@ -71,7 +73,9 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Assets/Public/vendor/ckeditor5-build-classic/ckeditor.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
     <script src="~/Assets/Public/js/editCompete.js"></script>
+
     <script type="text/javascript" id="global-variable">
         var competeID = @Model.ID;
     </script>

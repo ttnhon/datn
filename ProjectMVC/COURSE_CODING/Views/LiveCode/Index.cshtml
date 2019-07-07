@@ -13,7 +13,7 @@
         <div id="editor"></div>
     </div>
     <div id="option" class="col-md-2">
-        <button id="btn_run" class="btn btn-success" onclick="runCode()">Run &nbsp; <i class="fas fa-play"></i></button>
+        <button id="btn_run" class="btn btn-success" onclick="runCode()">Run &nbsp; <i id="runCode" class="fas fa-play"></i><span><img id="loadingImg" src="~/Assets/Public/images/loading.gif" alt="Alternate Text" /></span></button>
         <select class="form-control" id="language_option">
             <option value="CPP">C++</option>
             <option value="CSharp">C#</option>
@@ -32,6 +32,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ext-language_tools.js"></script>
 
     <script>
+        $('.loadingImg').hide();
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/monokai");
         //editor.session.setMode("ace/mode/javascript");
@@ -72,7 +73,8 @@
         function runCode() {
             code = editor.getValue();
             language = $('#language_option').val();
-
+            $('#loadingImg').show();
+            $('#runCode').hide();
             $.ajax({
                 method: "POST",
                 url: "/Code/LiveCode",
@@ -82,30 +84,32 @@
                 }
             })
                 .done(function (msg) {
+                    $('#loadingImg').hide();
+                    $('#runCode').show();
+                if (msg) {
+                    console.log(msg)
                     if (msg) {
-                        console.log(msg)
-                        if (msg) {
-                            var content;
-                            if (msg.status === "success") {
-                                content = `<div class="alert alert-success">
-                                            <strong>Success!</strong>
-                                        </div>
-                                        <h5>Output: </h5>
-                                        <pre class="code-panel-success"><code>${msg.message}</code></pre>`;
-                            } else {
-                                content = `<div class="alert alert-danger">
-                                            <strong>Fail!</strong>
-                                        </div>
-                                        <h5>Output: </h5>
-                                        <pre class="code-panel-fail"><code>${msg.message}</code></pre>`;
-                            }
-                            
-                            $('#runcode_result').html(content);
-
+                        var content;
+                        if (msg.status === "success") {
+                            content = `<div class="alert alert-success">
+                                        <strong>Success!</strong>
+                                    </div>
+                                    <h5>Output: </h5>
+                                    <pre class="code-panel-success"><code>${msg.message}</code></pre>`;
+                        } else {
+                            content = `<div class="alert alert-danger">
+                                        <strong>Fail!</strong>
+                                    </div>
+                                    <h5>Output: </h5>
+                                    <pre class="code-panel-fail"><code>${msg.message}</code></pre>`;
                         }
-                    }
+                            
+                        $('#runcode_result').html(content);
 
-                });
+                    }
+                }
+
+            });
         }
     </script>
 }

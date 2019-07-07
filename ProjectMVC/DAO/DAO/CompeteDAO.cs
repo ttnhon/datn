@@ -27,25 +27,25 @@ namespace DAO.DAO
 
         public List<COMPETE> GetAll(int id)
         {
-            return db.COMPETES.Where(table => table.USER_INFO.ID == id).ToList();
+            return db.COMPETES.Where(table => table.USER_INFO.ID == id).OrderByDescending(table => table.ID).ToList();
         }
 
         public List<COMPETE> GetJoined(int id)
         {
-            return db.COMPETE_PARTICIPANTSS.Where(table => table.UserID == id).Select(table=> table.COMPETE).ToList();
+            return db.COMPETE_PARTICIPANTSS.Where(table => table.UserID == id && table.TimeJoined != null).Select(table=> table.COMPETE).ToList();
         }
 
         public List<COMPETE> GetJoinedAndPublic(int id)
         {
             return db.COMPETES.GroupJoin(db.COMPETE_PARTICIPANTSS, t => t.ID, p => p.CompeteID, (t, p) => new { t, p })
-                .Where(table => table.t.IsPublic || table.p.FirstOrDefault(list => list.UserID == id) != null)
+                .Where(table => table.t.IsPublic && table.p.FirstOrDefault().TimeJoined != null || table.p.FirstOrDefault(list => list.UserID == id) != null)
                 .Select(table => table.t).ToList();
         }
 
         public List<COMPETE> GetScheduledCompetes(int id, int take = 5)
         {
             return db.COMPETES.Where(table => table.TimeEnd > DateTime.Now).GroupJoin(db.COMPETE_PARTICIPANTSS, t => t.ID, p => p.CompeteID, (t, p) => new { t, p })
-                .Where(table => table.t.IsPublic || table.p.FirstOrDefault(list => list.UserID == id) != null)
+                .Where(table => table.p.FirstOrDefault(list => list.UserID == id) != null)
                 .Select(table => table.t).OrderBy(table => table.TimeEnd).Take(take).ToList();
         }
 
@@ -63,9 +63,9 @@ namespace DAO.DAO
                 .Select(table => table.t).ToList();
         }
 
-        public List<int> GetParticipantList(int id)
+        public List<COMPETE_PARTICIPANTS> GetParticipantList(int id)
         {
-            return db.COMPETE_PARTICIPANTSS.Where(table => table.CompeteID == id).Select(s => s.UserID).ToList();
+            return db.COMPETE_PARTICIPANTSS.Where(table => table.CompeteID == id).OrderByDescending(t => t.TimeJoined).ThenBy(t => t.UserID).ToList();
         }
 
         public Boolean CheckParticipantExist(int id)
@@ -91,7 +91,7 @@ namespace DAO.DAO
         {
             try
             {
-                var u = db.COMPETE_PARTICIPANTSS.Find(model.UserID,model.CompeteID);
+                var u = db.COMPETE_PARTICIPANTSS.Find(model.CompeteID,model.UserID);
                 db.COMPETE_PARTICIPANTSS.Remove(u);
                 db.SaveChanges();
                 return true;
@@ -202,6 +202,21 @@ namespace DAO.DAO
             }
         }
 
+        public Boolean UpdateTimeJoined(COMPETE_PARTICIPANTS c)
+        {
+            var u = db.COMPETE_PARTICIPANTSS.Find(c.CompeteID,c.UserID);
+            try
+            {
+                u.TimeJoined = c.TimeJoined;
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public Boolean CanAccess(int competeID, int userID)
         {
             var compete = db.COMPETES.Where(table => table.ID == competeID).FirstOrDefault();
@@ -213,7 +228,7 @@ namespace DAO.DAO
 
             foreach (var participant in compete.COMPETE_PARTICIPANTS)
             {
-                if (userID == participant.UserID)
+                if (userID == participant.UserID && participant.TimeJoined != null)
                 {
                     return true;
                 }
