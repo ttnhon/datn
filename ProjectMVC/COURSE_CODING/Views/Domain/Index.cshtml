@@ -16,12 +16,11 @@
         <div class="row">
             <div class="col-6 domain-header">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Practice</a></li>
+                    <li class="breadcrumb-item"><a href="/User/Dashboard">Practice</a></li>
                     <li class="breadcrumb-item active">@Html.DisplayFor(model => model.Language.Name)</li>
                 </ol>
                 <h3 class="domain-title">@Html.DisplayFor(model => model.Language.Name)</h3>
             </div>
-
             <div class="col-6">
 
             </div>
@@ -34,46 +33,88 @@
         <div class="row">
             <!--                Challenge list-->
             <div class="col-9 challenge-list">
-                @if (Model.List.Count > 0)
+                @if (Model.ListSolved.Count > 0)
                 {
-                    foreach (var item in Model.List)
-                    {
-                        <!--1 Challenge-->
-                        <a class="challenge-link" href="/Challenge/@Html.DisplayFor(modelItem => item.ID)/Problem">
-                            <div class="one-challenge-box base-box">
-                                <div class="row">
-                                    <div class="col-8 challenge-info">
-                                        <h3 class="card-title" title="Regex">@Html.DisplayFor(modelItem => item.Title)</h3>
-                                        <div class="card-detail">
-                                            <p class="challenge-detail">
-                                                @if (item.ChallengeDifficulty == 0)
-                                                {
-                                                    <span class="challenge-difficult difficulty-easy">Easy </span>
-                                                }
-                                                else if (item.ChallengeDifficulty == 1)
-                                                {
-                                                    <span class="challenge-difficult difficulty-medium">Medium </span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="challenge-difficult difficulty-hard">Hard </span>
-                                                }<span>&nbsp;</span>
-                                                <span>Max score: @Html.DisplayFor(modelItem => item.Score)</span>
-                                            </p>
+                    <div class="challenge-list-solved" id="challenge-list-solved">
+                        @foreach (var item in Model.ListSolved)
+                        {
+                            <!--1 Challenge-->
+                            <a class="challenge-link" href="/Challenge/@Html.DisplayFor(modelItem => item.ID)/Problem">
+                                <div class="one-challenge-box base-box solved">
+                                    <div class="row">
+                                        <div class="col-8 challenge-info">
+                                            <h3 class="card-title" title="Regex">@Html.DisplayFor(modelItem => item.Title)</h3>
+                                            <div class="card-detail">
+                                                <p class="challenge-detail">
+                                                    @if (item.ChallengeDifficulty == 0)
+                                                    {
+                                                        <span class="challenge-difficult difficulty-easy">Easy </span>
+                                                    }
+                                                    else if (item.ChallengeDifficulty == 1)
+                                                    {
+                                                        <span class="challenge-difficult difficulty-medium">Medium </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="challenge-difficult difficulty-hard">Hard </span>
+                                                    }<span>&nbsp;</span>
+                                                    <span>Max score: @Html.DisplayFor(modelItem => item.Score)</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 challenge-enter">
+                                            <i class="far fa-star"></i> &nbsp;
+                                            <button class="btn btn-outline-success btn-lg" tabindex="0">
+                                                <span class="ui-text">Solve Challenge</span>
+                                            </button>
                                         </div>
                                     </div>
-                                    <div class="col-4 challenge-enter">
-                                        <i class="far fa-star"></i> &nbsp;
-                                        <button class="btn btn-outline-success btn-lg" tabindex="0">
-                                            <span class="ui-text">Solve Challenge</span>
-                                        </button>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                }
+                @if (Model.ListUnsolved.Count > 0)
+                {
+                    <div class="challenge-list-unsolved" id="challenge-list-unsolved">
+                        @foreach (var item in Model.ListUnsolved)
+                        {
+                            <!--1 Challenge-->
+                            <a class="challenge-link" href="/Challenge/@Html.DisplayFor(modelItem => item.ID)/Problem">
+                                <div class="one-challenge-box base-box">
+                                    <div class="row">
+                                        <div class="col-8 challenge-info">
+                                            <h3 class="card-title" title="Regex">@Html.DisplayFor(modelItem => item.Title)</h3>
+                                            <div class="card-detail">
+                                                <p class="challenge-detail">
+                                                    @if (item.ChallengeDifficulty == 0)
+                                                    {
+                                                        <span class="challenge-difficult difficulty-easy">Easy </span>
+                                                    }
+                                                    else if (item.ChallengeDifficulty == 1)
+                                                    {
+                                                        <span class="challenge-difficult difficulty-medium">Medium </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="challenge-difficult difficulty-hard">Hard </span>
+                                                    }<span>&nbsp;</span>
+                                                    <span>Max score: @Html.DisplayFor(modelItem => item.Score)</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 challenge-enter">
+                                            <i class="far fa-star"></i> &nbsp;
+                                            <button class="btn btn-outline-success btn-lg" tabindex="0">
+                                                <span class="ui-text">Solve Challenge</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    }
+                            </a>
+                        }
+                    </div>
                 }
-
             </div>
 
             <!--filter-->
@@ -82,37 +123,52 @@
                     <h4 class="label">STATUS</h4>
                     <!-- Default indeterminate -->
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="status_easy" checked>
-                        <label class="custom-control-label" for="status_easy">Unsolved</label>
+                        <input type="checkbox" class="custom-control-input" id="status_unsolved" name="status" checked>
+                        <label class="custom-control-label" for="status_unsolved">Unsolved</label>
                     </div>
                     <!-- Default indeterminate -->
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="status_normal">
-                        <label class="custom-control-label" for="status_normal">Solved</label>
+                        <input type="checkbox" class="custom-control-input" id="status_solved" name="status" checked>
+                        <label class="custom-control-label" for="status_solved">Solved</label>
                     </div>
                 </div>
                 <hr>
 
-                <div class="one-filter">
-                    <h4 class="label">DIFFICULTY</h4>
-                    <!-- Default indeterminate -->
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="difficult_easy" checked>
-                        <label class="custom-control-label" for="difficult_easy">Easy</label>
-                    </div>
-                    <!-- Default indeterminate -->
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="difficult_normal">
-                        <label class="custom-control-label" for="difficult_normal">Normal</label>
-                    </div>
-                    <!-- Default indeterminate -->
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="difficult_hard">
-                        <label class="custom-control-label" for="difficult_hard">hard</label>
-                    </div>
-                </div>
+                @*<div class="one-filter">
+                        <h4 class="label">DIFFICULTY</h4>
+                        <!-- Default indeterminate -->
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="difficult_easy" checked>
+                            <label class="custom-control-label" for="difficult_easy">Easy</label>
+                        </div>
+                        <!-- Default indeterminate -->
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="difficult_normal">
+                            <label class="custom-control-label" for="difficult_normal">Normal</label>
+                        </div>
+                        <!-- Default indeterminate -->
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="difficult_hard">
+                            <label class="custom-control-label" for="difficult_hard">hard</label>
+                        </div>
+                    </div>*@
 
             </div>
         </div>
     </div>
 </section>
+
+@*Custome JS*@
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#status_unsolved").change(function () {
+                $('#challenge-list-unsolved').fadeToggle();
+            });
+            $("#status_solved").change(function () {
+                $('#challenge-list-solved').fadeToggle();
+            });
+        });
+    </script>
+}

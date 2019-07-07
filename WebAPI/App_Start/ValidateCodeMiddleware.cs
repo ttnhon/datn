@@ -72,7 +72,7 @@ namespace WebAPI
             {
                 if (Code.Contains(catch_exec))
                 {
-                    result = true;
+                    result = false;
                 }
             }
 

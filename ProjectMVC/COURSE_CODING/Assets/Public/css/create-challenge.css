@@ -303,7 +303,84 @@ nav ol li a {
     z-index: 1000 !important;
 }
 
+.popup {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 10000;
+    overflow: auto;
+    height: 0;
+    width: 100%;
+    transition: 0.1s ease-in;
+}
 
+.popup-modal {
+    width: 100%;
+    height: 100%;
+    background: #e7eeefb2;
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-content {
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .1);
+    background: white;
+    border-radius: 4px;
+    padding: 0 30px;
+}
+
+.content-header {
+    position: relative;
+}
+
+    .content-header h1 {
+        font-size: 22px;
+        font-weight: 700;
+        line-height: inherit;
+        margin: 20px 0;
+        text-transform: none;
+    }
+
+.close {
+    position: absolute;
+    bottom: 20px;
+    right: 25px;
+    padding: 10px;
+    font-size: 14px;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 400;
+}
+
+.content-body {
+    text-align: left;
+    margin-top: 25px;
+}
+
+    .content-body p {
+        margin-top: 10px;
+    }
+
+    #challenge-list2 {
+        overflow-y: auto;
+        height:400px;
+    }
+
+.challenge-popup {
+    width: 800px;
+}
+
+.popup-footer
+{
+    float: right;
+    margin: 0 1em 1em 0;
+}
 
 .spinner {
     margin-top: 10px;
