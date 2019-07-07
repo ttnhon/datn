@@ -21,7 +21,8 @@
 <div class="container">
     <h1 class="title">Create Question</h1>
     <div class="question" id="question">
-        <div class="ques-item">
+        <div class="ques-item" id="question-1">
+            <a href="javascript:;" onclick="RemoveQuestion(1)" class="btn-remove-ques"><i class="fas fa-times"></i></a>
             <h3>Question 1</h3>
             <div class="form-group row">
                 <label class="col-sm-2 control-label" for="choice-1">Type</label>
@@ -71,6 +72,7 @@
 
 @section scripts{
     <script src="~/Assets/Public/vendor/ckeditor5-build-classic/ckeditor.js"></script>
+    <script src="~/Assets/Public/vendor/sweetalert2-8.13.1/dist/sweetalert2.all.min.js"></script>
     <script>
         var count = 1;
         var answer = 1;
@@ -155,8 +157,9 @@
         function AddNewQuestion() {
             count++;
             answer++;
-            $('#question').append(`<div class="ques-item">
-                <h3>Question `+ count +`</h3>
+            $('#question').append(`<div class="ques-item" id="question-` + count +`">
+                <a href="javascript:;" onclick="RemoveQuestion(` + count +`)" class="btn-remove-ques"><i class="fas fa-times"></i></a>
+                <h4>Question `+ count +`</h4>
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="choice-` + count +`">Type</label>
                     <div class="col-sm-4">
@@ -203,26 +206,82 @@
                 .catch(error => {
                     console.error(error);
                 });
+
+            //goto new question
+            $('html, body').animate({
+                scrollTop: $("#question-" + count).offset().top
+            }, 1000);
         }
 
         function Submit() {
             var arr = [];
+            var isValidate = true;
+            var error = "";
             for (var i = 1; i <= count; i++) {
                 var e = $('#choice-' + i)[0];
+                if (e === undefined) continue;
                 var list = [];
+                var answer_count = 0;
                 for (var j = 1; j <= answer; j++) {
+                    var score = $('#score_Input-' + i).val();
+                    var description = editor[i - 1].getData();
+                    //check if there are empty input
+                    if (score === "" || description === "") {
+                        isValidate = false;
+                        error = "There are question that you didn't set score or description.";
+                        break;
+                    }
+
                     var temp = $('#' + i + '-ques-' + j)[0];
                     if (temp !== undefined) {
-                        list.push({ Value: temp.value, Result: $('#' + i + '-answer-' + j).prop('checked') });
+                        if (temp.value === "") {
+                            isValidate = false;
+                            error = "There are answer that you didn't set.";
+                            break;
+                        }
+                        var ques_result = $('#' + i + '-answer-' + j).prop('checked');
+                        //console.log(isValidate);
+                        if (ques_result) answer_count++;
+                        list.push({ Value: temp.value, Result: ques_result });
                     }
                 }
+                //check if no answer
+                if (answer_count <= 0) {
+                    isValidate = false;
+                    error = "There are question that you didn't choose answer.";
+                    break;
+                }
+                //validate
+                if (!isValidate) {
+                    break;
+                }
+
                 var obj = {
-                    Score: $('#score_Input-' + i).val(),
-                    Description: editor[i - 1].getData(),
+                    Score: score,
+                    Description: description,
                     Type: e.options[e.selectedIndex].value === "single" ? 0 : 1,
                     List: list
                 };
                 arr.push(obj);
+            }
+
+            //validate
+            if (!isValidate) {
+                Swal.fire({
+                    type: 'warning',
+                    title: 'Warning',
+                    text: error
+                });
+                return;
+            }
+            //check no question
+            if (arr.length <= 0) {
+                Swal.fire({
+                    type: 'warning',
+                    title: 'Warning',
+                    text: 'There is no question.'
+                });
+                return;
             }
 
             //call ajax
@@ -236,11 +295,26 @@
                 })
                     .done(function (msg) {
                         if (msg) {
-                            console.log(msg);
-                            //alert(msg.result);
+                            Swal.fire({
+                                title: msg.result ? 'Create questions succeed' : 'Create questions fail',
+                                text: "Click continue to proceed to manage compete",
+                                type: msg.result ? 'success' : 'error',
+                                showCancelButton: false,
+                                confirmButtonColor: '#d33',
+                                cancelButtonColor: '#3085d6',
+                                confirmButtonText: 'Continue'
+                            }).then((result) => {
+                                if (result.value) {
+                                    window.location.href = "/Moderator/EditCompete/@Model";
+                                }
+                            })
                         }
 
                     });
+        }
+
+        function RemoveQuestion(id) {
+            $("#question-" + id).fadeOut(300, function () { $(this).remove(); });
         }
     </script>
 }
