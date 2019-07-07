@@ -41,6 +41,14 @@ namespace DAO.DAO
         {
             return db.CHALLENGE_COMPETES.Where(table => table.CompeteID == id)
                 .Join(db.CHALLENGES, t => t.ChallengeID, p => p.ID, (t, p) => new { t, p })
+                .Select(item => item.p).ToList();
+        }
+
+        public List<CHALLENGE> GetAllNotByCompeteID(int id)
+        {
+            return db.CHALLENGES.Select(table => table.ID)
+                .Except(db.CHALLENGE_COMPETES.Where(table => table.CompeteID == id).Select(u => u.ChallengeID))
+                .Join(db.CHALLENGES, t => t, p => p.ID, (t, p) => new { t, p })
                 .Select(item => item.p).OrderByDescending(table => table.ID).ToList();
         }
 
@@ -208,6 +216,7 @@ namespace DAO.DAO
                 c.CompeteID = competeID;
                 c.ChallengeID = challengeID;
                 db.CHALLENGE_COMPETES.Add(c);
+                db.SaveChanges();
                 return true;
             }
             catch (Exception e)

@@ -6,6 +6,11 @@
 body {
   background-color: #f8f8f8;
 }
+.bgForm {
+    background-image: url("../../image/bgRegister.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 #wrapper {
   width: 100%;
 }
