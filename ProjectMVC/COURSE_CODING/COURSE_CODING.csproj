@@ -221,6 +221,7 @@
     <Compile Include="Areas\Admin\Models\UserModel.cs" />
     <Compile Include="Common\HashMD5.cs" />
     <Compile Include="Common\InfoLogIn.cs" />
+    <Compile Include="Common\OTP.cs" />
     <Compile Include="Common\RoleDefinition.cs" />
     <Compile Include="Common\StatusDefinition.cs" />
     <Compile Include="Controllers\AuthenController.cs" />
@@ -260,6 +261,7 @@
     <Compile Include="Models\EditSettingsModel.cs" />
     <Compile Include="Models\EditTestcaseModel.cs" />
     <Compile Include="Models\EmailModel.cs" />
+    <Compile Include="Models\ForgotPasswordModel.cs" />
     <Compile Include="Models\GoogleLoginViewModel.cs" />
     <Compile Include="Models\InvitationModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -270,6 +272,7 @@
     <Compile Include="Models\QuestionModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\ReplyModel.cs" />
+    <Compile Include="Models\ResetModel.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\UserChallengeStatus.cs" />
     <Compile Include="Models\UserDashboardModel.cs" />
@@ -297,6 +300,7 @@
     <Content Include="Assets\Page\js\sb-admin-2.js" />
     <Content Include="Assets\Page\pages\blank.html" />
     <Content Include="Assets\Page\pages\buttons.html" />
+    <Content Include="Assets\Page\pages\ConfirmPassword.html" />
     <Content Include="Assets\Page\pages\ContentMail.html" />
     <Content Include="Assets\Page\pages\flot.html" />
     <Content Include="Assets\Page\pages\forgot-password.html" />
@@ -569,6 +573,8 @@
     <Content Include="Views\Moderator\_ChallengeList.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Authen\ForgotPassword.cshtml" />
+    <Content Include="Views\Authen\ChangePassword.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

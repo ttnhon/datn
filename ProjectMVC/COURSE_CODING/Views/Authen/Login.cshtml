@@ -10,25 +10,15 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
-    <!-- Bootstrap Core CSS -->
+    @*<!-- Bootstrap Core CSS -->
     <link href="/Assets/Page/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- MetisMenu CSS -->
-    <link href="/Assets/Page/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="/Assets/Page/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/Assets/Page/dist/css/sb-admin-2.css" rel="stylesheet">*@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-
+    @Styles.Render("~/Content/cssLogin")
 </head>
 <body class="bgForm">
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
-
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-
-
-
-    <div class="container"  >
+    <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4 ">
                 <div class="login-panel panel panel-default">
@@ -89,6 +79,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="text-center">
+                                <a class="d-block small mt-3" href="/Forgotpassword">Forgot password</a>
+                            </div>
                         </div>
                         }
                     </div>
@@ -96,28 +89,9 @@
             </div>
         </div>
     </div>
-    
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
 
 </body>
-<script>
-    window.fbAsyncInit = function () {
-        FB.init({
-            appId: '270461573788228',
-            cookie: true,
-            xfbml: true,
-            version: 'v3.3'
-        });
-
-        FB.AppEvents.logPageView();
-
-    };
-
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) { return; }
-        js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
 </html>

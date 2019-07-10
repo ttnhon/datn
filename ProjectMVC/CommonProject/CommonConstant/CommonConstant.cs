@@ -55,5 +55,7 @@ namespace CommonProject
 
         public const int TIME_ALIVE_TOKEN = 100;    //timeout 100s
         public const string SECRET_KEY_TOKEN = "phucphieu@secret.jwt.code";
+
+        public const int TIME_OUT_HOUR_CONFRIMPASS = 1;
     }
 }

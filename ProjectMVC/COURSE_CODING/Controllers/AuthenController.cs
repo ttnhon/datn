@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using BotDetect.Web.Mvc;
 using CommonProject;
+using CommonProject.Helper;
 using COURSE_CODING.Common;
 using COURSE_CODING.Models;
 using DAO.DAO;
@@ -19,6 +20,9 @@ namespace COURSE_CODING.Controllers
 {
     public class AuthenController : Controller
     {
+        //[OutputCache(Duration = 3600, VaryByParam = "none")]
+        private string stringOTP = string.Empty;
+        private DateTime timeBegin;
         [HttpGet]
         public ActionResult Register()
         {
@@ -71,6 +75,7 @@ namespace COURSE_CODING.Controllers
             return View("Register");
         }
 
+        [OutputCache(Duration = 3600, VaryByParam = "none")]
         [HttpGet]
         public ActionResult Login()
         {
@@ -94,7 +99,7 @@ namespace COURSE_CODING.Controllers
                 }
 
             }
-            
+
             return View();
         }
 
@@ -179,7 +184,7 @@ namespace COURSE_CODING.Controllers
         }
 
         [AllowAnonymous]
-        public  ActionResult  GoogleLoginCallback()
+        public ActionResult GoogleLoginCallback()
         {
             var claimsPrincipal = HttpContext.User.Identity as ClaimsIdentity;
             var loginInfo = GoogleLoginViewModel.GetLoginInfo(claimsPrincipal);
@@ -234,20 +239,102 @@ namespace COURSE_CODING.Controllers
             return Redirect("~/");
         }
 
-       
-        /// <summary>
-        /// object help catch data call back 
-        /// </summary>
-        //private Uri RedirectUri
-        //{
-        //    get
-        //    {
-        //        var uriBuilder = new UriBuilder(Request.Url);
-        //        uriBuilder.Query = null;
-        //        uriBuilder.Fragment = null;
-        //        uriBuilder.Path = Url.Action("FacebookCallback");
-        //        return uriBuilder.Uri;
-        //    }
-        //}
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ForgotPassword(ResetModel model)
+        {
+            ViewBag.isValidateCode = true;
+            TempData["timeBegin"]= DateTime.Now;
+            string baseURL = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+            string destinationURL = baseURL + "ChangePassword";
+            var DAO = new UserDAO();
+            var user = DAO.GetByEmail(model.Email);
+            if (user != null)
+            {
+                this.stringOTP = OTP.GenerateStringCodeOTP();
+                TempData["stringOTP"] = OTP.GenerateStringCodeOTP();
+                string content = System.IO.File.ReadAllText(Server.MapPath("~/Assets/Page/pages/ConfirmPassword.html"));
+                content = content.Replace("{{CustomerName}}", user.UserName);
+                content = content.Replace("{{Code}}", this.stringOTP);
+                content = content.Replace("{{Content}}", destinationURL);
+                var toEmail = ConfigurationManager.AppSettings["ToEmailAddress"].ToString();
+                new Email_Helper().SendMail(model.Email, "Confirm from coursecoding", content);
+                
+                SetAlert("Go to your mail to confirm password", "success");
+                return View("ChangePassword");
+            }
+            else return View("Login");
+        }
+        [HttpPost]
+        public ActionResult ChangePassword(ForgotPasswordModel model)
+        {
+           // dang mat time begin va string otp o method nay
+            if (ModelState.IsValid)
+            {
+                DateTime timeLimit = ((DateTime)TempData["timeBegin"]).AddHours((double)CommonConstant.TIME_OUT_HOUR_CONFRIMPASS);
+                if (DateTime.Now.CompareTo(timeLimit) < 0 && model.CodeValidate.Equals(TempData["stringOTP"].ToString())) ;
+                {
+                    var DAO = new UserDAO();
+                    var user = DAO.GetByEmail(model.Email);
+                    user.PasswordUser = HashMD5.HashStringMD5(model.Password);
+                    bool result = DAO.Update(user);
+                    if (result)
+                    {
+                        var sessionLogin = new InfoLogIn();
+                        sessionLogin.ID = user.ID;
+                        sessionLogin.Name = user.UserName;
+                        sessionLogin.Role = user.RoleUser;
+                        Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
+                        ViewBag.Success = "Change password sussesfull!";
+                        SetAlert("Change password successfull", "success");
+                        if (sessionLogin.Role.Equals(CommonConstant.ROLE_ADMIN))
+                        {
+                            return Redirect("/Admin/User/index");
+                        }
+                        else
+                        {
+                            if (sessionLogin.Role.Equals(CommonConstant.ROLE_MEMBER))
+                            {
+                                return Redirect("/User/Dashboard");
+                            }
+                        }
+                        if (sessionLogin.Role.Equals(CommonConstant.ROLE_TEACHER))
+                        {
+                            return Redirect("/Moderator/ManageChallenge");
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(String.Empty, "Fail change your password!");
+                    }
+                }
+              
+            }
+            model = new ForgotPasswordModel();
+            return View("ChangePassword");
+        }
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+        protected void SetAlert(string message, string type)
+        {
+            TempData["AlertMessage"] = message;
+            if (type == "success")
+            {
+                TempData["AlertType"] = "alert-success";
+            }
+            else if (type == "warning")
+            {
+                TempData["AlertType"] = "alert-warning";
+            }
+            else if (type == "error")
+            {
+                TempData["AlertType"] = "alert-danger";
+            }
+        }
     }
 }

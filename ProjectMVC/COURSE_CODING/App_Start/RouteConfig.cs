@@ -18,7 +18,7 @@ namespace COURSE_CODING
             routes.MapMvcAttributeRoutes();
 
             routes.MapRoute(
-            name: "Register member",
+            name: "Register",
             url: "register",
             defaults: new { controller = "Authen", action = "Register", id = UrlParameter.Optional },
             namespaces: new[] { "COURSE_CODING.Controllers" }
@@ -30,6 +30,20 @@ namespace COURSE_CODING
                defaults: new { controller = "Authen", action = "Login", id = UrlParameter.Optional },
                namespaces: new[] { "COURSE_CODING.Controllers" }
                   );
+
+            routes.MapRoute(
+            name: "ForgotPassword",
+            url: "ForgotPassword",
+            defaults: new { controller = "Authen", action = "ForgotPassword", id = UrlParameter.Optional },
+            namespaces: new[] { "COURSE_CODING.Controllers" }
+               );
+
+            routes.MapRoute(
+          name: "ChangePassword",
+          url: "ChangePassword",
+          defaults: new { controller = "Authen", action = "ChangePassword", id = UrlParameter.Optional },
+          namespaces: new[] { "COURSE_CODING.Controllers" }
+             );
 
             routes.MapRoute(
                 name: "Default",
