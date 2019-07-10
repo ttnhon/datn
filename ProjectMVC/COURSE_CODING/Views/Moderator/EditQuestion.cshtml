@@ -34,8 +34,8 @@
         <div class="question" id="question">
             @for (int i = 0; i < Model.Questions.Count; i++)
             {
-                <div class="ques-item">
-                    <a href="javascript:;" onclick="RemoveQuestion(event, this, @(i+1))" class="btn-remove-ques"><i class="fas fa-times"></i></a>
+                <div class="ques-item" id="question-@(i+1)">
+                    <a href="javascript:;" onclick="RemoveQuestion(event, @(i+1))" class="btn-remove-ques"><i class="fas fa-times"></i></a>
                     @Html.Hidden("question-ID-" + (i + 1), Model.Questions[i].ID)
                     <h4>Question @(i + 1)</h4>
                     <div class="form-group row">
@@ -243,7 +243,7 @@
             answer++;
             $('#question').append(`<div class="ques-item">
                 <input id="question-ID-`+ count + `" name="question-ID-` + count + `" type="hidden" value="">
-                <a href="javascript:;" onclick="RemoveQuestion(event, this, ` + count + `)" class="btn-remove-ques"><i class="fas fa-times"></i></a>
+                <a href="javascript:;" onclick="RemoveQuestion(event, ` + count + `)" class="btn-remove-ques"><i class="fas fa-times"></i></a>
                 <h4>Question `+ count + `</h4>
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="choice-` + count + `">Type</label>
@@ -295,25 +295,72 @@
 
         function Submit() {
             var arr = [];
+            var isValidate = true;
+            var error = "";
             for (var i = 1; i <= count; i++) {
                 var e = $('#choice-' + i)[0];
                 if (e === undefined) continue;
                 var list = [];
+                var answer_count = 0;
                 for (var j = 1; j <= answer; j++) {
+                    var score = $('#score_Input-' + i).val();
+                    var description = editor[i - 1].getData();
+                    //check if there are empty input
+                    if (score === "" || description === "") {
+                        isValidate = false;
+                        error = "There are question that you didn't set score or description.";
+                        break;
+                    }
+
                     var temp = $('#' + i + '-ques-' + j)[0];
                     if (temp !== undefined) {
-                        list.push({ Value: temp.value, Result: $('#' + i + '-answer-' + j).prop('checked') });
+                        if (temp.value === "") {
+                            isValidate = false;
+                            error = "There are answer that you didn't set.";
+                            break;
+                        }
+                        var ques_result = $('#' + i + '-answer-' + j).prop('checked');
+                        if (ques_result) answer_count++;
+                        list.push({ Value: temp.value, Result: ques_result });
                     }
+                }
+                //check if no answer
+                if (answer_count <= 0) {
+                    isValidate = false;
+                    error = "There are question that you didn't choose answer.";
+                    break;
+                }
+                if (!isValidate) {
+                    break;
                 }
                 var obj = {
                     ID: $('#question-ID-' + i).val(),
-                    Score: $('#score_Input-' + i).val(),
-                    Description: editor[i - 1].getData(),
+                    Score: score,
+                    Description: description,
                     Type: e.options[e.selectedIndex].value === "single" ? 0 : 1,
                     List: list
                 };
                 //console.log(obj);
                 arr.push(obj);
+            }
+
+            //validate
+            if (!isValidate) {
+                Swal.fire({
+                    type: 'warning',
+                    title: 'Warning',
+                    text: error
+                });
+                return;
+            }
+            //check no question
+            if (arr.length <= 0) {
+                Swal.fire({
+                    type: 'warning',
+                    title: 'Warning',
+                    text: 'There is no question.'
+                });
+                return;
             }
 
             //call ajax
@@ -340,16 +387,25 @@
                                     j++;
                                 }
                             }
+
+                            //alert
+                            Swal.fire({
+                                position: 'top-end',
+                                type: 'success',
+                                title: 'Save changes succeed',
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
                         }
                     }
 
                 });
         }
 
-        function RemoveQuestion(event, element, id) {
+        function RemoveQuestion(event, id) {
             var questionID = $('#question-ID-' + id).val();
             if (questionID === "") {
-                element.parentNode.remove();
+                $("#question-" + id).fadeOut(300, function () { $(this).remove(); });
             } else {
                 //call ajax remove question in db
                 //confirm
@@ -373,10 +429,10 @@
                 })
                     .done(function (msg) {
                         if (msg) {
-                            console.log(msg);
+                            //console.log(msg);
                             //alert(msg.result);
                             if (msg === "Delete succeed!") {
-                                element.parentNode.remove();
+                                $("#question-" + id).fadeOut(300, function () { $(this).remove(); });
                             }
                         }
                     });

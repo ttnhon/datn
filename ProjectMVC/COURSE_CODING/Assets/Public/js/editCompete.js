@@ -214,7 +214,7 @@ function EmailAutocomplete() {
 
     $.ajax({
         method: 'GET',
-        url: '/Moderator/GetUserEmail',
+        url: '/Moderator/GetUserName',
         success: function (data) {
             $('#participant_Input').autocomplete({
                 source: data
