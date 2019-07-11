@@ -81,6 +81,7 @@ namespace COURSE_CODING.Controllers
                 model.OwnerID = c.OwnerID;
                 model.Title = c.Title;
                 model.Description = c.Description;
+                model.Rules = c.Rules;
                 model.TimeEnd = (DateTime)c.TimeEnd;
                 model.isPublic = c.IsPublic;
                 model.Questions = (new QuestionDAO().GetAllByCompeteID(id));
@@ -94,7 +95,7 @@ namespace COURSE_CODING.Controllers
             var challengeDAO = new ChallengeDAO();
             ChallengeList challengeList = new ChallengeList();
             challengeList.AssignedChallenge = challengeDAO.GetAllByCompeteID(id);
-            challengeList.UnassignedChallenge = challengeDAO.GetAllNotByCompeteID(id);
+            challengeList.UnassignedChallenge = challengeDAO.GetAllNotByCompeteID(id, GetLoginID());
             ViewBag.CompeteID = id;
 
             return PartialView("_ChallengeList", challengeList);

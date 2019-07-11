@@ -44,12 +44,12 @@ namespace DAO.DAO
                 .Select(item => item.p).ToList();
         }
 
-        public List<CHALLENGE> GetAllNotByCompeteID(int id)
+        public List<CHALLENGE> GetAllNotByCompeteID(int id, int OwnerID)
         {
             return db.CHALLENGES.Select(table => table.ID)
                 .Except(db.CHALLENGE_COMPETES.Where(table => table.CompeteID == id).Select(u => u.ChallengeID))
                 .Join(db.CHALLENGES, t => t, p => p.ID, (t, p) => new { t, p })
-                .Select(item => item.p).OrderByDescending(table => table.ID).ToList();
+                .Select(item => item.p).Where(table => table.OwnerID == OwnerID).OrderByDescending(table => table.ID).ToList();
         }
 
         public dynamic GetAllWithAnswerByCompeteID(int competeID, int userID)

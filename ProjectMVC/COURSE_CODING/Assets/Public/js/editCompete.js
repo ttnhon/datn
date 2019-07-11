@@ -260,19 +260,19 @@ function AddToCompete() {
                 response.data.forEach(challenge => {
                     var difficulty;
                     switch (challenge.Difficulty) {
-                        case 1:
+                        case 0:
                             difficulty = 'Easy';
                             break;
-                        case 2:
+                        case 1:
                             difficulty = 'Medium';
                             break;
-                        case 3:
+                        case 2:
                             difficulty = 'Hard';
                             break;
-                        case 4:
+                        case 3:
                             difficulty = 'Advanded';
                             break;
-                        case 5:
+                        case 4:
                             difficulty = 'Expert';
                             break;
                     }

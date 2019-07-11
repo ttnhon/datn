@@ -713,3 +713,8 @@ C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\obj\Debug\WebAPI.csproj.CoreComp
 C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\obj\Debug\WebAPI.csproj.CopyComplete
 C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\obj\Debug\WebAPI.dll
 C:\Users\Admin\Documents\GitHub\datn-ttn\WebAPI\obj\Debug\WebAPI.pdb
+E:\Backup\Lap Trinh\Đồ án tốt ngiệp\datn\WebAPI\bin\Microsoft.Owin.dll
+E:\Backup\Lap Trinh\Đồ án tốt ngiệp\datn\WebAPI\bin\Microsoft.Owin.Host.SystemWeb.dll
+E:\Backup\Lap Trinh\Đồ án tốt ngiệp\datn\WebAPI\bin\Owin.dll
+E:\Backup\Lap Trinh\Đồ án tốt ngiệp\datn\WebAPI\bin\Microsoft.Owin.xml
+E:\Backup\Lap Trinh\Đồ án tốt ngiệp\datn\WebAPI\bin\Microsoft.Owin.Host.SystemWeb.xml
