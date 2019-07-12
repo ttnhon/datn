@@ -175,66 +175,81 @@ namespace COURSE_CODING.Controllers
         }
         public void SignIn(string ReturnUrl = "/", string type = "")
         {
-            if (type == "Google")
+            try
             {
-                HttpContext.GetOwinContext().Authentication.Challenge(new
-                    AuthenticationProperties
-                { RedirectUri = "Authen/GoogleLoginCallback" }, "Google");
+                if (type == "Google")
+                {
+                    HttpContext.GetOwinContext().Authentication.Challenge(new
+                        AuthenticationProperties
+                    { RedirectUri = "Authen/GoogleLoginCallback" }, "Google");
+                }
             }
+            catch(Exception ex)
+            {
+
+            }
+            
         }
 
         [AllowAnonymous]
         public ActionResult GoogleLoginCallback()
         {
-            var claimsPrincipal = HttpContext.User.Identity as ClaimsIdentity;
-            var loginInfo = GoogleLoginViewModel.GetLoginInfo(claimsPrincipal);
-            if (loginInfo == null)
+            try
             {
-                return RedirectToAction("/");
-            }
-            var DAO = new UserDAO();
-            var user = DAO.GetByEmail(loginInfo.emailaddress);
-            Boolean canLogin = false;
-            if (user == null)
-            {
-                user = new USER_INFO();
-                string ID = Guid.NewGuid().ToString();
-                user.FirstName = loginInfo.givenname;
-                user.LastName = loginInfo.surname;
-                user.Email = loginInfo.emailaddress;
-                user.RoleUser = CommonConstant.ROLE_MEMBER;
-                user.StatusUser = CommonConstant.STATUS_RIGHT_ACCOUNT;
-                user.UserName = loginInfo.surname;
-                user.PasswordUser = "123456";
-                user.CreateDate = DateTime.Now;
-                user.SchoolID = 1;
-                canLogin = new UserDAO().Insert(user);
-            }
-            else
-            {
-                canLogin = true;
-            }
-            if (canLogin.Equals(true))
-            {
-                var userSession = new InfoLogIn();
-                userSession.Name = user.UserName;
-                userSession.ID = user.ID;
-                userSession.Role = user.RoleUser;
-                Session.Add(CommonConstant.SESSION_INFO_LOGIN, userSession);
-                // Set the auth cookie
-                // FormsAuthentication.SetAuthCookie(user.Email, false);
-                if (user.RoleUser.Equals(CommonConstant.ROLE_ADMIN))
+                var claimsPrincipal = HttpContext.User.Identity as ClaimsIdentity;
+                var loginInfo = GoogleLoginViewModel.GetLoginInfo(claimsPrincipal);
+                if (loginInfo == null)
                 {
-                    return Redirect("/Admin/Home/Index");
+                    return RedirectToAction("/");
                 }
-                else if (user.RoleUser.Equals(CommonConstant.ROLE_MEMBER))
+                var DAO = new UserDAO();
+                var user = DAO.GetByEmail(loginInfo.emailaddress);
+                Boolean canLogin = false;
+                if (user == null)
                 {
-                    return Redirect("/User/Dashboard");
+                    user = new USER_INFO();
+                    string ID = Guid.NewGuid().ToString();
+                    user.FirstName = loginInfo.givenname;
+                    user.LastName = loginInfo.surname;
+                    user.Email = loginInfo.emailaddress;
+                    user.RoleUser = CommonConstant.ROLE_MEMBER;
+                    user.StatusUser = CommonConstant.STATUS_RIGHT_ACCOUNT;
+                    user.UserName = loginInfo.surname;
+                    user.PasswordUser = "123456";
+                    user.CreateDate = DateTime.Now;
+                    user.SchoolID = 1;
+                    canLogin = new UserDAO().Insert(user);
                 }
-                else if (user.RoleUser.Equals(CommonConstant.ROLE_TEACHER))
+                else
                 {
-                    return Redirect("/Moderator/ManageChallenge");
+                    canLogin = true;
                 }
+                if (canLogin.Equals(true))
+                {
+                    var userSession = new InfoLogIn();
+                    userSession.Name = user.UserName;
+                    userSession.ID = user.ID;
+                    userSession.Role = user.RoleUser;
+                    Session.Add(CommonConstant.SESSION_INFO_LOGIN, userSession);
+                    // Set the auth cookie
+                    // FormsAuthentication.SetAuthCookie(user.Email, false);
+                    if (user.RoleUser.Equals(CommonConstant.ROLE_ADMIN))
+                    {
+                        return Redirect("/Admin/Home/Index");
+                    }
+                    else if (user.RoleUser.Equals(CommonConstant.ROLE_MEMBER))
+                    {
+                        return Redirect("/User/Dashboard");
+                    }
+                    else if (user.RoleUser.Equals(CommonConstant.ROLE_TEACHER))
+                    {
+                        return Redirect("/Moderator/ManageChallenge");
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
             }
             return Redirect("~/");
         }
@@ -274,50 +289,56 @@ namespace COURSE_CODING.Controllers
            // dang mat time begin va string otp o method nay
             if (ModelState.IsValid)
             {
-                DateTime timeLimit = ((DateTime)TempData["timeBegin"]).AddHours((double)CommonConstant.TIME_OUT_HOUR_CONFRIMPASS);
-                if (DateTime.Now.CompareTo(timeLimit) < 0 && model.CodeValidate.Equals(TempData["stringOTP"].ToString())) ;
+                if ((DateTime)TempData["timeBegin"] != null&& TempData["stringOTP"]!=null)
                 {
-                    var DAO = new UserDAO();
-                    var user = DAO.GetByEmail(model.Email);
-                    user.PasswordUser = HashMD5.HashStringMD5(model.Password);
-                    bool result = DAO.Update(user);
-                    if (result)
+                    DateTime timeLimit = ((DateTime)TempData["timeBegin"]).AddHours((double)CommonConstant.TIME_OUT_HOUR_CONFRIMPASS);
+                    if (DateTime.Now.CompareTo(timeLimit) < 0 && model.CodeValidate.Equals(TempData["stringOTP"].ToString()))
                     {
-                        var sessionLogin = new InfoLogIn();
-                        sessionLogin.ID = user.ID;
-                        sessionLogin.Name = user.UserName;
-                        sessionLogin.Role = user.RoleUser;
-                        Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
-                        ViewBag.Success = "Change password sussesfull!";
-                        SetAlert("Change password successfull", "success");
-                        if (sessionLogin.Role.Equals(CommonConstant.ROLE_ADMIN))
+                        var DAO = new UserDAO();
+                        var user = DAO.GetByEmail(model.Email);
+                        user.PasswordUser = HashMD5.HashStringMD5(model.Password);
+                        bool result = DAO.Update(user);
+                        if (result)
                         {
-                            return Redirect("/Admin/User/index");
+                            var sessionLogin = new InfoLogIn();
+                            sessionLogin.ID = user.ID;
+                            sessionLogin.Name = user.UserName;
+                            sessionLogin.Role = user.RoleUser;
+                            Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
+                            ViewBag.Success = "Change password sussesfull!";
+                            SetAlert("Change password successfull", "success");
+                            TempData.Keep();
+                            if (sessionLogin.Role.Equals(CommonConstant.ROLE_ADMIN))
+                            {
+                                return Redirect("/Admin/User/index");
+                            }
+                            else
+                            {
+                                if (sessionLogin.Role.Equals(CommonConstant.ROLE_MEMBER))
+                                {
+                                    return Redirect("/User/Dashboard");
+                                }
+                            }
+                            if (sessionLogin.Role.Equals(CommonConstant.ROLE_TEACHER))
+                            {
+                                return Redirect("/Moderator/ManageChallenge");
+                            }
                         }
                         else
                         {
-                            if (sessionLogin.Role.Equals(CommonConstant.ROLE_MEMBER))
-                            {
-                                return Redirect("/User/Dashboard");
-                            }
+                            ModelState.AddModelError(String.Empty, "Fail change your password!");
                         }
-                        if (sessionLogin.Role.Equals(CommonConstant.ROLE_TEACHER))
-                        {
-                            return Redirect("/Moderator/ManageChallenge");
-                        }
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(String.Empty, "Fail change your password!");
                     }
                 }
-              
             }
+            TempData.Keep();
+            SetAlert("Can not change  your password", "error");
             model = new ForgotPasswordModel();
             return View("ChangePassword");
         }
         public ActionResult ChangePassword()
         {
+            TempData.Keep();
             return View();
         }
         protected void SetAlert(string message, string type)
