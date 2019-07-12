@@ -77,4 +77,19 @@
     <script type="text/javascript" id="global-variable">
         var competeID = @Model.ID;
     </script>
+
+    <script>
+        window.onload = function SetClassicEditor() {
+            ClassicEditor
+                .create(document.querySelector('#rule_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+            ClassicEditor
+                .create(document.querySelector('#description_Input'))
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    </script>
 }

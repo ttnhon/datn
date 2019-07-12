@@ -54,7 +54,7 @@
         <div class="form-group row">
             <label class="col-sm-2 control-label" for="name_Input">Description</label>
             <div class="col-sm-8">
-                @Html.TextBoxFor(model => model.Description, new { @class = "form-control", @id = "description_Input" })
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @id = "description_Input" })
                 @*<input class="form-control" id="name_Input" type="text">*@
             </div>
         </div>
@@ -64,7 +64,7 @@
         <div class="form-group row">
             <label class="col-sm-2 control-label" for="name_Input">Rules</label>
             <div class="col-sm-8">
-                @Html.TextBoxFor(model => model.Rules, new { @class = "form-control", @id = "rule_Input" })
+                @Html.TextAreaFor(model => model.Rules, new { @class = "form-control", @id = "rule_Input" })
                 @*<input class="form-control" id="name_Input" type="text">*@
             </div>
         </div>
