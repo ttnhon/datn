@@ -226,49 +226,61 @@ namespace COURSE_CODING.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendInvitation(int contestID,string username)
+        public ActionResult SendInvitation(int contestID,string email)
         {
-            if(username != null)
+            var userDAO = new UserDAO();
+            var competeDAO = new CompeteDAO();
+
+            USER_INFO user = userDAO.GetUserByEmail(email);
+            if(user == null)
             {
-                var userDAO = new UserDAO();
-                var competeDAO = new CompeteDAO();
-
-                var user = userDAO.GetUserByUsername(username);
-                if(user == null)
-                {
-                    return Json(new { result=false, msg = "This email is not registered yet! Please enter another email" });
-                }
-                var compete = competeDAO.GetOne(contestID);
-
-                string emailHeader = String.Format("{0} invited you to participate in the {1} contest.", user.UserName, compete.Title);
-                string emailContent = System.IO.File.ReadAllText(Server.MapPath("~/Assets/Page/pages/ContentMail.html"));
-                emailContent = emailContent.Replace("{{CustomerName}}", user.UserName);
-                emailContent = emailContent.Replace("{{Email}}", user.Email);
-                emailContent = emailContent.Replace("{{Content}}", String.Format("http://localhost:44307/Compete/{0}/Invitation",compete.ID));
-                CommonProject.Helper.Email_Helper emailHelper = new CommonProject.Helper.Email_Helper();
-                emailHelper.SendMail(user.Email, emailHeader, emailContent);
-                COMPETE_PARTICIPANTS model = new COMPETE_PARTICIPANTS();
-                model.CompeteID = contestID;
-                model.UserID = user.ID;
-                if(new CompeteDAO().CheckParticipantExist(user.ID, contestID))
-                {
-                    return Json(new { result = false, msg = "This email is exist in this contest! Please enter another email" });
-                }
-                var result = (new CompeteDAO().InsertParticipant(model));
-                if (result)
-                {
-                    Participant p = new Participant();
-                    p.ID = user.ID;
-                    p.Name = user.UserName;
-                    p.Email = user.Email;
-                    return Json(new { data = p, result = true, msg = "Send invitation succeed!"}, JsonRequestBehavior.AllowGet);
-                }
-                else
+                USER_INFO newUser = new USER_INFO();
+                newUser.UserName = email;
+                newUser.Email = email;
+                newUser.PasswordUser = HashMD5.HashStringMD5("123456");
+                newUser.FirstName = "No";
+                newUser.LastName = "Name";
+                newUser.SchoolID = 1;
+                newUser.RoleUser = 0;
+                newUser.CreateDate = DateTime.Now;
+                var check = userDAO.Insert(newUser);
+                if(!check)
                 {
                     return Json(new { result = false, msg = "Fail to send invitation!" });
                 }
+                user = newUser;
             }
-            return Json(new { result = false, msg = "Fail to send invitation!" });
+            var compete = competeDAO.GetOne(contestID);
+            var compete_owner = userDAO.GetUserById(GetLoginID());
+
+            string email_encrypt = CommonProject.Helper.Encrypt.EncryptString(email, CommonConstant.SECRET_KEY_TOKEN);
+            string emailHeader = String.Format("{0} invited you to participate in the {1} contest.", compete_owner.UserName, compete.Title);
+            string emailContent = System.IO.File.ReadAllText(Server.MapPath("~/Assets/Page/pages/ContentMail.html"));
+            emailContent = emailContent.Replace("{{CustomerName}}", user.UserName);
+            emailContent = emailContent.Replace("{{Email}}", user.Email);
+            emailContent = emailContent.Replace("{{Content}}", String.Format("{0}/Compete/{1}/Invitation/{2}",CommonConstant.URL_HOST_API, compete.ID, email_encrypt));
+            CommonProject.Helper.Email_Helper emailHelper = new CommonProject.Helper.Email_Helper();
+            emailHelper.SendMail(user.Email, emailHeader, emailContent);
+            COMPETE_PARTICIPANTS model = new COMPETE_PARTICIPANTS();
+            model.CompeteID = contestID;
+            model.UserID = user.ID;
+            if(new CompeteDAO().CheckParticipantExist(user.ID, contestID))
+            {
+                return Json(new { result = false, msg = "This email is exist in this contest! Please enter another email" });
+            }
+            var result = (new CompeteDAO().InsertParticipant(model));
+            if (result)
+            {
+                Participant p = new Participant();
+                p.ID = user.ID;
+                p.Name = user.UserName;
+                p.Email = user.Email;
+                return Json(new { data = p, result = true, msg = "Send invitation succeed!"}, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { result = false, msg = "Fail to send invitation!" });
+            }
         }
 
         
@@ -624,10 +636,10 @@ namespace COURSE_CODING.Controllers
             }
         }
 
-        public ActionResult GetUserName()
+        public ActionResult GetUserEmail()
         {
             var userDAO = new UserDAO();
-            return Json(userDAO.GetAllUserNameExcept(GetLoginID()),JsonRequestBehavior.AllowGet);
+            return Json(userDAO.GetAllUserEmailExcept(GetLoginID()),JsonRequestBehavior.AllowGet);
         }
     }
 }
