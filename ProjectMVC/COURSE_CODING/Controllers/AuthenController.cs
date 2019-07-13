@@ -41,7 +41,7 @@ namespace COURSE_CODING.Controllers
                 {
                     ModelState.AddModelError(String.Empty, "This user name is existed");
                 }
-                else if (DAO.CheckUserNameExist(model.Email))
+                else if (DAO.CheckEmailExist(model.Email))
                 {
                     ModelState.AddModelError(String.Empty, "Your email is registerd");
                 }
@@ -55,6 +55,7 @@ namespace COURSE_CODING.Controllers
                     u.RoleUser = CommonConstant.ROLE_MEMBER;
                     u.Email = model.Email;
                     u.SchoolID = 1;
+                    u.CreateDate = DateTime.Now;
                     Boolean result = DAO.Insert(u);
                     if (result)
                     {

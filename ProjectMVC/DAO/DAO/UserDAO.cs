@@ -54,12 +54,17 @@ namespace DAO.DAO
         /// <returns></returns>
         public Boolean CheckEmailExist(string email)
         {
-            return db.USER_INFOS.Count(u => u.Email == email) > 0;
+            return db.USER_INFOS.Count(u => u.Email.Equals(email)) > 0;
         }
 
         public USER_INFO GetUserByEmail(string email)
         {
             return db.USER_INFOS.Where(u => u.Email == email).FirstOrDefault();
+        }
+
+        public USER_INFO GetUserByUsername(string name)
+        {
+            return db.USER_INFOS.Where(u => u.UserName == name).FirstOrDefault();
         }
 
         public List<string> GetAllUserNameExcept(int id)

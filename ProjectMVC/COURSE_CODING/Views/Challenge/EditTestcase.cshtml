@@ -132,7 +132,7 @@
                                             }, new { @class = "form-horizontal" }))
                                             {
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">Add Test Case</h4>
+                                                    <h4 class="modal-title">Update Test Case</h4>
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -202,8 +202,8 @@
 
                                         <!-- Modal content-->
                                         <div class="modal-content">
-<form action="/Challenge/UpdateTestCase?Length=9" class="form-horizontal" data-ajax="true" data-ajax-failure="OnFailureTestCase" data-ajax-method="POST" data-ajax-success="OnSuccessUpdateTestCase" id="form3" method="post"></form>                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Add Test Case</h4>
+<form action="/Challenge/UpdateTestCase?Length=9" class="form-horizontal" data-ajax="true" data-ajax-failure="OnFailureTestCase" data-ajax-method="POST" data-ajax-success="OnSuccessUpdateTestCase" id="form`+ data.data.ID + `" method="post">                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Update Test Case</h4>
                                                     <button type="button" class="close" data-dismiss="modal">×</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -228,6 +228,7 @@
                                                         Save
                                                     </button>
                                                 </div>
+                                        </form>
                                         </div>
                                     </div>
                                 </div>`;

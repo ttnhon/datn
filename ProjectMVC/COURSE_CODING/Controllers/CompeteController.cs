@@ -229,7 +229,7 @@ namespace COURSE_CODING.Controllers
             var loginID = GetLoginID();
             var competeDAO = new CompeteDAO();
             var userDAO = new UserDAO();
-            if (competeDAO.CheckParticipantExist(loginID))
+            if (competeDAO.CheckParticipantInvited(loginID, id))
             {
                 ViewBag.CanAccess = true;
                 InvitationModel model = new InvitationModel();
@@ -242,9 +242,16 @@ namespace COURSE_CODING.Controllers
             }
             else
             {
-                ViewBag.Title = "can't access this Compete!";
-                ViewBag.CanAccess = false;
-                return View("Invitation");
+                if(competeDAO.CheckParticipantExist(loginID, id))
+                {
+                    return Redirect("/Compete/" + id + "/Detail");
+                }
+                else
+                {
+                    ViewBag.Title = "can't access this Compete!";
+                    ViewBag.CanAccess = false;
+                    return View("Invitation");
+                }
             }
         }
 

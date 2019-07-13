@@ -226,20 +226,19 @@ namespace COURSE_CODING.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendInvitation(int contestID,string email)
+        public ActionResult SendInvitation(int contestID,string username)
         {
-            if(email!=null)
+            if(username != null)
             {
                 var userDAO = new UserDAO();
                 var competeDAO = new CompeteDAO();
 
-                var user = userDAO.GetUserByEmail(email);
-                var compete = competeDAO.GetOne(contestID);
-
-                if(!userDAO.CheckEmailExist(email))
+                var user = userDAO.GetUserByUsername(username);
+                if(user == null)
                 {
                     return Json(new { result=false, msg = "This email is not registered yet! Please enter another email" });
                 }
+                var compete = competeDAO.GetOne(contestID);
 
                 string emailHeader = String.Format("{0} invited you to participate in the {1} contest.", user.UserName, compete.Title);
                 string emailContent = System.IO.File.ReadAllText(Server.MapPath("~/Assets/Page/pages/ContentMail.html"));
@@ -247,11 +246,11 @@ namespace COURSE_CODING.Controllers
                 emailContent = emailContent.Replace("{{Email}}", user.Email);
                 emailContent = emailContent.Replace("{{Content}}", String.Format("http://localhost:44307/Compete/{0}/Invitation",compete.ID));
                 CommonProject.Helper.Email_Helper emailHelper = new CommonProject.Helper.Email_Helper();
-                emailHelper.SendMail(email, emailHeader, emailContent);
+                emailHelper.SendMail(user.Email, emailHeader, emailContent);
                 COMPETE_PARTICIPANTS model = new COMPETE_PARTICIPANTS();
                 model.CompeteID = contestID;
                 model.UserID = user.ID;
-                if(new CompeteDAO().CheckParticipantExist(user.ID))
+                if(new CompeteDAO().CheckParticipantExist(user.ID, contestID))
                 {
                     return Json(new { result = false, msg = "This email is exist in this contest! Please enter another email" });
                 }
@@ -552,6 +551,7 @@ namespace COURSE_CODING.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult EditCompete(CompeteDetailModel model)
         {
             if (ModelState.IsValid)

@@ -177,7 +177,7 @@ function addParticipant() {
         url: '/Moderator/SendInvitation',
         data: {
             contestID: competeID,
-            email: email_input
+            username: email_input
         },
         success: function (response) {
             loading.style.display = 'none';
