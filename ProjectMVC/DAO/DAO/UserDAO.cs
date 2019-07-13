@@ -67,11 +67,11 @@ namespace DAO.DAO
             return db.USER_INFOS.Where(u => u.UserName == name).FirstOrDefault();
         }
 
-        public List<string> GetAllUserNameExcept(int id)
+        public List<string> GetAllUserEmailExcept(int id)
         {
             return db.USER_INFOS
                 .Where(u => u.ID != id)
-                .Select(u => u.UserName)
+                .Select(u => u.Email)
                 .ToList();
         }
         /// <summary>

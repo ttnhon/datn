@@ -108,7 +108,7 @@ function DeleteParticipant(btn) {
         success: function (response) {
             alert(response);
             $(`div[id=p-${btn.dataset.id}]`).remove();
-            if ($('#participant-list').html() === '') {
+            if ($('#participant-list').val() == '') {
                 var html = `<div id="no-content" class="row table-row no-margin table-cs">
                     <div class="col-sm-12 text-center">
                         You have not invite any participant.
@@ -131,7 +131,7 @@ function DeleteChallenge(btn) {
         success: function (response) {
             alert(response);
             $(`div[id=c-${btn.dataset.id}]`).remove();
-            if ($('#challenge-list').html() === '') {
+            if ($('#challenge-list').val() == '') {
                 var html = `<div id="no-content" class="row table-row no-margin table-cs">
                     <div class="col-sm-12 text-center">
                         You have not created any challenges.
@@ -154,7 +154,7 @@ function DeleteQuestion(btn) {
         success: function (response) {
             alert(response);
             $(`div[id=q-${btn.dataset.id}]`).remove();
-            if ($('#question-list').html() === '') {
+            if ($('#question-list').val() == '') {
                 var html = `<div id="no-content" class="row table-row no-margin table-cs">
                     <div class="col-sm-12 text-center">
                         You have not created any questions.
@@ -177,19 +177,19 @@ function addParticipant() {
         url: '/Moderator/SendInvitation',
         data: {
             contestID: competeID,
-            username: email_input
+            email: email_input
         },
         success: function (response) {
             loading.style.display = 'none';
             alert(response.msg);
             if (response.result) {
                 $('#no-content').remove();
-                var html = `<div class="row table-row no-margin table-cs"  id="${response.data.ID}">
+                var html = `<div class="row table-row no-margin table-cs"  id="p-${response.data.ID}">
                         <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">${response.data.Name}</div>
                         <div class="col-xs-1 vd-col-xs-20 text-center">${response.data.Email}</div>
                         <div class="col-xs-1 vd-col-xs-20 text-center">Waiting for response...</div>
                         <div class="col-xs-1 vd-col-xs-20 text-center">
-                            <button class="btn btn-primary"  id="btn-${response.data.ID}">
+                            <button class="btn btn-primary"  data-id="${response.data.ID}" onclick="DeleteParticipant(this)">
                                  Delete
                             </button>
                         </div>
@@ -214,7 +214,7 @@ function EmailAutocomplete() {
 
     $.ajax({
         method: 'GET',
-        url: '/Moderator/GetUserName',
+        url: '/Moderator/GetUserEmail',
         success: function (data) {
             $('#participant_Input').autocomplete({
                 source: data
