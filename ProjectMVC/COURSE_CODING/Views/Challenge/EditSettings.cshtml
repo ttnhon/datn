@@ -102,13 +102,26 @@
 
 @section scripts
     {
+    <script src="~/Assets/Public/vendor/sweetalert2-8.13.1/dist/sweetalert2.all.min.js"></script>
     <script type="text/javascript">
         function OnSuccess(data) {
-            alert('Save changes succeed');
+            Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: 'Save changes succeed',
+                showConfirmButton: false,
+                timer: 1000
+            })
         }
-        
+
         function OnFailure(data) {
-            alert('Save changes fail');
+            Swal.fire({
+                position: 'top-end',
+                type: 'error',
+                title: 'POST: fail',
+                showConfirmButton: false,
+                timer: 1000
+            })
         }
     </script>
 }

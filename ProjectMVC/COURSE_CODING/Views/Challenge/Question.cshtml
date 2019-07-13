@@ -10,8 +10,10 @@
 }
 @if (ViewBag.CanAccess == false)
 {
-    <h2>Bạn không được mời tham gia vào Compete này!</h2>
-    <h2>405!</h2>
+    <div style="text-align: center;margin: 0 auto; padding: 30px;">
+        <h2>You don't have permission to view this page</h2>
+        <h2>405!</h2>
+    </div>
     return;
 }
 @{

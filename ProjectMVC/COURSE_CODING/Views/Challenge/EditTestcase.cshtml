@@ -168,9 +168,9 @@
                     </tbody>
                 </table>
             </div>
-            <div class="save-change-btn-group">
-                <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
-            </div>
+            @*<div class="save-change-btn-group">
+                    <button class="btn btn-success" id="js-save-changes-btn" type="submit">Save Changes</button>
+                </div>*@
         </div>
         <div style="height: 100px;">
 
@@ -183,6 +183,7 @@
 
 @section scripts
     {
+    <script src="~/Assets/Public/vendor/sweetalert2-8.13.1/dist/sweetalert2.all.min.js"></script>
     <script type="text/javascript">
         function OnSuccessTestCase(data) {
             //alert('Add succeed');
@@ -239,14 +240,33 @@
 
         function OnSuccessUpdateTestCase(data) {
             if (data.result) {
-                alert('Save changes succeed');
+                Swal.fire({
+                    position: 'top-end',
+                    type: 'success',
+                    title: 'Save changes succeed',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
             } else {
-                alert('Error: ' + data.msg);
+                Swal.fire({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Error',
+                    text: data.msg,
+                    showConfirmButton: false,
+                    timer: 1000
+                })
             }
         }
 
         function OnFailureTestCase(data) {
-            alert('POST: Fail');
+            Swal.fire({
+                position: 'top-end',
+                type: 'error',
+                title: 'POST: fail',
+                showConfirmButton: false,
+                timer: 1000
+            })
         }
         function DeleteTestCase(testcaseID) {
             $.ajax({
@@ -264,10 +284,17 @@
                     if (msg.result) {
                         $('#test_case_' + msg.data).remove();
                     } else {
-                        alert("Fail to delete test case.");
+                        Swal.fire({
+                            position: 'top-end',
+                            type: 'error',
+                            title: 'Error',
+                            text: 'Fail to delete test case',
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
                     }
-                    }
-                });
+                }
+             });
         }
     </script>
 }

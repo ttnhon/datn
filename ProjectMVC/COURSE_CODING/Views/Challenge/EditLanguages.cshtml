@@ -90,17 +90,37 @@
 
 @section scripts
     {
+    <script src="~/Assets/Public/vendor/sweetalert2-8.13.1/dist/sweetalert2.all.min.js"></script>
     <script type="text/javascript">
         function OnSuccess(data) {
             if (data.result) {
-                alert('Save changes succeed');
+                Swal.fire({
+                    position: 'top-end',
+                    type: 'success',
+                    title: 'Save changes succeed',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
             } else {
-                console.log(data.msg);
+                Swal.fire({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Error',
+                    text: data.msg,
+                    showConfirmButton: false,
+                    timer: 1000
+                })
             }
         }
-        
+
         function OnFailure(data) {
-            alert('POST: Fail');
+            Swal.fire({
+                position: 'top-end',
+                type: 'error',
+                title: 'POST: fail',
+                showConfirmButton: false,
+                timer: 1000
+            })
         }
     </script>
 }

@@ -17,7 +17,7 @@
 @if (ViewBag.CanAccess == false)
 {
     <div style="text-align: center;margin: 0 auto; padding: 30px;">
-        <h2> Challenge không tồn tại hoặc Bạn không được mời làm challenge này!</h2>
+        <h2>You don't have permission to view this page</h2>
         <h2>405!</h2>
     </div>
     return;
@@ -490,7 +490,7 @@
                 .done(function (msg) {
                     $('#loadingImgRuncode').hide();
                     if (msg) {
-                        console.log(msg);
+                        //console.log(msg);
                         showResult(msg)
                     }
 
@@ -511,7 +511,7 @@
                 }
             })
                 .done(function (msg) {
-                    console.log(msg);
+                    //console.log(msg);
                     $('#loadingImgSubmitcode').hide();
                     showResult(msg)
                 });

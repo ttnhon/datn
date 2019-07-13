@@ -76,7 +76,7 @@
                             {
                                 <li><img src="http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg" alt="profile picture" class="profile-pic"> @item.UserName</li>
                             }
-                            
+
                         }
                     }
                 </ul>
@@ -94,19 +94,32 @@
 
 @section scripts
     {
+    <script src="~/Assets/Public/vendor/sweetalert2-8.13.1/dist/sweetalert2.all.min.js"></script>
     <script type="text/javascript">
-        
+
         function OnSuccessModerator(data) {
             //alert('Add succeed');
             console.log(data);
             if (data.result) {
-                document.getElementById("moderatorList").innerHTML += data.PhotoURL ? '<li><img src="~/Assets/Public/images/profile_photos/' + data.PhotoURL +'" alt="profile picture" class="profile-pic"> ' + data.data.UserName + '</li>' : '<li><img src="http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg" alt="profile picture" class="profile-pic"> ' + data.data.UserName + '</li>';
+                document.getElementById("moderatorList").innerHTML += data.PhotoURL ? '<li><img src="~/Assets/Public/images/profile_photos/' + data.PhotoURL + '" alt="profile picture" class="profile-pic"> ' + data.data.UserName + '</li>' : '<li><img src="http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg" alt="profile picture" class="profile-pic"> ' + data.data.UserName + '</li>';
             } else {
-                alert('The person not exists');
+                Swal.fire({
+                    position: 'top-end',
+                    type: 'warning',
+                    title: 'The person not exists',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
             }
         }
         function OnFailureModerator(data) {
-            alert('Fail to add moderator');
+            Swal.fire({
+                position: 'top-end',
+                type: 'error',
+                title: 'POST: fail',
+                showConfirmButton: false,
+                timer: 1000
+            })
         }
     </script>
 }

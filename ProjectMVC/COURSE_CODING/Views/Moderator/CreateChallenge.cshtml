@@ -122,6 +122,7 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Assets/Public/vendor/ckeditor5-build-classic/ckeditor.js"></script>
+    <script src="~/Assets/Public/vendor/sweetalert2-8.13.1/dist/sweetalert2.all.min.js"></script>
     <script>
         window.onload = function SetClassicEditor() {
             ClassicEditor
@@ -153,7 +154,6 @@
         function OnSuccess(data) {
             console.log(data)
             if (data.result) {
-                alert('Save changes succeed');
                 if (data.competeID != 0) {
                     window.location.href = `/Moderator/EditCompete/${data.competeID}`;
                 }
@@ -161,12 +161,24 @@
                     window.location.href = `/Moderator/Edit/Challenge/${data.challengeID}`;
                 }
             } else {
-                alert('operation fail');
+                Swal.fire({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Operation fail',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
             }
         }
         function OnFailure(data) {
-            console.log(data)
-            alert('POST: Save changes fail');
+            //console.log(data)
+            Swal.fire({
+                position: 'top-end',
+                type: 'error',
+                title: 'POST: fail',
+                showConfirmButton: false,
+                timer: 1000
+            })
         }
     </script>
 }

@@ -280,13 +280,13 @@ namespace COURSE_CODING.Controllers
             int result = (new AddDataDAO()).AddRequestTeacher(add);
             if (result == 1)
             {
-                return Json("Request thành công, đang đợi Admin phê duyệt");
+                return Json(new { result, msg = "Request succeed, waiting for admin acceptant" });
             }
             if(result == -1)
             {
-                return Json("Bạn đã request trước đó rồi, vui lòng chờ Admin phê duyệt");
+                return Json(new { result, msg = "You had sended request, please wait for admin acceptant" });
             }
-            return Json("Lỗi! Request không thành công");
+            return Json(new { result, msg = "Error! Request fail" });
         }
     }
 

@@ -1,4 +1,5 @@
-﻿$(function () {
+﻿import('../vendor/sweetalert2-8.13.1/dist/sweetalert2.all.min.js');
+$(function () {
     jQuery('.date-picker').datetimepicker({
         format: 'm/d/Y H:i',
         lang: 'vi',
@@ -87,14 +88,32 @@ $('#js-score').click(function () {
 function OnSuccess(data) {
     console.log(data)
     if (data) {
-        alert('Save changes succeed');
+        Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Save changes succeed',
+            showConfirmButton: false,
+            timer: 1000
+        })
     } else {
-        alert('operation fail');
+        Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: 'Operation fail',
+            showConfirmButton: false,
+            timer: 1000
+        })
     }
 }
 function OnFailure(data) {
-    console.log(data)
-    alert('POST: Save changes fail');
+    //console.log(data)
+    Swal.fire({
+        position: 'top-end',
+        type: 'error',
+        title: 'POST: fail',
+        showConfirmButton: false,
+        timer: 1000
+    })
 }
 
 function DeleteParticipant(btn) {
@@ -106,7 +125,13 @@ function DeleteParticipant(btn) {
             userID: btn.dataset.id
         },
         success: function (response) {
-            alert(response);
+            Swal.fire({
+                position: 'top-end',
+                type: 'info',
+                title: response.msg,
+                showConfirmButton: false,
+                timer: 1000
+            })
             $(`div[id=p-${btn.dataset.id}]`).remove();
             if ($('#participant-list').html() === '') {
                 var html = `<div id="no-content" class="row table-row no-margin table-cs">
@@ -129,7 +154,13 @@ function DeleteChallenge(btn) {
             challengeID: btn.dataset.id
         },
         success: function (response) {
-            alert(response);
+            Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: response,
+                showConfirmButton: false,
+                timer: 1000
+            })
             $(`div[id=c-${btn.dataset.id}]`).remove();
             if ($('#challenge-list').html() === '') {
                 var html = `<div id="no-content" class="row table-row no-margin table-cs">
@@ -152,7 +183,13 @@ function DeleteQuestion(btn) {
             questionID: btn.dataset.id
         },
         success: function (response) {
-            alert(response);
+            Swal.fire({
+                position: 'top-end',
+                type: 'info',
+                title: response.msg,
+                showConfirmButton: false,
+                timer: 1000
+            })
             $(`div[id=q-${btn.dataset.id}]`).remove();
             if ($('#question-list').html() === '') {
                 var html = `<div id="no-content" class="row table-row no-margin table-cs">
@@ -181,7 +218,13 @@ function addParticipant() {
         },
         success: function (response) {
             loading.style.display = 'none';
-            alert(response.msg);
+            Swal.fire({
+                position: 'top-end',
+                type: 'info',
+                title: response.msg,
+                showConfirmButton: false,
+                timer: 1000
+            })
             if (response.result) {
                 $('#no-content').remove();
                 var html = `<div class="row table-row no-margin table-cs"  id="${response.data.ID}">
@@ -253,7 +296,13 @@ function AddToCompete() {
             challengeIDList: ChallengeIDList
         },
         success: function (response) {
-            alert(response.msg);
+            Swal.fire({
+                position: 'top-end',
+                type: 'info',
+                title: response.msg,
+                showConfirmButton: false,
+                timer: 1000
+            })
             $('#challenge-popup').css("height", "0%");
             if (response.result = true) {
                 var html = '';
