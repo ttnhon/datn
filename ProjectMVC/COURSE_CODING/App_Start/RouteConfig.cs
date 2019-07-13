@@ -31,6 +31,7 @@ namespace COURSE_CODING
                namespaces: new[] { "COURSE_CODING.Controllers" }
                   );
 
+
             routes.MapRoute(
             name: "ForgotPassword",
             url: "ForgotPassword",
@@ -42,6 +43,14 @@ namespace COURSE_CODING
           name: "ChangePassword",
           url: "ChangePassword",
           defaults: new { controller = "Authen", action = "ChangePassword", id = UrlParameter.Optional },
+          namespaces: new[] { "COURSE_CODING.Controllers" }
+             );
+
+            
+              routes.MapRoute(
+          name: "SignIn",
+          url: "Admin/Authen/SignIn",
+          defaults: new { controller = "Authen", action = "SignIn", id = UrlParameter.Optional ,type="Google"},
           namespaces: new[] { "COURSE_CODING.Controllers" }
              );
 

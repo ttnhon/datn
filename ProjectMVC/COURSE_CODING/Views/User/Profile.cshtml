@@ -248,7 +248,7 @@
             <div class="content-body">
                 @using (Html.BeginForm("Upload", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
-                    @Html.AntiForgeryToken()
+                    @*@Html.AntiForgeryToken()*@
                     @Html.ValidationSummary(true)
 
                     @Html.HiddenFor(model => model.Info.ID)
@@ -279,7 +279,7 @@
             <div class="content-body">
                 @using (Html.BeginForm("EditIntro", "User", FormMethod.Post))
                 {
-                    @Html.AntiForgeryToken()
+                    @*@Html.AntiForgeryToken()*@
 
                     @Html.HiddenFor(model => model.Info.ID)
 
@@ -327,7 +327,7 @@
             <div class="content-body">
                 @using (Html.BeginForm("EditAbout", "User", FormMethod.Post))
                 {
-                    @Html.AntiForgeryToken()
+                    @*@Html.AntiForgeryToken()*@
                     @Html.ValidationSummary(true)
 
                     @Html.HiddenFor(model => model.Info.ID)

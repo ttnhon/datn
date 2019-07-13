@@ -263,6 +263,7 @@ namespace COURSE_CODING.Controllers
         {
             ViewBag.isValidateCode = true;
             TempData["timeBegin"]= DateTime.Now;
+            TempData["email"] = model.Email;
             string baseURL = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
             string destinationURL = baseURL + "ChangePassword";
             var DAO = new UserDAO();
@@ -289,10 +290,12 @@ namespace COURSE_CODING.Controllers
            // dang mat time begin va string otp o method nay
             if (ModelState.IsValid)
             {
-                if ((DateTime)TempData["timeBegin"] != null&& TempData["stringOTP"]!=null)
+                if ((DateTime)TempData["timeBegin"] != null&& TempData["stringOTP"]!=null && TempData["email"]!=null)
                 {
                     DateTime timeLimit = ((DateTime)TempData["timeBegin"]).AddHours((double)CommonConstant.TIME_OUT_HOUR_CONFRIMPASS);
-                    if (DateTime.Now.CompareTo(timeLimit) < 0 && model.CodeValidate.Equals(TempData["stringOTP"].ToString()))
+                    if (DateTime.Now.CompareTo(timeLimit) < 0 
+                        && model.CodeValidate.Equals(TempData["stringOTP"].ToString())
+                        && TempData["email"].ToString().Equals(model.Email))
                     {
                         var DAO = new UserDAO();
                         var user = DAO.GetByEmail(model.Email);
@@ -326,13 +329,25 @@ namespace COURSE_CODING.Controllers
                         }
                         else
                         {
-                            ModelState.AddModelError(String.Empty, "Fail change your password!");
+                            SetAlert("Can not change  your password", "error");
                         }
+                    }
+                    if (DateTime.Now.CompareTo(timeLimit) > 0)
+                    {
+                        SetAlert("Time of OTP code is over", "error");
+                    }else
+                    if (!model.CodeValidate.Equals(TempData["stringOTP"].ToString()))
+                    {
+                        SetAlert("Code OTP not match", "error");
+                    }else
+                    if (!TempData["email"].ToString().Equals(model.Email))
+                    {
+                        SetAlert("This is not your mail", "error");
                     }
                 }
             }
             TempData.Keep();
-            SetAlert("Can not change  your password", "error");
+            //SetAlert("Can not change  your password", "error");
             model = new ForgotPasswordModel();
             return View("ChangePassword");
         }

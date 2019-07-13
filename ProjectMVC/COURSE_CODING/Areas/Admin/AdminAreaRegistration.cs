@@ -16,8 +16,15 @@ namespace COURSE_CODING.Areas.Admin
         {
             context.MapRoute(
                  "Admin",
-                    "Admin/User/login",
+                    "login",
                     new { Controller = "Authen", Action = "Login", Areas = "" },
+                     namespaces: new[] { "COURSE_CODING.Controllers" }
+                 );
+
+            context.MapRoute(
+                 "SignGG",
+                     url: "SignIn",
+          defaults: new { controller = "Authen", action = "SignIn", id = UrlParameter.Optional, type = "Google" },
                      namespaces: new[] { "COURSE_CODING.Controllers" }
                  );
 

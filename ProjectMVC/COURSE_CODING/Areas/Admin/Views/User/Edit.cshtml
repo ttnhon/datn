@@ -9,7 +9,7 @@
 
 @using (Html.BeginForm("Edit","User",FormMethod.Post))
 {
-    @Html.AntiForgeryToken()
+    @*@Html.AntiForgeryToken()*@
     
 <div class="form-horizontal">
     @if (ViewBag.Success != null)
