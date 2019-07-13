@@ -20,7 +20,7 @@ namespace DAO.DAO
         }
         public int CountCompetes()
         {
-            return db.COMMENTS.Count();
+            return db.COMPETES.Count();
         }
         public int CountChallenges()
         {

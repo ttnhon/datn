@@ -106,38 +106,41 @@
                                 foreach (var challenge in Model.UnassignedChallenge)
                                 {
 
-                                    <div class="row table-row no-margin table-cs" id="c2-@challenge.ID">
+                            <div class="row table-row no-margin table-cs" id="c2-@challenge.ID">
 
-                                        <div class="col-xs-1 vd-col-xs-40" style="margin-left: 1em;">
-                                            <a href="/Moderator/Edit/Challenge/@challenge.ID">
-                                                @challenge.Title
-                                            </a>
-                                        </div>
-                                        @switch (challenge.ChallengeDifficulty)
-                                        {
-                                            case 1:
-                                                <div class="col-xs-1 vd-col-xs-40 text-center">Easy</div>
-                                                break;
-                                            case 2:
-                                                <div class="col-xs-1 vd-col-xs-40 text-center">Medium</div>
-                                                break;
-                                            case 3:
-                                                <div class="col-xs-1 vd-col-xs-40 text-center">Hard</div>
-                                                break;
-                                            case 4:
-                                                <div class="col-xs-1 vd-col-xs-40 text-center">Advanced</div>
-                                                break;
-                                            case 5:
-                                                <div class="col-xs-1 vd-col-xs-40 text-center">Expert</div>
-                                                break;
-                                        }
-                                        <div class="col-xs-1 vd-col-xs-20 text-center">
-                                            <input type="checkbox" data-id="@challenge.ID" />
-                                        </div>
-                                    </div>
+                                <div class="col-xs-1 vd-col-xs-40" style="margin-left: 1em;">
+                                    <a href="/Moderator/Edit/Challenge/@challenge.ID">
+                                        @challenge.Title
+                                    </a>
+                                </div>
+                                @switch (challenge.ChallengeDifficulty)
+                                {
+                                    case 0:
+                                        <div class="col-xs-1 vd-col-xs-40 text-center">Easy</div>
+                                        break;
+                                    case 1:
+                                        <div class="col-xs-1 vd-col-xs-40 text-center">Medium</div>
+                                        break;
+                                    case 2:
+                                        <div class="col-xs-1 vd-col-xs-40 text-center">Hard</div>
+                                        break;
+                                    case 3:
+                                        <div class="col-xs-1 vd-col-xs-40 text-center">Advanced</div>
+                                        break;
+                                    case 4:
+                                        <div class="col-xs-1 vd-col-xs-40 text-center">Expert</div>
+                                        break;
+                                    default:
+                                        <div class="col-xs-1 vd-col-xs-40 text-center">Undefined</div>
+                                        break;
+                                }
+                                <div class="col-xs-1 vd-col-xs-20 text-center">
+                                    <input type="checkbox" data-id="@challenge.ID" />
+                                </div>
+                            </div>
 
                                 }
-                            }
+                                        }
                             else
                             {
                                 <div id="no-content" class="row table-row no-margin table-cs">

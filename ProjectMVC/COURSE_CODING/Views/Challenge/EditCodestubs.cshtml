@@ -86,9 +86,9 @@
 
 @section scripts
     {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" type="text/javascript" charset="utf-8">
-        //<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ext-language_tools.js" type="text/javascript" charset="utf-8">
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ext-language_tools.js"></script>
+    <script src="~/Assets/Public/vendor/sweetalert2-8.13.1/dist/sweetalert2.all.min.js"></script>
     <script type="text/javascript">
         //code
         var code_CSharp = `@Html.Raw(HttpUtility.HtmlDecode(Model.CodeStubs_CSharp))`;
@@ -152,7 +152,7 @@
             editor.setOptions({
                 enableBasicAutocompletion: true,
                 enableSnippets: true,
-                enableLiveAutocompletion: false
+                enableLiveAutocompletion: true
             });
             var select = Number.parseInt($('#inputLanguage').val());
             if (select === 1) {
@@ -178,10 +178,10 @@
         function CodeStubSave() {
             //var code = editor.getValue();
             var language = Number.parseInt($('#inputLanguage').val());
-            console.log(language);
-            console.log(code_Cpp);
-            console.log(code_CSharp);
-            console.log(code_Java);
+            //console.log(language);
+            //console.log(code_Cpp);
+            //console.log(code_CSharp);
+            //console.log(code_Java);
             $.ajax({
                 method: "POST",
                 url: "/Challenge/UpdateCodeStubs",
@@ -193,8 +193,24 @@
             })
                 .done(function (msg) {
                     if (msg) {
-                        console.log(msg);
-                        alert(msg.msg);
+                        //console.log(msg);
+                        if (msg.result) {
+                            Swal.fire({
+                                position: 'top-end',
+                                type: 'success',
+                                title: msg.msg,
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                        } else {
+                            Swal.fire({
+                                position: 'top-end',
+                                type: 'error',
+                                title: 'Save changes fail',
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                        }
                     }
 
                 });

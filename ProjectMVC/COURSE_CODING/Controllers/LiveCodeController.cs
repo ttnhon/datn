@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace COURSE_CODING.Controllers
 {
-    public class LiveCodeController : Controller
+    public class LiveCodeController : BaseController
     {
         // GET: LiveCode
         public ActionResult Index()

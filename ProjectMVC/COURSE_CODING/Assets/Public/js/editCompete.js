@@ -1,4 +1,5 @@
-﻿$(function () {
+﻿import('../vendor/sweetalert2-8.13.1/dist/sweetalert2.all.min.js');
+$(function () {
     jQuery('.date-picker').datetimepicker({
         format: 'm/d/Y H:i',
         lang: 'vi',
@@ -87,14 +88,32 @@ $('#js-score').click(function () {
 function OnSuccess(data) {
     console.log(data)
     if (data) {
-        alert('Save changes succeed');
+        Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Save changes succeed',
+            showConfirmButton: false,
+            timer: 1000
+        })
     } else {
-        alert('operation fail');
+        Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: 'Operation fail',
+            showConfirmButton: false,
+            timer: 1000
+        })
     }
 }
 function OnFailure(data) {
-    console.log(data)
-    alert('POST: Save changes fail');
+    //console.log(data)
+    Swal.fire({
+        position: 'top-end',
+        type: 'error',
+        title: 'POST: fail',
+        showConfirmButton: false,
+        timer: 1000
+    })
 }
 
 function DeleteParticipant(btn) {
@@ -106,9 +125,15 @@ function DeleteParticipant(btn) {
             userID: btn.dataset.id
         },
         success: function (response) {
-            alert(response);
+            Swal.fire({
+                position: 'top-end',
+                type: 'info',
+                title: response.msg,
+                showConfirmButton: false,
+                timer: 1000
+            })
             $(`div[id=p-${btn.dataset.id}]`).remove();
-            if ($('#participant-list').html() === '') {
+            if ($('#participant-list').val() == '') {
                 var html = `<div id="no-content" class="row table-row no-margin table-cs">
                     <div class="col-sm-12 text-center">
                         You have not invite any participant.
@@ -129,9 +154,15 @@ function DeleteChallenge(btn) {
             challengeID: btn.dataset.id
         },
         success: function (response) {
-            alert(response);
+            Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: response,
+                showConfirmButton: false,
+                timer: 1000
+            })
             $(`div[id=c-${btn.dataset.id}]`).remove();
-            if ($('#challenge-list').html() === '') {
+            if ($('#challenge-list').val() == '') {
                 var html = `<div id="no-content" class="row table-row no-margin table-cs">
                     <div class="col-sm-12 text-center">
                         You have not created any challenges.
@@ -152,9 +183,15 @@ function DeleteQuestion(btn) {
             questionID: btn.dataset.id
         },
         success: function (response) {
-            alert(response);
+            Swal.fire({
+                position: 'top-end',
+                type: 'info',
+                title: response.msg,
+                showConfirmButton: false,
+                timer: 1000
+            })
             $(`div[id=q-${btn.dataset.id}]`).remove();
-            if ($('#question-list').html() === '') {
+            if ($('#question-list').val() == '') {
                 var html = `<div id="no-content" class="row table-row no-margin table-cs">
                     <div class="col-sm-12 text-center">
                         You have not created any questions.
@@ -181,15 +218,21 @@ function addParticipant() {
         },
         success: function (response) {
             loading.style.display = 'none';
-            alert(response.msg);
+            Swal.fire({
+                position: 'top-end',
+                type: 'info',
+                title: response.msg,
+                showConfirmButton: false,
+                timer: 1000
+            })
             if (response.result) {
                 $('#no-content').remove();
-                var html = `<div class="row table-row no-margin table-cs"  id="${response.data.ID}">
+                var html = `<div class="row table-row no-margin table-cs"  id="p-${response.data.ID}">
                         <div class="col-xs-1 vd-col-xs-40" style="margin-left: 5px;">${response.data.Name}</div>
                         <div class="col-xs-1 vd-col-xs-20 text-center">${response.data.Email}</div>
                         <div class="col-xs-1 vd-col-xs-20 text-center">Waiting for response...</div>
                         <div class="col-xs-1 vd-col-xs-20 text-center">
-                            <button class="btn btn-primary"  id="btn-${response.data.ID}">
+                            <button class="btn btn-primary"  data-id="${response.data.ID}" onclick="DeleteParticipant(this)">
                                  Delete
                             </button>
                         </div>
@@ -214,7 +257,7 @@ function EmailAutocomplete() {
 
     $.ajax({
         method: 'GET',
-        url: '/Moderator/GetUserName',
+        url: '/Moderator/GetUserEmail',
         success: function (data) {
             $('#participant_Input').autocomplete({
                 source: data
@@ -253,7 +296,13 @@ function AddToCompete() {
             challengeIDList: ChallengeIDList
         },
         success: function (response) {
-            alert(response.msg);
+            Swal.fire({
+                position: 'top-end',
+                type: 'info',
+                title: response.msg,
+                showConfirmButton: false,
+                timer: 1000
+            })
             $('#challenge-popup').css("height", "0%");
             if (response.result = true) {
                 var html = '';

@@ -211,13 +211,13 @@
                     </div>
                     <div class="section-body">
                         <div class="contest-list">
-                            <h2 class="contest-month">July,2014</h2>
+                            <h2 class="contest-month">July,2019</h2>
                             @if (Model.Competes.Count > 0)
                             {
                                 foreach (var compete in Model.Competes)
                                 {
                                     <div class="contest-item">
-                                        <a href="/Compete/@compete.ID/Detail" >@compete.Title</a>
+                                        <a href="/Compete/@compete.ID/Detail">@compete.Title</a>
                                         <span class="participant-count">
                                             --
                                             /
@@ -229,7 +229,7 @@
                         </div>
                     </div>
                 </div>
-              </section>
+            </section>
         </div>
     </div>
 </div>
@@ -364,6 +364,7 @@
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Assets/Public/vendor/sweetalert2-8.13.1/dist/sweetalert2.all.min.js"></script>
     <script>
         $('#btn_request_teacher').click(function () {
             $.ajax({
@@ -371,9 +372,31 @@
                 url: "/User/RequestTeacher",
                 data: {}
             })
-                .done(function (msg) {
-                    if (msg) {
-                        alert(msg)
+                .done(function (data) {
+                    if (data.result === 1) {
+                        Swal.fire({
+                            position: 'top-end',
+                            type: 'succeed',
+                            title: data.msg,
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
+                    } else if (data.result === -1) {
+                        Swal.fire({
+                            position: 'top-end',
+                            type: 'warning',
+                            title: data.msg,
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
+                    } else {
+                        Swal.fire({
+                            position: 'top-end',
+                            type: 'error',
+                            title: data.msg,
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
                     }
                 });
         });

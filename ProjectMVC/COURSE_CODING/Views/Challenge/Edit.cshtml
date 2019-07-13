@@ -166,8 +166,9 @@
 @section scripts
     {
     <script src="~/Assets/Public/vendor/ckeditor5-build-classic/ckeditor.js"></script>
+    <script src="~/Assets/Public/vendor/sweetalert2-8.13.1/dist/sweetalert2.all.min.js"></script>
     <script type="text/javascript">
-       
+
         window.onload = function SetClassicEditor() {
             ClassicEditor
                 .create(document.querySelector('#description_Input'))
@@ -195,13 +196,35 @@
                     console.error(error);
                 });
         }
-        
+
         function OnSuccessDetail(data) {
-            alert('Save changes succeed');
-            document.getElementById("slug_Input").innerHTML = 'https://www.khtnfitk15.somee.com/.../' + data.data.Slug;
+            if (data.result) {
+                document.getElementById("slug_Input").innerHTML = 'https://www.khtnfitk15.somee.com/.../' + data.data.Slug;
+                Swal.fire({
+                    position: 'top-end',
+                    type: 'success',
+                    title: 'Save changes succeed',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+            } else {
+                Swal.fire({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Save changes fail',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+            }
         }
         function OnFailure(data) {
-            alert('Save changes fail');
+            Swal.fire({
+                position: 'top-end',
+                type: 'error',
+                title: 'POST: fail',
+                showConfirmButton: false,
+                timer: 1000
+            })
         }
     </script>
 }

@@ -68,9 +68,14 @@ namespace DAO.DAO
             return db.COMPETE_PARTICIPANTSS.Where(table => table.CompeteID == id).OrderByDescending(t => t.TimeJoined).ThenBy(t => t.UserID).ToList();
         }
 
-        public Boolean CheckParticipantExist(int id)
+        public Boolean CheckParticipantExist(int id, int competeId)
         {
-            return db.COMPETE_PARTICIPANTSS.Count(u => u.UserID == id) > 0;
+            return db.COMPETE_PARTICIPANTSS.Count(u => u.UserID == id && u.CompeteID == competeId && u.TimeJoined != null) > 0;
+        }
+
+        public Boolean CheckParticipantInvited(int id, int competeId)
+        {
+            return db.COMPETE_PARTICIPANTSS.Count(u => u.UserID == id && u.CompeteID == competeId && u.TimeJoined == null) > 0;
         }
 
         public Boolean InsertParticipant(COMPETE_PARTICIPANTS model)
