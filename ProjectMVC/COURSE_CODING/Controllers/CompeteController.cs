@@ -120,6 +120,48 @@ namespace COURSE_CODING.Controllers
                     model.challenges.Add(one);
                 }
 
+                //get score
+                if(model.compete.TimeEnd < DateTime.Now)
+                {
+                    model.score = 0;
+                    
+                    foreach (var one_question in questions)
+                    {
+                        var question = one_question.GetType().GetProperty("Question").GetValue(one_question, null);
+                        var chosen = one_question.GetType().GetProperty("Chosen").GetValue(one_question, null);
+                        if (chosen != null)
+                        {
+                            if (chosen.TimeDone <= model.compete.TimeEnd)
+                            {
+                                if (chosen.Result == 1)
+                                {
+                                    model.score += question.Score;
+                                }
+                            }
+                        }
+                    }
+                    
+                    foreach (var challenge in challenges)         //Parse data
+                    {
+                        bool isSolved = challenge.GetType().GetProperty("isSolved").GetValue(challenge, null);
+                        int score = challenge.GetType().GetProperty("Score").GetValue(challenge, null);
+                        DateTime timeDone = challenge.GetType().GetProperty("TimeDone").GetValue(challenge, null);
+
+                        if (isSolved)
+                        {
+                            if (timeDone <= model.compete.TimeEnd)
+                            {
+                                model.score += score;
+                            }
+                        }
+
+                    }
+                }
+                else
+                {
+                    model.score = null;
+                }
+
                 ViewBag.Title = model.compete.Title;
                 ViewBag.CompeteID = id;
 

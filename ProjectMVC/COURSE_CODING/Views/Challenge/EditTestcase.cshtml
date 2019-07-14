@@ -250,7 +250,14 @@
                                     </div>
                                 </div>`;
             } else {
-                alert('Error: ' + data.msg);
+                Swal.fire({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Error',
+                    text: data.msg,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
             }
         }
 
