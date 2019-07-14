@@ -296,11 +296,14 @@
     <Content Include="Assets\Page\dist\css\sb-admin3.css" />
     <Content Include="Assets\Page\dist\js\sb-admin-2.js" />
     <Content Include="Assets\Page\dist\js\sb-admin-2.min.js" />
+    <Content Include="Assets\Page\image\bg.jpg" />
     <Content Include="Assets\Page\image\bgRegister.jpg" />
+    <Content Include="Assets\Page\image\fox.png" />
     <Content Include="Assets\Page\js\sb-admin-2.js" />
     <Content Include="Assets\Page\pages\blank.html" />
     <Content Include="Assets\Page\pages\buttons.html" />
     <Content Include="Assets\Page\pages\ConfirmPassword.html" />
+    <Content Include="Assets\Page\pages\InvitationMail.html" />
     <Content Include="Assets\Page\pages\ContentMail.html" />
     <Content Include="Assets\Page\pages\flot.html" />
     <Content Include="Assets\Page\pages\forgot-password.html" />
