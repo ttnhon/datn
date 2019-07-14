@@ -613,7 +613,7 @@ namespace COURSE_CODING.Controllers
             CHALLENGE_COMPETE c = new CHALLENGE_COMPETE();
             c.CompeteID = contestID;
             c.ChallengeID = challengeID;
-            var result = challengeDAO.DeleteChallenge(c);
+            var result = challengeDAO.RemoveChallengeInCompete(c);
             if (result)
             {
                 return Json("Delete succeed!");
