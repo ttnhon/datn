@@ -373,5 +373,58 @@ namespace COURSE_CODING.Controllers
                 TempData["AlertType"] = "alert-danger";
             }
         }
+        
+        [Route("Competition/{competeID}/Invitation")]
+        public ActionResult JoinCompete(int competeID)
+        {
+            try
+            {
+                string redirectURL = "/Compete/" + competeID.ToString() + "/Invitation";
+                string token = Request.QueryString["ticket"] ?? "";
+                string email = CommonProject.Helper.Encrypt.DecryptString(token, CommonConstant.SECRET_KEY_TOKEN);
+                if (!this.IsValidEmail(email))
+                {
+                    return Content("Token is invalid");
+                }
+                var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
+                USER_INFO user = new UserDAO().GetByEmail(email);
+
+                if (session != null)
+                {
+                    return Redirect(redirectURL);
+                }
+                else if (user.UserName.Equals(user.Email))           //is Trial user
+                {
+                    var sessionLogin = new InfoLogIn();
+                    sessionLogin.ID = user.ID;
+                    sessionLogin.Name = user.UserName;
+                    sessionLogin.Role = (int)user.RoleUser;
+                    Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
+                    return Redirect(redirectURL);
+                }
+                else
+                {
+                    return Content("Token is invalid");
+                }
+            }
+            catch (Exception e)
+            {
+                return Content("Token is invalid");
+            }
+            
+        }
+
+        protected bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
