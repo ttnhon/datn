@@ -578,6 +578,7 @@ namespace COURSE_CODING.Controllers
                 c.OwnerID = model.OwnerID;
                 c.Title = model.Title;
                 c.Description = model.Description;
+                c.Rules = model.Rules;
                 c.TimeEnd = model.TimeEnd;
                 c.IsPublic = model.isPublic;
                 var DAO = new CompeteDAO();

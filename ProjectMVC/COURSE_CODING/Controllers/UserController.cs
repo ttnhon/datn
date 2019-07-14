@@ -186,30 +186,25 @@ namespace COURSE_CODING.Controllers
         [HttpPost]
         public ActionResult EditIntro(UserProfileModel user)
         {
-            if (ModelState.IsValid)
+            var userDAO = new UserDAO();
+            user.Info.FirstName = user.FirstName;
+            user.Info.LastName = user.LastName;
+            user.Info.Country = user.Country;
+            var result = userDAO.UpdateIntro(user.Info);
+            if (result)
             {
-                var userDAO = new UserDAO();
-                user.Info.FirstName = user.FirstName;
-                user.Info.LastName = user.LastName;
-                user.Info.Country = user.Country;
-                var result = userDAO.UpdateIntro(user.Info);
-                if (result)
-                {
-                    return Redirect(String.Format("/User/Profile/{0}", user.Info.ID));
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Update Success!");
-                }
+                return Redirect(String.Format("/User/Profile/{0}", user.Info.ID));
             }
-            return View();
+            else
+            {
+                return View("Error.cshtml");
+            }
+            
         }
 
         [HttpPost]
         public ActionResult EditAbout(UserProfileModel user)
         {
-            if (ModelState.IsValid)
-            {
                 var userDAO = new UserDAO();
                 var result = userDAO.UpdateAbout(user.Info);
                 if (result)
@@ -219,9 +214,8 @@ namespace COURSE_CODING.Controllers
                 else
                 {
                     ModelState.AddModelError("", "Update Success!");
+                    return View("Profile", user.Info.ID);
                 }
-            }
-            return View("Profile", user.Info.ID);
         }
 
         [HttpPost]
