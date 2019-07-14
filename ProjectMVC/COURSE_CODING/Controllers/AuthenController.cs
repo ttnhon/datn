@@ -23,9 +23,54 @@ namespace COURSE_CODING.Controllers
         //[OutputCache(Duration = 3600, VaryByParam = "none")]
         private string stringOTP = string.Empty;
         private DateTime timeBegin;
+
+        [HttpGet]
+        public ActionResult Home()
+        {
+            var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
+            if (session != null)
+            {
+                if (session.Role.Equals(CommonConstant.ROLE_ADMIN))
+                {
+                    return Redirect("/Admin/User/index");
+                }
+                else
+                {
+                    if (session.Role.Equals(CommonConstant.ROLE_MEMBER))
+                    {
+                        return Redirect("/User/Dashboard");
+                    }
+                }
+                if (session.Role.Equals(CommonConstant.ROLE_TEACHER))
+                {
+                    return Redirect("/Moderator/ManageChallenge");
+                }
+            }
+            return View("Login");
+        }
         [HttpGet]
         public ActionResult Register()
         {
+            var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
+            if (session != null)
+            {
+                if (session.Role.Equals(CommonConstant.ROLE_ADMIN))
+                {
+                    return Redirect("/Admin/User/index");
+                }
+                else
+                {
+                    if (session.Role.Equals(CommonConstant.ROLE_MEMBER))
+                    {
+                        return Redirect("/User/Dashboard");
+                    }
+                }
+                if (session.Role.Equals(CommonConstant.ROLE_TEACHER))
+                {
+                    return Redirect("/Moderator/ManageChallenge");
+                }
+
+            }
             return View();
         }
 
@@ -36,6 +81,12 @@ namespace COURSE_CODING.Controllers
         {
             if (ModelState.IsValid)
             {
+                string callback_uri = string.Empty;
+                if (Request.UrlReferrer != null)
+                {
+                    var paramss = HttpUtility.ParseQueryString(Request.UrlReferrer.Query);
+                    callback_uri = paramss["callback"] ?? "";
+                }
                 var DAO = new UserDAO();
                 if (DAO.CheckUserNameExist(model.UserName))
                 {
@@ -65,6 +116,10 @@ namespace COURSE_CODING.Controllers
                         Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
                         ViewBag.Success = "Register sussesfull";
                         model = new RegisterModel();
+                        if (!String.IsNullOrEmpty(callback_uri))
+                        {
+                            return Redirect(callback_uri);
+                        }
                         return Redirect("/User/Dashboard");
                     }
                     else
@@ -203,6 +258,12 @@ namespace COURSE_CODING.Controllers
                 {
                     return RedirectToAction("/");
                 }
+                string callback_uri = string.Empty;
+                if (Request.UrlReferrer != null)
+                {
+                    var paramss = HttpUtility.ParseQueryString(Request.UrlReferrer.Query);
+                    callback_uri = paramss["callback"] ?? "";
+                }
                 var DAO = new UserDAO();
                 var user = DAO.GetByEmail(loginInfo.emailaddress);
                 Boolean canLogin = false;
@@ -234,6 +295,10 @@ namespace COURSE_CODING.Controllers
                     Session.Add(CommonConstant.SESSION_INFO_LOGIN, userSession);
                     // Set the auth cookie
                     // FormsAuthentication.SetAuthCookie(user.Email, false);
+                    if (!String.IsNullOrEmpty(callback_uri))
+                    {
+                        return Redirect(callback_uri);
+                    }
                     if (user.RoleUser.Equals(CommonConstant.ROLE_ADMIN))
                     {
                         return Redirect("/Admin/Home/Index");
