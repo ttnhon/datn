@@ -45,7 +45,7 @@ function ShowReplyInput(btn) {
     let liNode = document.createElement("li");
     liNode.innerHTML = `<div class="discussion__input reply__input">
                 <img class="discussion__avatar" id="current_avatar"
-                     src="~/Assets/Public/images/profile_photos/${userPhoto}" alt="Profile Picture">
+                     src="/Assets/Public/images/profile_photos/${userPhoto}" alt="Profile Picture">
                 <textarea class="discussion__text" name="reply_input" data-id="${btn.dataset.id}" id="reply_input"
                           rows="1"></textarea>
                 <button class="btn btn-primary" onclick="addReply()">Post Comment</button>
