@@ -49,10 +49,10 @@ namespace DAO.DAO
                 .Select(table => table.t).OrderBy(table => table.TimeEnd).Take(take).ToList();
         }
 
-        public int CountJoinedAndPublic(int id)
+        public int CountJoined(int id)
         {
             return db.COMPETES.GroupJoin(db.COMPETE_PARTICIPANTSS, t => t.ID, p => p.CompeteID, (t, p) => new { t, p })
-                .Where(table => table.t.IsPublic || table.p.FirstOrDefault(list => list.UserID == id) != null)
+                .Where(table => table.p.FirstOrDefault(list => list.UserID == id) != null)
                 .Select(table => table.t).Count();
         }
 

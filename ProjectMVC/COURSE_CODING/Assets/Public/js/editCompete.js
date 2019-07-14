@@ -85,14 +85,14 @@ $('#js-score').click(function () {
 });
 
 function OnSuccess(data) {
-    console.log(data)
+    //console.log(data)
     if (data) {
         Swal.fire({
             position: 'top-end',
             type: 'success',
             title: 'Save changes succeed',
             showConfirmButton: false,
-            timer: 1000
+            timer: 2000
         })
     } else {
         Swal.fire({
@@ -100,7 +100,7 @@ function OnSuccess(data) {
             type: 'error',
             title: 'Operation fail',
             showConfirmButton: false,
-            timer: 1000
+            timer: 2000
         })
     }
 }
@@ -111,7 +111,7 @@ function OnFailure(data) {
         type: 'error',
         title: 'POST: fail',
         showConfirmButton: false,
-        timer: 1000
+        timer: 2000
     })
 }
 
@@ -126,10 +126,10 @@ function DeleteParticipant(btn) {
         success: function (response) {
             Swal.fire({
                 position: 'top-end',
-                type: 'info',
-                title: response.msg,
+                type: 'success',
+                title: 'Delete succeed',
                 showConfirmButton: false,
-                timer: 1000
+                timer: 2000
             })
             $(`div[id=p-${btn.dataset.id}]`).remove();
             if ($('#participant-list').val() == '') {
@@ -158,7 +158,7 @@ function DeleteChallenge(btn) {
                 type: 'success',
                 title: response,
                 showConfirmButton: false,
-                timer: 1000
+                timer: 2000
             })
             $(`div[id=c-${btn.dataset.id}]`).remove();
             if ($('#challenge-list').val() == '') {
@@ -184,10 +184,10 @@ function DeleteQuestion(btn) {
         success: function (response) {
             Swal.fire({
                 position: 'top-end',
-                type: 'info',
-                title: response.msg,
+                type: 'success',
+                title: 'Delete succeed',
                 showConfirmButton: false,
-                timer: 1000
+                timer: 2000
             })
             $(`div[id=q-${btn.dataset.id}]`).remove();
             if ($('#question-list').val() == '') {
@@ -219,10 +219,10 @@ function addParticipant() {
             loading.style.display = 'none';
             Swal.fire({
                 position: 'top-end',
-                type: 'info',
-                title: response.msg,
+                type: 'success',
+                title: 'Send succeed',
                 showConfirmButton: false,
-                timer: 1000
+                timer: 2000
             })
             if (response.result) {
                 $('#no-content').remove();
@@ -297,10 +297,10 @@ function AddToCompete() {
         success: function (response) {
             Swal.fire({
                 position: 'top-end',
-                type: 'info',
-                title: response.msg,
+                type: 'success',
+                title: 'Add succeed',
                 showConfirmButton: false,
-                timer: 1000
+                timer: 2000
             })
             $('#challenge-popup').css("height", "0%");
             if (response.result = true) {

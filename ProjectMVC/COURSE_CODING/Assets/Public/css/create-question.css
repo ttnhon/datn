@@ -40,3 +40,20 @@
     height: 30px;
     text-align: center;
 }
+
+.breadcrumb {
+    background-color: white !important;
+    border-radius: 0 !important;
+    height: 60px;
+    padding: 25px 10px 0 0 !important;
+}
+
+.breadcrumb-item a {
+    color: rgb(145, 145, 145);
+    text-decoration: none;
+}
+
+    .breadcrumb-item a:hover {
+        color: rgb(102, 102, 102);
+        text-decoration: none;
+    }

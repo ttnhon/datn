@@ -62,7 +62,7 @@ namespace COURSE_CODING.Controllers
                 CompeteDAO competeDao = new CompeteDAO();
                 AnswerDAO answerDao = new AnswerDAO();
                 model.Languages = languageDao.GetList();
-                model.Data.UserCompetes = competeDao.CountJoinedAndPublic(userID);
+                model.Data.UserCompetes = competeDao.CountJoined(userID);
                 model.Data.AvailableLanguages = model.Languages.Count;
                 model.Data.SuccessChellenges = answerDao.CountSuccessAnswerByUserID(userID);
                 model.Competes = competeDao.GetScheduledCompetes(userID);
