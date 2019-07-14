@@ -49,7 +49,7 @@ namespace COURSE_CODING
             
               routes.MapRoute(
           name: "SignIn",
-          url: "Admin/Authen/SignIn",
+          url: "Authen/SignIn",
           defaults: new { controller = "Authen", action = "SignIn", id = UrlParameter.Optional ,type="Google"},
           namespaces: new[] { "COURSE_CODING.Controllers" }
              );
