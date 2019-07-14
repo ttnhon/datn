@@ -253,24 +253,25 @@ namespace COURSE_CODING.Controllers
             var compete = competeDAO.GetOne(contestID);
             var compete_owner = userDAO.GetUserById(GetLoginID());
 
+            COMPETE_PARTICIPANTS model = new COMPETE_PARTICIPANTS();
+            model.CompeteID = contestID;
+            model.UserID = user.ID;
+            if (competeDAO.CheckParticipantExist(user.ID, contestID))
+            {
+                return Json(new { result = false, msg = "This email is already participated in this contest! Please enter another email" });
+            }
+
             string email_encrypt = CommonProject.Helper.Encrypt.EncryptString(email, CommonConstant.SECRET_KEY_TOKEN);
             string emailHeader = String.Format("{0} invited you to participate in the {1} competition.", compete_owner.UserName, compete.Title);
             string emailContent = System.IO.File.ReadAllText(Server.MapPath("~/Assets/Page/pages/InvitationMail.html"));
             emailContent = emailContent.Replace("{{CustomerName}}", user.UserName);
-            emailContent = emailContent.Replace("{{Email}}", user.Email);
-            emailContent = emailContent.Replace("{{OwnerName}}", compete_owner.UserName);
+            emailContent = emailContent.Replace("{{Email}}", compete_owner.Email);
+            emailContent = emailContent.Replace("{{OwnerName}}", compete_owner.FirstName + " " + compete_owner.LastName);
             emailContent = emailContent.Replace("{{CompeteName}}", compete.Title);
             emailContent = emailContent.Replace("{{MainPage}}", CommonConstant.URL_HOST_API);
             emailContent = emailContent.Replace("{{Content}}", String.Format("{0}/Competition/{1}/Invitation?ticket={2}",CommonConstant.BASE_URL, compete.ID, email_encrypt));
             CommonProject.Helper.Email_Helper emailHelper = new CommonProject.Helper.Email_Helper();
             emailHelper.SendMail(user.Email, emailHeader, emailContent);
-            COMPETE_PARTICIPANTS model = new COMPETE_PARTICIPANTS();
-            model.CompeteID = contestID;
-            model.UserID = user.ID;
-            if(new CompeteDAO().CheckParticipantExist(user.ID, contestID))
-            {
-                return Json(new { result = false, msg = "This email is exist in this contest! Please enter another email" });
-            }
             var result = (new CompeteDAO().InsertParticipant(model));
             if (result)
             {
