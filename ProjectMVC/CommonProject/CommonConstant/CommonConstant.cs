@@ -24,6 +24,7 @@ namespace CommonProject
 
         public const string REQUEST_MODERATOR = "REQUEST_MODERATOR";
 
+        public const string BASE_URL = "http://localhost:44307";
         //public const string URL_HOST_API = "http://aipcompiler.somee.com";
         public const string URL_HOST_API = "http://localhost:52508";
         public const string ROUTER_CSHARP_COMPILER_API = "/api/CSharpCompiler/Compiler";

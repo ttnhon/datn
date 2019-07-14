@@ -1,5 +1,4 @@
-﻿import('../vendor/sweetalert2-8.13.1/dist/sweetalert2.all.min.js');
-$(function () {
+﻿$(function () {
     jQuery('.date-picker').datetimepicker({
         format: 'm/d/Y H:i',
         lang: 'vi',
