@@ -139,6 +139,13 @@
                         <p class="difficulty-label">Time end</p>
                         <p class="difficulty-score">@ViewBag.TimeEnd</p>
                     </div>
+                    @if (Model.score != null)
+                    {
+                        <div class="difficulty-block">
+                            <p class="difficulty-label">Your score</p>
+                            <p class="difficulty-score">@Model.score</p>
+                        </div>
+                    }
                 </div>
                 @*<div class="one-filter">
             <h4 class="label">STATUS</h4>

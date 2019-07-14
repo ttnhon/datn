@@ -44,13 +44,6 @@
             <p class="profile-country">
                 <span>@Model.Info.Country</span>
             </p>
-            <ul class="profile-social-list">
-                <li>
-                    <a href="#" class="social-link">
-                        <span class="fab fa-facebook"></span>
-                    </a>
-                </li>
-            </ul>
             @if (Model.Info.ID == session.ID)
             {
                 <button class="btn-link" id="intro-edit">
@@ -297,11 +290,6 @@
                         @Html.LabelFor(model => model.Country)
                         @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
-                    </div>
-                    <p>Link your social Websites</p>
-                    <div class="input-btn">
-                        <button class="btn btn-primary">Connect Facebook</button>
-                        <button class="btn btn-primary">Connect Google</button>
                     </div>
 
                     <div class="footer-btn">

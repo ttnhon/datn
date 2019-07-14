@@ -51,9 +51,9 @@ namespace WebAPI
 
         protected bool ValidateCpp(string Code)
         {
-            string regex = @".system";
+            //string regex = @".system";
             
-            if (Regex.IsMatch(Code, regex)) return false;
+            //if (Regex.IsMatch(Code, regex)) return false;
             return true;
         }
 

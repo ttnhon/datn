@@ -578,6 +578,7 @@ namespace COURSE_CODING.Controllers
                 c.OwnerID = model.OwnerID;
                 c.Title = model.Title;
                 c.Description = model.Description;
+                c.Rules = model.Rules;
                 c.TimeEnd = model.TimeEnd;
                 c.IsPublic = model.isPublic;
                 var DAO = new CompeteDAO();
@@ -613,7 +614,7 @@ namespace COURSE_CODING.Controllers
             CHALLENGE_COMPETE c = new CHALLENGE_COMPETE();
             c.CompeteID = contestID;
             c.ChallengeID = challengeID;
-            var result = challengeDAO.DeleteChallenge(c);
+            var result = challengeDAO.RemoveChallengeInCompete(c);
             if (result)
             {
                 return Json("Delete succeed!");

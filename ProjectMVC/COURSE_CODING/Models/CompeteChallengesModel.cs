@@ -12,5 +12,6 @@ namespace COURSE_CODING.Models
         //public List<CHALLENGE> challenges = new List<CHALLENGE>();
         public List<bool> questions = new List<bool>();
         public List<UserChallengeStatus> challenges = new List<UserChallengeStatus>();
+        public int? score { get; set; }
     }
 }

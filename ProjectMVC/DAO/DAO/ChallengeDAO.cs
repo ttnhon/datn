@@ -267,6 +267,22 @@ namespace DAO.DAO
                 {
                     db.CHALLENGES.Remove(u);
                 }
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public bool RemoveChallengeInCompete(CHALLENGE_COMPETE c)
+        {
+            try
+            {
+                var v = db.CHALLENGE_COMPETES.Find(c.ChallengeID, c.CompeteID);
+                db.CHALLENGE_COMPETES.Remove(v);
+                db.SaveChanges();
                 return true;
             }
             catch (Exception e)
