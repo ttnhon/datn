@@ -70,7 +70,7 @@ namespace DAO.DAO
 
         public Boolean CheckParticipantExist(int id, int competeId)
         {
-            return db.COMPETE_PARTICIPANTSS.Count(u => u.UserID == id && u.CompeteID == competeId && u.TimeJoined != null) > 0;
+            return db.COMPETE_PARTICIPANTSS.Count(u => u.UserID == id && u.CompeteID == competeId) > 0;
         }
 
         public Boolean CheckParticipantInvited(int id, int competeId)
