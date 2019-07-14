@@ -49,6 +49,11 @@
             </div>
         }
     }
+    else {
+        <div style="margin: 0 auto;">
+            <h3>There are no participant yet</h3>
+        </div>
+    }
 </div>
 <script>
     $(document).ready(function () {
@@ -56,26 +61,4 @@
             $(this).children(".user-score").slideToggle("slow");
         });
     });
-
-    var target = $('#affix-panel')
-    target.after('<div class="affix" id="affix"></div>')
-
-    var affix = $('.affix')
-    affix.append(target.clone(true))
-
-    // Show affix on scroll.
-    var element = document.getElementById('affix')
-    if (element !== null) {
-        var position = target.position()
-        window.addEventListener('scroll', function () {
-            var height = $(window).scrollTop()
-            if (height > position.top) {
-                target.css('visibility', 'hidden')
-                affix.css('display', 'block')
-            } else {
-                affix.css('display', 'none')
-                target.css('visibility', 'visible')
-            }
-        })
-    }
 </script>

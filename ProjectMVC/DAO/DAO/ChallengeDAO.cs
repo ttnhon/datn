@@ -386,7 +386,7 @@ namespace DAO.DAO
         /// <returns></returns>
         public USER_INFO GetUserByName(string name)
         {
-            return db.USER_INFOS.First(table => table.UserName == name);
+            return db.USER_INFOS.FirstOrDefault(table => table.UserName == name);
         }
 
         /// <summary>

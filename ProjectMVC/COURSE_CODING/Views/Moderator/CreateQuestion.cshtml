@@ -18,6 +18,23 @@
     @Styles.Render("~/Assets/Public/css/create-question.css")
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
 }
+
+<div style="border-bottom: 1px solid #C2C7D0;">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/Moderator/ManageChallenge"><b>Compete</b></a>
+                </li>
+
+                <li class="breadcrumb-item active">
+                    <a href="#"><b>@ViewBag.CompeteTitle</b></a>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
 <div class="container">
     <h1 class="title">Create Question</h1>
     <div class="question" id="question">

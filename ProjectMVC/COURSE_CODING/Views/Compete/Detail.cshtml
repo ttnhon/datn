@@ -23,7 +23,8 @@
         <div class="row">
             <div class="col-md-6 domain-header">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Practice</a></li>
+                    <li class="breadcrumb-item"><a href="/User/Dashboard">Practice</a></li>
+                    <li class="breadcrumb-item"><a href="/Compete/Index">Compete</a></li>
                     <li class="breadcrumb-item active">@Html.DisplayFor(model => model.compete.Title)</li>
                 </ol>
                 <h3 class="domain-title">@Html.DisplayFor(model => model.compete.Title)</h3>
@@ -59,11 +60,11 @@
                         <h4 class="compete-section-title">Question</h4>
                         <div class="row base-box">
                             <div class="col-xl-12">
-                                <h5><i>Bạn đã hoàn thành @(count_done)/@(count_question) câu hỏi</i></h5>
+                                <h5><i>You have done @(count_done)/@(count_question) question</i></h5>
                                 <ul class="nav nav-pills pagination">
                                     @for (int i = 0; i < count_question; i++)
                                     {
-                                        <li class="page-item @(Model.questions[i] == true ? "answered" : "not-answered")"><a class="page-link" href="#question_@(i + 1)" disabled>Câu @(i + 1)</a></li>
+                                        <li class="page-item @(Model.questions[i] == true ? "answered" : "not-answered")"><a class="page-link" href="#question_@(i + 1)" disabled>Question @(i + 1)</a></li>
                                     }
                                 </ul>
                             </div>

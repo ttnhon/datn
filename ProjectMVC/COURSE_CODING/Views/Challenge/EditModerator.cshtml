@@ -19,10 +19,27 @@
 {
     @Styles.Render("~/Assets/Public/css/EditChallenge.css")
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 }
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<div style="border-bottom: 1px solid #C2C7D0;">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/Moderator/ManageChallenge"><b>Moderator Management</b></a>
+                </li>
+
+                <li class="breadcrumb-item active">
+                    <a href="#"><b>@ViewBag.Name</b></a>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
 
 <section class="content-page edit-challenge">
     <div class="container">
@@ -51,7 +68,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 control-label" for="moderators_Input">Moderators</label>
                     <div class="col-sm-3">
-                        @Html.TextBox("moderator", "", new { @class = "form-control", @id = "moderators_Input" })
+                        @Html.TextBox("moderator", "", new { @class = "form-control", @id = "moderators_Input", @placeholder = "Enter Username...", @onkeyup = "EmailAutocomplete()" })
                         @*<input class="form-control" id="moderators_Input" type="text">*@
                         @Html.Hidden("challengeID", Model.ID)
                     </div>
@@ -68,7 +85,7 @@
                     {
                         foreach (var item in Model.Moderators)
                         {
-                            if (item.PhotoURL != null)
+                            if (item.PhotoURL != null && item.PhotoURL != "")
                             {
                                 <li><img src="~/Assets/Public/images/profile_photos/@item.PhotoURL" alt="profile picture" class="profile-pic"> @item.UserName</li>
                             }
@@ -95,20 +112,21 @@
 @section scripts
     {
     <script src="~/Assets/Public/vendor/sweetalert2-8.13.1/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript">
 
         function OnSuccessModerator(data) {
             //alert('Add succeed');
-            console.log(data);
+            //console.log(data);
             if (data.result) {
                 document.getElementById("moderatorList").innerHTML += data.PhotoURL ? '<li><img src="~/Assets/Public/images/profile_photos/' + data.PhotoURL + '" alt="profile picture" class="profile-pic"> ' + data.data.UserName + '</li>' : '<li><img src="http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg" alt="profile picture" class="profile-pic"> ' + data.data.UserName + '</li>';
             } else {
                 Swal.fire({
                     position: 'top-end',
                     type: 'warning',
-                    title: 'The person not exists',
+                    title: data.msg,
                     showConfirmButton: false,
-                    timer: 1000
+                    timer: 2000
                 })
             }
         }
@@ -118,8 +136,32 @@
                 type: 'error',
                 title: 'POST: fail',
                 showConfirmButton: false,
-                timer: 1000
+                timer: 2000
             })
+        }
+
+        function EmailAutocomplete() {
+            var searchVal = $('#moderators_Input').val();
+            if (searchVal.length >= 3) {
+                $('#js-moderator-add-btn').attr("disabled", false);
+            }
+            else {
+                $('#js-moderator-add-btn').attr("disabled", true);
+            }
+
+            $.ajax({
+                method: 'GET',
+                url: '/Moderator/GetUsername',
+                success: function (data) {
+                    $('#moderators_Input').autocomplete({
+                        source: data
+                    },
+                        {
+                            autoFocus: true,
+                            minChars: 3,
+                        });
+                }
+            });
         }
     </script>
 }

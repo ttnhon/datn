@@ -312,6 +312,7 @@ namespace COURSE_CODING.Controllers
                 return View("CreateQuestion");
             }
             ViewBag.CanAccess = true;
+            ViewBag.CompeteTitle = c.Title;
             //CreateChallengeModel model = new CreateChallengeModel();
             return View("CreateQuestion", id);
         }
@@ -644,6 +645,12 @@ namespace COURSE_CODING.Controllers
         {
             var userDAO = new UserDAO();
             return Json(userDAO.GetAllUserEmailExcept(GetLoginID()),JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetUsername()
+        {
+            var userDAO = new UserDAO();
+            return Json(userDAO.GetAllUserNameExcept(GetLoginID()), JsonRequestBehavior.AllowGet);
         }
     }
 }

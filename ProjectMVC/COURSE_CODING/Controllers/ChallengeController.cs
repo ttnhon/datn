@@ -673,7 +673,7 @@ namespace COURSE_CODING.Controllers
             bool res = DAO.Update(c);
             if (res)
             {
-                return Json(new { result = true });
+                return Json(new { result = true, c.Slug });
             }
             return Json(new { result = false });
         }
@@ -687,11 +687,17 @@ namespace COURSE_CODING.Controllers
             //check is login and is editor
             if (ses == null || !DAO.IsEditor(challengeID, ses.ID))
             {
-                return Json(new { result = false });
+                return Json(new { result = false, msg = "User not log in" });
             }
             USER_INFO person = DAO.GetUserByName(moderator);
+            //check user already exist
+            
             if(person != null)
             {
+                if (DAO.IsEditor(challengeID, person.ID))
+                {
+                    return Json(new { result = false, msg = "User already added before" });
+                }
                 CHALLENGE_EDITOR entity = new CHALLENGE_EDITOR();
                 entity.ChallegenID = challengeID;
                 entity.EditorID = person.ID;
@@ -704,12 +710,12 @@ namespace COURSE_CODING.Controllers
                 }
                 else
                 {
-                    return Json(new { result = false });
+                    return Json(new { result = false, msg = "Add moderator fail" });
                 }
             }
             else
             {
-                return Json(new { result = false });
+                return Json(new { result = false, msg = "User not exist" });
             }
         }
 
@@ -913,7 +919,7 @@ namespace COURSE_CODING.Controllers
             bool res = DAO.UpdateSetting(c);
             if (res)
             {
-                return Json(new { result = true, data = c });
+                return Json(new { result = true });
             }
             return Json(new { result = false });
         }

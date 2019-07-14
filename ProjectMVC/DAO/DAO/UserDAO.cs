@@ -74,6 +74,15 @@ namespace DAO.DAO
                 .Select(u => u.Email)
                 .ToList();
         }
+
+        public List<string> GetAllUserNameExcept(int id)
+        {
+            return db.USER_INFOS
+                .Where(u => u.ID != id)
+                .Select(u => u.UserName)
+                .ToList();
+        }
+
         /// <summary>
         /// insert information of user in database
         /// </summary>

@@ -26,6 +26,22 @@
 @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>*@
 
+<div style="border-bottom: 1px solid #C2C7D0;">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/Moderator/ManageChallenge"><b>Compete</b></a>
+                </li>
+
+                <li class="breadcrumb-item active">
+                    <a href="#"><b>@ViewBag.CompeteTitle</b></a>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
 <div class="container">
     <h1 class="title">@ViewBag.CompeteTitle</h1>
     @Html.Hidden("competeID", Model.ID)
@@ -394,7 +410,7 @@
                                 type: 'success',
                                 title: 'Save changes succeed',
                                 showConfirmButton: false,
-                                timer: 1000
+                                timer: 2000
                             })
                         }
                     }

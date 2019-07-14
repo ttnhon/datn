@@ -68,8 +68,32 @@
     font-size: 20px;
 }
 
+.breadcrumb {
+    background-color: white !important;
+    border-radius: 0 !important;
+    height: 60px;
+    padding: 25px 10px 0 0 !important;
+}
+
+.breadcrumb-item a {
+    color: rgb(145, 145, 145);
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    color: rgb(102, 102, 102);
+    text-decoration: none;
+}
+
+.ui-autocomplete.ui-front {
+    max-height: 200px;
+    overflow-y: auto; /* prevent horizontal scrollbar */
+    overflow-x: hidden; /* add padding to account for vertical scrollbar */
+    z-index: 1000 !important;
+}
+
 @media (min-width: 576px) {
     .edit-challenge .test-case-popup {
-        max-width: 800px;
+    max-width: 800px;
     }
 }
