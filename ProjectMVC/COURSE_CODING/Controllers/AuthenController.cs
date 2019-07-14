@@ -23,9 +23,54 @@ namespace COURSE_CODING.Controllers
         //[OutputCache(Duration = 3600, VaryByParam = "none")]
         private string stringOTP = string.Empty;
         private DateTime timeBegin;
+
+        [HttpGet]
+        public ActionResult Home()
+        {
+            var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
+            if (session != null)
+            {
+                if (session.Role.Equals(CommonConstant.ROLE_ADMIN))
+                {
+                    return Redirect("/Admin/User/index");
+                }
+                else
+                {
+                    if (session.Role.Equals(CommonConstant.ROLE_MEMBER))
+                    {
+                        return Redirect("/User/Dashboard");
+                    }
+                }
+                if (session.Role.Equals(CommonConstant.ROLE_TEACHER))
+                {
+                    return Redirect("/Moderator/ManageChallenge");
+                }
+            }
+            return View("Login");
+        }
         [HttpGet]
         public ActionResult Register()
         {
+            var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
+            if (session != null)
+            {
+                if (session.Role.Equals(CommonConstant.ROLE_ADMIN))
+                {
+                    return Redirect("/Admin/User/index");
+                }
+                else
+                {
+                    if (session.Role.Equals(CommonConstant.ROLE_MEMBER))
+                    {
+                        return Redirect("/User/Dashboard");
+                    }
+                }
+                if (session.Role.Equals(CommonConstant.ROLE_TEACHER))
+                {
+                    return Redirect("/Moderator/ManageChallenge");
+                }
+
+            }
             return View();
         }
 
@@ -36,6 +81,12 @@ namespace COURSE_CODING.Controllers
         {
             if (ModelState.IsValid)
             {
+                string callback_uri = string.Empty;
+                if (Request.UrlReferrer != null)
+                {
+                    var paramss = HttpUtility.ParseQueryString(Request.UrlReferrer.Query);
+                    callback_uri = paramss["callback"] ?? "";
+                }
                 var DAO = new UserDAO();
                 if (DAO.CheckUserNameExist(model.UserName))
                 {
@@ -65,6 +116,10 @@ namespace COURSE_CODING.Controllers
                         Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
                         ViewBag.Success = "Register sussesfull";
                         model = new RegisterModel();
+                        if (!String.IsNullOrEmpty(callback_uri))
+                        {
+                            return Redirect(callback_uri);
+                        }
                         return Redirect("/User/Dashboard");
                     }
                     else
@@ -203,6 +258,12 @@ namespace COURSE_CODING.Controllers
                 {
                     return RedirectToAction("/");
                 }
+                string callback_uri = string.Empty;
+                if (Request.UrlReferrer != null)
+                {
+                    var paramss = HttpUtility.ParseQueryString(Request.UrlReferrer.Query);
+                    callback_uri = paramss["callback"] ?? "";
+                }
                 var DAO = new UserDAO();
                 var user = DAO.GetByEmail(loginInfo.emailaddress);
                 Boolean canLogin = false;
@@ -234,6 +295,10 @@ namespace COURSE_CODING.Controllers
                     Session.Add(CommonConstant.SESSION_INFO_LOGIN, userSession);
                     // Set the auth cookie
                     // FormsAuthentication.SetAuthCookie(user.Email, false);
+                    if (!String.IsNullOrEmpty(callback_uri))
+                    {
+                        return Redirect(callback_uri);
+                    }
                     if (user.RoleUser.Equals(CommonConstant.ROLE_ADMIN))
                     {
                         return Redirect("/Admin/Home/Index");
@@ -371,6 +436,59 @@ namespace COURSE_CODING.Controllers
             else if (type == "error")
             {
                 TempData["AlertType"] = "alert-danger";
+            }
+        }
+        
+        [Route("Competition/{competeID}/Invitation")]
+        public ActionResult JoinCompete(int competeID)
+        {
+            try
+            {
+                string redirectURL = "/Compete/" + competeID.ToString() + "/Invitation";
+                string token = Request.QueryString["ticket"] ?? "";
+                string email = CommonProject.Helper.Encrypt.DecryptString(token, CommonConstant.SECRET_KEY_TOKEN);
+                if (!this.IsValidEmail(email))
+                {
+                    return Content("Token is invalid");
+                }
+                var session = (COURSE_CODING.Common.InfoLogIn)Session[CommonProject.CommonConstant.SESSION_INFO_LOGIN];
+                USER_INFO user = new UserDAO().GetByEmail(email);
+
+                if (session != null)
+                {
+                    return Redirect(redirectURL);
+                }
+                else if (user.UserName.Equals(user.Email))           //is Trial user
+                {
+                    var sessionLogin = new InfoLogIn();
+                    sessionLogin.ID = user.ID;
+                    sessionLogin.Name = user.UserName;
+                    sessionLogin.Role = (int)user.RoleUser;
+                    Session.Add(CommonConstant.SESSION_INFO_LOGIN, sessionLogin);
+                    return Redirect(redirectURL);
+                }
+                else
+                {
+                    return Content("Token is invalid");
+                }
+            }
+            catch (Exception e)
+            {
+                return Content("Token is invalid");
+            }
+            
+        }
+
+        protected bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
             }
         }
     }
