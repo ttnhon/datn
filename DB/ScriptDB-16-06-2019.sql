@@ -358,7 +358,7 @@ INSERT INTO CHALLENGE VALUES (1, N'Sock Merchant', N'sock-merchant', N'test 37',
 INSERT INTO CHALLENGE VALUES (1, N'Drawing Book', N'drawing-book', N'test 38', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 0, 0, 0)
 INSERT INTO CHALLENGE VALUES (1, N'Counting Valleys', N'counting-valleys', N'test 39', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 0, 0, 0)
 INSERT INTO CHALLENGE VALUES (1, N'Electronics Shop', N'electronics-shop', N'test 40', N'problem statement', N'abcd', N'efgh', 1, N'1', 60, 100, N'gdfgdfg', N'CSharp', 1, 0, 0, 0)
-INSERT INTO CHALLENGE VALUES (1, N'Welcome to Java!', N'welcome-to-java', N'p>Welcome to the world of Java! In this challenge, we practice printing to stdout.</p>
+INSERT INTO CHALLENGE VALUES (1, N'Welcome to Java!', N'welcome-to-java', N'<p>Welcome to the world of Java! In this challenge, we practice printing to stdout.</p>
 <p>The code stubs in your editor declare a&nbsp;<em>Solution</em>&nbsp;class and a&nbsp;<em>main</em>&nbsp;method. Complete the&nbsp;<em>main</em>&nbsp;method by copying the two lines of code below and pasting them inside the body of your&nbsp;<em>main</em>&nbsp;method.</p>
 <div>
 <pre>System.out.println("Hello, World.");
