@@ -40,7 +40,8 @@
 <section class="content-page">
     <div class="invitation__box">
         <div class="container">
-            <img src="~/Assets/Public/images/profile_photos/@Model.contestOwner.PhotoURL" alt="profile picture">
+            <img src="~/Assets/Public/images/profile_photos/@Model.contestOwner.PhotoURL" alt="profile picture"
+                 onerror="this.src='http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg'">
             <p><a href="/User/Profile/@Model.contestOwner.ID">@Model.contestOwner.UserName</a> invited you to participate in a contest</p>
             <div class="invitation__button">
                 <button class="btn btn-success" onclick="acceptInvitation()">Accept Invitation</button>

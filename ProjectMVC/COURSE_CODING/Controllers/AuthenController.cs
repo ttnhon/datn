@@ -446,6 +446,7 @@ namespace COURSE_CODING.Controllers
             {
                 string redirectURL = "/Compete/" + competeID.ToString() + "/Invitation";
                 string token = Request.QueryString["ticket"] ?? "";
+                token = Server.UrlDecode(token);
                 string email = CommonProject.Helper.Encrypt.DecryptString(token, CommonConstant.SECRET_KEY_TOKEN);
                 if (!this.IsValidEmail(email))
                 {
@@ -458,7 +459,7 @@ namespace COURSE_CODING.Controllers
                 {
                     return Redirect(redirectURL);
                 }
-                else if (user.UserName.Equals(user.Email))           //is Trial user
+                else if (user.UserName.Equals(user.FirstName))           //is Trial user
                 {
                     var sessionLogin = new InfoLogIn();
                     sessionLogin.ID = user.ID;

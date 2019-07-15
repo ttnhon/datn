@@ -21,7 +21,7 @@
         <div class="profile-sidebar">
             <div role="button" class="profile-sumary">
                 <div class="profile-avatar" id="pf-avatar">
-                    @if (Model.Info.PhotoURL != null)
+                    @if (Model.Info.PhotoURL != null || Model.Info.PhotoURL != "")
                     {
                         <img src="~/Assets/Public/images/profile_photos/@Model.Info.PhotoURL" alt="Photo is not found!" />
                         <div class="avatar-overlay">

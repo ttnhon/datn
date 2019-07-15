@@ -106,7 +106,8 @@
                     <hr>
                     <div class="discussion__input">
                         <img class="discussion__avatar" id="current_avatar"
-                             src="~/Assets/Public/images/profile_photos/@Model.Info.PhotoURL" alt="Profile Picture">
+                             src="~/Assets/Public/images/profile_photos/@Model.Info.PhotoURL" alt="Profile Picture"
+                             onerror="this.src='http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg'">
                         <textarea class="discussion__text" name="comment_input" id="comment_input"
                                   rows="6"></textarea>
                         <button class="btn btn-primary" id="submit_comment" onclick="addComment()">Post Comment</button>
@@ -155,7 +156,8 @@
         <li class="comment">
             <img class="discussion__avatar"
                  src={{Photo}}
-                 alt="Profile Picture">
+                 alt="Profile Picture"
+                 onerror="this.src='http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg'">
             <div class="comment__detail">
                 <div>
                     <a href="#">{{UserName}}</a>
@@ -185,7 +187,8 @@
         <li class="comment">
             <img class="discussion__avatar"
                  src={{Photo}}
-                 alt="Profile Picture">
+                 alt="Profile Picture"
+                 onerror="this.src='http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg'">
             <div class="comment__detail">
                 <div>
                     <a href="#">{{UserName}}</a>

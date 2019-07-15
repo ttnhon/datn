@@ -19,7 +19,8 @@
                 <div class="one-user-box">
                     <div class="row">
                         <div class="col-xs-6 col-md-6 user-info">
-                            <img class="profile-img" src="@item.PhotoUrl" alt="" />
+                            <img class="profile-img" src="~/Assets/Public/images/profile_photos/@item.PhotoUrl" alt="" 
+                                 onerror="this.src='http://www.iconninja.com/files/155/832/15/business-human-seo-person-user-account-profile-icon.svg'"/>
                             <span class="card-title">@item.Name</span>
                         </div>
 
