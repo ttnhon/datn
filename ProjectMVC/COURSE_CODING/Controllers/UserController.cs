@@ -178,6 +178,25 @@ namespace COURSE_CODING.Controllers
 
                     model.Challenges.Add(ChallengeDone);
                 }
+                LanguageDAO languageDao = new LanguageDAO();
+                List<LANGUAGE> languages = languageDao.GetList();
+                foreach (var item in languages)
+                {
+                    //get skill list
+                    int count = languageDao.GetAnswerCountByID(id, item.Name);
+                    if (count > 0)
+                    {
+                        Skill skill = new Skill();
+                        skill.Language = item;
+                        skill.Solved = count;
+                        skill.Count = languageDao.GetChallengeCount(item.Name);
+                        model.skills.Add(skill);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
                 return View(model);
             }
             return View();

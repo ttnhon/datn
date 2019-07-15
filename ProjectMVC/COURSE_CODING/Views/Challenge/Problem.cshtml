@@ -119,6 +119,19 @@
                                 @Html.Raw(HttpUtility.HtmlDecode(Model.challenge.Description))
                             </div>
                         </div>
+                        @if (Model.challenge.ProblemStatement != null && Model.challenge.ProblemStatement != "")
+                        {
+                            <div class="challenge-constraint">
+                                <div class="challenge-constraint-title">
+                                    <p><strong>Problem Statement</strong></p>
+                                </div>
+                                <div class="challenge-constraint-body">
+                                    <div>
+                                        @Html.Raw(HttpUtility.HtmlDecode(Model.challenge.ProblemStatement))
+                                    </div>
+                                </div>
+                            </div>
+                        }
                         @if (Model.challenge.Constraints != null && Model.challenge.Constraints != "")
                         {
                             <div class="challenge-constraint">
@@ -159,33 +172,33 @@
                             </div>
                         }
                         @*<div class="challenge-sample-input">
-                                <div class="challenge-sample-input-title">
-                                    <p><strong>Sample Input</strong></p>
-                                </div>
-                                <div class="challenge-sample-input-body">
-                                    <pre><code>1 2 7</code></pre>
-                                </div>
-                            </div>
+            <div class="challenge-sample-input-title">
+                <p><strong>Sample Input</strong></p>
+            </div>
+            <div class="challenge-sample-input-body">
+                <pre><code>1 2 7</code></pre>
+            </div>
+        </div>
 
-                            <div class="challenge-sample-output">
-                                <div class="challenge-sample-output-title">
-                                    <p><strong>Sample Output</strong></p>
-                                </div>
-                                <div class="challenge-sample-input-body">
-                                    <pre><code>10</code></pre>
-                                </div>
-                            </div>
+        <div class="challenge-sample-output">
+            <div class="challenge-sample-output-title">
+                <p><strong>Sample Output</strong></p>
+            </div>
+            <div class="challenge-sample-input-body">
+                <pre><code>10</code></pre>
+            </div>
+        </div>
 
-                            <div class="challenge-explanation">
-                                <div class="challenge-explanation-title">
-                                    <p><strong>Explanation</strong></p>
-                                </div>
-                                <div class="challenge-explanation-body">
-                                    <p>
+        <div class="challenge-explanation">
+            <div class="challenge-explanation-title">
+                <p><strong>Explanation</strong></p>
+            </div>
+            <div class="challenge-explanation-body">
+                <p>
 
-                                    </p>
-                                </div>
-                            </div>*@
+                </p>
+            </div>
+        </div>*@
 
                     </div>
                 </section>

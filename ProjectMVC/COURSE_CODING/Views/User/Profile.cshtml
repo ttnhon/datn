@@ -115,60 +115,28 @@
             <section class="badges-section">
                 <h2>Badges</h2>
                 <ul class="badge-list">
-                    <li>
-                        <span class="badge-title">
-                            <img class="badge-img" src="~/Assets/Public/images/problem-solving-ecaf59a612.svg" alt="problem solving">
-                            C++ Language
-                        </span>
-                        <div class="badge-progress">
-                            <p class="badge-level">
-                                Bronze level
-                                @*<i class="fas fa-star"></i>*@
-                            </p>
-                            <span class="badge-exp"><span class="exp-value">0</span>/100 pts</span>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 0;" aria-valuenow="0" aria-valuemin="0"
-                                     aria-valuemax="100"></div>
+                    @foreach (var item in Model.skills)
+                    {
+                        <li>
+                            <span class="badge-title">
+                                <img class="badge-img" src="~/Assets/Public/images/problem-solving-ecaf59a612.svg" alt="problem solving">
+                                <span class="replace-language">@item.Language.Name</span> Language
+                            </span>
+                            <div class="badge-progress">
+                                <p class="badge-level">
+                                    Bronze level
+                                    @*<i class="fas fa-star"></i>*@
+                                </p>
+                                <span class="badge-exp"><span class="exp-value">@item.Solved</span>/@item.Count pts</span>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 0;" aria-valuenow="@item.Solved" aria-valuemin="0"
+                                         aria-valuemax="@item.Count"></div>
+                                </div>
                             </div>
-                        </div>
-                        <a href="/Domain/Index/Cpp" class="challenge-link btn btn-lg btn-success">Solve Challenge</a>
-                    </li>
-                    <li>
-                        <span class="badge-title">
-                            <img class="badge-img" src="~/Assets/Public/images/problem-solving-ecaf59a612.svg" alt="problem solving">
-                            C# Language
-                        </span>
-                        <div class="badge-progress">
-                            <p class="badge-level">
-                                Bronze level
-                                @*<i class="fas fa-star"></i>*@
-                            </p>
-                            <span class="badge-exp"><span class="exp-value">0</span>/100 pts</span>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 0;" aria-valuenow="0" aria-valuemin="0"
-                                     aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <a href="/Domain/Index/CSharp" class="challenge-link btn btn-lg btn-success">Solve Challenge</a>
-                    </li>
-                    <li>
-                        <span class="badge-title">
-                            <img class="badge-img" src="~/Assets/Public/images/problem-solving-ecaf59a612.svg" alt="problem solving">
-                            Java Language
-                        </span>
-                        <div class="badge-progress">
-                            <p class="badge-level">
-                                Bronze level
-                                @*<i class="fas fa-star"></i>*@
-                            </p>
-                            <span class="badge-exp"><span class="exp-value">0</span>/100 pts</span>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 0;" aria-valuenow="0" aria-valuemin="0"
-                                     aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                        <a href="/Domain/Index/Java" class="challenge-link btn btn-lg btn-success">Solve Challenge</a>
-                    </li>
+                            <a href="/Domain/Index/@item.Language.Name" class="challenge-link btn btn-lg btn-success">Solve Challenge</a>
+                        </li>
+                    }
+
                 </ul>
             </section>
             <section class="section-card">
@@ -346,6 +314,7 @@
 
 @section scripts
 {
+
     <script src="~/Assets/Public/js/profile.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
@@ -354,6 +323,13 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Assets/Public/vendor/sweetalert2-8.13.1/dist/sweetalert2.all.min.js"></script>
     <script>
+        var mapLanguages = new Map([["Cpp", "C++"], ["CSharp", "C#"], ["Java", "Java"]]);
+        var languages = $('.replace-language');
+        for (var i = 0; i < languages.length; i++) {
+            var lang = languages[i];
+            lang.textContent = mapLanguages.get(lang.textContent);
+            lang.title = mapLanguages.get(lang.textContent);
+        }
         $('#btn_request_teacher').click(function () {
             $.ajax({
                 method: "POST",

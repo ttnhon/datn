@@ -31,5 +31,6 @@ namespace COURSE_CODING.Models
             Competes = new List<COMPETE>();
             Challenges = new List<DoneChallenge>();
         }
+        public List<Skill> skills = new List<Skill>();
     }
 }
