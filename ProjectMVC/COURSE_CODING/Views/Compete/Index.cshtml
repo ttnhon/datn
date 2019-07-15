@@ -63,7 +63,7 @@
                                     <hr>
                                     <h5><strong>Description</strong></h5>
                                     <p>
-                                        @Html.DisplayFor(modelItem => item.Description)
+                                        @Html.Raw(HttpUtility.HtmlDecode(item.Description))
                                     </p>
                                 </div>
                             </div>
