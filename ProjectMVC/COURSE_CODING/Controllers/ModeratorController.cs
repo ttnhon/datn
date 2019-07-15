@@ -269,7 +269,7 @@ namespace COURSE_CODING.Controllers
             emailContent = emailContent.Replace("{{OwnerName}}", compete_owner.FirstName + " " + compete_owner.LastName);
             emailContent = emailContent.Replace("{{CompeteName}}", compete.Title);
             emailContent = emailContent.Replace("{{MainPage}}", CommonConstant.URL_HOST_API);
-            emailContent = emailContent.Replace("{{Content}}", String.Format("{0}/Competition/{1}/Invitation?ticket={2}",CommonConstant.BASE_URL, compete.ID, email_encrypt));
+            emailContent = emailContent.Replace("{{Content}}",String.Format("{0}/Competition/{1}/Invitation?ticket={2}",CommonConstant.BASE_URL, compete.ID, Server.UrlEncode(email_encrypt)));
             CommonProject.Helper.Email_Helper emailHelper = new CommonProject.Helper.Email_Helper();
             emailHelper.SendMail(user.Email, emailHeader, emailContent);
             var result = (new CompeteDAO().InsertParticipant(model));
