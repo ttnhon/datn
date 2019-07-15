@@ -111,7 +111,7 @@ namespace COURSE_CODING.Areas.Admin.Controllers
                     string phone = model.Mobile.ToString();
                     string email = model.Email.ToString();
                     string Text = model.Content.ToString();
-                    string content = System.IO.File.ReadAllText(Server.MapPath("~/Assets/Page/pages/ContentMail.html"));
+                    string content = System.IO.File.ReadAllText(Server.MapPath("~/Assets/Page/pages/contactMail.html"));
                     content = content.Replace("{{CustomerName}}", name);
                     content = content.Replace("{{Phone}}", phone);
                     content = content.Replace("{{Email}}", email);
@@ -127,7 +127,8 @@ namespace COURSE_CODING.Areas.Admin.Controllers
             {
                 SetAlert("Send mail fail", "error");
             }
-            return View("Mail");
+            model = new EmailModel();
+            return View("Contact");
         }
         public ActionResult About()
         {

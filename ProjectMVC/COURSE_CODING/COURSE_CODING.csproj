@@ -303,6 +303,7 @@
     <Content Include="Assets\Page\pages\blank.html" />
     <Content Include="Assets\Page\pages\buttons.html" />
     <Content Include="Assets\Page\pages\ConfirmPassword.html" />
+    <Content Include="Assets\Page\pages\contactMail.html" />
     <Content Include="Assets\Page\pages\InvitationMail.html" />
     <Content Include="Assets\Page\pages\ContentMail.html" />
     <Content Include="Assets\Page\pages\flot.html" />

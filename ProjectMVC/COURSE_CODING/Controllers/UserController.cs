@@ -169,12 +169,12 @@ namespace COURSE_CODING.Controllers
                 model.School = (new SchoolDAO().GetSchoolByID(model.Info.SchoolID));
                 SetSchoolViewBag(model.Info.SchoolID);
                 SetYearViewBag(model.Info.YearGraduation);
-                var ChallengeDones = (new AnswerDAO().GetChallengesDone(id));
+                var ChallengeDones = (new AnswerDAO().GetAllChallengeDone(id));
                 for (int i = 0; i < ChallengeDones.Count; i++)
                 {
                     var ChallengeDone = new DoneChallenge();
-                    ChallengeDone.challenge = ChallengeDones[i];
-                    ChallengeDone.timeDone = (new AnswerDAO().GetTimeDoneByChallenge(ChallengeDones[i].ID));
+                    ChallengeDone.timeDone = ChallengeDones[i].TimeDone;
+                    ChallengeDone.challenge = (new ChallengeDAO().GetOne(ChallengeDones[i].ChallengeID));
 
                     model.Challenges.Add(ChallengeDone);
                 }
